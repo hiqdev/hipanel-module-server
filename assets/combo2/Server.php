@@ -11,10 +11,10 @@ use yii\helpers\ArrayHelper;
 class Server extends Combo2Config
 {
     /** @inheritdoc */
-    public $type = 'server';
+    public $type = 'server/server';
 
     /** @inheritdoc */
-    public $_primaryFilter = 'name_like';
+    public $name = 'name';
 
     /** @inheritdoc */
     public $url = '/server/server/search';
@@ -26,15 +26,17 @@ class Server extends Combo2Config
     public $_rename = ['text' => 'name'];
 
     /** @inheritdoc */
-    public $_filter = ['client' => 'client'];
+    public $_filter = ['client' => 'client/client'];
 
     /** @inheritdoc */
-    function getConfig ($config = []) {
+    function getConfig($config = [])
+    {
         $config = ArrayHelper::merge([
             'clearWhen' => ['client'],
             'affects'   => [
-                'client' => 'client',
-                'seller' => 'seller'
+                'client/seller' => 'seller',
+                'client/client' => 'client',
+                'seller'        => 'seller',
             ]
         ], $config);
 
