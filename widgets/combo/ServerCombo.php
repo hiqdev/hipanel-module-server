@@ -1,14 +1,14 @@
 <?php
 
-namespace hipanel\modules\server\assets\combo2;
+namespace hipanel\modules\server\widgets\combo;
 
-use hipanel\widgets\Combo2Config;
+use hipanel\widgets\Combo;
 use yii\helpers\ArrayHelper;
 
 /**
  * Class Server
  */
-class Server extends Combo2Config
+class ServerCombo extends Combo
 {
     /** @inheritdoc */
     public $type = 'server/server';
@@ -29,16 +29,11 @@ class Server extends Combo2Config
     public $_filter = ['client' => 'client/client'];
 
     /** @inheritdoc */
-    function getConfig($config = [])
-    {
-        $config = ArrayHelper::merge([
-            'clearWhen' => ['client/client'],
-            'affects'   => [
-                'client/seller' => 'seller',
-                'client/client' => 'client',
-            ]
-        ], $config);
-
-        return parent::getConfig($config);
-    }
+    public $_pluginOptions = [
+        'clearWhen' => ['client/client'],
+        'affects'   => [
+            'client/seller' => 'seller',
+            'client/client' => 'client',
+        ]
+    ];
 }
