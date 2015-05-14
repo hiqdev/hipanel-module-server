@@ -32,11 +32,10 @@ class Server extends Combo2Config
     function getConfig($config = [])
     {
         $config = ArrayHelper::merge([
-            'clearWhen' => ['client'],
+            'clearWhen' => ['client/client'],
             'affects'   => [
                 'client/seller' => 'seller',
                 'client/client' => 'client',
-                'seller'        => 'seller',
             ]
         ], $config);
 
