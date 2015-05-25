@@ -17,7 +17,7 @@ use Yii;
  * @property string panel
  * @property array softpack
  */
-class Osimage extends \hiqdev\hiar\ActiveRecord
+class Osimage extends \hiqdev\hiart\ActiveRecord
 {
     /**
      * @return array the list of attributes for this record

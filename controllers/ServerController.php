@@ -12,7 +12,7 @@ use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
-use hiqdev\hiar\HiResException;
+use hiqdev\hiart\HiResException;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
