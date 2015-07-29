@@ -1,6 +1,6 @@
 <?php
 
-namespace frontend\modules\server\assets;
+namespace hipanel\modules\server\assets;
 use yii\web\AssetBundle;
 
 class OsSelectionAsset extends AssetBundle
@@ -8,7 +8,7 @@ class OsSelectionAsset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@frontend/modules/server/assets';
+    public $sourcePath = '@hipanel/modules/server/assets';
 
     /**
      * @var array

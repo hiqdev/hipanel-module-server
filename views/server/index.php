@@ -1,24 +1,26 @@
 <?php
 
-use frontend\components\grid\CheckboxColumn;
-use frontend\components\grid\GridView;
-use frontend\components\widgets\Pjax;
-use frontend\components\widgets\Select2;
-use frontend\components\widgets\RequestState;
-use frontend\components\widgets\GridActionButton;
-use frontend\modules\client\grid\ResellerColumn;
-use frontend\modules\server\widgets\StateFormatter;
-use frontend\modules\server\widgets\DiscountFormatter;
-use \yii\helpers\Html;
-use frontend\modules\server\grid\ServerColumn;
-use frontend\modules\client\grid\ClientColumn;
+use hipanel\base\View;
+use hipanel\grid\CheckboxColumn;
+use hipanel\grid\GridView;
+use hipanel\modules\client\grid\ClientColumn;
+use hipanel\modules\client\grid\SellerColumn;
+use hipanel\modules\server\grid\ServerColumn;
+use hipanel\modules\server\models\OsimageSearch;
+use hipanel\modules\server\widgets\DiscountFormatter;
+use hipanel\modules\server\widgets\OSFormatter;
+use hipanel\modules\server\widgets\StateFormatter;
+use hipanel\widgets\GridActionButton;
+use hipanel\widgets\Pjax;
+use hipanel\widgets\RequestState;
+use yii\helpers\Html;
 
 /**
- * @var frontend\modules\server\models\OsimageSearch $osimages
+ * @var OsimageSearch $osimages
  */
 
 /**
- * @var frontend\components\View $this
+ * @var View $this
  */
 
 $this->title                   = Yii::t('app', 'Servers');
@@ -37,7 +39,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                         'class' => CheckboxColumn::className(),
                     ],
                     [
-                        'class' => ResellerColumn::className(),
+                        'class' => SellerColumn::className(),
                     ],
                     [
                         'class'      => ClientColumn::className(),
@@ -91,7 +93,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
                         'attribute' => 'os',
                         'format'    => 'raw',
                         'value'     => function ($model) use ($osimages) {
-                            return frontend\modules\server\widgets\OSFormatter::widget([
+                            return OSFormatter::widget([
                                 'osimages'  => $osimages,
                                 'imageName' => $model->osimage
                             ]);
