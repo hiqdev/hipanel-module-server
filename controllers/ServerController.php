@@ -70,7 +70,7 @@ class ServerController extends CrudController
     /**
      * Gets info of VNC on the server
      *
-     * @param \frontend\modules\server\models\Server $model
+     * @param Server $model
      * @param bool $enable
      *
      * @return array
