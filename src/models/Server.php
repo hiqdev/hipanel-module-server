@@ -18,7 +18,8 @@ class Server extends \hipanel\base\Model
     /**
      * @return array the list of attributes for this record
      */
-    public function attributes () {
+    public function attributes()
+    {
         return [
             'id',
             'name',
@@ -52,18 +53,24 @@ class Server extends \hipanel\base\Model
             'note',
         ];
     }
-    public function rules () {
+
+    public function rules()
+    {
         return [
-            [['state'], 'isOperable', 'on' => [
-                'reinstall',
-                'reboot',
-                'reset',
-                'shutdown',
-                'power-off',
-                'power-on',
-                'boot-live',
-                'regen-root-password'
-            ]],
+            [
+                ['state'],
+                'isOperable',
+                'on' => [
+                    'reinstall',
+                    'reboot',
+                    'reset',
+                    'shutdown',
+                    'power-off',
+                    'power-on',
+                    'boot-live',
+                    'regen-root-password'
+                ]
+            ],
             [['id', 'note'], 'required', 'on' => ['set-note']],
 
         ];
@@ -80,31 +87,40 @@ class Server extends \hipanel\base\Model
 //            'regen-root-password' => ['id'],
 //        ];
 //    }
-    public function goodStates () {
+    public function goodStates()
+    {
         return ['ok', 'disabled'];
     }
+
     /**
      * @return bool
      */
-    public function isOperable () {
+    public function isOperable()
+    {
         /// TODO: all is operable for admin
         if ($this->running_task || !in_array($this->state, $this->goodStates())) {
             return false;
         }
         return true;
     }
+
     /**
      * Returns true, if server supports VNC
      *
      * @return bool
      */
-    public function isVNCSupported () {
+    public function isVNCSupported()
+    {
         return $this->type != 'ovds';
     }
-    public function isPwChangeSupported () {
+
+    public function isPwChangeSupported()
+    {
         return $this->type == 'ovds';
     }
-    public function isLiveCDSupported () {
+
+    public function isLiveCDSupported()
+    {
         return $this->type != 'ovds';
     }
 
@@ -112,15 +128,19 @@ class Server extends \hipanel\base\Model
      * @return bool
      * @throws NotSupportedException
      */
-    public function checkOperable () {
-        if (!$this->isOperable()) throw new NotSupportedException(\Yii::t('app', 'Server already has a running task. Can not start new.'));
+    public function checkOperable()
+    {
+        if (!$this->isOperable()) {
+            throw new NotSupportedException(\Yii::t('app', 'Server already has a running task. Can not start new.'));
+        }
         return true;
     }
 
     /**
      * @inheritdoc
      */
-    public function scenarioCommands () {
+    public function scenarioCommands()
+    {
         return [
             'reinstall' => 'resetup'
         ];
@@ -129,10 +149,11 @@ class Server extends \hipanel\base\Model
     /**
      * @inheritdoc
      */
-    public function attributeLabels ()
+    public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'remoteid'              => Yii::t('app', 'Remote ID'),
+            'remoteid'            => Yii::t('app', 'Remote ID'),
+            'name_like'           => Yii::t('app', 'Name'),
             'name'                => Yii::t('app', 'Name'),
             'panel'               => Yii::t('app', 'Panel'),
             'parent_tariff'       => Yii::t('app', 'Parent tariff'),

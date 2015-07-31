@@ -14,6 +14,7 @@ use hipanel\modules\server\widgets\StateFormatter;
 use hipanel\widgets\ActionBox;
 use hipanel\widgets\BulkButtons;
 use hipanel\widgets\GridActionButton;
+use hipanel\widgets\LinkSorter;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\RequestState;
 use yii\bootstrap\ButtonDropdown;
@@ -39,6 +40,14 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 <?php $box = ActionBox::begin(['bulk' => true, 'options' => ['class' => 'box-info']]) ?>
 <?php $box->beginActions() ?>
 <?= Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info search-button']) ?>
+<?= LinkSorter::widget([
+    'show'       => true,
+    'sort'       => $dataProvider->getSort(),
+    'attributes' => [
+        'name', 'id', 'client', 'tariff',
+        'panel', 'ip', 'state', 'expires'
+    ],
+]) ?>
 <?php $box->endActions() ?>
 
 <?php $box->beginBulkActions() ?>
@@ -76,7 +85,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 ]) ?>
 
 <?php $box->endBulkActions() ?>
-<?//= $this->render('_search', compact('model')) ?>
+<?= $this->render('_search', compact('model')) ?>
 <?php $box::end() ?>
 
 <?= ServerGridView::widget([
@@ -84,13 +93,14 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
     'filterModel'  => $model,
     'osImages'     => $osimages,
     'columns'      => [
+        'checkbox',
         'server',
         'client_id',
         'seller_id',
         'state',
         'expires',
+        'discount',
         'actions',
-        'checkbox',
     ]
 ]); ?>
 <?php

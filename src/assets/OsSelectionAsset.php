@@ -8,7 +8,7 @@ class OsSelectionAsset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@hipanel/modules/server/assets';
+    public $sourcePath = '@hipanel/modules/server/src/assets';
 
     /**
      * @var array
