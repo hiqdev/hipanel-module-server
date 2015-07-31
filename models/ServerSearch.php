@@ -7,6 +7,21 @@
 
 namespace hipanel\modules\server\models;
 
-class ServerSearch extends Server{
-    use \hipanel\base\SearchModelTrait;
+use hipanel\base\SearchModelTrait;
+use hipanel\helpers\ArrayHelper;
+
+class ServerSearch extends Server {
+    use SearchModelTrait {
+        searchAttributes as defaultSearchAttributes;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function searchAttributes()
+    {
+        return ArrayHelper::merge($this->defaultSearchAttributes(), [
+            'name_like'
+        ]);
+    }
 }

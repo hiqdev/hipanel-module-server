@@ -6,13 +6,17 @@ use hipanel\grid\GridView;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\client\grid\SellerColumn;
 use hipanel\modules\server\grid\ServerColumn;
+use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OsimageSearch;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\StateFormatter;
+use hipanel\widgets\ActionBox;
+use hipanel\widgets\BulkButtons;
 use hipanel\widgets\GridActionButton;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\RequestState;
+use yii\bootstrap\ButtonDropdown;
 use yii\helpers\Html;
 
 /**
@@ -23,108 +27,71 @@ use yii\helpers\Html;
  * @var View $this
  */
 
-$this->title                   = Yii::t('app', 'Servers');
-$this->params['breadcrumbs'][] = $this->title;
+$this->title    = Yii::t('app', 'Servers');
+$this->subtitle = Yii::t('app', Yii::$app->request->queryParams ? 'filtered list' : 'full list');
+$this->breadcrumbs->setItems([
+    $this->title
+]);
 
 Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]));
 ?>
-    <div class="box">
-        <div class="box-body">
-            <?php
-            echo GridView::widget([
-                'dataProvider' => $dataProvider,
-                'filterModel'  => $searchModel,
-                'columns'      => [
-                    [
-                        'class' => CheckboxColumn::className(),
-                    ],
-                    [
-                        'class' => SellerColumn::className(),
-                    ],
-                    [
-                        'class'      => ClientColumn::className(),
-                        'clientType' => 'ALL',
-                    ],
-                    [
-                        'class'         => ServerColumn::className(),
-                        'attribute'     => 'id',
-                        'nameAttribute' => 'name'
-                    ],
-                    [
-                        'attribute'      => 'panel',
-                        'format'         => 'text',
-                        'contentOptions' => ['class' => 'text-uppercase'],
-                        'value'          => function ($model) {
-                            return $model->panel ?: '';
-                        }
-                    ],
-                    'tariff',
-                    'tariff_note',
-                    [
 
-                        'attribute' => 'discounts',
-                        'format'    => 'raw',
-                        'value'     => function ($model) {
-                            return DiscountFormatter::widget([
-                                'current' => $model->discounts['fee']['current'],
-                                'next'    => $model->discounts['fee']['next'],
-                            ]);
-                        }
+<?php $box = ActionBox::begin(['bulk' => true, 'options' => ['class' => 'box-info']]) ?>
+<?php $box->beginActions() ?>
+<?= Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info search-button']) ?>
+<?php $box->endActions() ?>
+
+<?php $box->beginBulkActions() ?>
+<?= BulkButtons::widget([
+    'model' => Yii::$app->controller->newModel(),
+    'items' => [
+        ButtonDropdown::widget([
+            'label'    => Yii::t('app', 'Lock'),
+            'dropdown' => [
+                'items' => [
+                    [
+                        'label'       => Yii::t('app', 'Enable lock'),
+                        'url'         => '#',
+                        'linkOptions' => [
+                            'class'          => 'bulk-action',
+                            'data-attribute' => 'is_secured',
+                            'data-value'     => '1',
+                            'data-url'       => 'set-lock'
+                        ]
                     ],
                     [
-                        'attribute' => 'state',
-                        'format'    => 'raw',
-                        'value'     => function ($model) {
-                            return RequestState::widget([
-                                'model'  => $model,
-                                'module' => 'server'
-                            ]);
-                        },
-                        'filter'    => Html::activeDropDownList($searchModel, 'state', $states, [
-                            'class'  => 'form-control',
-                            'prompt' => Yii::t('app', '--'),
-                        ]),
-                    ],
-                    [
-                        'attribute' => 'sale_time',
-                        'format'    => ['date'],
-                    ],
-                    [
-                        'attribute' => 'os',
-                        'format'    => 'raw',
-                        'value'     => function ($model) use ($osimages) {
-                            return OSFormatter::widget([
-                                'osimages'  => $osimages,
-                                'imageName' => $model->osimage
-                            ]);
-                        }
-                    ],
-                    [
-                        'attribute' => 'expires',
-                        'format'    => 'raw',
-                        'value'     => function ($model) {
-                            return StateFormatter::widget([
-                                'model' => $model
-                            ]);
-                        }
-                    ],
-                    [
-                        'class'    => 'yii\grid\ActionColumn',
-                        'template' => '{view}',
-                        'buttons'  => [
-                            'view' => function ($url, $model, $key) {
-                                return GridActionButton::widget([
-                                    'url'   => $url,
-                                    'icon'  => '<i class="fa fa-eye"></i>',
-                                    'label' => Yii::t('app', 'Details'),
-                                ]);
-                            },
-                        ],
-                    ],
-                ],
-            ]);
-            ?>
-        </div>
-    </div>
+                        'label'       => Yii::t('app', 'Disable lock'),
+                        'url'         => '#',
+                        'linkOptions' => [
+                            'class'          => 'bulk-action',
+                            'data-attribute' => 'is_secured',
+                            'data-value'     => '0',
+                            'data-url'       => 'set-lock'
+                        ]
+                    ]
+                ]
+            ]
+        ]),
+    ],
+]) ?>
+
+<?php $box->endBulkActions() ?>
+<?//= $this->render('_search', compact('model')) ?>
+<?php $box::end() ?>
+
+<?= ServerGridView::widget([
+    'dataProvider' => $dataProvider,
+    'filterModel'  => $model,
+    'osImages'     => $osimages,
+    'columns'      => [
+        'server',
+        'client_id',
+        'seller_id',
+        'state',
+        'expires',
+        'actions',
+        'checkbox',
+    ]
+]); ?>
 <?php
 Pjax::end();

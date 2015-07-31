@@ -48,39 +48,38 @@ class Server extends \hipanel\base\Model
             'rcp',
             'vnc',
             'statuses',
-            'running_task'
+            'running_task',
+            'note',
         ];
     }
     public function rules () {
         return [
-            [
-                ['state'],
-                'isOperable',
-                'on' => [
-                    'reinstall',
-                    'reboot',
-                    'reset',
-                    'shutdown',
-                    'power-off',
-                    'power-on',
-                    'boot-live',
-                    'regen-root-password'
-                ]
-            ],
+            [['state'], 'isOperable', 'on' => [
+                'reinstall',
+                'reboot',
+                'reset',
+                'shutdown',
+                'power-off',
+                'power-on',
+                'boot-live',
+                'regen-root-password'
+            ]],
+            [['id', 'note'], 'required', 'on' => ['set-note']],
+
         ];
     }
-    public function scenarios () {
-        return [
-            'reinstall'           => ['id', 'osimage', 'panel'],
-            'boot-live'           => ['id', 'osimage'],
-            'reboot'              => ['id'],
-            'reset'               => ['id'],
-            'shutdown'            => ['id'],
-            'power-off'           => ['id'],
-            'power-on'            => ['id'],
-            'regen-root-password' => ['id'],
-        ];
-    }
+//    public function scenarios () {
+//        return [
+//            'reinstall'           => ['id', 'osimage', 'panel'],
+//            'boot-live'           => ['id', 'osimage'],
+//            'reboot'              => ['id'],
+//            'reset'               => ['id'],
+//            'shutdown'            => ['id'],
+//            'power-off'           => ['id'],
+//            'power-on'            => ['id'],
+//            'regen-root-password' => ['id'],
+//        ];
+//    }
     public function goodStates () {
         return ['ok', 'disabled'];
     }
@@ -135,10 +134,6 @@ class Server extends \hipanel\base\Model
         return $this->mergeAttributeLabels([
             'remoteid'              => Yii::t('app', 'Remote ID'),
             'name'                => Yii::t('app', 'Name'),
-            'seller_id'           => Yii::t('app', 'Reseller'),
-            'seller'              => Yii::t('app', 'Reseller'),
-            'client_id'           => Yii::t('app', 'Client'),
-            'client'              => Yii::t('app', 'Client'),
             'panel'               => Yii::t('app', 'Panel'),
             'parent_tariff'       => Yii::t('app', 'Parent tariff'),
             'tariff'              => Yii::t('app', 'Tariff'),

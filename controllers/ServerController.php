@@ -13,6 +13,7 @@ use hipanel\models\Ref;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hiqdev\hiart\HiResException;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
@@ -27,7 +28,35 @@ class ServerController extends CrudController
             'requests-state' => [
                 'class' => RequestStateAction::className(),
                 'model' => Server::className()
-            ]
+            ],
+            'set-note' => [
+                'class'     => 'hipanel\actions\SmartUpdateAction',
+                'success'   => Yii::t('app', 'Note changed'),
+                'error'     => Yii::t('app', 'Failed change note'),
+            ],
+            'set-lock' => [
+                'class' => 'hipanel\actions\SwitchAction',
+                'success' => Yii::t('app', 'Record was changed'),
+                'error'   => Yii::t('app', 'Error occurred!'),
+                'POST pjax' => [
+                    'save' => true,
+                    'success' => [
+                        'class'  => 'hipanel\actions\ProxyAction',
+                        'action' => 'index'
+                    ]
+                ],
+                'POST'    => [
+                    'save'    => true,
+                    'success' => [
+                        'class'  => 'hipanel\actions\RenderJsonAction',
+                        'return' => function ($action) {
+                            /** @var \hipanel\actions\Action $action */
+                            return $action->collection->models;
+                        }
+                    ]
+                ],
+            ],
+
         ]);
     }
 
