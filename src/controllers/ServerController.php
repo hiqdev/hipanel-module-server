@@ -24,7 +24,33 @@ class ServerController extends CrudController
     }
 
     public function actions () {
-        return array_merge(parent::actions(), [
+        return [
+            'index' => [
+                'class'     => 'hipanel\actions\IndexAction',
+                'data'      => function ($action) {
+                    return [
+                        'osimages' => $action->controller->getOsimages(),
+                        'states'   => $action->controller->getStates()
+                    ];
+                }
+            ],
+            'view' => [
+                'class'       => 'hipanel\actions\ViewAction',
+                'findOptions' => ['with_dns' => 1],
+                'data'        => function ($action, $id) {
+                    $controller = $action->controller;
+
+                    $model      = $action->getModel();
+                    $model->vnc = $controller->getVNCInfo($model);
+
+                    $osimages         = $controller->getOsimages();
+                    $osimageslivecd   = $controller->getOsimagesLiveCd();
+                    $grouped_osimages = $controller->getGroupedOsimages($osimages);
+                    $panels           = $controller->getPanelTypes();
+
+                    return compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels');
+                },
+            ],
             'requests-state' => [
                 'class' => RequestStateAction::className(),
                 'model' => Server::className()
@@ -57,26 +83,7 @@ class ServerController extends CrudController
                 ],
             ],
 
-        ]);
-    }
-
-    public function actionIndex () {
-        return parent::actionIndex([
-            'osimages' => $this->getOsimages(),
-            'states'   => $this->getStates()
-        ]);
-    }
-
-    public function actionView ($id) {
-        $model      = $this->findModel($id);
-        $model->vnc = $this->getVNCInfo($model);
-
-        $osimages         = $this->getOsimages();
-        $osimageslivecd   = $this->getOsimagesLiveCd();
-        $grouped_osimages = $this->getGroupedOsimages($osimages);
-        $panels           = $this->getPanelTypes();
-
-        return $this->render('view', compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels'));
+        ];
     }
 
 
