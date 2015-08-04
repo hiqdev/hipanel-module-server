@@ -27,7 +27,7 @@ $this->breadcrumbs->setItems([
 Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]));
 ?>
 
-<?php $box = ActionBox::begin(['bulk' => true, 'options' => ['class' => 'box-info']]) ?>
+<?php $box = ActionBox::begin(['model' => $model, 'bulk' => true, 'options' => ['class' => 'box-info']]) ?>
 <?php $box->beginActions() ?>
 <?= Html::a(Yii::t('app', 'Advanced search'), '#', ['class' => 'btn btn-info search-button']) ?>
 <?= LinkSorter::widget([
@@ -47,6 +47,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
         ButtonDropdown::widget([
             'label'    => Yii::t('app', 'Lock'),
             'dropdown' => [
+                'options' => ['class' => 'pull-right'],
                 'items' => [
                     [
                         'label'       => Yii::t('app', 'Enable lock'),
