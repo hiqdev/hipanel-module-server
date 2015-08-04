@@ -39,35 +39,37 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 ]) ?>
 <?php $box->endActions() ?>
 
-<?php $box->renderBulkActions([
-    'items' => ButtonDropdown::widget([
-        'label'    => Yii::t('app', 'Lock'),
-        'dropdown' => [
-            'options' => ['class' => 'pull-right'],
-            'items' => [
-                [
-                    'label'       => Yii::t('app', 'Enable lock'),
-                    'url'         => '#',
-                    'linkOptions' => [
-                        'class'          => 'bulk-action',
-                        'data-attribute' => 'is_secured',
-                        'data-value'     => '1',
-                        'data-url'       => 'set-lock'
-                    ]
-                ],
-                [
-                    'label'       => Yii::t('app', 'Disable lock'),
-                    'url'         => '#',
-                    'linkOptions' => [
-                        'class'          => 'bulk-action',
-                        'data-attribute' => 'is_secured',
-                        'data-value'     => '0',
-                        'data-url'       => 'set-lock'
+<?= $box->renderBulkActions([
+    'items' => [
+        ButtonDropdown::widget([
+            'label'    => Yii::t('app', 'Lock'),
+            'dropdown' => [
+                'options' => ['class' => 'pull-right'],
+                'items' => [
+                    [
+                        'label'       => Yii::t('app', 'Enable lock'),
+                        'url'         => '#',
+                        'linkOptions' => [
+                            'class'          => 'bulk-action',
+                            'data-attribute' => 'is_secured',
+                            'data-value'     => '1',
+                            'data-url'       => 'set-lock'
+                        ]
+                    ],
+                    [
+                        'label'       => Yii::t('app', 'Disable lock'),
+                        'url'         => '#',
+                        'linkOptions' => [
+                            'class'          => 'bulk-action',
+                            'data-attribute' => 'is_secured',
+                            'data-value'     => '0',
+                            'data-url'       => 'set-lock'
+                        ]
                     ]
                 ]
             ]
-        ]
-    ]),
+        ]),
+    ]
 ]) ?>
 <?= $box->renderSearchForm(compact('states')) ?>
 <?php $box::end() ?>
