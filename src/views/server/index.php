@@ -74,7 +74,9 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 <?= $box->renderSearchForm(compact('states')) ?>
 <?php $box::end() ?>
 
-<?= ServerGridView::widget([
+<?php
+$box->beginBulkForm();
+print ServerGridView::widget([
     'dataProvider' => $dataProvider,
     'filterModel'  => $model,
     'osImages'     => $osimages,
@@ -88,6 +90,9 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
         'discount',
         'actions',
     ]
-]); ?>
+]);
+$box::endBulkForm();
+?>
+
 <?php
 Pjax::end();
