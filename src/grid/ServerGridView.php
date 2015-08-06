@@ -7,6 +7,7 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\widgets\ArraySpoiler;
 use Yii;
 use yii\helpers\Html;
 use hipanel\grid\ActionColumn;
@@ -34,17 +35,17 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         $osImages = self::$osImages;
 
         return [
-            'server'   => [
+            'server'       => [
                 'class'           => MainColumn::className(),
                 'attribute'       => 'name',
                 'filterAttribute' => 'name_like',
                 'note'            => true
             ],
-            'state'    => [
-                'class'         => RefColumn::className(),
-                'format'        => 'raw',
-                'gtype'         => 'state,device',
-                'value'         => function ($model) {
+            'state'        => [
+                'class'  => RefColumn::className(),
+                'format' => 'raw',
+                'gtype'  => 'state,device',
+                'value'  => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
                         $html .= ' ' . Yii::t('app', 'since') . ' ' . Yii::$app->formatter->asDate($model->status_time);
@@ -52,7 +53,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return $html;
                 },
             ],
-            'panel'    => [
+            'panel'        => [
                 'attribute'      => 'panel',
                 'format'         => 'text',
                 'contentOptions' => ['class' => 'text-uppercase'],
@@ -60,7 +61,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return $model->panel ?: '';
                 }
             ],
-            'os'       => [
+            'os'           => [
                 'attribute' => 'os',
                 'format'    => 'raw',
                 'value'     => function ($model) use ($osImages) {
@@ -72,7 +73,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'os_and_panel' => [
                 'format' => 'raw',
-                'value' => function ($model) use ($osImages) {
+                'value'  => function ($model) use ($osImages) {
                     $html = OSFormatter::widget([
                         'osimages'  => $osImages,
                         'imageName' => $model->osimage
@@ -81,7 +82,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return $html;
                 }
             ],
-            'discount' => [
+            'discount'     => [
                 'attribute'     => 'discount',
                 'format'        => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
@@ -92,7 +93,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     ]);
                 }
             ],
-            'actions'  => [
+            'actions'      => [
                 'class'    => ActionColumn::className(),
                 'template' => '{view} {block} {delete} {update}', // {state}
                 'header'   => Yii::t('app', 'Actions'),
@@ -102,13 +103,32 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     },
                 ],
             ],
-            'expires'  => [
+            'expires'      => [
                 'filter'        => false,
                 'format'        => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'value'         => function ($model) {
                     return Expires::widget(compact('model'));
                 },
+            ],
+            'tariff'       => [
+                'attribute' => 'tariff',
+            ],
+            'tariff_note'  => [
+                'attribute' => 'tariff_note'
+            ],
+            'ips'          => [
+                'attribute' => 'ips',
+                'format'    => 'raw',
+                'value'     => function ($model) {
+                    return ArraySpoiler::widget([
+                        'data' => $model->ips
+                    ]);
+                }
+            ],
+            'sale_time'    => [
+                'attribute' => 'sale_time',
+                'format'    => 'date',
             ]
         ];
     }

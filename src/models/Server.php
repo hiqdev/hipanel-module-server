@@ -18,45 +18,51 @@ class Server extends \hipanel\base\Model
     /**
      * @return array the list of attributes for this record
      */
-    public function attributes()
-    {
-        return [
-            'id',
-            'name',
-            'seller',
-            'seller_id',
-            'client',
-            'client_id',
-            'panel',
-            'parent_tariff',
-            'tariff',
-            'tariff_note',
-            'discounts',
-            'request_state',
-            'request_state_label',
-            'state_label',
-            'status_time',
-            'sale_time',
-            'autorenewal',
-            'state',
-            'type',
-            'expires',
-            'block_reason_label',
-            'ip',
-            'ips',
-            'os',
-            'osimage',
-            'rcp',
-            'vnc',
-            'statuses',
-            'running_task',
-            'note',
-        ];
-    }
+//    public function attributes()
+//    {
+//        return [
+
+//        ];
+//    }
 
     public function rules()
     {
         return [
+            [
+                [
+                    'id',
+                    'name',
+                    'seller',
+                    'seller_id',
+                    'client',
+                    'client_id',
+                    'panel',
+                    'parent_tariff',
+                    'tariff',
+                    'tariff_note',
+                    'discounts',
+                    'request_state',
+                    'request_state_label',
+                    'state_label',
+                    'status_time',
+                    'sale_time',
+                    'autorenewal',
+                    'state',
+                    'type',
+                    'expires',
+                    'block_reason_label',
+                    'ip',
+                    'ips',
+                    'os',
+                    'osimage',
+                    'rcp',
+                    'vnc',
+                    'statuses',
+                    'running_task',
+                    'note'
+                ],
+                'safe'
+            ],
             [
                 ['state'],
                 'isOperable',
@@ -72,9 +78,9 @@ class Server extends \hipanel\base\Model
                 ]
             ],
             [['id', 'note'], 'required', 'on' => ['set-note']],
-
         ];
     }
+
 //    public function scenarios () {
 //        return [
 //            'reinstall'           => ['id', 'osimage', 'panel'],
@@ -87,6 +93,7 @@ class Server extends \hipanel\base\Model
 //            'regen-root-password' => ['id'],
 //        ];
 //    }
+
     public function goodStates()
     {
         return ['ok', 'disabled'];
@@ -168,6 +175,7 @@ class Server extends \hipanel\base\Model
             'expires'             => Yii::t('app', 'Expires'),
             'block_reason_label'  => Yii::t('app', 'Block reason label'),
             'request_state_label' => Yii::t('app', 'Request state label'),
+            'ips'                 => Yii::t('app', 'IP addresses'),
         ]);
     }
 }
