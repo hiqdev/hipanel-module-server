@@ -1,26 +1,24 @@
 <?php
 use hipanel\modules\server\assets\OsSelectionAsset;
 use yii\bootstrap\Modal;
+use hipanel\widgets\ModalButton;
+
 use yii\helpers\Html;
 use yii\helpers\Json;
 
-echo Html::a('<i class="ion-ios-cog-outline"></i>' . Yii::t('app', 'Reinstall OS'), '#', [
-    'data-toggle' => 'modal',
-    'data-target' => "#modal_{$model->id}_reinstall",
-]);
-
-echo Html::beginForm(['reinstall'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
-echo Html::hiddenInput('id', $model->id);
-Modal::begin([
-    'id'            => "modal_{$model->id}_reinstall",
-    'toggleButton'  => false,
-    'header'        => Html::tag('h4', Yii::t('app', 'Please, select the operating system you want to install')),
-    'headerOptions' => ['class' => 'label-warning'],
-    'footer'        => Html::button(Yii::t('app', 'Reinstall'), [
-        'class'             => 'btn btn-warning',
-        'data-loading-text' => Yii::t('app', 'Reinstalling started...'),
-        'onClick'           => new \yii\web\JsExpression("$(this).closest('form').submit(); $(this).button('loading');")
-    ])
+ModalButton::begin([
+    'model'    => $model,
+    'scenario' => 'reinstall',
+    'button'   => ['label' => '<i class="ion-ios-cog-outline"></i>' . Yii::t('app', 'Reinstall OS')],
+    'modal'    => [
+        'header'        => Html::tag('h4', Yii::t('app', 'Please, select the operating system you want to install')),
+        'headerOptions' => ['class' => 'label-info'],
+        'footer'        => [
+            'label'             => Yii::t('app', 'Reinstall'),
+            'data-loading-text' => Yii::t('app', 'Resinstalling started...'),
+            'class'             => 'btn btn-warning',
+        ]
+    ]
 ]);
 ?>
     <div class="callout callout-warning">
@@ -76,6 +74,7 @@ Modal::begin([
                                             <strong><?= $softpack['name'] ?></strong>
                                             <small style="font-weight: normal"><?= $softpack['description'] ?></small>
                                             <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
+
                                             <div class="soft-desc" style="display: none;"></div>
                                         </label>
                                     </div>
@@ -87,13 +86,12 @@ Modal::begin([
             </div>
         </div>
     </div>
-<?php Modal::end();
-echo Html::endForm();
-
-OsSelectionAsset::register($this);
+<?php OsSelectionAsset::register($this);
 $this->registerJs("
     var osparams = " . Json::encode($grouped_osimages['oses']) . ";
     $('.os-selector').osSelector({
         osparams: osparams
     });
-", \yii\web\View::POS_READY, 'os-selector-init'); ?>
+", \yii\web\View::POS_READY, 'os-selector-init');
+
+ModalButton::end();

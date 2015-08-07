@@ -1,11 +1,8 @@
 <?php
-use yii\bootstrap\Modal;
+use hipanel\widgets\ModalButton;
 use yii\helpers\Html;
 
 if ($model->isLiveCDSupported()) {
-    echo Html::beginForm(['boot-live'], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
-    echo Html::hiddenInput('id', $model->id);
-
     $os_items = [];
     foreach ($osimageslivecd as $item) {
         $js         = "$(this).closest('form').find('.livecd-osimage').val({$item['osimage']}).end().submit(); $(this).closest('button').button('loading');";
@@ -16,27 +13,34 @@ if ($model->isLiveCDSupported()) {
         ];
 
     }
-    Modal::begin([
-        'toggleButton' => [
+
+    ModalButton::begin([
+        'model'    => $model,
+        'scenario' => 'boot-live',
+        'button'   => [
             'label'    => Yii::t('app', 'Boot LiveCD'),
             'class'    => 'btn btn-default',
             'disabled' => !$model->isOperable(),
+            'position' => ModalButton::BUTTON_IN_MODAL,
         ],
-        'header'       => Html::tag('h4', Yii::t('app', 'Confirm boot from Live CD')),
-        'footer'       => \yii\bootstrap\ButtonDropdown::widget([
-            'label'    => 'Boot LiveCD',
-            'dropdown' => [
-                'items' => $os_items
-            ],
-            'options'  => [
-                'class'             => 'btn btn-info',
-                'data-loading-text' => Yii::t('app', 'Resetting password...'),
-            ]
-        ])
+        'modal'    => [
+            'header'        => Html::tag('h4', Yii::t('app', 'Confirm booting from Live CD')),
+            'headerOptions' => ['class' => 'label-info'],
+            'footer'        => \yii\bootstrap\ButtonDropdown::widget([
+                'label'    => Yii::t('app', 'Boot LiveCD'),
+                'dropdown' => [
+                    'items' => $os_items
+                ],
+                'options'  => [
+                    'class'             => 'btn btn-info',
+                    'data-loading-text' => Yii::t('app', '...'),
+                ]
+            ])
+        ]
+
     ]);
     echo Html::hiddenInput('osimage', null, ['class' => 'livecd-osimage']);
-    ?>
-    Это приведет к отключению сервера и загрузке образа Live CD.
-    <?php Modal::end();
-    echo Html::endForm();
+    echo Yii::t('app', 'This action will shutdown the server and boot live cd image');
+
+    ModalButton::end();
 }

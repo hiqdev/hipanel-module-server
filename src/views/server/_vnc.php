@@ -2,11 +2,6 @@
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 
-/**
- * @var \frontend\modules\server\models\Server $model
- */
-
-
 if ($model->vnc['enabled']) {
     echo Html::tag('span',
         Html::tag('i', '', ['class' => 'glyphicon glyphicon-ok']) . ' ' . Yii::t('app', 'Enabled'),
