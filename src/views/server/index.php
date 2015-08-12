@@ -26,17 +26,17 @@ $this->breadcrumbs->setItems([
 Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]));
 ?>
 
-<?php $box = ActionBox::begin(['model' => $model, 'bulk' => true, 'options' => ['class' => 'box-info']]) ?>
+<?php $box = ActionBox::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
 <?php $box->beginActions() ?>
 <?= $box->renderSearchButton() ?>
-<?= LinkSorter::widget([
-    'show'       => true,
-    'sort'       => $dataProvider->getSort(),
+<?= $box->renderSorter([
     'attributes' => [
         'name', 'id', 'client', 'tariff',
         'panel', 'ip', 'state', 'expires'
     ],
 ]) ?>
+<?= $box->renderPerPage() ?>
+
 <?php $box->endActions() ?>
 
 <?= $box->renderBulkActions([
