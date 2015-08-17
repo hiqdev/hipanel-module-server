@@ -31,8 +31,14 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 <?= $box->renderSearchButton() ?>
 <?= $box->renderSorter([
     'attributes' => [
-        'name', 'id', 'client', 'tariff',
-        'panel', 'ip', 'state', 'expires'
+        'name',
+        'id',
+        'client',
+        'tariff',
+        'panel',
+        'ip',
+        'state',
+        'expires',
     ],
 ]) ?>
 <?= $box->renderPerPage() ?>
@@ -83,8 +89,11 @@ print ServerGridView::widget([
     'columns'      => [
         'checkbox',
         'server',
-        'client_id',
-        'seller_id',
+        'client',
+        'seller' => [
+            'class' => 'hipanel\modules\client\grid\SellerColumn',
+            'enableSorting' => false,
+        ],
         'state',
         'expires',
         'discount',

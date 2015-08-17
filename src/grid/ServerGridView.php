@@ -9,7 +9,6 @@ namespace hipanel\modules\server\grid;
 
 use hipanel\widgets\ArraySpoiler;
 use Yii;
-use yii\helpers\Html;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
@@ -95,13 +94,8 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'actions'      => [
                 'class'    => ActionColumn::className(),
-                'template' => '{view} {block} {delete} {update}', // {state}
+                'template' => '{view}',
                 'header'   => Yii::t('app', 'Actions'),
-                'buttons'  => [
-                    'block' => function ($url, $model, $key) {
-                        return Html::a('Close', ['block', 'id' => $model->id]);
-                    },
-                ],
             ],
             'expires'      => [
                 'filter'        => false,
