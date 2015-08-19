@@ -3,6 +3,7 @@
 namespace hipanel\modules\server\grid;
 
 use hipanel\grid\DataColumn;
+use hipanel\modules\server\widgets\combo\ServerCombo;
 use hiqdev\combo\Combo;
 use yii\helpers\Html;
 
@@ -18,8 +19,7 @@ class ServerColumn extends DataColumn
             $this->filterInputOptions['id'] = $this->attribute;
         }
         if (!$this->filter && $this->grid->filterModel) {
-            $this->filter = Combo::widget([
-                'type'                => 'server',
+            $this->filter = ServerCombo::widget([
                 'attribute'           => $this->attribute,
                 'model'               => $this->grid->filterModel,
                 'formElementSelector' => 'td',
