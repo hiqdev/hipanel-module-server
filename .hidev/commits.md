@@ -3,6 +3,8 @@ hiqdev/hipanel-module-server commits history
 
 ## Under development
 
+- Changed: hideved
+    - 2516278 2015-08-19 hideved (sol@hiqdev.com)
 - Added server/buy redirect
     - d43dba5 2015-08-19 + server/buy redirect (sol@hiqdev.com)
 - Fixed many things for first release

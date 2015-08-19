@@ -3,6 +3,7 @@ hiqdev/hipanel-module-server changelog
 
 ## Under development
 
+- Changed: hideved
 - Added server/buy redirect
 - Fixed many things for first release
 - Changed: moved to src
