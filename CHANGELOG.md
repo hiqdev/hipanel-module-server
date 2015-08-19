@@ -1,11 +1,14 @@
 hiqdev/hipanel-module-server changelog
 --------------------------------------
 
-### Current TODO
+## Under development
 
-- do a first release
+- Changed: hideved
+- Added server/buy redirect
+- Fixed many things for first release
+- Changed: moved to src
+- Added basics
+- Inited
 
-### 0.1.0 under development
-
-- inited
+## Development started 2015-04-22
 

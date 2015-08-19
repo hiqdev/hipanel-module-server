@@ -119,6 +119,10 @@ class ServerController extends CrudController
                 'success' => 'Power on task has been successfully added to queue',
                 'error'   => 'Error while turning power on',
             ],
+            'buy' => [
+                'class' => 'hipanel\actions\RedirectAction',
+                'url'   => Yii::$app->params['orgUrl'],
+            ],
 //            'reboot'         => [
 //                'class' => 'hipanel\actions\SmartUpdateAction'
 //            ],

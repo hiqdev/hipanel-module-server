@@ -11,7 +11,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
 {
     protected $_items = [
         'aliases' => [
-            "@server" => "/domain/server",
+            "@server" => "/server/server",
         ],
         'menus' => [
             [
