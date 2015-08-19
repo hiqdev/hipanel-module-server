@@ -1,0 +1,12 @@
+package:
+    name:           hipanel-module-server
+    namespace:      hipanel\modules\server
+    label:          HiPanel ServerModule
+    title:          Server Plugin for HiPanel
+    type:           yii2-extension
+    keywords:       server, hipanel, plugin
+    year:           2014
+
+require:
+    hiqdev/hidev-config:        "*"
+    hiqdev/hidev-config-php:    "*"
