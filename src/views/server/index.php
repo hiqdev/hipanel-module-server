@@ -17,7 +17,7 @@ use yii\helpers\Html;
 /**
  * @var View $this
  */
-$this->title    = Yii::t('app', 'Servers');
+$this->title = Yii::t('app', 'Servers');
 $this->subtitle = Yii::t('app', Yii::$app->request->queryParams ? 'filtered list' : 'full list');
 $this->breadcrumbs->setItems([
     $this->title
@@ -48,28 +48,28 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 <?= $box->renderBulkActions([
     'items' => [
         ButtonDropdown::widget([
-            'label'    => Yii::t('app', 'Lock'),
+            'label' => Yii::t('app', 'Lock'),
             'dropdown' => [
                 'options' => ['class' => 'pull-right'],
                 'items' => [
                     [
-                        'label'       => Yii::t('app', 'Enable lock'),
-                        'url'         => '#',
+                        'label' => Yii::t('app', 'Enable lock'),
+                        'url' => '#',
                         'linkOptions' => [
-                            'class'          => 'bulk-action',
+                            'class' => 'bulk-action',
                             'data-attribute' => 'is_secured',
-                            'data-value'     => '1',
-                            'data-url'       => 'set-lock'
+                            'data-value' => '1',
+                            'data-url' => 'set-lock'
                         ]
                     ],
                     [
-                        'label'       => Yii::t('app', 'Disable lock'),
-                        'url'         => '#',
+                        'label' => Yii::t('app', 'Disable lock'),
+                        'url' => '#',
                         'linkOptions' => [
-                            'class'          => 'bulk-action',
+                            'class' => 'bulk-action',
                             'data-attribute' => 'is_secured',
-                            'data-value'     => '0',
-                            'data-url'       => 'set-lock'
+                            'data-value' => '0',
+                            'data-url' => 'set-lock'
                         ]
                     ]
                 ]
@@ -78,15 +78,15 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
     ]
 ]) ?>
 <?= $box->renderSearchForm(compact('states')) ?>
-<?php $box::end() ?>
+<?php $box->end() ?>
 
 <?php
 $box->beginBulkForm();
 print ServerGridView::widget([
     'dataProvider' => $dataProvider,
-    'filterModel'  => $model,
-    'osImages'     => $osimages,
-    'columns'      => [
+    'filterModel' => $model,
+    'osImages' => $osimages,
+    'columns' => [
         'checkbox',
         'server',
         'client',
@@ -100,8 +100,5 @@ print ServerGridView::widget([
         'actions',
     ]
 ]);
-$box::endBulkForm();
-?>
-
-<?php
+$box->endBulkForm();
 Pjax::end();
