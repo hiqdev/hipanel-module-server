@@ -9,11 +9,9 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\RequestStateAction;
 use hipanel\base\CrudController;
-use hipanel\base\Model;
 use hipanel\models\Ref;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
-use hiqdev\hiart\HiResException;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
@@ -154,7 +152,6 @@ class ServerController extends CrudController
      * @param bool $enable
      *
      * @return array
-     * @throws HiResException
      */
     public function getVNCInfo($model, $enable = false)
     {
