@@ -26,7 +26,6 @@ class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInter
                 'servers' => [
                     'label' => 'Servers',
                     'url'   => ['/server/server/index'],
-                    'icon'  => 'fa-server',
                 ],
             ],
         ],
