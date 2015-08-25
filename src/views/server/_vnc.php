@@ -1,6 +1,5 @@
 <?php
 use yii\helpers\Html;
-use yii\widgets\Pjax;
 
 if ($model->vnc['enabled']) {
     echo Html::tag('span',
@@ -20,8 +19,9 @@ if ($model->vnc['enabled']) {
         <?php
         } ?>
     </dl>
-    <?php
-    echo ($hide_leftTime ? '' : Yii::t('app', 'VNC will be disabled ') . \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']));
+    <?php if (!empty($model->vnc['endTime']) && $model->vnc['endTime'] > time()) {
+        echo Yii::t('app', 'VNC will be disabled ') . \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']);
+    }
 } else {
     echo Html::beginForm(['enable-vnc', 'id' => $model->id], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
     echo Html::submitButton(

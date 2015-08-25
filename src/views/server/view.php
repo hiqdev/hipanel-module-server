@@ -3,6 +3,7 @@
 use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\widgets\Box;
+use hipanel\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -26,22 +27,25 @@ $this->breadcrumbs->setItems([
             <br>
             <span class="profile-user-name"><?= $model->client . ' / ' . $model->seller; ?></span>
         </p>
-
+        <?php Pjax::begin(['enablePushState' => false]) ?>
         <div class="profile-usermenu">
             <ul class="nav">
-                <?php if (Yii::$app->user->can('admin')) { ?>
+                <?php if ($model->isPwChangeSupported()) { ?>
                     <li>
                         <?= $this->render('_reset-password', compact(['model'])) ?>
                     </li>
-                    <li>
-                        <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
-                    </li>
+                <?php } ?>
+                <li>
+                    <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
+                </li>
+                <?php if (Yii::$app->user->can('support')) { ?>
                     <li>
                         <?= $this->render('_delete', compact(['model'])) ?>
                     </li>
                 <?php } ?>
             </ul>
         </div>
+        <?php Pjax::end() ?>
         <?php Box::end(); ?>
     </div>
 
@@ -71,8 +75,9 @@ $this->breadcrumbs->setItems([
             </div>
         </div>
     </div>
-
+    <?php Pjax::begin(['enablePushState' => false]) ?>
     <div class="col-md-4">
+        <?php if ($model->isVNCSupported()) { ?>
         <div class="row">
             <div class="col-md-12">
                 <?php
@@ -87,17 +92,20 @@ $this->breadcrumbs->setItems([
                 ?>
             </div>
         </div>
+        <?php } ?>
         <div class="row">
             <div class="col-md-12">
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
-                echo $box->renderTitle(Yii::t('app', 'System management'));
+                    echo $box->renderTitle(Yii::t('app', 'System management'));
                 $box->endHeader();
                 $box->beginBody();
-                echo $this->render('_reboot', compact(['model']));
-                echo $this->render('_shutdown', compact(['model']));
-                echo $this->render('_boot-live', compact(['model', 'osimageslivecd']));
+                    echo $this->render('_reboot', compact(['model']));
+                    echo $this->render('_shutdown', compact(['model']));
+                    if ($model->isLiveCDSupported()) {
+                        echo $this->render('_boot-live', compact(['model', 'osimageslivecd']));
+                    }
                 $box->endBody();
                 $box->end();
                 ?>
@@ -120,6 +128,7 @@ $this->breadcrumbs->setItems([
             </div>
         </div>
     </div>
+    <?php Pjax::end() ?>
 </div>
 
 <?php

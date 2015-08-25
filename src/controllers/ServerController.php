@@ -20,36 +20,31 @@ use yii\web\NotFoundHttpException;
 
 class ServerController extends CrudController
 {
-    public function behaviors()
-    {
-        return [];
-    }
-
     public function actions()
     {
         return [
-            'index'          => [
+            'index' => [
                 'class' => 'hipanel\actions\IndexAction',
-                'data'  => function ($action) {
+                'data' => function ($action) {
                     return [
                         'osimages' => $action->controller->getOsimages(),
-                        'states'   => $action->controller->getStates()
+                        'states' => $action->controller->getStates()
                     ];
                 }
             ],
-            'view'           => [
-                'class'       => 'hipanel\actions\ViewAction',
+            'view' => [
+                'class' => 'hipanel\actions\ViewAction',
                 'findOptions' => ['with_dns' => 1],
-                'data'        => function ($action, $id) {
+                'data' => function ($action, $id) {
                     $controller = $action->controller;
 
-                    $model      = $action->getModel();
+                    $model = $action->getModel();
                     $model->vnc = $controller->getVNCInfo($model);
 
-                    $osimages         = $controller->getOsimages();
-                    $osimageslivecd   = $controller->getOsimagesLiveCd();
+                    $osimages = $controller->getOsimages();
+                    $osimageslivecd = $controller->getOsimagesLiveCd();
                     $grouped_osimages = $controller->getGroupedOsimages($osimages);
-                    $panels           = $controller->getPanelTypes();
+                    $panels = $controller->getPanelTypes();
 
                     return compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels');
                 },
@@ -58,26 +53,26 @@ class ServerController extends CrudController
                 'class' => RequestStateAction::className(),
                 'model' => Server::className()
             ],
-            'set-note'       => [
-                'class'   => 'hipanel\actions\SmartUpdateAction',
+            'set-note' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => Yii::t('app', 'Note changed'),
-                'error'   => Yii::t('app', 'Failed change note'),
+                'error' => Yii::t('app', 'Failed change note'),
             ],
-            'set-lock'       => [
-                'class'     => 'hipanel\actions\SwitchAction',
-                'success'   => Yii::t('app', 'Record was changed'),
-                'error'     => Yii::t('app', 'Error occurred!'),
+            'set-lock' => [
+                'class' => 'hipanel\actions\SwitchAction',
+                'success' => Yii::t('app', 'Record was changed'),
+                'error' => Yii::t('app', 'Error occurred!'),
                 'POST pjax' => [
-                    'save'    => true,
+                    'save' => true,
                     'success' => [
-                        'class'  => 'hipanel\actions\ProxyAction',
+                        'class' => 'hipanel\actions\ProxyAction',
                         'action' => 'index'
                     ]
                 ],
-                'POST'      => [
-                    'save'    => true,
+                'POST' => [
+                    'save' => true,
                     'success' => [
-                        'class'  => 'hipanel\actions\RenderJsonAction',
+                        'class' => 'hipanel\actions\RenderJsonAction',
                         'return' => function ($action) {
                             /** @var \hipanel\actions\Action $action */
                             return $action->collection->models;
@@ -85,50 +80,70 @@ class ServerController extends CrudController
                     ]
                 ],
             ],
-            'enable-vnc'     => [
+            'enable-vnc' => [
                 'class' => 'hipanel\actions\ViewAction',
-                'data'  => function ($action, $id) {
+                'data' => function ($action, $id) {
                     $model = $action->getModel();
                     $model->checkOperable();
                     $model->vnc = $action->controller->getVNCInfo($model, true);
                     return [];
                 }
             ],
-            'reboot'         => [
-                'class'   => 'hipanel\actions\SmartUpdateAction',
+            'reboot' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Reboot task has been successfully added to queue',
-                'error'   => 'Error while rebooting',
+                'error' => 'Error while rebooting',
             ],
-            'reset'          => [
-                'class'   => 'hipanel\actions\SmartUpdateAction',
+            'reset' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Reset task has been successfully added to queue',
-                'error'   => 'Error while resetting',
+                'error' => 'Error while resetting',
             ],
-            'shutdown'       => [
-                'class'   => 'hipanel\actions\SmartUpdateAction',
+            'shutdown' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Shutdown task has been successfully added to queue',
-                'error'   => 'Error while shutting down',
+                'error' => 'Error while shutting down',
             ],
-            'power-off'      => [
-                'class'   => 'hipanel\actions\SmartUpdateAction',
+            'power-off' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Power off task has been successfully added to queue',
-                'error'   => 'Error while turning power off',
+                'error' => 'Error while turning power off',
             ],
-            'power-on'       => [
-                'class'   => 'hipanel\actions\SmartUpdateAction',
+            'power-on' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Power on task has been successfully added to queue',
-                'error'   => 'Error while turning power on',
+                'error' => 'Error while turning power on',
+            ],
+            'reset-password' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => 'Root password reset task has been successfully added to queue',
+                'error' => 'Error while resetting root password',
+            ],
+            'reinstall' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'beforeSave' => function ($action) {
+                    foreach ($action->collection->models as $model) {
+                        $model->osmage = Yii::$app->request->post('osimage');
+                        $model->panel = Yii::$app->request->post('panel');
+                    }
+                },
+                'success' => 'Server reinstalling task has been successfully added to queue',
+                'error' => 'Error while server reinstalling',
+            ],
+            'boot-live' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'beforeSave' => function ($action) {
+                    foreach ($action->collection->models as $model) {
+                        $model->osmage = Yii::$app->request->post('osimage');
+                    }
+                },
+                'errorMessage' => 'Error while booting live CD',
+                'successMessage' => 'Live CD booting task has been successfully added to queue',
             ],
             'buy' => [
                 'class' => 'hipanel\actions\RedirectAction',
-                'url'   => Yii::$app->params['orgUrl'],
+                'url' => Yii::$app->params['orgUrl'],
             ],
-//            'reboot'         => [
-//                'class' => 'hipanel\actions\SmartUpdateAction'
-//            ],
-//            'reboot'         => [
-//                'class' => 'hipanel\actions\SmartUpdateAction'
-//            ],
         ];
     }
 
@@ -146,46 +161,11 @@ class ServerController extends CrudController
         $vnc['endTime'] = strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC']));
         if (($vnc['endTime'] > time() || $enable) && $model->isOperable()) {
             $vnc['enabled'] = true;
-            $vnc            = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
+            $vnc = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
         }
 
         return $vnc;
     }
-
-//    public function actionReinstall ($id) {
-//        return $this->operate([
-//            'id'             => $id,
-//            'params'         => function ($model) {
-//                return [
-//                    'id'      => $model->id,
-//                    'osimage' => \Yii::$app->request->post('osimage'),
-//                    'panel'   => \Yii::$app->request->post('panel')
-//                ];
-//            },
-//            'action'         => 'Resetup',
-//            'errorMessage'   => 'Error while server re-intalling',
-//            'successMessage' => 'Server reinstalling task has been successfully added to queue',
-//        ]);
-//    }
-//    public function actionBootLive ($id, $osimage) {
-//        return $this->operate([
-//            'id'             => $id,
-//            'params'         => function ($model) use ($osimage) {
-//                return ['id' => $model->id, 'osimage' => $osimage];
-//            },
-//            'action'         => 'BootLive',
-//            'errorMessage'   => 'Error while booting live CD',
-//            'successMessage' => 'Live CD booting task has been successfully added to queue',
-//        ]);
-//    }
-//    public function actionRegenRootPassword ($id) {
-//        return $this->operate([
-//            'id'             => $id,
-//            'action'         => 'RegenRootPassword',
-//            'errorMessage'   => 'Error while password regeneration',
-//            'successMessage' => 'Password regenerating task has been successfully added to queue',
-//        ]);
-//    }
 
     protected function getOsimages()
     {
@@ -219,7 +199,7 @@ class ServerController extends CrudController
     public function actionList($search = '', $id = null)
     {
         $data = Server::find()->where(['server_like' => $search, 'ids' => $id])->getList();
-        $res  = [];
+        $res = [];
         foreach ($data as $key => $item) {
             $res[] = ['id' => $key, 'text' => $item];
         }
@@ -242,28 +222,28 @@ class ServerController extends CrudController
         $isp = 1; /// TODO: temporary enabled for all tariff. Redo with check of tariff resources
 
         $softpacks = [];
-        $oses      = [];
-        $vendors   = [];
+        $oses = [];
+        $vendors = [];
         foreach ($images as $image) {
             /** @var Osimage $image */
-            $os            = $image->os;
-            $name          = $image->getFullOsName();
-            $panel         = $image->getPanelName();
-            $system        = $image->getFullOsName('');
+            $os = $image->os;
+            $name = $image->getFullOsName();
+            $panel = $image->getPanelName();
+            $system = $image->getFullOsName('');
             $softpack_name = $image->getSoftPackName();
-            $softpack      = $image->getSoftPack();
+            $softpack = $image->getSoftPack();
 
             if (!array_key_exists($system, $oses)) {
-                $vendors[$os]['name']          = $os;
+                $vendors[$os]['name'] = $os;
                 $vendors[$os]['oses'][$system] = $name;
-                $oses[$system]                 = ['vendor' => $os, 'name' => $name];
+                $oses[$system] = ['vendor' => $os, 'name' => $name];
             }
 
             if ($panel != 'isp' || ($panel == 'isp' && $isp)) {
                 $data = [
-                    'name'        => $softpack_name,
+                    'name' => $softpack_name,
                     'description' => preg_replace('/^ISPmanager - /', '', $softpack['description']),
-                    'osimage'     => $image->osimage
+                    'osimage' => $image->osimage
                 ];
 
                 if ($softpack['soft']) {
@@ -271,17 +251,17 @@ class ServerController extends CrudController
                     foreach ($softpack['soft'] as $soft => $soft_info) {
                         $soft_info['description'] = preg_replace('/,([^\s])/', ', $1', $soft_info['description']);
 
-                        $html_desc[]         = "<b>{$soft_info['name']} {$soft_info['version']}</b>: <i>{$soft_info['description']}</i>";
+                        $html_desc[] = "<b>{$soft_info['name']} {$soft_info['version']}</b>: <i>{$soft_info['description']}</i>";
                         $data['soft'][$soft] = [
-                            'name'        => $soft_info['name'],
-                            'version'     => $soft_info['version'],
+                            'name' => $soft_info['name'],
+                            'version' => $soft_info['version'],
                             'description' => $soft_info['description']
                         ];
                     }
                     $data['html_desc'] = implode("<br>", $html_desc);
                 }
                 $oses[$system]['panel'][$panel]['softpack'][$softpack_name] = $data;
-                $softpacks[$panel][$softpack_name]                          = $data;
+                $softpacks[$panel][$softpack_name] = $data;
             } else {
                 $oses[$system]['panel'][$panel] = false;
             }

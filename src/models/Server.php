@@ -7,6 +7,8 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\validators\EidValidator;
+use hipanel\validators\RefValidator;
 use Yii;
 use yii\base\NotSupportedException;
 
@@ -28,9 +30,11 @@ class Server extends \hipanel\base\Model
     public function rules()
     {
         return [
+            [['id'], 'integer'],
+            [['osimage'], EidValidator::className()],
+            [['panel'], RefValidator::className()],
             [
                 [
-                    'id',
                     'name',
                     'seller',
                     'seller_id',
@@ -54,7 +58,6 @@ class Server extends \hipanel\base\Model
                     'ip',
                     'ips',
                     'os',
-                    'osimage',
                     'rcp',
                     'vnc',
                     'statuses',
@@ -74,26 +77,22 @@ class Server extends \hipanel\base\Model
                     'power-off',
                     'power-on',
                     'boot-live',
-                    'regen-root-password'
+                    'regen-root-password',
+                    'reset-password',
                 ]
             ],
             [['id', 'note'], 'required', 'on' => ['set-note']],
+            [['id'], 'required', 'on' => ['enable-vnc']],
+            [['id', 'osimage', 'panel'], 'required', 'on' => ['reinstall']],
+            [['id', 'osimage'], 'required', 'on' => ['boot-live']],
         ];
     }
 
-//    public function scenarios () {
-//        return [
-//            'reinstall'           => ['id', 'osimage', 'panel'],
-//            'boot-live'           => ['id', 'osimage'],
-//            'reboot'              => ['id'],
-//            'reset'               => ['id'],
-//            'shutdown'            => ['id'],
-//            'power-off'           => ['id'],
-//            'power-on'            => ['id'],
-//            'regen-root-password' => ['id'],
-//        ];
-//    }
-
+    /**
+     * Determine good server states
+     *
+     * @return array
+     */
     public function goodStates()
     {
         return ['ok', 'disabled'];
@@ -104,7 +103,6 @@ class Server extends \hipanel\base\Model
      */
     public function isOperable()
     {
-        /// TODO: all is operable for admin
         if ($this->running_task || !in_array($this->state, $this->goodStates())) {
             return false;
         }
@@ -112,7 +110,7 @@ class Server extends \hipanel\base\Model
     }
 
     /**
-     * Returns true, if server supports VNC
+     * Checks whether server supports VNC
      *
      * @return bool
      */
@@ -121,19 +119,32 @@ class Server extends \hipanel\base\Model
         return $this->type != 'ovds';
     }
 
+    /**
+     * Checks whether server supports root password change
+     *
+     * @return bool
+     */
     public function isPwChangeSupported()
     {
         return $this->type == 'ovds';
     }
 
+    /**
+     * Checks whether server supports LiveCD
+     *
+     * @return bool
+     */
     public function isLiveCDSupported()
     {
         return $this->type != 'ovds';
     }
 
     /**
+     * Checks whether server can be operated not
+     *
      * @return bool
      * @throws NotSupportedException
+     * @see isOperable()
      */
     public function checkOperable()
     {
@@ -149,7 +160,8 @@ class Server extends \hipanel\base\Model
     public function scenarioCommands()
     {
         return [
-            'reinstall' => 'resetup'
+            'reinstall' => 'resetup',
+            'reset-password' => 'regenRootPassword',
         ];
     }
 
