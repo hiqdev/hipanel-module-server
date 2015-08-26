@@ -61,24 +61,26 @@ ModalButton::begin([
                             <h4 class="list-group-item-heading"><?= Yii::t('app', $panel_name) ?></h4>
 
                             <div class="list-group-item-text">
-                                <?php foreach ($grouped_osimages['softpacks'][$panel] as $softpack) { ?>
-                                    <div class="radio">
-                                        <label>
-                                            <?= Html::radio('panel_soft', false, [
-                                                'data'  => [
-                                                    'panel-soft' => 'soft',
-                                                    'panel'      => $panel
-                                                ],
-                                                'value' => $softpack['name']
-                                            ]) ?>
-                                            <strong><?= $softpack['name'] ?></strong>
-                                            <small style="font-weight: normal"><?= $softpack['description'] ?></small>
-                                            <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
+                                <?php if (is_array($grouped_osimages['softpacks'][$panel])) {
+                                    foreach ($grouped_osimages['softpacks'][$panel] as $softpack) { ?>
+                                        <div class="radio">
+                                            <label>
+                                                <?= Html::radio('panel_soft', false, [
+                                                    'data'  => [
+                                                        'panel-soft' => 'soft',
+                                                        'panel'      => $panel
+                                                    ],
+                                                    'value' => $softpack['name']
+                                                ]) ?>
+                                                <strong><?= $softpack['name'] ?></strong>
+                                                <small style="font-weight: normal"><?= $softpack['description'] ?></small>
+                                                <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
 
-                                            <div class="soft-desc" style="display: none;"></div>
-                                        </label>
-                                    </div>
-                                <?php } ?>
+                                                <div class="soft-desc" style="display: none;"></div>
+                                            </label>
+                                        </div>
+                                    <?php }
+                                } ?>
                             </div>
                         </div>
                     <?php } ?>

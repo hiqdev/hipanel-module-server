@@ -7,6 +7,7 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\helpers\Url;
 use hipanel\widgets\ArraySpoiler;
 use Yii;
 use hipanel\grid\ActionColumn;
@@ -16,6 +17,7 @@ use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\State;
+use yii\helpers\Html;
 
 class ServerGridView extends \hipanel\grid\BoxedGridView
 {
@@ -29,22 +31,34 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         static::$osImages = $osImages;
     }
 
+    public static function formatTariff($model) {
+        if (Yii::$app->user->can('support')) {
+            if ($model->parent_tariff && $model->parent_tariff !== $model->tariff) {
+                return Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => "tooltip"]);
+            } else {
+                return $model->tariff;
+            }
+        } else {
+            return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
+        }
+    }
+
     public static function defaultColumns()
     {
         $osImages = self::$osImages;
 
         return [
-            'server'       => [
-                'class'           => MainColumn::className(),
-                'attribute'       => 'name',
+            'server' => [
+                'class' => MainColumn::className(),
+                'attribute' => 'name',
                 'filterAttribute' => 'name_like',
-                'note'            => true
+                'note' => true
             ],
-            'state'        => [
-                'class'  => RefColumn::className(),
+            'state' => [
+                'class' => RefColumn::className(),
                 'format' => 'raw',
-                'gtype'  => 'state,device',
-                'value'  => function ($model) {
+                'gtype' => 'state,device',
+                'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
                         $html .= ' ' . Yii::t('app', 'since') . ' ' . Yii::$app->formatter->asDate($model->status_time);
@@ -52,77 +66,105 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return $html;
                 },
             ],
-            'panel'        => [
-                'attribute'      => 'panel',
-                'format'         => 'text',
+            'panel' => [
+                'attribute' => 'panel',
+                'format' => 'text',
                 'contentOptions' => ['class' => 'text-uppercase'],
-                'value'          => function ($model) {
-                    return $model->panel ?: '';
+                'value' => function ($model) {
+                    return $model->panel ?: Yii::t('app', 'No control panel');
                 }
             ],
-            'os'           => [
+            'os' => [
                 'attribute' => 'os',
-                'format'    => 'raw',
-                'value'     => function ($model) use ($osImages) {
+                'format' => 'raw',
+                'value' => function ($model) use ($osImages) {
                     return OSFormatter::widget([
-                        'osimages'  => $osImages,
+                        'osimages' => $osImages,
                         'imageName' => $model->osimage
                     ]);
                 }
             ],
             'os_and_panel' => [
+                'attribute' => 'os',
                 'format' => 'raw',
-                'value'  => function ($model) use ($osImages) {
+                'value' => function ($model) use ($osImages) {
                     $html = OSFormatter::widget([
-                        'osimages'  => $osImages,
+                        'osimages' => $osImages,
                         'imageName' => $model->osimage
                     ]);
                     $html .= ' ' . $model->panel ?: '';
                     return $html;
                 }
             ],
-            'discount'     => [
-                'attribute'     => 'discount',
-                'format'        => 'raw',
-                'headerOptions' => ['style' => 'width: 1em'],
-                'value'         => function ($model) {
-                    return DiscountFormatter::widget([
+            'tariff_and_discount' => [
+                'attribute' => 'tariff',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return self::formatTariff($model) . ' ' . DiscountFormatter::widget([
                         'current' => $model->discounts['fee']['current'],
-                        'next'    => $model->discounts['fee']['next'],
+                        'next' => $model->discounts['fee']['next'],
                     ]);
                 }
             ],
-            'actions'      => [
-                'class'    => ActionColumn::className(),
-                'template' => '{view}',
-                'header'   => Yii::t('app', 'Actions'),
-            ],
-            'expires'      => [
-                'filter'        => false,
-                'format'        => 'raw',
+            'discount' => [
+                'attribute' => 'discount',
+                'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
-                'value'         => function ($model) {
+                'value' => function ($model) {
+                    return DiscountFormatter::widget([
+                        'current' => $model->discounts['fee']['current'],
+                        'next' => $model->discounts['fee']['next'],
+                    ]);
+                }
+            ],
+            'actions' => [
+                'class' => ActionColumn::className(),
+                'template' => '{view}',
+                'header' => Yii::t('app', 'Actions'),
+            ],
+            'expires' => [
+                'filter' => false,
+                'format' => 'raw',
+                'headerOptions' => ['style' => 'width: 1em'],
+                'value' => function ($model) {
                     return Expires::widget(compact('model'));
                 },
             ],
-            'tariff'       => [
+            'tariff' => [
+                'format' => 'raw',
                 'attribute' => 'tariff',
+                'value'=> function ($model) {
+                    return self::formatTariff($model);
+                }
             ],
-            'tariff_note'  => [
-                'attribute' => 'tariff_note'
+            'tariff_note' => [
+                'attribute' => 'tariff_note',
+                'value' => function ($model) {
+
+                }
             ],
-            'ips'          => [
+            'ips' => [
+                'format' => 'raw',
                 'attribute' => 'ips',
-                'format'    => 'raw',
-                'value'     => function ($model) {
+                'value' => function ($model) {
                     return ArraySpoiler::widget([
-                        'data' => $model->ips
+                        'data' => $model->ips,
+                        'delimiter' => '<br />',
+                        'visibleCount' => 3,
+                        'popoverOptions' => ['html' => true],
                     ]);
                 }
             ],
-            'sale_time'    => [
+            'sale_time' => [
                 'attribute' => 'sale_time',
-                'format'    => 'date',
+                'format' => 'date',
+            ],
+            'note' => [
+                'class' => 'hiqdev\xeditable\grid\XEditableColumn',
+                'pluginOptions' => [
+                    'emptytext' => Yii::t('app', 'set note'),
+                    'url'       => Url::to('set-note')
+                ]
             ]
         ];
     }

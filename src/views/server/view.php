@@ -65,7 +65,7 @@ $this->breadcrumbs->setItems([
                                 'client_id', 'seller_id', 'note',
                                 ['attribute' => 'name'],
                                 'state', 'ips', 'os', 'panel', 'tariff',
-                                'tariff_note', 'sale_time', 'discounts',
+                                'tariff_note', 'sale_time', 'discount',
                                 'expires',
                             ],
                         ]);

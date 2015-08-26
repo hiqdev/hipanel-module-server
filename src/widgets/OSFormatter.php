@@ -18,10 +18,13 @@ use yii\helpers\Html;
  */
 class OSFormatter extends Widget
 {
-    public $osimages;
+    /**
+     * @var array array of OsImages models
+     */
+    public $osimages = [];
 
     /**
-     * @var \frontend\modules\server\models\Osimage
+     * @var Osimage model
      */
     public $osimage;
 
@@ -37,10 +40,13 @@ class OSFormatter extends Widget
 
     public function init () {
         parent::init();
-        foreach ($this->osimages as $osimage) {
-            if ($osimage->osimage == $this->imageName) {
-                $this->osimage = $osimage;
-                break;
+
+        if (is_array($this->osimages)) {
+            foreach ($this->osimages as $osimage) {
+                if ($osimage->osimage == $this->imageName) {
+                    $this->osimage = $osimage;
+                    break;
+                }
             }
         }
     }

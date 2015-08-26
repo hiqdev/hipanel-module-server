@@ -1,6 +1,7 @@
 <?php
 namespace hipanel\modules\server\widgets;
 
+use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 
@@ -10,12 +11,8 @@ use yii\helpers\Html;
  *
  * @package app\modules\server\widgets
  */
-class DiscountFormatter extends Widget {
-    /**
-     * @var string Tag name to be created
-     */
-    public $tagName = 'button';
-
+class DiscountFormatter extends Widget
+{
     /**
      * @var float|string Current discount
      */
@@ -26,22 +23,23 @@ class DiscountFormatter extends Widget {
      */
     public $next;
 
-    public function init () {
+    public function init()
+    {
         parent::init();
         $this->current = floatval($this->current);
-        $this->next    = floatval($this->next);
+        $this->next = floatval($this->next);
     }
 
-    public function run () {
+    public function run()
+    {
         $this->getView()->registerJs("$('.discount-popover').popover();", \yii\web\View::POS_READY, 'discount-popover');
 
-        return Html::tag($this->tagName,
-            \Yii::$app->formatter->asPercent($this->current/100),
-            [
-                'title'        => \Yii::t('app', 'Next discount'),
-                'class'        => 'btn btn-default btn-xs discount-popover',
-                'data-trigger' => 'focus',
-                'data-content' => \Yii::$app->formatter->asPercent($this->next/100),
-            ]);
+        return Html::a(Yii::$app->formatter->asPercent($this->current / 100), '#', [
+            'onClick' => 'return false',
+            'title' => Yii::t('app', 'Next discount'),
+            'class' => 'btn btn-default btn-xs discount-popover',
+            'data-trigger' => 'focus',
+            'data-content' => Yii::$app->formatter->asPercent($this->next / 100),
+        ]);
     }
 }

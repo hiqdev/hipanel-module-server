@@ -81,7 +81,7 @@ class Server extends \hipanel\base\Model
                     'reset-password',
                 ]
             ],
-            [['id', 'note'], 'required', 'on' => ['set-note']],
+            [['id'], 'required', 'on' => ['set-note']],
             [['id'], 'required', 'on' => ['enable-vnc']],
             [['id', 'osimage', 'panel'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
@@ -163,6 +163,10 @@ class Server extends \hipanel\base\Model
             'reinstall' => 'resetup',
             'reset-password' => 'regenRootPassword',
         ];
+    }
+
+    public function getTariff() {
+
     }
 
     /**

@@ -90,13 +90,12 @@ print ServerGridView::widget([
         'checkbox',
         'server',
         'client',
-        'seller' => [
-            'class' => 'hipanel\modules\client\grid\SellerColumn',
-            'enableSorting' => false,
-        ],
+        'seller',
+        'ips',
+        'os_and_panel',
         'state',
         'expires',
-        'discount',
+        'tariff_and_discount',
         'actions',
     ]
 ]);
