@@ -3,6 +3,15 @@ hiqdev/hipanel-module-server commits history
 
 ## Under development
 
+- Fixed access control
+    - 7855150 2015-08-26 fixed access control (sol@hiqdev.com)
+- Fixed php warnings
+    - 4ce7c81 2015-08-25 minor] (d.naumenko.a@gmail.com)
+    - 12ad378 2015-08-25 Fix warnings (andreyklochok@gmail.com)
+- Fixed reset-password and reinstal,
+    - e767c21 2015-08-25 ServerController - fixed reset-password, reinstal, other minor (d.naumenko.a@gmail.com)
+    - 96d66fd 2015-08-19 Index page redone with actual standarts (d.naumenko.a@gmail.com)
+    - 09d4ca0 2015-08-19 ServerColumn - fixed Combo call (d.naumenko.a@gmail.com)
 - Changed: hideved
     - 2516278 2015-08-19 hideved (sol@hiqdev.com)
 - Added server/buy redirect

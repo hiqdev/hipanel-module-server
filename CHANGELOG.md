@@ -3,6 +3,9 @@ hiqdev/hipanel-module-server changelog
 
 ## Under development
 
+- Fixed access control
+- Fixed php warnings
+- Fixed reset-password and reinstal,
 - Changed: hideved
 - Added server/buy redirect
 - Fixed many things for first release
