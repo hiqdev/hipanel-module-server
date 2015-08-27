@@ -59,6 +59,7 @@ class Server extends \hipanel\base\Model
                     'statuses',
                     'running_task',
                     'note',
+                    'label',
                 ],
                 'safe'
             ],
@@ -78,7 +79,7 @@ class Server extends \hipanel\base\Model
                     'reset-password',
                 ]
             ],
-            [['id'], 'required', 'on' => ['set-note']],
+            [['id'], 'required', 'on' => ['set-note', 'set-label']],
             [['id'], 'required', 'on' => ['enable-vnc']],
             [['id'], 'required', 'on' => ['enable-autorenewal']],
             [['id'], 'required', 'on' => ['refuse']],
@@ -196,6 +197,7 @@ class Server extends \hipanel\base\Model
             'block_reason_label'  => Yii::t('app', 'Block reason label'),
             'request_state_label' => Yii::t('app', 'Request state label'),
             'ips'                 => Yii::t('app', 'IP addresses'),
+            'label'               => Yii::t('app', 'Internal note'),
         ]);
     }
 }

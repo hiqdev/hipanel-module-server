@@ -54,12 +54,17 @@ class ServerController extends CrudController
             'set-note' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => Yii::t('app', 'Note changed'),
-                'error' => Yii::t('app', 'Failed change note'),
+                'error' => Yii::t('app', 'Failed to change note'),
+            ],
+            'set-label' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => Yii::t('app', 'Internal note changed'),
+                'error' => Yii::t('app', 'Failed to change internal note'),
             ],
             'set-lock' => [
                 'class' => 'hipanel\actions\SwitchAction',
                 'success' => Yii::t('app', 'Record was changed'),
-                'error' => Yii::t('app', 'Error occurred!'),
+                'error' => Yii::t('app', 'Error occurred'),
                 'POST pjax' => [
                     'save' => true,
                     'success' => [

@@ -62,7 +62,7 @@ $this->breadcrumbs->setItems([
                             'boxed'   => false,
                             'model'   => $model,
                             'columns' => [
-                                'client_id', 'seller_id', 'note',
+                                'client_id', 'seller_id', 'note', 'label',
                                 ['attribute' => 'name'],
                                 'state', 'ips', 'os', 'panel'
                             ],

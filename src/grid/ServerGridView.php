@@ -52,7 +52,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'class' => MainColumn::className(),
                 'attribute' => 'name',
                 'filterAttribute' => 'name_like',
-                'note' => true
+                'note' => Yii::$app->user->can('support') ? 'label' : 'note',
+                'noteOptions' => [
+                    'url' => Yii::$app->user->can('support') ? Url::to('set-label') : Url::to('set-note'),
+                ]
             ],
             'state' => [
                 'class' => RefColumn::className(),
@@ -165,6 +168,14 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     'emptytext' => Yii::t('app', 'set note'),
                     'url'       => Url::to('set-note')
                 ]
+            ],
+            'label' => [
+                'class' => 'hiqdev\xeditable\grid\XEditableColumn',
+                'visible' => Yii::$app->user->can('support'),
+                'pluginOptions' => [
+                    'emptytext' => Yii::t('app', 'set internal note'),
+                    'url'       => Url::to('set-label')
+                ],
             ]
         ];
     }
