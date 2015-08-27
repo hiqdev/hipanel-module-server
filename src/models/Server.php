@@ -14,7 +14,6 @@ use yii\base\NotSupportedException;
 
 class Server extends \hipanel\base\Model
 {
-
     use \hipanel\base\ModelTrait;
 
     /**
@@ -48,12 +47,9 @@ class Server extends \hipanel\base\Model
                     'request_state',
                     'request_state_label',
                     'state_label',
-                    'status_time',
-                    'sale_time',
                     'autorenewal',
                     'state',
                     'type',
-                    'expires',
                     'block_reason_label',
                     'ip',
                     'ips',
@@ -62,10 +58,11 @@ class Server extends \hipanel\base\Model
                     'vnc',
                     'statuses',
                     'running_task',
-                    'note'
+                    'note',
                 ],
                 'safe'
             ],
+            [['last_expires', 'expires', 'status_time', 'sale_time'], 'date'],
             [
                 ['state'],
                 'isOperable',
@@ -83,6 +80,8 @@ class Server extends \hipanel\base\Model
             ],
             [['id'], 'required', 'on' => ['set-note']],
             [['id'], 'required', 'on' => ['enable-vnc']],
+            [['id'], 'required', 'on' => ['enable-autorenewal']],
+            [['id'], 'required', 'on' => ['refuse']],
             [['id', 'osimage', 'panel'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
         ];
@@ -165,8 +164,13 @@ class Server extends \hipanel\base\Model
         ];
     }
 
-    public function getTariff() {
-
+    /**
+     * During 5 days after the last expiration client is able to refuse server with full refund.
+     * Method checks, whether 5 days passed.
+     * @return bool
+     */
+    public function canFullRefuse() {
+        return (time() - strtotime($this->last_expires)) / 3600 / 24 < 5;
     }
 
     /**

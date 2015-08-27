@@ -117,6 +117,16 @@ class ServerController extends CrudController
                 'success' => 'Root password reset task has been successfully added to queue',
                 'error' => 'Error while resetting root password',
             ],
+            'refuse' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => 'You have refused the service',
+                'error' => 'Error while refusing the service',
+            ],
+            'enable-autorenewal' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => 'Server renewal enabled successfully',
+                'error' => 'Error while renewing the service',
+            ],
             'reinstall' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'beforeSave' => function ($action) {

@@ -64,15 +64,38 @@ $this->breadcrumbs->setItems([
                             'columns' => [
                                 'client_id', 'seller_id', 'note',
                                 ['attribute' => 'name'],
-                                'state', 'ips', 'os', 'panel', 'tariff',
-                                'tariff_note', 'sale_time', 'discount',
-                                'expires',
+                                'state', 'ips', 'os', 'panel'
                             ],
                         ]);
                     $box->endBody();
                 $box->end();
                 ?>
             </div>
+        </div>
+        <div class="row">
+            <?php Pjax::begin(['enablePushState' => false]) ?>
+            <div class="col-md-12">
+                <?php
+                $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
+                        echo $box->renderTitle(Yii::t('app', 'Financial information'));
+                    $box->endHeader();
+                    $box->beginBody();
+                        echo ServerGridView::detailView([
+                            'boxed'   => false,
+                            'model'   => $model,
+                            'columns' => [
+                                'tariff', 'tariff_note', 'sale_time', 'discount', 'expires',
+                            ],
+                        ]);
+                    $box->endBody();
+                    $box->beginFooter();
+                        echo $this->render('_refuse', compact(['model']));
+                    $box->endFooter();
+                $box->end();
+                ?>
+            </div>
+            <?php Pjax::end() ?>
         </div>
     </div>
     <?php Pjax::begin(['enablePushState' => false]) ?>
