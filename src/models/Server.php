@@ -29,16 +29,14 @@ class Server extends \hipanel\base\Model
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'tariff_id', 'client_id', 'seller_id'], 'integer'],
             [['osimage'], EidValidator::className()],
             [['panel'], RefValidator::className()],
             [
                 [
                     'name',
                     'seller',
-                    'seller_id',
                     'client',
-                    'client_id',
                     'panel',
                     'parent_tariff',
                     'tariff',
@@ -171,7 +169,7 @@ class Server extends \hipanel\base\Model
      * @return bool
      */
     public function canFullRefuse() {
-        return (time() - strtotime($this->last_expires)) / 3600 / 24 < 5;
+        return (time() - Yii::$app->formatter->asTimestamp($this->last_expires)) / 3600 / 24 < 5;
     }
 
     /**

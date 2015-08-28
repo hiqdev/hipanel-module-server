@@ -25,7 +25,7 @@ use hipanel\widgets\ModalButton;
             if ($model->canFullRefuse()) {
                 return Yii::t('app', 'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!');
             } else {
-                return Yii::t('app', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', strtotime($model->expires));
+                return Yii::t('app', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
             }
         }
     ]);

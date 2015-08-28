@@ -9,7 +9,9 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\RequestStateAction;
 use hipanel\base\CrudController;
+use hipanel\base\Model;
 use hipanel\models\Ref;
+use hipanel\modules\finance\controllers\TariffController;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use Yii;
@@ -23,26 +25,37 @@ class ServerController extends CrudController
         return [
             'index' => [
                 'class' => 'hipanel\actions\IndexAction',
+                'findOptions' => ['with_requests' => true, 'with_discounts' => true],
                 'data' => function ($action) {
                     return [
-                        'osimages' => $action->controller->getOsimages(),
                         'states' => $action->controller->getStates()
                     ];
                 }
             ],
             'view' => [
                 'class' => 'hipanel\actions\ViewAction',
-                'findOptions' => ['with_dns' => 1],
+                'findOptions' => ['with_requests' => true, 'show_deleted' => true, 'with_discounts' => true],
                 'data' => function ($action, $id) {
                     $controller = $action->controller;
 
                     $model = $action->getModel();
                     $model->vnc = $controller->getVNCInfo($model);
 
-                    $osimages = $controller->getOsimages();
-                    $osimageslivecd = $controller->getOsimagesLiveCd();
-                    $grouped_osimages = $controller->getGroupedOsimages($osimages);
                     $panels = $controller->getPanelTypes();
+//                    $tariff = TariffController::findModel([
+//                        'id' => $model->tariff_id,
+//                        'show_final' => true,
+//                        'show_deleted' => true
+//                    ]);
+//                    $ispSupported = $tariff['resources']['isp']['quantity'];
+                    $ispSupported = 1; /// TODO: temporary enabled for all tariff. Redo after stock DBs renaming
+                    
+                    $osimages = $controller->getOsimages($model);
+                    $grouped_osimages = $controller->getGroupedOsimages($osimages, $ispSupported);
+
+                    if ($model->isLiveCDSupported()) {
+                        $osimageslivecd = $controller->getOsimagesLiveCd();
+                    }
 
                     return compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels');
                 },
@@ -179,9 +192,21 @@ class ServerController extends CrudController
         return $vnc;
     }
 
-    protected function getOsimages()
+    /**
+     * Gets OS images
+     *
+     * @param Server $model
+     * @return array
+     * @throws NotFoundHttpException
+     */
+    protected function getOsimages(Server $model = null)
     {
-        if (($models = Osimage::find()->all()) !== null) {
+        $condition = [];
+        if ($model !== null) {
+            $condition['type'] = $model->type;
+        }
+
+        if (($models = Osimage::find()->where($condition)->all()) !== null) {
             return $models;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
@@ -226,13 +251,11 @@ class ServerController extends CrudController
      * Generates array of osimages data, grouped by different fields to display on the website
      *
      * @param $images Array of osimages models to be proceed
-     *
+     * @param bool $ispSupported
      * @return array
      */
-    protected function getGroupedOsimages($images)
+    protected function getGroupedOsimages($images, $ispSupported = false)
     {
-        $isp = 1; /// TODO: temporary enabled for all tariff. Redo with check of tariff resources
-
         $softpacks = [];
         $oses = [];
         $vendors = [];
@@ -251,7 +274,7 @@ class ServerController extends CrudController
                 $oses[$system] = ['vendor' => $os, 'name' => $name];
             }
 
-            if ($panel != 'isp' || ($panel == 'isp' && $isp)) {
+            if ($panel != 'isp' || ($panel == 'isp' && $ispSupported)) {
                 $data = [
                     'name' => $softpack_name,
                     'description' => preg_replace('/^ISPmanager - /', '', $softpack['description']),
