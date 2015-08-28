@@ -49,7 +49,7 @@ class ServerController extends CrudController
 //                    ]);
 //                    $ispSupported = $tariff['resources']['isp']['quantity'];
                     $ispSupported = 1; /// TODO: temporary enabled for all tariff. Redo after stock DBs renaming
-                    
+
                     $osimages = $controller->getOsimages($model);
                     $grouped_osimages = $controller->getGroupedOsimages($osimages, $ispSupported);
 

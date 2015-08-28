@@ -61,6 +61,9 @@ $this->breadcrumbs->setItems([
                         echo ServerGridView::detailView([
                             'boxed'   => false,
                             'model'   => $model,
+                            'gridOptions' => [
+                                'osImages' => $osimages,
+                            ],
                             'columns' => [
                                 'client_id', 'seller_id', 'note', 'label',
                                 ['attribute' => 'name'],

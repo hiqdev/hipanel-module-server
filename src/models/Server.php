@@ -196,6 +196,7 @@ class Server extends \hipanel\base\Model
             'request_state_label' => Yii::t('app', 'Request state label'),
             'ips'                 => Yii::t('app', 'IP addresses'),
             'label'               => Yii::t('app', 'Internal note'),
+            'os'                  => Yii::t('app', 'OS'),
         ]);
     }
 }

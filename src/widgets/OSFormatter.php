@@ -93,6 +93,8 @@ class OSFormatter extends Widget
 
         echo $this->osimage->getFullOsName();
         echo "&nbsp;";
-        if ($this->osimage->hasSoftPack() && $this->infoCircle) echo $this->generateInfoCircle();
+        if ($this->osimage->hasSoftPack() && $this->infoCircle) {
+            $this->generateInfoCircle();
+        }
     }
 }
