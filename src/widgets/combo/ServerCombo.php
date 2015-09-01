@@ -11,13 +11,13 @@ use yii\helpers\ArrayHelper;
 class ServerCombo extends Combo
 {
     /** @inheritdoc */
-    public $type = 'server/server';
-
-    /** @inheritdoc */
     public $name = 'name';
 
     /** @inheritdoc */
-    public $url = '/server/server/search';
+    public $type = 'server/server';
+
+    /** @inheritdoc */
+    public $url = '/server/server/index';
 
     /** @inheritdoc */
     public $_return = ['id', 'client', 'client_id', 'seller', 'seller_id'];
