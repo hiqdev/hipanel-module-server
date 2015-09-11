@@ -33,9 +33,9 @@ class ServerController extends CrudController
                 }
             ],
             'view' => [
-                'class' => 'hipanel\actions\ViewAction',
+                'class'       => 'hipanel\actions\ViewAction',
                 'findOptions' => ['with_requests' => true, 'show_deleted' => true, 'with_discounts' => true],
-                'data' => function ($action, $id) {
+                'data'        => function ($action) {
                     $controller = $action->controller;
 
                     $model = $action->getModel();
