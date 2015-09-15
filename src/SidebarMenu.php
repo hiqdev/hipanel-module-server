@@ -1,11 +1,8 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-server
- * @license http://hiqdev.com/hipanel-module-server/license
- * @copyright Copyright (c) 2015 HiQDev
- */
 
 namespace hipanel\modules\server;
+
+use Yii;
 
 class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInterface
 {
@@ -17,18 +14,21 @@ class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInter
         'before'    => ['hosting'],
     ];
 
-    protected $_items = [
-        'servers' => [
-            'label' => 'Servers',
-            'url'   => ['/server/server/index'],
-            'icon'  => 'fa-server',
-            'items' => [
-                'servers' => [
-                    'label' => 'Servers',
-                    'url'   => ['/server/server/index'],
+    public function items()
+    {
+        return [
+            'servers' => [
+                'label' => Yii::t('app', 'Servers'),
+                'url'   => ['/server/server/index'],
+                'icon'  => 'fa-server',
+                'items' => [
+                    'servers' => [
+                        'label' => Yii::t('app', 'Servers'),
+                        'url'   => ['/server/server/index'],
+                    ],
                 ],
             ],
-        ],
-    ];
+        ];
+    }
 
 }
