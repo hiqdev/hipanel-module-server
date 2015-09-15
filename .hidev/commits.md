@@ -3,6 +3,16 @@ hiqdev/hipanel-module-server commits history
 
 ## Under development
 
+- Fixed minor issues
+    - 3d585e1 2015-09-15 localized menu (sol@hiqdev.com)
+    - 21fc871 2015-09-01 ServerCombo - changed search url (d.naumenko.a@gmail.com)
+    - efdd860 2015-08-28 Fixed osimages list for different virtualisations, index.php - removed column os_and_panel (d.naumenko.a@gmail.com)
+    - b49f726 2015-08-28 composer.json - added dependencies on client, tariff modules (d.naumenko.a@gmail.com)
+    - 280bb07 2015-08-27 Note column separated to note/label (d.naumenko.a@gmail.com)
+    - e9f8728 2015-08-27 Fixed breadcrumbs subtitle (d.naumenko.a@gmail.com)
+- Added server refuse/renew
+    - 68c4d70 2015-08-27 Server refuse/renew implemented (d.naumenko.a@gmail.com)
+    - 77b9b25 2015-08-26 ServerGridView - added note, tariff_and_discount columns. Other columns fixed/improved. Other minor (d.naumenko.a@gmail.com)
 - Fixed access control
     - 7855150 2015-08-26 fixed access control (sol@hiqdev.com)
 - Fixed php warnings

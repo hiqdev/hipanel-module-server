@@ -5,6 +5,7 @@ Server Plugin for HiPanel
 
 [![Latest Stable Version](https://poser.pugx.org/hiqdev/hipanel-module-server/v/stable.png)](https://packagist.org/packages/hiqdev/hipanel-module-server)
 [![Total Downloads](https://poser.pugx.org/hiqdev/hipanel-module-server/downloads.png)](https://packagist.org/packages/hiqdev/hipanel-module-server)
+[![Dependency Status](https://www.versioneye.com/php/hiqdev:hipanel-module-server/dev-master/badge.svg)](https://www.versioneye.com/php/hiqdev:hipanel-module-server/dev-master)
 
 ## Installation
 
