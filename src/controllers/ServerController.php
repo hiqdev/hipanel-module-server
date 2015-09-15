@@ -231,7 +231,7 @@ class ServerController extends CrudController
     {
         return Ref::getList('state,device');
     }
-    
+
     /**
      * Generates array of osimages data, grouped by different fields to display on the website
      *
