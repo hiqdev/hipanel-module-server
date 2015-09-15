@@ -231,22 +231,7 @@ class ServerController extends CrudController
     {
         return Ref::getList('state,device');
     }
-
-    /// TODO: XXX remove
-    public function actionList($search = '', $id = null)
-    {
-        $data = Server::find()->where(['server_like' => $search, 'ids' => $id])->getList();
-        $res = [];
-        foreach ($data as $key => $item) {
-            $res[] = ['id' => $key, 'text' => $item];
-        }
-        if (!empty($id)) {
-            $res = array_shift($res);
-        }
-
-        return $this->renderJson(['results' => $res]);
-    }
-
+    
     /**
      * Generates array of osimages data, grouped by different fields to display on the website
      *
