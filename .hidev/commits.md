@@ -4,6 +4,7 @@ hiqdev/hipanel-module-server commits history
 ## Under development
 
 - Fixed minor issues
+    - 780f3b8 2015-09-14 ServerController::actionList - removed (d.naumenko.a@gmail.com)
     - 3d585e1 2015-09-15 localized menu (sol@hiqdev.com)
     - 21fc871 2015-09-01 ServerCombo - changed search url (d.naumenko.a@gmail.com)
     - efdd860 2015-08-28 Fixed osimages list for different virtualisations, index.php - removed column os_and_panel (d.naumenko.a@gmail.com)
