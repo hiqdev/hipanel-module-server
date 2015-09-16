@@ -4,6 +4,8 @@ hiqdev/hipanel-module-server commits history
 ## Under development
 
 - Fixed minor issues
+    - 9750999 2015-09-16 used ClientSellerLink::widget (sol@hiqdev.com)
+    - 32df923 2015-09-16 * change language (bladeroot@gmail.com)
     - 780f3b8 2015-09-14 ServerController::actionList - removed (d.naumenko.a@gmail.com)
     - 3d585e1 2015-09-15 localized menu (sol@hiqdev.com)
     - 21fc871 2015-09-01 ServerCombo - changed search url (d.naumenko.a@gmail.com)
