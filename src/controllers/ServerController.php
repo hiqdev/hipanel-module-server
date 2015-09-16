@@ -98,7 +98,7 @@ class ServerController extends CrudController
             ],
             'enable-vnc' => [
                 'class' => 'hipanel\actions\ViewAction',
-                'data' => function ($action, $id) {
+                'data' => function ($action) {
                     $model = $action->getModel();
                     $model->checkOperable();
                     $model->vnc = $action->controller->getVNCInfo($model, true);
