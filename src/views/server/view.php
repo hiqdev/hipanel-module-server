@@ -4,6 +4,7 @@ use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
+use hipanel\widgets\ClientSellerLink;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
@@ -25,7 +26,7 @@ $this->breadcrumbs->setItems([
         <p class="text-center">
             <span class="profile-user-role"><?= $model->name ?></span>
             <br>
-            <span class="profile-user-name"><?= $model->client . ' / ' . $model->seller; ?></span>
+            <span class="profile-user-name"><?= ClientSellerLink::widget(compact('model')) ?></span>
         </p>
         <?php Pjax::begin(['enablePushState' => false]) ?>
         <div class="profile-usermenu">
