@@ -9,9 +9,9 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 $this->title    = $model->name;
-$this->subtitle = Yii::t('app', 'server detailed information') . ' #' . $model->id;
+$this->subtitle = Yii::t('app', 'Server detailed information') . ' #' . $model->id;
 $this->breadcrumbs->setItems([
-    ['label' => 'Servers', 'url' => ['index']],
+    ['label' => Yii::t('app', 'Servers'), 'url' => ['index']],
     $this->title,
 ]);
 ?>
