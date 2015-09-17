@@ -53,9 +53,6 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
         return [
             'osimagae' => Yii::t('app', 'System name of image'),
             'os'       => Yii::t('app', 'OS'),
-            'version'  => Yii::t('app', 'Version'),
-            'bitwise'  => Yii::t('app', 'Bitwise'),
-            'panel'    => Yii::t('app', 'Panel'),
             'softpack' => Yii::t('app', 'Soft package'),
         ];
     }
