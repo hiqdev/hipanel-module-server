@@ -1,8 +1,8 @@
 <?php
 namespace hipanel\modules\server\widgets;
 
-use hipanel\base\Re;
 use hipanel\modules\server\models\Server;
+use Yii;
 use yii\base\InvalidParamException;
 use yii\base\Widget;
 use yii\helpers\Html;
@@ -26,9 +26,9 @@ class StateFormatter extends Widget
      */
     public function run () {
         if ($this->model->state != 'blocked') {
-            $value = \yii::$app->formatter->asDate($this->model->expires);
+            $value = Yii::$app->formatter->asDate($this->model->expires);
         } else {
-            $value = \yii::t('app', 'Blocked') . ' ' . Re::l($this->model->block_reason_label);
+            $value = Yii::t('app', 'Blocked') . ' ' . Yii::t('app', $this->model->block_reason_label);
         }
 
         $class = ['label'];
