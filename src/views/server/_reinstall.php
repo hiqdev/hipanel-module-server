@@ -6,9 +6,9 @@ use hipanel\widgets\ModalButton;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
+$model->scenario = 'reinstall';
 ModalButton::begin([
     'model'    => $model,
-    'scenario' => 'reinstall',
     'button'   => ['label' => '<i class="ion-ios-cog-outline"></i>' . Yii::t('app', 'Reinstall OS')],
     'modal'    => [
         'header'        => Html::tag('h4', Yii::t('app', 'Please, select the operating system you want to install')),

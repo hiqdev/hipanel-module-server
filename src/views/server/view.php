@@ -15,6 +15,9 @@ $this->breadcrumbs->setItems([
     ['label' => Yii::t('app', 'Servers'), 'url' => ['index']],
     $this->title,
 ]);
+
+Pjax::begin();
+
 ?>
 
 <div class="row">
@@ -39,6 +42,11 @@ $this->breadcrumbs->setItems([
                 <li>
                     <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
                 </li>
+                <?php if (Yii::$app->user->can('support')) { ?>
+                    <li>
+                        <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
+                    </li>
+                <?php } ?>
                 <?php if (Yii::$app->user->can('support')) { ?>
                     <li>
                         <?= $this->render('_delete', compact(['model'])) ?>
@@ -160,3 +168,4 @@ $this->breadcrumbs->setItems([
 
 <?php
 $this->registerCss("th { white-space: nowrap; }");
+Pjax::end();

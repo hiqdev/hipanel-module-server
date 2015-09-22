@@ -57,7 +57,9 @@ class ServerController extends CrudController
                         $osimageslivecd = $controller->getOsimagesLiveCd();
                     }
 
-                    return compact('model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels');
+                    $blockReasons = $controller->getBlockReasons();
+
+                    return compact(['model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels', 'blockReasons']);
                 },
             ],
             'requests-state' => [
@@ -108,42 +110,52 @@ class ServerController extends CrudController
             'reboot' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Reboot task has been successfully added to queue',
-                'error' => 'Error while rebooting',
+                'error' => 'Error during the rebooting',
             ],
             'reset' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Reset task has been successfully added to queue',
-                'error' => 'Error while resetting',
+                'error' => 'Error during the resetting',
             ],
             'shutdown' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Shutdown task has been successfully added to queue',
-                'error' => 'Error while shutting down',
+                'error' => 'Error during the shutting down',
             ],
             'power-off' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Power off task has been successfully added to queue',
-                'error' => 'Error while turning power off',
+                'error' => 'Error during the turning power off',
             ],
             'power-on' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Power on task has been successfully added to queue',
-                'error' => 'Error while turning power on',
+                'error' => 'Error during the turning power on',
             ],
             'reset-password' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Root password reset task has been successfully added to queue',
-                'error' => 'Error while resetting root password',
+                'error' => 'Error during the resetting root password',
+            ],
+            'enable-block' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => 'Server was blocked successfully',
+                'error' => 'Error during the server blocking',
+            ],
+            'disable-block' => [
+                'class' => 'hipanel\actions\SmartUpdateAction',
+                'success' => 'Server was unblocked successfully',
+                'error' => 'Error during the server unblocking',
             ],
             'refuse' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'You have refused the service',
-                'error' => 'Error while refusing the service',
+                'error' => 'Error during the refusing the service',
             ],
             'enable-autorenewal' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
                 'success' => 'Server renewal enabled successfully',
-                'error' => 'Error while renewing the service',
+                'error' => 'Error during the renewing the service',
             ],
             'reinstall' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
@@ -154,7 +166,7 @@ class ServerController extends CrudController
                     }
                 },
                 'success' => 'Server reinstalling task has been successfully added to queue',
-                'error' => 'Error while server reinstalling',
+                'error' => 'Error during the server reinstalling',
             ],
             'boot-live' => [
                 'class' => 'hipanel\actions\SmartUpdateAction',
@@ -163,8 +175,11 @@ class ServerController extends CrudController
                         $model->osmage = Yii::$app->request->post('osimage');
                     }
                 },
-                'errorMessage' => 'Error while booting live CD',
-                'successMessage' => 'Live CD booting task has been successfully added to queue',
+                'success' => 'Live CD booting task has been successfully added to queue',
+                'error' => 'Error during the booting live CD',
+            ],
+            'validate-form' => [
+                'class' => 'hipanel\actions\ValidateFormAction',
             ],
             'buy' => [
                 'class' => 'hipanel\actions\RedirectAction',

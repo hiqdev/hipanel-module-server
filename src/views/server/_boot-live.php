@@ -14,9 +14,9 @@ if ($model->isLiveCDSupported()) {
 
     }
 
+    $model->scenario = 'bool-live';
     ModalButton::begin([
         'model'    => $model,
-        'scenario' => 'boot-live',
         'button'   => [
             'label'    => Yii::t('app', 'Boot LiveCD'),
             'class'    => 'btn btn-default',

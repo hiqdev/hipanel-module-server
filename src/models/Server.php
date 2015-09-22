@@ -16,6 +16,11 @@ class Server extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;
 
+    const STATE_OK = 'ok';
+    const STATE_DISABLED = 'disabled';
+    const STATE_BLOCKED = 'blocked';
+    const STATE_DELETED = 'deleted';
+
     /**
      * @return array the list of attributes for this record
      */
@@ -83,6 +88,8 @@ class Server extends \hipanel\base\Model
             [['id'], 'required', 'on' => ['refuse']],
             [['id', 'osimage', 'panel'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
+            [['type', 'comment'], 'required', 'on' => ['enable-block']],
+            [['comment'], 'safe', 'on' => ['disable-block']],
         ];
     }
 
@@ -93,7 +100,7 @@ class Server extends \hipanel\base\Model
      */
     public function goodStates()
     {
-        return ['ok', 'disabled'];
+        return [static::STATE_OK, static::STATE_DISABLED];
     }
 
     /**
@@ -135,6 +142,10 @@ class Server extends \hipanel\base\Model
     public function isLiveCDSupported()
     {
         return $this->type != 'ovds';
+    }
+
+    public function getIsBlocked() {
+        return $this->state === static::STATE_BLOCKED;
     }
 
     /**
@@ -187,6 +198,7 @@ class Server extends \hipanel\base\Model
             'ips'                 => Yii::t('app', 'IP addresses'),
             'label'               => Yii::t('app', 'Internal note'),
             'os'                  => Yii::t('app', 'OS'),
+            'comment'             => Yii::t('app', 'Comment'),
         ]);
     }
 }
