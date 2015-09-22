@@ -38,8 +38,8 @@ use hipanel\widgets\ModalButton;
         'scenario' => 'disable-block',
         'button' => ['label' => '<i class="ion-unlocked"></i>' . Yii::t('app', 'Unblock server')],
         'form' => [
-            'enableClientValidation' => true,
-            'validateOnBlur'         => true,
+            'enableAjaxValidation'   => true,
+            'validationUrl'          => Url::toRoute(['validate-form', 'scenario' => 'disable-block']),
         ],
         'modal' => [
             'header' => Html::tag('h4', Yii::t('app', 'Confirm server unblocking')),
