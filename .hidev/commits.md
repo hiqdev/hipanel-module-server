@@ -3,7 +3,13 @@ hiqdev/hipanel-module-server commits history
 
 ## Under development
 
-- Fixed minor issues
+- Added server blocking
+    - 7b71771 2015-09-22 Implemented server blocking (d.naumenko.a@gmail.com)
+- Fixed translation and minor issues
+    - 83d1448 2015-09-23 fixed Label zclass -> color (sol@hiqdev.com)
+    - d1e80bf 2015-09-21 fixed translation, redone Re::l to Yii::t (sol@hiqdev.com)
+    - 18a2f18 2015-09-17 * improve language pack; - remove unnesessary lines (bladeroot@gmail.com)
+    - cadd45b 2015-09-16 fixed problem with ViewAction data closure (sol@hiqdev.com)
     - 9750999 2015-09-16 used ClientSellerLink::widget (sol@hiqdev.com)
     - 32df923 2015-09-16 * change language (bladeroot@gmail.com)
     - 780f3b8 2015-09-14 ServerController::actionList - removed (d.naumenko.a@gmail.com)

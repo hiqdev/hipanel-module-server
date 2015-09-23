@@ -3,7 +3,8 @@ hiqdev/hipanel-module-server changelog
 
 ## Under development
 
-- Fixed minor issues
+- Added server blocking
+- Fixed translation and minor issues
 - Added server refuse/renew
 - Fixed access control
 - Fixed php warnings
