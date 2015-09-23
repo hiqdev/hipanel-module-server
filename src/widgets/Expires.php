@@ -8,6 +8,7 @@
 namespace hipanel\modules\server\widgets;
 
 use hipanel\modules\server\models\Server;
+use Yii;
 
 class Expires extends \hipanel\widgets\Label
 {
@@ -22,8 +23,8 @@ class Expires extends \hipanel\widgets\Label
         elseif (strtotime("+0 days", time()) < strtotime($expires)) $class = 'warning';
         else $class = 'danger';
 
-        $this->zclass   = $class;
-        $this->label    = \Yii::$app->formatter->asDate($expires);
+        $this->color = $class;
+        $this->label = Yii::$app->formatter->asDate($expires);
         parent::run();
     }
 
