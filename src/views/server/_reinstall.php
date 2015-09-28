@@ -11,6 +11,7 @@ ModalButton::begin([
     'model'    => $model,
     'button'   => ['label' => '<i class="ion-ios-cog-outline"></i>' . Yii::t('app', 'Reinstall OS')],
     'modal'    => [
+        'size'          => Modal::SIZE_LARGE,
         'header'        => Html::tag('h4', Yii::t('app', 'Please, select the operating system you want to install')),
         'headerOptions' => ['class' => 'label-info'],
         'footer'        => [
