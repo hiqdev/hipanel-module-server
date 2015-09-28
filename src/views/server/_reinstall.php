@@ -17,6 +17,7 @@ ModalButton::begin([
             'label'             => Yii::t('app', 'Reinstall'),
             'data-loading-text' => Yii::t('app', 'Resinstalling started...'),
             'class'             => 'btn btn-warning',
+            'label'             => Yii::t('app', 'Reinstall'),
         ]
     ]
 ]);
