@@ -21,7 +21,10 @@ class ServerSearch extends Server {
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
-            'name_like'
+            'name_like',
+            'with_requests',
+            'show_deleted',
+            'with_discounts',
         ]);
     }
 }
