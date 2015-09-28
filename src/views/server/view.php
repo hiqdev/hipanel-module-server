@@ -42,7 +42,7 @@ Pjax::begin();
                 <li>
                     <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
                 </li>
-                <?php if (Yii::$app->user->can('support')) { ?>
+                <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
                     <li>
                         <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
                     </li>
