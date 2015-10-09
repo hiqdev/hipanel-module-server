@@ -15,7 +15,6 @@ ModalButton::begin([
         'header'        => Html::tag('h4', Yii::t('app', 'Please, select the operating system you want to install')),
         'headerOptions' => ['class' => 'label-info'],
         'footer'        => [
-            'label'             => Yii::t('app', 'Reinstall'),
             'data-loading-text' => Yii::t('app', 'Resinstalling started...'),
             'class'             => 'btn btn-warning',
             'label'             => Yii::t('app', 'Reinstall'),
@@ -75,7 +74,7 @@ ModalButton::begin([
                                                     'value' => $softpack['name']
                                                 ]) ?>
                                                 <strong><?= $softpack['name'] ?></strong>
-                                                <small style="font-weight: normal"><?= $softpack['description'] ?></small>
+                                                <small style="font-weight: normal"><?= Yii::t('app', $softpack['description']) ?></small>
                                                 <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
 
                                                 <div class="soft-desc" style="display: none;"></div>
