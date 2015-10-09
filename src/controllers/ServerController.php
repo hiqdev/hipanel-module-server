@@ -36,19 +36,22 @@ class ServerController extends CrudController
                 'class'       => 'hipanel\actions\ViewAction',
                 'findOptions' => ['with_requests' => true, 'show_deleted' => true, 'with_discounts' => true],
                 'data'        => function ($action) {
+                    /**
+                     * @var $controller $this
+                     * @var $model Server
+                     */
                     $controller = $action->controller;
-
                     $model = $action->getModel();
                     $model->vnc = $controller->getVNCInfo($model);
 
                     $panels = $controller->getPanelTypes();
-//                    $tariff = TariffController::findModel([
-//                        'id' => $model->tariff_id,
-//                        'show_final' => true,
-//                        'show_deleted' => true
-//                    ]);
-//                    $ispSupported = $tariff['resources']['isp']['quantity'];
-                    $ispSupported = 1; /// TODO: temporary enabled for all tariff. Redo after stock DBs renaming
+                    $tariff = TariffController::findModel([
+                        'id' => $model->tariff_id,
+                        'show_final' => true,
+                        'show_deleted' => true,
+                        'with_resources' => true,
+                    ]);
+                    $ispSupported = !empty($tariff['resources']['isp']['quantity']);
 
                     $osimages = $controller->getOsimages($model);
                     $grouped_osimages = $controller->getGroupedOsimages($osimages, $ispSupported);
