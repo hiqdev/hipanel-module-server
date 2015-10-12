@@ -2,12 +2,14 @@
 
 use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
+use hipanel\modules\server\models\Server;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
-use yii\bootstrap\Modal;
-use yii\helpers\Html;
-use yii\widgets\DetailView;
+
+/**
+ * @var $model Server
+ */
 
 $this->title    = $model->name;
 $this->subtitle = Yii::t('app', 'Server detailed information') . ' #' . $model->id;
@@ -157,6 +159,20 @@ Pjax::begin();
                         echo $this->render('_reset', compact(['model']));
                         echo $this->render('_power-off', compact(['model']));
                         echo $this->render('_power-on', compact(['model']));
+                    $box->endBody();
+                $box->end();
+                ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
+                        echo $box->renderTitle(Yii::t('app', 'Event log'));
+                    $box->endHeader();
+                    $box->beginBody();
+                        echo $this->render('_log', compact('model'));
                     $box->endBody();
                 $box->end();
                 ?>
