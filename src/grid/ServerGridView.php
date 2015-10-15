@@ -154,7 +154,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'data' => $model->ips,
                         'delimiter' => '<br />',
                         'visibleCount' => 3,
-                        'popoverOptions' => ['html' => true],
+                        'button' => ['popoverOptions' => ['html' => true]]
                     ]);
                 }
             ],
