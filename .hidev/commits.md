@@ -3,9 +3,13 @@ hiqdev/hipanel-module-server commits history
 
 ## Under development
 
-- Added server blocking
-    - 7b71771 2015-09-22 Implemented server blocking (d.naumenko.a@gmail.com)
 - Fixed translation and minor issues
+    - cf1014e 2015-10-15 ServerGridView changed call of ArraySpoiler due to class API changes (d.naumenko.a@gmail.com)
+    - 4daa0ee 2015-10-12 Added server event list (d.naumenko.a@gmail.com)
+    - b15ff81 2015-10-09 Server reinstall - hides IPS manager for customers without ISP in tariff (d.naumenko.a@gmail.com)
+    - e7a34ff 2015-10-09 Server Reinstall OS fixed button (d.naumenko.a@gmail.com)
+    - 2b195f9 2015-09-28 + value to button (bladeroot@gmail.com)
+    - 1ff4e38 2015-09-28 ServerSearch  - added search attributes (d.naumenko.a@gmail.com)
     - 83d1448 2015-09-23 fixed Label zclass -> color (sol@hiqdev.com)
     - d1e80bf 2015-09-21 fixed translation, redone Re::l to Yii::t (sol@hiqdev.com)
     - 18a2f18 2015-09-17 * improve language pack; - remove unnesessary lines (bladeroot@gmail.com)
@@ -19,6 +23,9 @@ hiqdev/hipanel-module-server commits history
     - b49f726 2015-08-28 composer.json - added dependencies on client, tariff modules (d.naumenko.a@gmail.com)
     - 280bb07 2015-08-27 Note column separated to note/label (d.naumenko.a@gmail.com)
     - e9f8728 2015-08-27 Fixed breadcrumbs subtitle (d.naumenko.a@gmail.com)
+- Added server blocking
+    - 17ee153 2015-09-28 Incresased Server reinstall modal size (d.naumenko.a@gmail.com)
+    - 7b71771 2015-09-22 Implemented server blocking (d.naumenko.a@gmail.com)
 - Added server refuse/renew
     - 68c4d70 2015-08-27 Server refuse/renew implemented (d.naumenko.a@gmail.com)
     - 77b9b25 2015-08-26 ServerGridView - added note, tariff_and_discount columns. Other columns fixed/improved. Other minor (d.naumenko.a@gmail.com)
