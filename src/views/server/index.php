@@ -54,8 +54,8 @@ print ServerGridView::widget([
     'columns' => [
         'checkbox',
         'server',
-        'client',
-        'seller',
+        'client_id',
+        'seller_id',
         'ips',
         'state',
         'expires',
