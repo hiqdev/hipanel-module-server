@@ -7,9 +7,16 @@
 
 namespace hipanel\modules\server\controllers;
 
+use hipanel\actions\IndexAction;
+use hipanel\actions\ProxyAction;
+use hipanel\actions\RedirectAction;
+use hipanel\actions\RenderAction;
+use hipanel\actions\RenderJsonAction;
 use hipanel\actions\RequestStateAction;
+use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\ValidateFormAction;
+use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
-use hipanel\base\Model;
 use hipanel\models\Ref;
 use hipanel\modules\finance\controllers\TariffController;
 use hipanel\modules\server\models\Osimage;
@@ -24,7 +31,7 @@ class ServerController extends CrudController
     {
         return [
             'index' => [
-                'class' => 'hipanel\actions\IndexAction',
+                'class' => IndexAction::class,
                 'findOptions' => ['with_requests' => true, 'with_discounts' => true],
                 'data' => function ($action) {
                     return [
@@ -33,7 +40,7 @@ class ServerController extends CrudController
                 }
             ],
             'view' => [
-                'class'       => 'hipanel\actions\ViewAction',
+                'class'       => ViewAction::class,
                 'findOptions' => ['with_requests' => true, 'show_deleted' => true, 'with_discounts' => true],
                 'data'        => function ($action) {
                     /**
@@ -70,30 +77,30 @@ class ServerController extends CrudController
                 'model' => Server::className()
             ],
             'set-note' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Note changed'),
                 'error' => Yii::t('app', 'Failed to change note'),
             ],
             'set-label' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => Yii::t('app', 'Internal note changed'),
                 'error' => Yii::t('app', 'Failed to change internal note'),
             ],
             'set-lock' => [
-                'class' => 'hipanel\actions\SwitchAction',
+                'class' => RenderAction::class,
                 'success' => Yii::t('app', 'Record was changed'),
                 'error' => Yii::t('app', 'Error occurred'),
                 'POST pjax' => [
                     'save' => true,
                     'success' => [
-                        'class' => 'hipanel\actions\ProxyAction',
+                        'class' => ProxyAction::class,
                         'action' => 'index'
                     ]
                 ],
                 'POST' => [
                     'save' => true,
                     'success' => [
-                        'class' => 'hipanel\actions\RenderJsonAction',
+                        'class' => RenderJsonAction::class,
                         'return' => function ($action) {
                             /** @var \hipanel\actions\Action $action */
                             return $action->collection->models;
@@ -102,7 +109,7 @@ class ServerController extends CrudController
                 ],
             ],
             'enable-vnc' => [
-                'class' => 'hipanel\actions\ViewAction',
+                'class' => ViewAction::class,
                 'data' => function ($action) {
                     $model = $action->getModel();
                     $model->checkOperable();
@@ -111,57 +118,57 @@ class ServerController extends CrudController
                 }
             ],
             'reboot' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Reboot task has been successfully added to queue',
                 'error' => 'Error during the rebooting',
             ],
             'reset' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Reset task has been successfully added to queue',
                 'error' => 'Error during the resetting',
             ],
             'shutdown' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Shutdown task has been successfully added to queue',
                 'error' => 'Error during the shutting down',
             ],
             'power-off' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Power off task has been successfully added to queue',
                 'error' => 'Error during the turning power off',
             ],
             'power-on' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Power on task has been successfully added to queue',
                 'error' => 'Error during the turning power on',
             ],
             'reset-password' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Root password reset task has been successfully added to queue',
                 'error' => 'Error during the resetting root password',
             ],
             'enable-block' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Server was blocked successfully',
                 'error' => 'Error during the server blocking',
             ],
             'disable-block' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Server was unblocked successfully',
                 'error' => 'Error during the server unblocking',
             ],
             'refuse' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'You have refused the service',
                 'error' => 'Error during the refusing the service',
             ],
             'enable-autorenewal' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'success' => 'Server renewal enabled successfully',
                 'error' => 'Error during the renewing the service',
             ],
             'reinstall' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'beforeSave' => function ($action) {
                     foreach ($action->collection->models as $model) {
                         $model->osmage = Yii::$app->request->post('osimage');
@@ -172,7 +179,7 @@ class ServerController extends CrudController
                 'error' => 'Error during the server reinstalling',
             ],
             'boot-live' => [
-                'class' => 'hipanel\actions\SmartUpdateAction',
+                'class' => SmartUpdateAction::class,
                 'beforeSave' => function ($action) {
                     foreach ($action->collection->models as $model) {
                         $model->osmage = Yii::$app->request->post('osimage');
@@ -182,10 +189,10 @@ class ServerController extends CrudController
                 'error' => 'Error during the booting live CD',
             ],
             'validate-form' => [
-                'class' => 'hipanel\actions\ValidateFormAction',
+                'class' => ValidateFormAction::class,
             ],
             'buy' => [
-                'class' => 'hipanel\actions\RedirectAction',
+                'class' => RedirectAction::class,
                 'url' => Yii::$app->params['orgUrl'],
             ],
         ];
@@ -253,7 +260,7 @@ class ServerController extends CrudController
     /**
      * Generates array of osimages data, grouped by different fields to display on the website
      *
-     * @param $images Array of osimages models to be proceed
+     * @param $images array of osimages models to be proceed
      * @param bool $ispSupported
      * @return array
      */
