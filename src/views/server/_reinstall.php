@@ -38,7 +38,7 @@ ModalButton::begin([
                             <h4 class="list-group-item-heading"><?= $vendor['name'] ?></h4>
 
                             <div class="list-group-item-text os-list">
-                                <? foreach ($vendor['oses'] as $system => $os) {
+                                <?php foreach ($vendor['oses'] as $system => $os) {
                                     echo Html::tag('div', Html::radio('os', false, [
                                         'label' => $os,
                                         'value' => $system,
