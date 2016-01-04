@@ -26,6 +26,9 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
         return ['osimage', 'os', 'version', 'bitwise', 'panel', 'softpack'];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules () {
         return [[['osimage'], 'required']];
     }
