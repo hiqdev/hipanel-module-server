@@ -37,7 +37,14 @@ class ServerController extends CrudController
                     return [
                         'states' => $action->controller->getStates()
                     ];
-                }
+                },
+                'filterStorageMap' => [
+                    'name_like' => 'server.server.name',
+                    'ips' => 'hosting.ip.ip_in',
+                    'state' => 'server.server.state',
+                    'client_id' => 'client.client.id',
+                    'seller_id' => 'client.client.seller_id',
+                ]
             ],
             'view' => [
                 'class'       => ViewAction::class,
