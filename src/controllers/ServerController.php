@@ -19,6 +19,7 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\finance\controllers\TariffController;
+use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use Yii;
@@ -59,13 +60,19 @@ class ServerController extends CrudController
                     $model->vnc = $controller->getVNCInfo($model);
 
                     $panels = $controller->getPanelTypes();
-                    $tariff = TariffController::findModel([
+                    $tariff = Tariff::find()->where([
                         'id' => $model->tariff_id,
                         'show_final' => true,
                         'show_deleted' => true,
                         'with_resources' => true,
-                    ]);
-                    $ispSupported = !empty($tariff['resources']['isp']['quantity']);
+                    ])->joinWith('resources')->one();
+
+                    $ispSupported = false;
+                    foreach ($tariff->getResources() as $resource) {
+                        if ($resource->type === 'isp' && $resource->quantity > 0) {
+                            $ispSupported = true;
+                        }
+                    }
 
                     $osimages = $controller->getOsimages($model);
                     $grouped_osimages = $controller->getGroupedOsimages($osimages, $ispSupported);
