@@ -28,7 +28,7 @@ class StateFormatter extends Widget
         if ($this->model->state != 'blocked') {
             $value = Yii::$app->formatter->asDate($this->model->expires);
         } else {
-            $value = Yii::t('app', 'Blocked') . ' ' . Yii::t('app', $this->model->block_reason_label);
+            $value = Yii::t('hipanel/server', 'Blocked {reason}', ['reason' => Yii::t('hipanel/block-reasons', $this->model->block_reason_label)]);
         }
 
         $class = ['label'];

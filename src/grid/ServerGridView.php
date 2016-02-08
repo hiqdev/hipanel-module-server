@@ -64,7 +64,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
-                        $html .= ' ' . Yii::t('app', 'since') . ' ' . Yii::$app->formatter->asDate($model->status_time);
+                        $html .= ' ' . Yii::t('hipanel/server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]);
                     }
                     return $html;
                 },
@@ -74,7 +74,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'text',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) {
-                    return $model->panel ?: Yii::t('app', 'No control panel');
+                    return $model->panel ?: Yii::t('hipanel/server', 'No control panel');
                 }
             ],
             'os' => [

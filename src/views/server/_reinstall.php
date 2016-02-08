@@ -9,28 +9,28 @@ use yii\helpers\Json;
 $model->scenario = 'reinstall';
 ModalButton::begin([
     'model' => $model,
-    'button' => ['label' => '<i class="ion-ios-cog-outline"></i>' . Yii::t('app', 'Reinstall OS')],
+    'button' => ['label' => '<i class="ion-ios-cog-outline"></i>' . Yii::t('hipanel/server', 'Reinstall OS')],
     'modal' => [
         'size' => Modal::SIZE_LARGE,
-        'header' => Html::tag('h4', Yii::t('app', 'Please, select the operating system you want to install')),
+        'header' => Html::tag('h4', Yii::t('hipanel/server', 'Please, select the operating system you want to install')),
         'headerOptions' => ['class' => 'label-info'],
         'footer' => [
-            'data-loading-text' => Yii::t('app', 'Resinstalling started...'),
+            'data-loading-text' => Yii::t('hipanel/server', 'Resinstalling started...'),
             'class' => 'btn btn-warning',
-            'label' => Yii::t('app', 'Reinstall'),
+            'label' => Yii::t('hipanel/server', 'Reinstall'),
         ]
     ]
 ]);
 ?>
     <div class="callout callout-warning">
-        <h4><?= Yii::t('app', 'This will cause full data loss!') ?></h4>
+        <h4><?= Yii::t('hipanel/server', 'This will cause full data loss!') ?></h4>
     </div>
 <?= Html::hiddenInput('osimage', null, ['class' => "reinstall-osimage"]) ?>
 <?= Html::hiddenInput('panel', null, ['class' => "reinstall-panel"]) ?>
     <div class="row os-selector">
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><?= \Yii::t('app', 'OS') ?></div>
+                <div class="panel-heading"><?= \Yii::t('hipanel/server', 'OS') ?></div>
                 <div class="list-group">
                     <?php
                     foreach ($grouped_osimages['vendors'] as $vendor) { ?>
@@ -53,7 +53,7 @@ ModalButton::begin([
         </div>
         <div class="col-md-6">
             <div class="panel panel-default">
-                <div class="panel-heading"><?= \Yii::t('app', 'Panel and soft') ?></div>
+                <div class="panel-heading"><?= \Yii::t('hipanel/server', 'Panel and soft') ?></div>
                 <div class="list-group">
                     <?php
                     foreach ($panels as $panel => $panel_name) {
@@ -62,7 +62,7 @@ ModalButton::begin([
                         } ?>
                         <div class="list-group-item soft-list"
                              data-panel="<?= $panel ?>">
-                            <h4 class="list-group-item-heading"><?= Yii::t('app', $panel_name) ?></h4>
+                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/panel', $panel_name) ?></h4>
 
                             <div class="list-group-item-text">
                                 <?php foreach ($grouped_osimages['softpacks'][$panel] as $softpack) { ?>
@@ -76,7 +76,7 @@ ModalButton::begin([
                                                 'value' => $softpack['name']
                                             ]) ?>
                                             <strong><?= $softpack['name'] ?></strong>
-                                            <small style="font-weight: normal"><?= Yii::t('app',
+                                            <small style="font-weight: normal"><?= Yii::t('hipanel/server/os',
                                                     $softpack['description']) ?></small>
                                             <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
 

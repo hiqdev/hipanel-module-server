@@ -12,9 +12,9 @@ use hipanel\widgets\ClientSellerLink;
  */
 
 $this->title    = $model->name;
-$this->subtitle = Yii::t('app', 'Server detailed information') . ' #' . $model->id;
+$this->subtitle = Yii::t('hipanel/server', 'Server detailed information') . ' #' . $model->id;
 $this->breadcrumbs->setItems([
-    ['label' => Yii::t('app', 'Servers'), 'url' => ['index']],
+    ['label' => Yii::t('hipanel/server', 'Servers'), 'url' => ['index']],
     $this->title,
 ]);
 
@@ -66,7 +66,7 @@ Pjax::begin();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('app', 'Server information'));
+                        echo $box->renderTitle(Yii::t('hipanel/server', 'Server information'));
                     $box->endHeader();
                     $box->beginBody();
                         echo ServerGridView::detailView([
@@ -92,7 +92,7 @@ Pjax::begin();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('app', 'Financial information'));
+                        echo $box->renderTitle(Yii::t('hipanel/server', 'Financial information'));
                     $box->endHeader();
                     $box->beginBody();
                         echo ServerGridView::detailView([
@@ -120,7 +120,7 @@ Pjax::begin();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('app', 'VNC server'));
+                        echo $box->renderTitle(Yii::t('hipanel/server', 'VNC server'));
                     $box->endHeader();
                     $box->beginBody();
                         echo $this->render('_vnc', compact(['model']));
@@ -135,7 +135,7 @@ Pjax::begin();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('app', 'System management'));
+                    echo $box->renderTitle(Yii::t('hipanel/server', 'System management'));
                 $box->endHeader();
                 $box->beginBody();
                     echo $this->render('_reboot', compact(['model']));
@@ -153,7 +153,7 @@ Pjax::begin();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('app', 'Power management'));
+                        echo $box->renderTitle(Yii::t('hipanel/server', 'Power management'));
                     $box->endHeader();
                     $box->beginBody();
                         echo $this->render('_reset', compact(['model']));
@@ -169,7 +169,7 @@ Pjax::begin();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('app', 'Event log'));
+                        echo $box->renderTitle(Yii::t('hipanel/server', 'Event log'));
                     $box->endHeader();
                     $box->beginBody();
                         echo $this->render('_log', compact('model'));

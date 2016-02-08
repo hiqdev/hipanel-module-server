@@ -20,9 +20,10 @@ class Expires extends \hipanel\widgets\Label
     public function init()
     {
         $expires = $this->model->expires;
-        if (strtotime("+30 days", time()) < strtotime($expires)) {
+
+        if (strtotime($expires) < strtotime("+30 days", time())) {
             $class = 'info';
-        } elseif (strtotime("+0 days", time()) < strtotime($expires)) {
+        } elseif (strtotime($expires) < strtotime("+5 days", time())) {
             $class = 'warning';
         } else {
             $class = 'danger';

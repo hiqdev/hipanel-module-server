@@ -92,18 +92,18 @@ class ServerController extends CrudController
             ],
             'set-note' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('app', 'Note changed'),
-                'error' => Yii::t('app', 'Failed to change note'),
+                'success' => Yii::t('hipanel/server', 'Note changed'),
+                'error' => Yii::t('hipanel/server', 'Failed to change note'),
             ],
             'set-label' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('app', 'Internal note changed'),
-                'error' => Yii::t('app', 'Failed to change internal note'),
+                'success' => Yii::t('hipanel/server', 'Internal note changed'),
+                'error' => Yii::t('hipanel/server', 'Failed to change internal note'),
             ],
             'set-lock' => [
                 'class' => RenderAction::class,
-                'success' => Yii::t('app', 'Record was changed'),
-                'error' => Yii::t('app', 'Error occurred'),
+                'success' => Yii::t('hipanel/server', 'Record was changed'),
+                'error' => Yii::t('hipanel/server', 'Error occurred'),
                 'POST pjax' => [
                     'save' => true,
                     'success' => [
@@ -133,53 +133,53 @@ class ServerController extends CrudController
             ],
             'reboot' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Reboot task has been successfully added to queue',
-                'error' => 'Error during the rebooting',
+                'success' => Yii::t('hipanel/server', 'Reboot task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the rebooting'),
             ],
             'reset' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Reset task has been successfully added to queue',
-                'error' => 'Error during the resetting',
+                'success' => Yii::t('hipanel/server', 'Reset task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the resetting'),
             ],
             'shutdown' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Shutdown task has been successfully added to queue',
-                'error' => 'Error during the shutting down',
+                'success' => Yii::t('hipanel/server', 'Shutdown task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the shutting down'),
             ],
             'power-off' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Power off task has been successfully added to queue',
-                'error' => 'Error during the turning power off',
+                'success' => Yii::t('hipanel/server', 'Power off task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the turning power off'),
             ],
             'power-on' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Power on task has been successfully added to queue',
-                'error' => 'Error during the turning power on',
+                'success' => Yii::t('hipanel/server', 'Power on task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the turning power on'),
             ],
             'reset-password' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Root password reset task has been successfully added to queue',
-                'error' => 'Error during the resetting root password',
+                'success' => Yii::t('hipanel/server', 'Root password reset task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the resetting root password'),
             ],
             'enable-block' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Server was blocked successfully',
-                'error' => 'Error during the server blocking',
+                'success' => Yii::t('hipanel/server', 'Server was blocked successfully'),
+                'error' => Yii::t('hipanel/server', 'Error during the server blocking'),
             ],
             'disable-block' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Server was unblocked successfully',
-                'error' => 'Error during the server unblocking',
+                'success' => Yii::t('hipanel/server', 'Server was unblocked successfully'),
+                'error' => Yii::t('hipanel/server', 'Error during the server unblocking'),
             ],
             'refuse' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'You have refused the service',
-                'error' => 'Error during the refusing the service',
+                'success' => Yii::t('hipanel/server', 'You have refused the service'),
+                'error' => Yii::t('hipanel/server', 'Error during the refusing the service'),
             ],
             'enable-autorenewal' => [
                 'class' => SmartUpdateAction::class,
-                'success' => 'Server renewal enabled successfully',
-                'error' => 'Error during the renewing the service',
+                'success' => Yii::t('hipanel/server', 'Server renewal enabled successfully'),
+                'error' => Yii::t('hipanel/server', 'Error during the renewing the service'),
             ],
             'reinstall' => [
                 'class' => SmartUpdateAction::class,
@@ -191,8 +191,8 @@ class ServerController extends CrudController
                         $model->panel = Yii::$app->request->post('panel');
                     }
                 },
-                'success' => 'Server reinstalling task has been successfully added to queue',
-                'error' => 'Error during the server reinstalling',
+                'success' => Yii::t('hipanel/server', 'Server reinstalling task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the server reinstalling'),
             ],
             'boot-live' => [
                 'class' => SmartUpdateAction::class,
@@ -203,8 +203,8 @@ class ServerController extends CrudController
                         $model->osmage = Yii::$app->request->post('osimage');
                     }
                 },
-                'success' => 'Live CD booting task has been successfully added to queue',
-                'error' => 'Error during the booting live CD',
+                'success' => Yii::t('hipanel/server', 'Live CD booting task has been successfully added to queue'),
+                'error' => Yii::t('hipanel/server', 'Error during the booting live CD'),
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,

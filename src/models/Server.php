@@ -158,7 +158,7 @@ class Server extends \hipanel\base\Model
     public function checkOperable()
     {
         if (!$this->isOperable()) {
-            throw new NotSupportedException(\Yii::t('app', 'Server already has a running task. Can not start new.'));
+            throw new NotSupportedException(\Yii::t('hipanel/server', 'Server already has a running task. Can not start new.'));
         }
         return true;
     }
@@ -189,16 +189,16 @@ class Server extends \hipanel\base\Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'remoteid'            => Yii::t('app', 'Remote ID'),
-            'name_like'           => Yii::t('app', 'Name'),
-            'name'                => Yii::t('app', 'Name'),
-            'status_time'         => Yii::t('app', 'Last operation time'),
-            'block_reason_label'  => Yii::t('app', 'Block reason label'),
-            'request_state_label' => Yii::t('app', 'Request state label'),
-            'ips'                 => Yii::t('app', 'IP addresses'),
-            'label'               => Yii::t('app', 'Internal note'),
-            'os'                  => Yii::t('app', 'OS'),
-            'comment'             => Yii::t('app', 'Comment'),
+            'remoteid'            => Yii::t('hipanel/server', 'Remote ID'),
+            'name_like'           => Yii::t('hipanel/server', 'Name'),
+            'name'                => Yii::t('hipanel/server', 'Name'),
+            'status_time'         => Yii::t('hipanel/server', 'Last operation time'),
+            'block_reason_label'  => Yii::t('hipanel/server', 'Block reason label'),
+            'request_state_label' => Yii::t('hipanel/server', 'Request state label'),
+            'ips'                 => Yii::t('hipanel/server', 'IP addresses'),
+            'label'               => Yii::t('hipanel/server', 'Internal note'),
+            'os'                  => Yii::t('hipanel/server', 'OS'),
+            'comment'             => Yii::t('hipanel/server', 'Comment'),
         ]);
     }
 }

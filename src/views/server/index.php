@@ -17,7 +17,7 @@ use yii\helpers\Html;
 /**
  * @var View $this
  */
-$this->title = Yii::t('app', 'Servers');
+$this->title = Yii::t('hipanel/server', 'Servers');
 $this->subtitle = Yii::t('app', array_filter(Yii::$app->request->get($model->formName(), [])) ? 'filtered list' : 'full list');
 $this->breadcrumbs->setItems([
     $this->title

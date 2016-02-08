@@ -54,9 +54,9 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
      */
     public function attributeLabels () {
         return [
-            'osimagae' => Yii::t('app', 'System name of image'),
-            'os'       => Yii::t('app', 'OS'),
-            'softpack' => Yii::t('app', 'Soft package'),
+            'osimagae' => Yii::t('hipanel/server/os', 'System name of image'),
+            'os'       => Yii::t('hipanel/server/os', 'OS'),
+            'softpack' => Yii::t('hipanel/server/os', 'Soft package'),
         ];
     }
 }

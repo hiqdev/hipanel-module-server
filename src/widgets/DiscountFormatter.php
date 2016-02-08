@@ -32,14 +32,18 @@ class DiscountFormatter extends Widget
 
     public function run()
     {
-        $this->getView()->registerJs("$('.discount-popover').popover();", \yii\web\View::POS_READY, 'discount-popover');
+        if ($this->current > 0 || $this->next > 0) {
+            $this->getView()->registerJs("$('.discount-popover').popover();", \yii\web\View::POS_READY, 'discount-popover');
 
-        return Html::a(Yii::$app->formatter->asPercent($this->current / 100), '#', [
-            'onClick' => 'return false',
-            'title' => Yii::t('app', 'Next discount'),
-            'class' => 'btn btn-default btn-xs discount-popover',
-            'data-trigger' => 'focus',
-            'data-content' => Yii::$app->formatter->asPercent($this->next / 100),
-        ]);
+            return Html::a(Yii::$app->formatter->asPercent($this->current / 100), '#', [
+                'onClick' => 'return false',
+                'title' => Yii::t('hipanel/server', 'Next discount'),
+                'class' => 'btn btn-default btn-xs discount-popover',
+                'data-trigger' => 'focus',
+                'data-content' => Yii::$app->formatter->asPercent($this->next / 100),
+            ]);
+        }
+
+        return '';
     }
 }

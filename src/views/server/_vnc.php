@@ -3,7 +3,7 @@ use yii\helpers\Html;
 
 if ($model->vnc['enabled']) {
     echo Html::tag('span',
-        Html::tag('i', '', ['class' => 'glyphicon glyphicon-ok']) . ' ' . Yii::t('app', 'Enabled'),
+        Html::tag('i', '', ['class' => 'glyphicon glyphicon-ok']) . ' ' . Yii::t('hipanel/server', 'Enabled'),
         ['class' => 'label label-success']);
 
     $fields = [
@@ -20,22 +20,22 @@ if ($model->vnc['enabled']) {
         } ?>
     </dl>
     <?php if (!empty($model->vnc['endTime']) && $model->vnc['endTime'] > time()) {
-        echo Yii::t('app', 'VNC will be disabled ') . \Yii::$app->formatter->asRelativeTime($model->vnc['endTime']);
+        echo Yii::t('hipanel/server', 'VNC will be disabled {time}', ['time' => Yii::$app->formatter->asRelativeTime($model->vnc['endTime'])]);
     }
 } else {
     echo Html::beginForm(['enable-vnc', 'id' => $model->id], "POST", ['data' => ['pjax' => 1], 'class' => 'inline']);
     echo Html::submitButton(
-        Yii::t('app', 'Enable'),
+        Yii::t('hipanel/server', 'Enable'),
         [
             'class'             => 'btn btn-success',
-            'data-loading-text' => Yii::t('app', 'Enabling...'),
+            'data-loading-text' => Yii::t('hipanel/server', 'Enabling...'),
             'onClick'           => new \yii\web\JsExpression("$(this).closest('form').submit(); $(this).button('loading')"),
             'disabled'          => !$model->isOperable() || !$model->isVNCSupported(),
         ]
     );
     echo ' ';
     if (!$model->isVNCSupported()) {
-        echo Yii::t('app', 'VNC is supported only on XEN');
+        echo Yii::t('hipanel/server', 'VNC is supported only on XEN visualization');
     }
     echo Html::endForm();
 }

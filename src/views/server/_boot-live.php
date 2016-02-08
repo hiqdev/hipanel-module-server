@@ -18,16 +18,16 @@ if ($model->isLiveCDSupported()) {
     ModalButton::begin([
         'model'    => $model,
         'button'   => [
-            'label'    => Yii::t('app', 'Boot LiveCD'),
+            'label'    => Yii::t('hipanel/server', 'Boot LiveCD'),
             'class'    => 'btn btn-default',
             'disabled' => !$model->isOperable(),
             'position' => ModalButton::BUTTON_IN_MODAL,
         ],
         'modal'    => [
-            'header'        => Html::tag('h4', Yii::t('app', 'Confirm booting from Live CD')),
+            'header'        => Html::tag('h4', Yii::t('hipanel/server', 'Confirm booting from Live CD')),
             'headerOptions' => ['class' => 'label-info'],
             'footer'        => \yii\bootstrap\ButtonDropdown::widget([
-                'label'    => Yii::t('app', 'Boot LiveCD'),
+                'label'    => Yii::t('hipanel/server', 'Boot LiveCD'),
                 'dropdown' => [
                     'items' => $os_items
                 ],
@@ -40,7 +40,7 @@ if ($model->isLiveCDSupported()) {
 
     ]);
     echo Html::hiddenInput('osimage', null, ['class' => 'livecd-osimage']);
-    echo Yii::t('app', 'This action will shutdown the server and boot live cd image');
+    echo Yii::t('hipanel/server', 'This action will shutdown the server and boot live cd image');
 
     ModalButton::end();
 }
