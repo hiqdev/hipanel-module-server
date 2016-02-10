@@ -68,9 +68,11 @@ class ServerController extends CrudController
                     ])->joinWith('resources')->one();
 
                     $ispSupported = false;
-                    foreach ($tariff->getResources() as $resource) {
-                        if ($resource->type === 'isp' && $resource->quantity > 0) {
-                            $ispSupported = true;
+                    if ($tariff !== null) {
+                        foreach ($tariff->getResources() as $resource) {
+                            if ($resource->type === 'isp' && $resource->quantity > 0) {
+                                $ispSupported = true;
+                            }
                         }
                     }
 
