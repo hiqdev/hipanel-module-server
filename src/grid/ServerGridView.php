@@ -74,7 +74,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'text',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) {
-                    return $model->panel ?: Yii::t('hipanel/server/panel', 'No control panel');
+                    return $model->panel ? Yii::t('hipanel/server/panel', $model->panel) : Yii::t('hipanel/server/panel', 'No control panel');
                 }
             ],
             'os' => [
@@ -111,6 +111,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'discount' => [
                 'attribute' => 'discount',
+                'label' => Yii::t('hipanel/server', 'Discount'),
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'value' => function ($model) {
