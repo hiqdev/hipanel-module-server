@@ -19,7 +19,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
         'components' => [
             'i18n' => [
                 'translations' => [
-                    'hipanel/server' => [
+                    'hipanel/server*' => [
                         'class' => 'yii\i18n\PhpMessageSource',
                         'basePath' => '@hipanel/modules/server/messages',
                         'fileMap' => [
