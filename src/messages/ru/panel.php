@@ -1,3 +1,5 @@
 <?php
 
-return [];
+return [
+    'No control panel' => 'Без панели управления',
+];

@@ -74,7 +74,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'text',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) {
-                    return $model->panel ?: Yii::t('hipanel/server', 'No control panel');
+                    return $model->panel ?: Yii::t('hipanel/server/panel', 'No control panel');
                 }
             ],
             'os' => [
