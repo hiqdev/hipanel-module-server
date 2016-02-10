@@ -110,6 +110,7 @@ return [
     'Resinstalling started...' => 'Переустановка запущена...',
     'Root password reset task has been successfully added to queue' => 'Пароль root будет сброшен',
     'Server already has a running task. Can not start new.' => 'Сервер уже выполняет задание, запустить новое пока невозможно.',
+    'Server information' => 'Информация о сервере',
     'Server reinstalling task has been successfully added to queue' => 'Задача переустановки сервера создана успешно',
     'Server renewal enabled successfully' => 'Автопродление сервера включено',
     'Server was blocked successfully' => 'Сервер заблокирован',
