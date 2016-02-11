@@ -168,6 +168,11 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'pluginOptions' => [
                     'emptytext' => Yii::t('app', 'set note'),
                     'url'       => Url::to('set-note')
+                ],
+                'widgetOptions' => [
+                    'linkOptions' => [
+                        'data-type' => 'textarea',
+                    ]
                 ]
             ],
             'label' => [
@@ -177,6 +182,11 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     'emptytext' => Yii::t('app', 'set internal note'),
                     'url'       => Url::to('set-label')
                 ],
+                'widgetOptions' => [
+                    'linkOptions' => [
+                        'data-type' => 'textarea',
+                    ]
+                ]
             ]
         ];
     }

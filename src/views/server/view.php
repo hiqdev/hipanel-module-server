@@ -25,41 +25,105 @@ Pjax::begin();
 <div class="row">
     <div class="col-md-3">
         <?php Box::begin(); ?>
-        <div class="profile-user-img text-center">
-            <i class="fa fa-server fa-5x"></i>
-        </div>
-        <p class="text-center">
-            <span class="profile-user-role"><?= $model->name ?></span>
-            <br>
-            <span class="profile-user-name"><?= ClientSellerLink::widget(compact('model')) ?></span>
-        </p>
-        <?php Pjax::begin(['enablePushState' => false]) ?>
-        <div class="profile-usermenu">
-            <ul class="nav">
-                <?php if ($model->isPwChangeSupported()) { ?>
+            <div class="profile-user-img text-center">
+                <i class="fa fa-server fa-5x"></i>
+            </div>
+            <p class="text-center">
+                <span class="profile-user-role"><?= $model->name ?></span>
+                <br>
+                <span class="profile-user-name"><?= ClientSellerLink::widget(compact('model')) ?></span>
+            </p>
+            <?php Pjax::begin(['enablePushState' => false]) ?>
+            <div class="profile-usermenu">
+                <ul class="nav">
+                    <?php if ($model->isPwChangeSupported()) { ?>
+                        <li>
+                            <?= $this->render('_reset-password', compact(['model'])) ?>
+                        </li>
+                    <?php } ?>
                     <li>
-                        <?= $this->render('_reset-password', compact(['model'])) ?>
+                        <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
                     </li>
-                <?php } ?>
-                <li>
-                    <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
-                </li>
-                <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
-                    <li>
-                        <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
-                    </li>
-                <?php } ?>
-                <?php if (Yii::$app->user->can('support')) { ?>
-                    <li>
-                        <?= $this->render('_delete', compact(['model'])) ?>
-                    </li>
-                <?php } ?>
-            </ul>
-        </div>
-        <?php Pjax::end() ?>
+                    <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
+                        <li>
+                            <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
+                        </li>
+                    <?php } ?>
+                    <?php if (Yii::$app->user->can('support')) { ?>
+                        <li>
+                            <?= $this->render('_delete', compact(['model'])) ?>
+                        </li>
+                    <?php } ?>
+                </ul>
+            </div>
+            <?php Pjax::end() ?>
         <?php Box::end(); ?>
-    </div>
 
+        <?php if ($model->isVNCSupported()) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel/server', 'VNC server'));
+                        $box->endHeader();
+                        $box->beginBody();
+                            echo $this->render('_vnc', compact(['model']));
+                        $box->endBody();
+                    $box->end();
+                    ?>
+                </div>
+            </div>
+        <?php } ?>
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                $box = Box::begin(['renderBody' => false]);
+                $box->beginHeader();
+                    echo $box->renderTitle(Yii::t('hipanel/server', 'System management'));
+                $box->endHeader();
+                $box->beginBody();
+                    echo $this->render('_reboot', compact(['model']));
+                    echo $this->render('_shutdown', compact(['model']));
+                    if ($model->isLiveCDSupported()) {
+                        echo $this->render('_boot-live', compact(['model', 'osimageslivecd']));
+                    }
+                $box->endBody();
+                $box->end();
+                ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
+                        echo $box->renderTitle(Yii::t('hipanel/server', 'Power management'));
+                    $box->endHeader();
+                    $box->beginBody();
+                        echo $this->render('_power-on', compact(['model']));
+                        echo $this->render('_power-off', compact(['model']));
+                        echo $this->render('_reset', compact(['model']));
+                    $box->endBody();
+                $box->end();
+                ?>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
+                        echo $box->renderTitle(Yii::t('hipanel/server', 'Event log'));
+                    $box->endHeader();
+                    $box->beginBody();
+                        echo $this->render('_log', compact('model'));
+                    $box->endBody();
+                $box->end();
+                ?>
+            </div>
+        </div>
+    </div>
     <div class="col-md-4">
         <div class="row">
             <div class="col-md-12">
@@ -114,70 +178,16 @@ Pjax::begin();
     </div>
     <?php Pjax::begin(['enablePushState' => false]) ?>
     <div class="col-md-4">
-        <?php if ($model->isVNCSupported()) { ?>
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'VNC server'));
-                    $box->endHeader();
-                    $box->beginBody();
-                        echo $this->render('_vnc', compact(['model']));
-                    $box->endBody();
-                $box->end();
-                ?>
-            </div>
-        </div>
-        <?php } ?>
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel/server', 'System management'));
-                $box->endHeader();
-                $box->beginBody();
-                    echo $this->render('_reboot', compact(['model']));
-                    echo $this->render('_shutdown', compact(['model']));
-                    if ($model->isLiveCDSupported()) {
-                        echo $this->render('_boot-live', compact(['model', 'osimageslivecd']));
-                    }
-                $box->endBody();
-                $box->end();
-                ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Power management'));
-                    $box->endHeader();
-                    $box->beginBody();
-                        echo $this->render('_reset', compact(['model']));
-                        echo $this->render('_power-off', compact(['model']));
-                        echo $this->render('_power-on', compact(['model']));
-                    $box->endBody();
-                $box->end();
-                ?>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Event log'));
-                    $box->endHeader();
-                    $box->beginBody();
-                        echo $this->render('_log', compact('model'));
-                    $box->endBody();
-                $box->end();
-                ?>
-            </div>
-        </div>
+        <?php
+        $box = Box::begin(['renderBody' => false]);
+            $box->beginHeader();
+                echo $box->renderTitle(Yii::t('hipanel/server', 'Resources consumption'));
+            $box->endHeader();
+            $box->beginBody();
+                echo 'yo';
+            $box->endBody();
+        $box->end();
+        ?>
     </div>
     <?php Pjax::end() ?>
 </div>
