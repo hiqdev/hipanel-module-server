@@ -7,6 +7,7 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\grid\XEditableColumn;
 use hipanel\helpers\Url;
 use hipanel\widgets\ArraySpoiler;
 use Yii;
@@ -164,9 +165,8 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'date',
             ],
             'note' => [
-                'class' => 'hiqdev\xeditable\grid\XEditableColumn',
+                'class' => XEditableColumn::class,
                 'pluginOptions' => [
-                    'emptytext' => Yii::t('app', 'set note'),
                     'url'       => Url::to('set-note')
                 ],
                 'widgetOptions' => [
@@ -176,10 +176,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 ]
             ],
             'label' => [
-                'class' => 'hiqdev\xeditable\grid\XEditableColumn',
+                'class' => XEditableColumn::class,
                 'visible' => Yii::$app->user->can('support'),
                 'pluginOptions' => [
-                    'emptytext' => Yii::t('app', 'set internal note'),
                     'url'       => Url::to('set-label')
                 ],
                 'widgetOptions' => [
