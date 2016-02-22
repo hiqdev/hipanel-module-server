@@ -21,7 +21,7 @@ class Server extends \hipanel\base\Model
     const STATE_BLOCKED = 'blocked';
     const STATE_DELETED = 'deleted';
 
-    /**
+     /**
      * @return array the list of attributes for this record
      */
 //    public function attributes()
@@ -90,6 +90,7 @@ class Server extends \hipanel\base\Model
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
             [['type', 'comment'], 'required', 'on' => ['enable-block']],
             [['comment'], 'safe', 'on' => ['disable-block']],
+            [['uses'], 'safe', 'on' => ['never']],
         ];
     }
 

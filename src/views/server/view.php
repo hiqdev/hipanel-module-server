@@ -177,14 +177,14 @@ Pjax::begin();
         </div>
     </div>
     <?php Pjax::begin(['enablePushState' => false]) ?>
-    <div class="col-md-4">
+    <div class="col-md-5">
         <?php
         $box = Box::begin(['renderBody' => false]);
             $box->beginHeader();
                 echo $box->renderTitle(Yii::t('hipanel/server', 'Resources consumption'));
             $box->endHeader();
             $box->beginBody();
-
+                echo $this->render('_consumption', ['model' => $model]);
             $box->endBody();
         $box->end();
         ?>
