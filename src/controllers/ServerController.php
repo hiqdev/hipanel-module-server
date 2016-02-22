@@ -18,7 +18,6 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
-use hipanel\modules\finance\controllers\TariffController;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
@@ -49,7 +48,12 @@ class ServerController extends CrudController
             ],
             'view' => [
                 'class'       => ViewAction::class,
-                'findOptions' => ['with_requests' => true, 'show_deleted' => true, 'with_discounts' => true],
+                'findOptions' => [
+                    'with_requests' => true,
+                    'show_deleted' => true,
+                    'with_discounts' => true,
+                    'with_uses' => true,
+                ],
                 'data'        => function ($action) {
                     /**
                      * @var $controller $this
@@ -60,12 +64,15 @@ class ServerController extends CrudController
                     $model->vnc = $controller->getVNCInfo($model);
 
                     $panels = $controller->getPanelTypes();
-                    $tariff = Tariff::find()->where([
-                        'id' => $model->tariff_id,
-                        'show_final' => true,
-                        'show_deleted' => true,
-                        'with_resources' => true,
-                    ])->joinWith('resources')->one();
+
+                    $tariff = Yii::$app->cache->getAuthTimeCached(3600, [$model->tariff_id], function ($tariff_id) {
+                        return Tariff::find()->where([
+                            'id' => $tariff_id,
+                            'show_final' => true,
+                            'show_deleted' => true,
+                            'with_resources' => true,
+                        ])->joinWith('resources')->one();
+                    });
 
                     $ispSupported = false;
                     if ($tariff !== null) {
@@ -251,20 +258,28 @@ class ServerController extends CrudController
             $condition['type'] = $model->type;
         }
 
-        if (($models = Osimage::find()->where($condition)->all()) !== null) {
+        $models = Yii::$app->cache->getTimeCached(3600, [$condition], function ($condition) {
+            return Osimage::find()->where($condition)->all();
+        });
+
+        if ($models !== null) {
             return $models;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     protected function getOsimagesLiveCd()
     {
-        if (($models = Osimage::findAll(['livecd' => true])) !== null) {
+        $models = Yii::$app->cache->getTimeCached(3600, [true], function ($livecd) {
+            return Osimage::findAll(['livecd' => $livecd]);
+        });
+
+        if ($models !== null) {
             return $models;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+
+        throw new NotFoundHttpException('The requested page does not exist.');
     }
 
     protected function getPanelTypes()

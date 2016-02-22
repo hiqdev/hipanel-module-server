@@ -184,7 +184,7 @@ Pjax::begin();
                 echo $box->renderTitle(Yii::t('hipanel/server', 'Resources consumption'));
             $box->endHeader();
             $box->beginBody();
-                echo 'yo';
+
             $box->endBody();
         $box->end();
         ?>
