@@ -22,6 +22,7 @@ use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use Yii;
+use yii\base\Event;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 
@@ -48,12 +49,20 @@ class ServerController extends CrudController
             ],
             'view' => [
                 'class'       => ViewAction::class,
-                'findOptions' => [
-                    'with_requests' => true,
-                    'show_deleted' => true,
-                    'with_discounts' => true,
-                    'with_uses' => true,
-                ],
+                'on beforePerform' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith('uses');
+
+                    // TODO: ipModule is not wise yet. Redo
+                    $dataProvider->query
+                        ->andWhere(['with_requests' => 1])
+                        ->andWhere(['show_deleted' => 1])
+                        ->andWhere(['with_discounts' => 1])
+                        ->andWhere(['with_uses' => 1])
+                        ->select(['*']);
+                },
                 'data'        => function ($action) {
                     /**
                      * @var $controller $this
