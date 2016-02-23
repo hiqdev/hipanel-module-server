@@ -181,10 +181,25 @@ Pjax::begin();
         <?php
         $box = Box::begin(['renderBody' => false]);
             $box->beginHeader();
-                echo $box->renderTitle(Yii::t('hipanel/server', 'Resources consumption'));
+                echo $box->renderTitle(Yii::t('hipanel/server', 'Traffic consumption'));
             $box->endHeader();
             $box->beginBody();
-                echo $this->render('_consumption', ['model' => $model]);
+                echo $this->render('_traffic_consumption', ['model' => $model]);
+            $box->endBody();
+        $box->end();
+        ?>
+    </div>
+    <?php Pjax::end() ?>
+
+    <?php Pjax::begin(['enablePushState' => false]) ?>
+    <div class="col-md-5">
+        <?php
+        $box = Box::begin(['renderBody' => false]);
+            $box->beginHeader();
+                echo $box->renderTitle(Yii::t('hipanel/server', 'Bandwidth consumption'));
+            $box->endHeader();
+            $box->beginBody();
+                echo $this->render('_bandwidth_consumption', ['model' => $model]);
             $box->endBody();
         $box->end();
         ?>
