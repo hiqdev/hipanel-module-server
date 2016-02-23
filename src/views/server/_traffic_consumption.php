@@ -1,45 +1,26 @@
 <?php
 
-use dosamigos\chartjs\ChartJs;
+use hipanel\widgets\ChartJs;
 use yii\helpers\Html;
 
-$labels = [];
-$sets = [];
-
-$usesPerMonth = (array)$model->uses;
+list($labels, $data) = $model->groupUsesForCharts();
 
 ?>
 
 <div class="row">
     <div class="col-md-12">
         <?php
-
-        if ($usesPerMonth === []) {
+        if ($data === []) {
             echo Yii::t('hipanel/server', 'Traffic consumption history is not available for this server');
         } else {
-            ksort($usesPerMonth);
-
-            foreach ($usesPerMonth as $month => $uses) {
-                $labels[] = Yii::$app->formatter->asDate(strtotime($month), 'LLL y');
-
-                foreach ($uses as $use) {
-                    if (in_array($use['type'], ['server_traf95', 'server_traf95_in', 'server_traf95_max'])) {
-                        $value = $use['last'];
-                    } else {
-                        $value = $use['total'];
-                    }
-
-                    $data[$use['type']][] = $value;
-                }
-            }
-
             echo Html::tag('div', ChartJs::widget([
                 'type' => 'Line',
+                'legend' => true,
                 'data' => [
-                    'labels' => $labels,
+                    'labels' => array_values($labels),
                     'datasets' => [
                         [
-                            'label' => 'out',
+                            'label' => Yii::t('hipanel/server', 'Total outgoing traffic, Gb'),
                             'fillColor' => "rgba(220,220,220,0.5)",
                             'strokeColor' => "rgba(220,220,220,1)",
                             'pointColor' => "rgba(220,220,220,1)",
@@ -47,7 +28,7 @@ $usesPerMonth = (array)$model->uses;
                             'data' => $data['server_traf']
                         ],
                         [
-                            'label' => 'out',
+                            'label' => Yii::t('hipanel/server', 'Total incoming traffic, Gb'),
                             'fillColor' => "rgba(151,187,205,0.5)",
                             'strokeColor' => "rgba(151,187,205,1)",
                             'pointColor' => "rgba(151,187,205,1)",
@@ -61,7 +42,7 @@ $usesPerMonth = (array)$model->uses;
                     'responsive' => true,
                     'maintainAspectRatio' => true,
                 ]
-            ]));
+            ]), ['class' => 'traffic-chart-wrapper']);
         }
 
         ?>
