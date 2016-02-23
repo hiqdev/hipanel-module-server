@@ -138,5 +138,10 @@ return [
     'You have refused the service' => 'Вы отказались от услуги',
     'since {date}' => 'с {date}',
     'Physical information' => 'Физическая информация',
-    'Resources consumption' => 'Потребление ресурсов',
+    'Traffic consumption' => 'Потребление трафика',
+    'Bandwidth consumption' => 'Использование полосы пропускания',
+    '95th percentile for outgoing bandwidth, Mbit/s' => '95 перцинтиль исходящего канала передачи данных, Мбит/с',
+    '95th percentile for incoming bandwidth, Mbit/s' => '95 перцинтиль входящего канала передачи данных, Мбит/с',
+    'Total incoming traffic, Gb' => 'Всего входящего трафика, Гб',
+    'Total outgoing traffic, Gb' => 'Всего исходящего трафика, Гб',
 ];
