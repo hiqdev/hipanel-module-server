@@ -7,10 +7,12 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\modules\finance\models\RUse;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use Yii;
 use yii\base\NotSupportedException;
+use yii\helpers\ArrayHelper;
 
 class Server extends \hipanel\base\Model
 {
@@ -90,7 +92,6 @@ class Server extends \hipanel\base\Model
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
             [['type', 'comment'], 'required', 'on' => ['enable-block']],
             [['comment'], 'safe', 'on' => ['disable-block']],
-            [['uses'], 'safe', 'on' => ['never']],
         ];
     }
 
@@ -180,8 +181,35 @@ class Server extends \hipanel\base\Model
      * Method checks, whether 5 days passed.
      * @return bool
      */
-    public function canFullRefuse() {
+    public function canFullRefuse()
+    {
         return (time() - Yii::$app->formatter->asTimestamp($this->last_expires)) / 3600 / 24 < 5;
+    }
+
+    public function groupUsesForCharts()
+    {
+        $labels = [];
+        $data = [];
+
+        $uses = $this->uses;
+        ArrayHelper::multisort($uses, 'date');
+
+        foreach ($uses as $use) {
+            /** @var ServerUse $use */
+            $labels[$use->date] = $use;
+            $data[$use->type][] = $use->getDisplayAmount();
+        }
+
+        foreach ($labels as $date => $use) {
+            $labels[$date] = $use->getDisplayDate();
+        }
+
+        return [$labels, $data];
+    }
+
+    public function getUses()
+    {
+        return $this->hasMany(ServerUse::class, ['object_id' => 'id']);
     }
 
     /**
