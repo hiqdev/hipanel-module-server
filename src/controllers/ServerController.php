@@ -19,8 +19,10 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\server\models\ConsumptionForm;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\models\ServerSearch;
 use Yii;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
@@ -100,8 +102,9 @@ class ServerController extends CrudController
                     }
 
                     $blockReasons = $controller->getBlockReasons();
+                    $consumptionFormModel = new ConsumptionForm();
 
-                    return compact(['model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels', 'blockReasons']);
+                    return compact(['model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels', 'blockReasons', 'consumptionFormModel']);
                 },
             ],
             'requests-state' => [
@@ -251,6 +254,17 @@ class ServerController extends CrudController
         }
 
         return $vnc;
+    }
+
+    public function actionDrawUsage($id, $type, $from, $to, $groupBy)
+    {
+        if (!in_array($type, ['traffic', 'bandwidth'])) {
+            throw new NotFoundHttpException();
+        }
+
+        $model = ServerSearch::find();
+
+        return $this->renderPartial('_' . $type . '_consumption', ['model' => $model]);
     }
 
     /**

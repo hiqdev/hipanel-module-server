@@ -45,8 +45,7 @@
     "require": {
         "yiisoft/yii2": "2.*",
         "hiqdev/hipanel-module-client": "*",
-        "hiqdev/hipanel-module-finance": "*",
-        "omnilight/yii2-bootstrap-daterangepicker" : "~1.0"
+        "hiqdev/hipanel-module-finance": "*"
     },
     "autoload": {
         "psr-4": {
