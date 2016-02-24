@@ -176,7 +176,6 @@ Pjax::begin();
             <?php Pjax::end() ?>
         </div>
     </div>
-    <?php Pjax::begin(['enablePushState' => false]) ?>
     <div class="col-md-5">
         <?php
         $box = Box::begin(['renderBody' => false]);
@@ -189,9 +188,7 @@ Pjax::begin();
         $box->end();
         ?>
     </div>
-    <?php Pjax::end() ?>
 
-    <?php Pjax::begin(['enablePushState' => false]) ?>
     <div class="col-md-5">
         <?php
         $box = Box::begin(['renderBody' => false]);
@@ -204,7 +201,6 @@ Pjax::begin();
         $box->end();
         ?>
     </div>
-    <?php Pjax::end() ?>
 </div>
 
 <?php

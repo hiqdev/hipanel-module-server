@@ -7,7 +7,7 @@ list($labels, $data) = $model->groupUsesForCharts();
 
 ?>
 
-<div class="row">
+<div class="row traffic-consumption">
     <div class="col-md-12">
         <?php
         if ($data === []) {

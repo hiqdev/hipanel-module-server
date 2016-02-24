@@ -7,7 +7,7 @@ list($labels, $data) = $model->groupUsesForCharts();
 
 ?>
 
-<div class="row">
+<div class="row bandwidth-consumption">
     <div class="col-md-12">
         <?php
         if ($data === []) {
@@ -42,7 +42,7 @@ list($labels, $data) = $model->groupUsesForCharts();
                     'responsive' => true,
                     'maintainAspectRatio' => true,
                 ]
-            ]), ['class' => 'traffic-chart-wrapper']);
+            ]), ['class' => 'bandwidth-chart-wrapper']);
         }
 
         ?>

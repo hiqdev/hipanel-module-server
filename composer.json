@@ -45,7 +45,8 @@
     "require": {
         "yiisoft/yii2": "2.*",
         "hiqdev/hipanel-module-client": "*",
-        "hiqdev/hipanel-module-finance": "*"
+        "hiqdev/hipanel-module-finance": "*",
+        "2amigos/yii2-date-picker-widget" : "~1.0"
     },
     "autoload": {
         "psr-4": {
