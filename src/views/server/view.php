@@ -1,5 +1,6 @@
 <?php
 
+use dosamigos\datepicker\DateRangePicker;
 use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\Server;
@@ -181,6 +182,8 @@ Pjax::begin();
         $box = Box::begin(['renderBody' => false]);
             $box->beginHeader();
                 echo $box->renderTitle(Yii::t('hipanel/server', 'Traffic consumption'));
+                $box->beginTools();
+                $box->endTools();
             $box->endHeader();
             $box->beginBody();
                 echo $this->render('_traffic_consumption', ['model' => $model]);
