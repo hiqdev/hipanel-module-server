@@ -42,10 +42,17 @@
             "homepage": "http://hiqdev.com/"
         }
     ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/hiqdev/yii2-bootstrap-daterangepicker"
+        }
+    ],
     "require": {
         "yiisoft/yii2": "2.*",
         "hiqdev/hipanel-module-client": "*",
-        "hiqdev/hipanel-module-finance": "*"
+        "hiqdev/hipanel-module-finance": "*",
+        "omnilight/yii2-bootstrap-daterangepicker": "*"
     },
     "autoload": {
         "psr-4": {

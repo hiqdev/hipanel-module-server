@@ -182,7 +182,6 @@ Pjax::begin();
             $box->beginHeader();
                 echo $box->renderTitle(Yii::t('hipanel/server', 'Traffic consumption'));
                 $box->beginTools();
-
                 $box->endTools();
             $box->endHeader();
             $box->beginBody();
