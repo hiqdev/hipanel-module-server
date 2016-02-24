@@ -28,6 +28,11 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
                             'hipanel/server/panel' => 'panel.php',
                         ],
                     ],
+                    'omnilight/daterangepicker' => [ // TODO: get rid after PluginManager removing
+                        'class' => 'yii\i18n\PhpMessageSource',
+                        'basePath' => '@omnilight/daterangepicker/messages',
+                        'sourceLanguage' => 'en-US',
+                    ]
                 ],
             ],
         ],
