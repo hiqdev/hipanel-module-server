@@ -10,13 +10,14 @@ use yii\helpers\Html;
 
 ?>
 
-<div class="row bandwidth-consumption">
+<div class="row bandwidth-consumption-chart-wrapper">
     <div class="col-md-12">
         <?php
         if ($data === []) {
             echo Yii::t('hipanel/server', 'Bandwidth consumption history is not available for this server');
         } else {
             echo Html::tag('div', ChartJs::widget([
+                'id' => 'bandwidth_consumption_chart',
                 'type' => 'Line',
                 'legend' => true,
                 'data' => [
@@ -45,7 +46,7 @@ use yii\helpers\Html;
                     'responsive' => true,
                     'maintainAspectRatio' => true,
                 ]
-            ]), ['class' => 'bandwidth-chart-wrapper']);
+            ]));
         }
 
         ?>

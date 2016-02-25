@@ -186,90 +186,16 @@ Pjax::begin();
                     $box->beginHeader();
                         echo $box->renderTitle(Yii::t('hipanel/server', 'Traffic consumption'));
                         $box->beginTools();
-                            echo Html::beginForm(['draw-chart'], 'post', ['class' => 'form-inline traffic-consumption']);
-                                echo Html::hiddenInput('id', $model->id);
-                                echo Html::hiddenInput('type', 'traffic');
-                                echo Html::hiddenInput('from');
-                                echo Html::hiddenInput('till'); ?>
-
-                                <div class="form-group">
-                                    <button type="button" class="btn btn-sm" id="traffic-consumption-period-btn">
-                                        <i class="fa fa-calendar"></i>
-                                            <span data-prompt="<?= Yii::t('hipanel/server', 'Interval') ?>">
-                                                <?= Yii::t('hipanel/server', 'Interval') ?>
-                                            </span>
-                                        <i class="fa fa-caret-down"></i>
-                                    </button>
-
-                                    <?= Html::dropDownList('aggregation', 'month', [
-                                        'day' => Yii::t('hipanel/server', 'Daily'),
-                                        'week' => Yii::t('hipanel/server', 'Weekly'),
-                                        'month' => Yii::t('hipanel/server', 'Monthly'),
-                                    ], ['class' => 'form-control input-sm']) ?>
-                                </div>
-
-                            <?php
-                            echo \omnilight\widgets\DateRangePicker::widget([
-                                'name' => false,
-                                'options' => [
-                                    'tag' => false,
-                                    'id' => 'traffic-consumption-period-btn'
+                            echo \hipanel\modules\server\widgets\ChartOptions::widget([
+                                'id' => 'traffic-consumption',
+                                'form' => [
+                                    'action' => 'draw-chart'
                                 ],
-                                'clientEvents' => [
-                                    'apply.daterangepicker' => new JsExpression(/** @lang JavaScript */"
-                                        function (event, picker) {
-                                            var form = $(picker.element[0]).closest('form');
-                                            var span = form.find('#traffic-consumption-period-btn span');
-
-                                            span.text(picker.startDate.format('ll') + ' - ' + picker.endDate.format('ll'));
-
-                                            form.find('input[name=from]').val(picker.startDate.format());
-                                            form.find('input[name=till]').val(picker.endDate.format());
-                                            form.trigger('change.updateChart');
-                                        }
-                                    "),
-                                    'cancel.daterangepicker' => new JsExpression(/** @lang JavaScript */"
-                                        function (event, picker) {
-                                            var form = $(event.element[0]).closest('form');
-                                            var span = form.find('#traffic-consumption-period-btn span');
-
-                                            span.text(span.data('prompt'));
-
-                                            form.find('input[name=from]').val('');
-                                            form.find('input[name=till]').val('');
-                                            form.trigger('change.updateChart');
-                                        }
-                                    "),
-                                ],
-                                'clientOptions' => [
-                                    'ranges' => [
-                                        Yii::t('hipanel/server', 'Last Month') => new JsExpression('[moment().subtract("month", 1).startOf("month"), new Date()]'),
-                                        Yii::t('hipanel/server', 'Last 3 months') => new JsExpression('[moment().subtract("month", 3).startOf("month"), new Date()]'),
-                                        Yii::t('hipanel/server', 'Last year') => new JsExpression('[moment().subtract("year", 1).startOf("year"), new Date()]'),
-                                    ]
+                                'hiddenInputs' => [
+                                    'id' => ['value' => $model->id],
+                                    'type' => ['value' => 'traffic']
                                 ]
                             ]);
-
-                            $this->registerJs(/** @lang JavaScript */"
-                                $('.traffic-consumption').on('change.updateChart', function (event) {
-                                    var defaultOptions = {
-                                        url: $(this).attr('action'),
-                                        data: $(this).serializeArray(),
-                                        type: 'post',
-                                        beforeSend: function () {
-                                            $('.traffic-consumption').closest('.box').append($('<div>').addClass('overlay').html($('<i>').addClass('fa fa-refresh fa-spin')));
-                                        },
-                                        success: function (html) {
-                                            $('.traffic-consumption').closest('.box').find('.overlay').remove();
-                                            $('.traffic-consumption-chart-wrapper').replaceWith(html);
-                                        }
-                                    };
-                                    event.preventDefault();
-                                    $.ajax(defaultOptions);
-                                });
-                            "); ?>
-                        <?php
-                        echo Html::endForm();
                         $box->endTools();
                     $box->endHeader();
                     $box->beginBody();
@@ -286,6 +212,18 @@ Pjax::begin();
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
                         echo $box->renderTitle(Yii::t('hipanel/server', 'Bandwidth consumption'));
+                        $box->beginTools();
+                        echo \hipanel\modules\server\widgets\ChartOptions::widget([
+                            'id' => 'bandwidth-consumption',
+                            'form' => [
+                                'action' => 'draw-chart'
+                            ],
+                            'hiddenInputs' => [
+                                'id' => ['value' => $model->id],
+                                'type' => ['value' => 'bandwidth']
+                            ]
+                        ]);
+                        $box->endTools();
                     $box->endHeader();
                     $box->beginBody();
                         list($labels, $data) = $model->groupUsesForCharts();
