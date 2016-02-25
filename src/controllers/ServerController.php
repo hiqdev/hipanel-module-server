@@ -19,10 +19,12 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\ConsumptionForm;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerSearch;
+use hipanel\modules\server\models\ServerUseSearch;
 use Yii;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
@@ -102,9 +104,8 @@ class ServerController extends CrudController
                     }
 
                     $blockReasons = $controller->getBlockReasons();
-                    $consumptionFormModel = new ConsumptionForm();
 
-                    return compact(['model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels', 'blockReasons', 'consumptionFormModel']);
+                    return compact(['model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels', 'blockReasons']);
                 },
             ],
             'requests-state' => [
@@ -256,15 +257,28 @@ class ServerController extends CrudController
         return $vnc;
     }
 
-    public function actionDrawUsage($id, $type, $from, $to, $groupBy)
+    public function actionDrawChart()
     {
-        if (!in_array($type, ['traffic', 'bandwidth'])) {
+        $post = Yii::$app->request->post();
+        if (!in_array($post['type'], ['traffic', 'bandwidth'])) {
             throw new NotFoundHttpException();
         }
 
-        $model = ServerSearch::find();
+        $searchModel = new ServerUseSearch();
+        $dataProvider = $searchModel->search([]);
+        $dataProvider->pagination = false;
+        $dataProvider->query->options = ['scenario' => 'get-uses'];
+        $dataProvider->query->index = 'servers';
+        $dataProvider->query->type = 'server';
+        $dataProvider->query->andWhere($post);
+        $models = $dataProvider->getModels();
 
-        return $this->renderPartial('_' . $type . '_consumption', ['model' => $model]);
+        list ($labels, $data) = ServerHelper::groupUsesForChart($models);
+
+        return $this->renderAjax('_' . $post['type'] . '_consumption', [
+            'labels' => $labels,
+            'data' => $data
+        ]);
     }
 
     /**

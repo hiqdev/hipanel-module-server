@@ -3,17 +3,21 @@
 use hipanel\widgets\ChartJs;
 use yii\helpers\Html;
 
-list($labels, $data) = $model->groupUsesForCharts();
+/**
+ * @var array $labels
+ * @var array $data
+ */
 
 ?>
 
-<div class="row traffic-consumption">
+<div class="row traffic-consumption-chart-wrapper">
     <div class="col-md-12">
         <?php
         if ($data === []) {
             echo Yii::t('hipanel/server', 'Traffic consumption history is not available for this server');
         } else {
             echo Html::tag('div', ChartJs::widget([
+                'id' => 'traffic_consumption_chart',
                 'type' => 'Line',
                 'legend' => true,
                 'data' => [
@@ -42,9 +46,8 @@ list($labels, $data) = $model->groupUsesForCharts();
                     'responsive' => true,
                     'maintainAspectRatio' => true,
                 ]
-            ]), ['class' => 'traffic-chart-wrapper']);
+            ]));
         }
-
         ?>
     </div>
 </div>

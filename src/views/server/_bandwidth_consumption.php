@@ -3,7 +3,10 @@
 use hipanel\widgets\ChartJs;
 use yii\helpers\Html;
 
-list($labels, $data) = $model->groupUsesForCharts();
+/**
+ * @var array $labels
+ * @var array $data
+ */
 
 ?>
 

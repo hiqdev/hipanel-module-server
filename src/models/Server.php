@@ -7,12 +7,11 @@
 
 namespace hipanel\modules\server\models;
 
-use hipanel\modules\finance\models\RUse;
+use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use Yii;
 use yii\base\NotSupportedException;
-use yii\helpers\ArrayHelper;
 
 class Server extends \hipanel\base\Model
 {
@@ -188,23 +187,7 @@ class Server extends \hipanel\base\Model
 
     public function groupUsesForCharts()
     {
-        $labels = [];
-        $data = [];
-
-        $uses = $this->uses;
-        ArrayHelper::multisort($uses, 'date');
-
-        foreach ($uses as $use) {
-            /** @var ServerUse $use */
-            $labels[$use->date] = $use;
-            $data[$use->type][] = $use->getDisplayAmount();
-        }
-
-        foreach ($labels as $date => $use) {
-            $labels[$date] = $use->getDisplayDate();
-        }
-
-        return [$labels, $data];
+        return ServerHelper::groupUsesForChart($this->uses);
     }
 
     public function getUses()
