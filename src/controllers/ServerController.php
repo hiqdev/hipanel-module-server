@@ -20,14 +20,13 @@ use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\helpers\ServerHelper;
-use hipanel\modules\server\models\ConsumptionForm;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
-use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\models\ServerUseSearch;
 use Yii;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 
 class ServerController extends CrudController
@@ -52,7 +51,7 @@ class ServerController extends CrudController
                 ]
             ],
             'view' => [
-                'class'       => ViewAction::class,
+                'class' => ViewAction::class,
                 'on beforePerform' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
@@ -67,7 +66,7 @@ class ServerController extends CrudController
                         ->andWhere(['with_uses' => 1])
                         ->select(['*']);
                 },
-                'data'        => function ($action) {
+                'data' => function ($action) {
                     /**
                      * @var $controller $this
                      * @var $model Server
@@ -105,7 +104,14 @@ class ServerController extends CrudController
 
                     $blockReasons = $controller->getBlockReasons();
 
-                    return compact(['model', 'osimages', 'osimageslivecd', 'grouped_osimages', 'panels', 'blockReasons']);
+                    return compact([
+                        'model',
+                        'osimages',
+                        'osimageslivecd',
+                        'grouped_osimages',
+                        'panels',
+                        'blockReasons'
+                    ]);
                 },
             ],
             'requests-state' => [
@@ -268,8 +274,6 @@ class ServerController extends CrudController
         $dataProvider = $searchModel->search([]);
         $dataProvider->pagination = false;
         $dataProvider->query->options = ['scenario' => 'get-uses'];
-        $dataProvider->query->index = 'servers';
-        $dataProvider->query->type = 'server';
         $dataProvider->query->andWhere($post);
         $models = $dataProvider->getModels();
 
@@ -326,7 +330,8 @@ class ServerController extends CrudController
 
     protected function getStates()
     {
-        return Ref::getList('state,device');
+        $states = Ref::getList('state,device');
+        return $states;
     }
 
     /**

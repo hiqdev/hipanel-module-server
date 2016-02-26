@@ -15,6 +15,21 @@ class ServerUse extends RUse
 {
     use \hipanel\base\ModelTrait;
 
+    public function formName()
+    {
+        return 'ServerUse';
+    }
+
+    public static function index()
+    {
+        return 'servers';
+    }
+
+    public static function type()
+    {
+        return 'server';
+    }
+
     private function getTrafficTypes()
     {
         return ['server_traf_in', 'server_traf_max', 'server_traf'];

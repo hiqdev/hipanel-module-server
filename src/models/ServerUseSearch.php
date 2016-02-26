@@ -14,19 +14,4 @@ use yii\base\InvalidParamException;
 class ServerUseSearch extends ServerUse
 {
     use \hipanel\base\SearchModelTrait;
-
-    public function formName()
-    {
-        return 'ServerUse';
-    }
-
-    public static function index()
-    {
-        return 'Servers';
-    }
-
-    public static function type()
-    {
-        return 'Server';
-    }
 }
