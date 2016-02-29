@@ -3,11 +3,10 @@
 use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
-use yii\bootstrap\Html;
-use yii\web\JsExpression;
 
 /**
  * @var $model Server
@@ -19,6 +18,8 @@ $this->breadcrumbs->setItems([
     ['label' => Yii::t('hipanel/server', 'Servers'), 'url' => ['index']],
     $this->title,
 ]);
+
+list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
 Pjax::begin();
 
@@ -179,60 +180,62 @@ Pjax::begin();
         </div>
     </div>
     <div class="col-md-5">
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Traffic consumption'));
-                        $box->beginTools();
-                            echo \hipanel\modules\server\widgets\ChartOptions::widget([
-                                'id' => 'traffic-consumption',
+        <?php if (isset($chartsData['server_traf'])) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel/server', 'Traffic consumption'));
+                            $box->beginTools();
+                                echo ChartOptions::widget([
+                                    'id' => 'traffic-consumption',
+                                    'form' => [
+                                        'action' => 'draw-chart'
+                                    ],
+                                    'hiddenInputs' => [
+                                        'id' => ['value' => $model->id],
+                                        'type' => ['value' => 'traffic']
+                                    ]
+                                ]);
+                            $box->endTools();
+                        $box->endHeader();
+                        $box->beginBody();
+                            echo $this->render('_traffic_consumption', ['labels' => $chartsLabels, 'data' => $chartsData]);
+                        $box->endBody();
+                    $box->end();
+                    ?>
+                </div>
+            <?php } ?>
+        </div>
+        <?php if (isset($chartsData['server_traf95'])) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel/server', 'Bandwidth consumption'));
+                            $box->beginTools();
+                            echo ChartOptions::widget([
+                                'id' => 'bandwidth-consumption',
                                 'form' => [
                                     'action' => 'draw-chart'
                                 ],
                                 'hiddenInputs' => [
                                     'id' => ['value' => $model->id],
-                                    'type' => ['value' => 'traffic']
+                                    'type' => ['value' => 'bandwidth']
                                 ]
                             ]);
-                        $box->endTools();
-                    $box->endHeader();
-                    $box->beginBody();
-                        list($labels, $data) = $model->groupUsesForCharts();
-                        echo $this->render('_traffic_consumption', ['labels' => $labels, 'data' => $data]);
-                    $box->endBody();
-                $box->end();
-                ?>
+                            $box->endTools();
+                        $box->endHeader();
+                        $box->beginBody();
+                            echo $this->render('_bandwidth_consumption', ['labels' => $chartsLabels, 'data' => $chartsData]);
+                        $box->endBody();
+                    $box->end();
+                    ?>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Bandwidth consumption'));
-                        $box->beginTools();
-                        echo \hipanel\modules\server\widgets\ChartOptions::widget([
-                            'id' => 'bandwidth-consumption',
-                            'form' => [
-                                'action' => 'draw-chart'
-                            ],
-                            'hiddenInputs' => [
-                                'id' => ['value' => $model->id],
-                                'type' => ['value' => 'bandwidth']
-                            ]
-                        ]);
-                        $box->endTools();
-                    $box->endHeader();
-                    $box->beginBody();
-                        list($labels, $data) = $model->groupUsesForCharts();
-                        echo $this->render('_bandwidth_consumption', ['labels' => $labels, 'data' => $data]);
-                    $box->endBody();
-                $box->end();
-                ?>
-            </div>
-        </div>
+        <?php } ?>
     </div>
 </div>
 
