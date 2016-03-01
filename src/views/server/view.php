@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\helpers\Url;
 use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\Server;
@@ -7,6 +8,7 @@ use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
+use yii\helpers\Html;
 
 /**
  * @var $model Server
@@ -178,6 +180,30 @@ Pjax::begin();
             </div>
             <?php Pjax::end() ?>
         </div>
+        <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) { ?>
+            <div class="row">
+                <?php Pjax::begin(['enablePushState' => false]) ?>
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel/server', 'Parts'));
+                        $box->endHeader();
+                        $box->beginBody();
+                            $url = Url::to(['@part/render-object-parts', 'id' => $model->id]);
+                            echo Html::tag('div', '', ['class'  => 'server-parts']);
+                            $this->registerJs("$('.server-parts').load('$url', function () {
+                                $(this).closest('.box').find('.overlay').remove();
+                            });");
+                        $box->endBody(); ?>
+                            <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
+                        <?php
+                    $box->end();
+                    ?>
+                </div>
+                <?php Pjax::end() ?>
+            </div>
+        <?php } ?>
     </div>
     <div class="col-md-5">
         <?php if (isset($chartsData['server_traf'])) { ?>
