@@ -57,6 +57,7 @@ class ServerController extends CrudController
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
                     $dataProvider->query->joinWith('uses');
+                    $dataProvider->query->joinWith('ips');
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
@@ -64,6 +65,7 @@ class ServerController extends CrudController
                         ->andWhere(['show_deleted' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
+                        ->andWhere(['with_ips' => 1])
                         ->select(['*']);
                 },
                 'data' => function ($action) {

@@ -7,6 +7,7 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
@@ -56,7 +57,6 @@ class Server extends \hipanel\base\Model
                     'type',
                     'block_reason_label',
                     'ip',
-                    'ips',
                     'os',
                     'rcp',
                     'vnc',
@@ -193,6 +193,11 @@ class Server extends \hipanel\base\Model
     public function getUses()
     {
         return $this->hasMany(ServerUse::class, ['object_id' => 'id']);
+    }
+
+    public function getIps()
+    {
+        return $this->hasMany(Ip::class, ['some_id' => 'id'])->join('links');
     }
 
     /**

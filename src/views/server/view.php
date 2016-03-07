@@ -147,7 +147,7 @@ Pjax::begin();
                             'columns' => [
                                 'client_id', 'seller_id', 'note', 'label',
                                 ['attribute' => 'name'],
-                                'state', 'ips', 'os', 'panel'
+                                'state', 'os', 'panel'
                             ],
                         ]);
                     $box->endBody();
@@ -202,6 +202,80 @@ Pjax::begin();
                     ?>
                 </div>
                 <?php Pjax::end() ?>
+            </div>
+        <?php } ?>
+        <?php if (Yii::getAlias('@ip', false)) { ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $ipsDataProvider = new \yii\data\ArrayDataProvider([
+                        'allModels' => $model->ips,
+                        'pagination' => false,
+                        'sort' => false,
+                    ]);
+
+                    $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel/server', 'IP addresses'));
+                        $box->endHeader();
+                        $box->beginBody();
+                            echo \hipanel\grid\GridView::widget([
+                                'dataProvider' => $ipsDataProvider,
+                                'columns' => [
+                                    [
+                                        'attribute' => 'ip',
+                                        'format' => 'html',
+                                        'label' => Yii::t('hipanel', 'IP address'),
+                                        'options' => [
+                                            'style' => 'width: 20%',
+                                        ],
+                                        'value' => function ($model) {
+                                            if (Yii::$app->user->can('support') && Yii::getAlias('@ip', false)) {
+                                                return Html::a($model->ip, ['@ip/view', 'id' => $model->id]);
+                                            }
+
+                                            return $model->ip;
+                                        }
+                                    ],
+                                    [
+                                        'attribute' => 'ptr',
+                                        'format' => 'html',
+                                        'label' => Yii::t('hipanel', 'PTR'),
+                                        'options' => [
+                                            'style' => 'width: 40%',
+                                        ],
+                                        'value' => function ($model) {
+                                            return \hipanel\widgets\XEditable::widget([
+                                                'model' => $model,
+                                                'attribute' => 'ptr',
+                                                'scenario' => 'set-ptr',
+                                                'value' => 'my.domain.ptr.com'
+                                            ]);
+                                        }
+                                    ],
+                                    [
+                                        'attribute' => 'links',
+                                        'format' => 'html',
+                                        'label' => Yii::t('hipanel', 'Services'),
+                                        'value' => function ($model) {
+                                            return \hipanel\widgets\ArraySpoiler::widget([
+                                                'data' => $model->links,
+                                                'formatter' => function ($link) {
+                                                    if (Yii::$app->user->can('support') && Yii::getAlias('@service', false)) {
+                                                        return Html::a($link->service, ['@service/view', 'id' => $link->service_id]);
+                                                    }
+
+                                                    return $link->service;
+                                                }
+                                            ]);
+                                        }
+                                    ]
+                                ]
+                            ]);
+                        $box->endBody();
+                    $box->end();
+                    ?>
+                </div>
             </div>
         <?php } ?>
     </div>
