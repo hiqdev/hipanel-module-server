@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\grid\XEditableColumn;
 use hipanel\helpers\Url;
 use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
@@ -230,7 +231,7 @@ Pjax::begin();
                                             'style' => 'width: 20%',
                                         ],
                                         'value' => function ($model) {
-                                            if (Yii::$app->user->can('support') && Yii::getAlias('@ip', false)) {
+                                            if (Yii::$app->user->can('support') && Yii::getAlias('@ip', false) && $model->id) {
                                                 return Html::a($model->ip, ['@ip/view', 'id' => $model->id]);
                                             }
 
@@ -238,19 +239,24 @@ Pjax::begin();
                                         }
                                     ],
                                     [
-                                        'attribute' => 'ptr',
-                                        'format' => 'html',
                                         'label' => Yii::t('hipanel', 'PTR'),
+                                        'attribute' => 'ptr',
                                         'options' => [
                                             'style' => 'width: 40%',
                                         ],
+                                        'format' => 'raw',
                                         'value' => function ($model) {
-                                            return \hipanel\widgets\XEditable::widget([
-                                                'model' => $model,
-                                                'attribute' => 'ptr',
-                                                'scenario' => 'set-ptr',
-                                                'value' => 'my.domain.ptr.com'
-                                            ]);
+                                            if ($model->canSetPtr()) {
+                                                return \hipanel\widgets\XEditable::widget([
+                                                    'model' => $model,
+                                                    'attribute' => 'ptr',
+                                                    'pluginOptions' => [
+                                                        'url'       => Url::to('@ip/set-ptr')
+                                                    ]
+                                                ]);
+                                            }
+
+                                            return null;
                                         }
                                     ],
                                     [
@@ -273,6 +279,15 @@ Pjax::begin();
                                 ]
                             ]);
                         $box->endBody();
+                        if (Yii::$app->user->can('support')) {
+                            $box->beginFooter();
+                            echo Html::a(
+                                Yii::t('hipanel/server', 'Manage IP addresses'),
+                                ['@ip', 'IpSearch' => ['server_in' => $model->name]],
+                                ['class' => 'btn btn-default btn-sm']
+                            );
+                            $box->endFooter();
+                        }
                     $box->end();
                     ?>
                 </div>

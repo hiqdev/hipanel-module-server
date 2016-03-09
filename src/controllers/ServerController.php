@@ -37,6 +37,18 @@ class ServerController extends CrudController
             'index' => [
                 'class' => IndexAction::class,
                 'findOptions' => ['with_requests' => true, 'with_discounts' => true],
+                'on beforePerform' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith('ips');
+
+                    $dataProvider->query
+                        ->andWhere(['with_requests' => 1])
+                        ->andWhere(['with_discounts' => 1])
+                        ->andWhere(['with_ips' => 1])
+                        ->select(['*']);
+                },
                 'data' => function ($action) {
                     return [
                         'states' => $action->controller->getStates()

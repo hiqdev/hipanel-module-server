@@ -18,6 +18,7 @@ use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\State;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 class ServerGridView extends \hipanel\grid\BoxedGridView
@@ -153,7 +154,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'attribute' => 'ips',
                 'value' => function ($model) {
                     return ArraySpoiler::widget([
-                        'data' => $model->ips,
+                        'data' => ArrayHelper::getColumn($model->ips, 'ip'),
                         'delimiter' => '<br />',
                         'visibleCount' => 3,
                         'button' => ['popoverOptions' => ['html' => true]]

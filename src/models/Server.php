@@ -23,16 +23,6 @@ class Server extends \hipanel\base\Model
     const STATE_BLOCKED = 'blocked';
     const STATE_DELETED = 'deleted';
 
-     /**
-     * @return array the list of attributes for this record
-     */
-//    public function attributes()
-//    {
-//        return [
-
-//        ];
-//    }
-
     public function rules()
     {
         return [
