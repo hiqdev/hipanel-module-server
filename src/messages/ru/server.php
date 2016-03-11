@@ -144,4 +144,7 @@ return [
     '95th percentile for incoming bandwidth, Mbit/s' => '95 перцинтиль входящего канала передачи данных, Мбит/с',
     'Total incoming traffic, Gb' => 'Всего входящего трафика, Гб',
     'Total outgoing traffic, Gb' => 'Всего исходящего трафика, Гб',
+    'Parts' => 'Детали',
+    'Services' => 'Сервисы',
+    'Manage IP addresses' => 'Управлять IP адресами',
 ];
