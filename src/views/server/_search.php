@@ -1,9 +1,11 @@
 <?php
 
+/**
+ * @var array $states
+ * @var \hipanel\widgets\AdvancedSearch $search
+ */
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hiqdev\combo\StaticCombo;
-use kartik\widgets\DatePicker;
-use yii\helpers\Html;
 ?>
 <div class="col-md-4">
     <?= $search->field('name_like') ?>

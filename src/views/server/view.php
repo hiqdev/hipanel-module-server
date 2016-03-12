@@ -50,6 +50,9 @@ Pjax::begin();
                     <li>
                         <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
                     </li>
+                    <li>
+                        <?= Html::a('<i class="fa fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage charts'), ['@rrd/view', 'id' => $model->id]); ?>
+                    </li>
                     <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
                         <li>
                             <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
