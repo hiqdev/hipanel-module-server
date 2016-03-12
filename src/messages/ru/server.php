@@ -147,4 +147,5 @@ return [
     'Parts' => 'Детали',
     'Services' => 'Сервисы',
     'Manage IP addresses' => 'Управлять IP адресами',
+    'Resources usage charts' => 'Графики потребления ресурсов',
 ];

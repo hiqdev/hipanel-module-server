@@ -1,7 +1,9 @@
 <?php
 
 return [
-    'OS' => 'ОС',
-    'Soft package' => 'Пакет ОП',
-    'System name of image' => 'Название образа',
+    'Index' => 'Индекс',
+    'Precision (min/px)' => 'Детализация (мин/пиксель)',
+    'Width (px)' => 'Ширина (пикселей)',
+    'Shift (minutes)' => 'Сдвиг (минут)',
+    'Graph' => 'График',
 ];

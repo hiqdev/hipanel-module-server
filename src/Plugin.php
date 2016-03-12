@@ -7,6 +7,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
     protected $_items = [
         'aliases' => [
             "@server" => "/server/server",
+            "@rrd" => "/server/rrd",
         ],
         'menus' => [
             'hipanel\modules\server\SidebarMenu',
@@ -26,6 +27,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
                             'hipanel/server' => 'server.php',
                             'hipanel/server/os' => 'os.php',
                             'hipanel/server/panel' => 'panel.php',
+                            'hipanel/server/rrd' => 'panel.php',
                         ],
                     ],
                     'omnilight/daterangepicker' => [ // TODO: get rid after PluginManager removing
