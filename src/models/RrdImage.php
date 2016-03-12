@@ -9,7 +9,7 @@ namespace hipanel\modules\server\models;
 
 use Yii;
 
-class Rrd extends \hipanel\base\Model
+class RrdImage extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;
 
@@ -17,12 +17,7 @@ class Rrd extends \hipanel\base\Model
     {
         return [
             [['id'], 'integer'],
-            [['images', 'graphs'], 'safe']
+            [['graph', 'base64'], 'safe']
         ];
-    }
-
-    public function getServer()
-    {
-        return $this->hasOne(Server::class, ['id' => 'id']);
     }
 }

@@ -7,27 +7,54 @@
 
 namespace hipanel\modules\server\models;
 
-use hipanel\modules\hosting\models\Ip;
-use hipanel\modules\server\helpers\ServerHelper;
-use hipanel\validators\EidValidator;
-use hipanel\validators\RefValidator;
 use Yii;
-use yii\base\NotSupportedException;
+use hipanel\base\SearchModelTrait;
 
-class Rrd extends \hipanel\base\Model
+
+class RrdSearch extends Rrd
 {
-    use \hipanel\base\ModelTrait;
+    use SearchModelTrait {
+        searchAttributes as private;
+        rules as private;
+    }
 
     public function rules()
     {
         return [
-            [['id'], 'integer'],
-            [['images', 'graphs'], 'safe']
+            [['id'], 'required'],
+            [['id', 'width', 'shift'], 'integer'],
+            [['period'], 'number'],
+            [['graph'], 'safe'],
         ];
     }
 
-    public function getServer()
+    public function formName()
     {
-        return $this->hasOne(Server::class, ['id' => 'id']);
+        return '';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function searchAttributes()
+    {
+        return ([
+            'id',
+            'period',
+            'width',
+            'shift',
+            'graph',
+        ]);
+    }
+
+
+    public function attributeLabels()
+    {
+        return [
+            'graph' => Yii::t('hipanel/server/rrd', 'Graph'),
+            'period' => Yii::t('hipanel/server/rrd', 'Precision (min/px)'),
+            'shift' => Yii::t('hipanel/server/rrd', 'Shift (minutes)'),
+            'width' => Yii::t('hipanel/server/rrd', 'Width (px)'),
+        ];
     }
 }

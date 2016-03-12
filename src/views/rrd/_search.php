@@ -1,30 +1,41 @@
 <?php
 
 /**
- * @var array $states
  * @var \hipanel\widgets\AdvancedSearch $search
  */
-use hipanel\modules\client\widgets\combo\ClientCombo;
-use hiqdev\combo\StaticCombo;
+use yii\helpers\Html;
+
 ?>
-<div class="col-md-4">
-    <?= $search->field('name_like') ?>
-    <?= $search->field('note') ?>
-</div>
+<?= $search->field('id')->hiddenInput()->label(false) ?>
 
-<div class="col-md-4">
-    <?= $search->field('client_id')->widget(ClientCombo::classname()) ?>
-    <?= $search->field('seller_id')->widget(ClientCombo::classname()) ?>
-</div>
-
-<div class="col-md-4">
-    <?= $search->field('state')->widget(StaticCombo::classname(), [
-        'data' => $states,
-        'hasId' => true,
-        'pluginOptions' => [
-            'select2Options' => [
-                'multiple' => true,
-            ]
+<div class="col-md-12">
+    <?= $search->field('graph')->widget(\yii\bootstrap\ToggleButtonGroup::class, [
+        'type' => 'radio',
+        'items' => array_merge(['' => Yii::t('hipanel/server/rrd', 'Index')], array_combine($model->graphs, $model->graphs)),
+        'labelOptions' => [
+            'class' => 'btn btn-default'
         ],
+        'options' => [
+            'style' => 'display: block'
+        ]
     ]) ?>
+</div>
+
+<div class="col-md-3">
+    <?= $search->field('period')->widget(\yii\bootstrap\ToggleButtonGroup::class, [
+        'type' => 'radio',
+        'items' => ['1' => '1 min/px', '5' => '5 min/px', '60' => '1 hour/px', '720' => '12 hours/px'],
+        'labelOptions' => [
+            'class' => 'btn btn-default',
+        ],
+        'options' => [
+            'style' => 'display: block'
+        ]
+    ]) ?>
+</div>
+<div class="col-md-2">
+    <?= $search->field('width') ?>
+</div>
+<div class="col-md-2">
+    <?= $search->field('shift') ?>
 </div>
