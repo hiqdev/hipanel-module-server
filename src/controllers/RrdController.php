@@ -24,6 +24,7 @@ class RrdController extends CrudController
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
                     $dataProvider->query->joinWith('images');
+                    $dataProvider->query->joinWith('server');
                     $dataProvider->pagination = false;
                 },
                 'collection' => [

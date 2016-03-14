@@ -11,7 +11,7 @@ use yii\helpers\Html;
 <div class="col-md-12">
     <?= $search->field('graph')->widget(\yii\bootstrap\ToggleButtonGroup::class, [
         'type' => 'radio',
-        'items' => array_merge(['' => Yii::t('hipanel/server/rrd', 'Index')], array_combine($model->graphs, $model->graphs)),
+        'items' => array_merge(['' => Yii::t('hipanel/server/rrd', 'Index')], array_combine((array) $model->graphs, (array) $model->graphs)),
         'labelOptions' => [
             'class' => 'btn btn-default'
         ],
