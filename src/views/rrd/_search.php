@@ -21,7 +21,7 @@ use yii\helpers\Html;
     ]) ?>
 </div>
 
-<div class="col-md-3">
+<div class="col-md-6">
     <?= $search->field('period')->widget(\yii\bootstrap\ToggleButtonGroup::class, [
         'type' => 'radio',
         'items' => ['1' => '1 min/px', '5' => '5 min/px', '60' => '1 hour/px', '720' => '12 hours/px'],
