@@ -4,6 +4,7 @@ use hipanel\base\View;
 use hipanel\helpers\Url;
 use hipanel\widgets\ActionBox;
 use hipanel\widgets\Pjax;
+use yii\grid\GridView;
 use yii\helpers\Html;
 
 /**
@@ -27,6 +28,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
 
 $box = ActionBox::begin(['model' => $searchModel, 'dataProvider' => $dataProvider, 'bulk' => false]);
     echo $box->renderSearchForm(['model' => $model], [
+        'id' => 'rrd-form',
         'options' => [
             'displayNone' => false,
         ],
@@ -34,21 +36,33 @@ $box = ActionBox::begin(['model' => $searchModel, 'dataProvider' => $dataProvide
     ]);
 $box->end();
 
-echo \yii\widgets\ListView::widget([
+echo GridView::widget([
+    'showHeader' => false,
+    'options' => [
+        'class' => 'table-responsive'
+    ],
+    'tableOptions' => [
+        'class' => 'table',
+    ],
     'summary' => false,
     'dataProvider' => new \yii\data\ArrayDataProvider([
         'allModels' => $model->images,
         'pagination' => false,
         'sort' => false,
     ]),
-    'itemView' => function ($model, $key, $index, $widget) {
-        $html = Html::tag('img', '', ['src' => 'data:image/png;base64,' . $model->base64]);
+    'columns' => [
+        [
+            'format' => 'raw',
+            'value' => function ($model, $key, $index, $widget) {
+                $html = Html::tag('img', '', ['src' => 'data:image/png;base64,' . $model->base64]);
 
-        if ($model->graph) {
-            $html = Html::a($html, Url::current(['graph' => $model->graph]));
-        }
+                if ($model->graph) {
+                    $html = Html::a($html, Url::current(['graph' => $model->graph]));
+                }
 
-        return Html::tag('div', $html, ['class' => 'text-center']);
-    }
+                return Html::tag('div', $html, ['class' => 'text-center']);
+            }
+        ]
+    ]
 ]);
 Pjax::end();
