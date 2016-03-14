@@ -39,3 +39,13 @@ use yii\helpers\Html;
 <div class="col-md-2">
     <?= $search->field('shift') ?>
 </div>
+
+<?php
+$widgetId = $search->getDivId();
+
+$this->registerJs(<<<JS
+    $('#form-$widgetId').on('change', 'input[type="radio"]', function (event) {
+        $(this).submit();
+    });
+JS
+);
