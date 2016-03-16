@@ -126,7 +126,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'actions' => [
                 'class' => ActionColumn::className(),
                 'template' => '{view}',
-                'header' => Yii::t('app', 'Actions'),
+                'header' => Yii::t('hipanel', 'Actions'),
             ],
             'expires' => [
                 'filter' => false,
@@ -152,6 +152,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'ips' => [
                 'format' => 'raw',
                 'attribute' => 'ips',
+                'label' => Yii::t('hipanel/server', 'IP addresses'),
                 'value' => function ($model) {
                     return ArraySpoiler::widget([
                         'data' => ArrayHelper::getColumn($model->ips, 'ip'),
