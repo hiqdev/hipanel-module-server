@@ -33,7 +33,7 @@ if ($model->isLiveCDSupported()) {
                 ],
                 'options'  => [
                     'class'             => 'btn btn-info',
-                    'data-loading-text' => Yii::t('app', '...'),
+                    'data-loading-text' => '<i class="fa fa-circle-o-notch fa-spin"></i> ' . Yii::t('hipanel', 'loading'),
                 ]
             ])
         ]
