@@ -21,12 +21,14 @@ class Expires extends \hipanel\widgets\Label
     {
         $expires = $this->model->expires;
 
-        if (strtotime($expires) < strtotime("+30 days", time())) {
-            $class = 'info';
+        if (strtotime($expires) < time()) {
+            $class = 'danger';
         } elseif (strtotime($expires) < strtotime("+5 days", time())) {
             $class = 'warning';
+        } elseif (strtotime($expires) < strtotime("+30 days", time())) {
+            $class = 'info';
         } else {
-            $class = 'danger';
+            $class = 'default';
         }
 
         $this->color = $class;
