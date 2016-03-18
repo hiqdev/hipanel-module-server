@@ -148,4 +148,8 @@ return [
     'Services' => 'Сервисы',
     'Manage IP addresses' => 'Управлять IP адресами',
     'Resources usage charts' => 'Графики потребления ресурсов',
+    'Renewal' => 'Продление',
+    'Renew server' => 'Продлить сервер',
+    '{n, plural, one{# month} other{# months}} till {date}' => '{n, plural, one{# месяц} few{# месяца} other{# месяцев}} до {date}',
+    'Server detailed information' => 'Подробная информация о сервере',
 ];

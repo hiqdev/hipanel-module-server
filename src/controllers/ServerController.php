@@ -7,6 +7,7 @@
 
 namespace hipanel\modules\server\controllers;
 
+use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
 use hipanel\actions\ProxyAction;
 use hipanel\actions\RedirectAction;
@@ -19,14 +20,15 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
+use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\NotFoundHttpException;
 
 class ServerController extends CrudController
@@ -254,6 +256,10 @@ class ServerController extends CrudController
             'buy' => [
                 'class' => RedirectAction::class,
                 'url' => Yii::$app->params['orgUrl'],
+            ],
+            'add-to-cart-renewal' => [
+                'class' => AddToCartAction::class,
+                'productClass' => ServerRenewProduct::class,
             ],
         ];
     }

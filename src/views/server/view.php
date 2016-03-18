@@ -42,6 +42,9 @@ Pjax::begin();
             <?php Pjax::begin(['enablePushState' => false]) ?>
             <div class="profile-usermenu">
                 <ul class="nav">
+                    <li>
+                        <?= Html::a('<i class="fa fa-forward"></i>' . Yii::t('hipanel/server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]); ?>
+                    </li>
                     <?php if ($model->isPwChangeSupported()) { ?>
                         <li>
                             <?= $this->render('_reset-password', compact(['model'])) ?>
