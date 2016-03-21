@@ -31,16 +31,15 @@ class ServerRenewProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     public function load($data, $formName = null)
     {
-        $result = parent::load($data, '');
-        if ($result) {
-            $this->loadRelatedData();
+        if ($result = parent::load($data, '')) {
+            $this->ensureRelatedData();
         }
 
         return $result;
     }
 
     /** {@inheritdoc} */
-    private function loadRelatedData()
+    private function ensureRelatedData()
     {
         $this->_model = Server::findOne(['id' => $this->model_id]);
         $this->name = $this->_model->name;
@@ -64,7 +63,7 @@ class ServerRenewProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     public function getPurchaseModel($options = [])
     {
-        $this->loadRelatedData(); // To get fresh domain expiration date
+        $this->ensureRelatedData(); // To get fresh domain expiration date
         return parent::getPurchaseModel(array_merge(['expires' => $this->_model->expires], $options));
     }
 
