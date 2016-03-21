@@ -231,7 +231,7 @@ class ServerController extends CrudController
                     /** @var Action $action */
                     $action = $event->sender;
                     foreach ($action->collection->models as $model) {
-                        $model->osmage = Yii::$app->request->post('osimage');
+                        $model->osimage = Yii::$app->request->post('osimage');
                         $model->panel = Yii::$app->request->post('panel');
                     }
                 },
@@ -244,7 +244,7 @@ class ServerController extends CrudController
                     /** @var Action $action */
                     $action = $event->sender;
                     foreach ($action->collection->models as $model) {
-                        $model->osmage = Yii::$app->request->post('osimage');
+                        $model->osimage = Yii::$app->request->post('osimage');
                     }
                 },
                 'success' => Yii::t('hipanel/server', 'Live CD booting task has been successfully added to queue'),
