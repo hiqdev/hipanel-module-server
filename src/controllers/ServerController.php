@@ -14,6 +14,7 @@ use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\RequestStateAction;
+use hipanel\actions\SearchAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
@@ -63,6 +64,9 @@ class ServerController extends CrudController
                     'client_id' => 'client.client.id',
                     'seller_id' => 'client.client.seller_id',
                 ]
+            ],
+            'search' => [
+                'class' => SearchAction::class
             ],
             'view' => [
                 'class' => ViewAction::class,
@@ -168,6 +172,7 @@ class ServerController extends CrudController
             ],
             'enable-vnc' => [
                 'class' => ViewAction::class,
+                'view' => '_vnc',
                 'data' => function ($action) {
                     $model = $action->getModel();
                     $model->checkOperable();
