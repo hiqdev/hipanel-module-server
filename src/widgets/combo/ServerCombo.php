@@ -17,7 +17,7 @@ class ServerCombo extends Combo
     public $type = 'server/server';
 
     /** @inheritdoc */
-    public $url = '/server/server/index';
+    public $url = '/server/server/search';
 
     /** @inheritdoc */
     public $_return = ['id', 'client', 'client_id', 'seller', 'seller_id'];
