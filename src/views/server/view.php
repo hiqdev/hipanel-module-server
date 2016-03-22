@@ -51,9 +51,6 @@ Pjax::begin();
                         </li>
                     <?php } ?>
                     <li>
-                        <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
-                    </li>
-                    <li>
                         <?= Html::a('<i class="fa fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage charts'), ['@rrd/view', 'id' => $model->id]); ?>
                     </li>
                     <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
@@ -100,6 +97,7 @@ Pjax::begin();
                     if ($model->isLiveCDSupported()) {
                         echo $this->render('_boot-live', compact(['model', 'osimageslivecd']));
                     }
+                    echo $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels']));
                 $box->endBody();
                 $box->end();
                 ?>

@@ -9,7 +9,11 @@ use yii\helpers\Json;
 $model->scenario = 'reinstall';
 ModalButton::begin([
     'model' => $model,
-    'button' => ['label' => '<i class="ion-ios-cog-outline"></i>' . Yii::t('hipanel/server', 'Reinstall OS')],
+    'button' => [
+        'label' => Yii::t('hipanel/server', 'Reinstall OS'),
+        'class'    => 'btn btn-default',
+        'disabled' => !$model->isOperable()
+    ],
     'modal' => [
         'size' => Modal::SIZE_LARGE,
         'header' => Html::tag('h4', Yii::t('hipanel/server', 'Please, select the operating system you want to install')),
@@ -60,8 +64,7 @@ ModalButton::begin([
                         if (empty($grouped_osimages['softpacks'][$panel])) {
                             continue;
                         } ?>
-                        <div class="list-group-item soft-list"
-                             data-panel="<?= $panel ?>">
+                        <div class="list-group-item soft-list" data-panel="<?= $panel ?>">
                             <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/panel', $panel_name) ?></h4>
 
                             <div class="list-group-item-text">
@@ -76,8 +79,7 @@ ModalButton::begin([
                                                 'value' => $softpack['name']
                                             ]) ?>
                                             <strong><?= $softpack['name'] ?></strong>
-                                            <small style="font-weight: normal"><?= Yii::t('hipanel/server/os',
-                                                    $softpack['description']) ?></small>
+                                            <small style="font-weight: normal"><?= Yii::t('hipanel/server/os', $softpack['description']) ?></small>
                                             <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
 
                                             <div class="soft-desc" style="display: none;"></div>
