@@ -1,6 +1,5 @@
 <?php
 
-use hipanel\grid\XEditableColumn;
 use hipanel\helpers\Url;
 use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\grid\ServerGridView;
@@ -51,7 +50,8 @@ Pjax::begin();
                         </li>
                     <?php } ?>
                     <li>
-                        <?= Html::a('<i class="fa fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage charts'), ['@rrd/view', 'id' => $model->id]); ?>
+                        <?= Html::a('<i class="fa fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]); ?>
+                        <?= Html::a('<i class="fa fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]); ?>
                     </li>
                     <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
                         <li>

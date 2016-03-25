@@ -3,48 +3,40 @@
 /**
  * @var \hipanel\widgets\AdvancedSearch $search
  */
-use yii\helpers\Html;
 
 ?>
 <?= $search->field('id')->hiddenInput()->label(false) ?>
 
-<div class="col-md-12">
-    <?= $search->field('graph')->widget(\yii\bootstrap\ToggleButtonGroup::class, [
-        'type' => 'radio',
-        'items' => array_merge(['' => Yii::t('hipanel/server/rrd', 'Index')], array_combine((array) $model->graphs, (array) $model->graphs)),
-        'labelOptions' => [
-            'class' => 'btn btn-default'
-        ],
-        'options' => [
-            'style' => 'display: block'
-        ]
-    ]) ?>
-</div>
-
-<div class="col-md-6">
-    <?= $search->field('period')->widget(\yii\bootstrap\ToggleButtonGroup::class, [
-        'type' => 'radio',
-        'items' => ['1' => '1 min/px', '5' => '5 min/px', '60' => '1 hour/px', '720' => '12 hours/px'],
-        'labelOptions' => [
-            'class' => 'btn btn-default',
-        ],
-        'options' => [
-            'style' => 'display: block'
-        ]
-    ]) ?>
-</div>
-<div class="col-md-2">
-    <?= $search->field('width') ?>
-</div>
-<div class="col-md-2">
-    <?= $search->field('shift') ?>
-</div>
+    <div class="col-md-2">
+        <?= $search->field('graph')->dropDownList(
+            array_merge(['' => Yii::t('hipanel/server/rrd', 'Index')],
+                array_combine((array)$model->graphs, (array)$model->graphs)),
+            ['class' => 'form-control input-sm']
+        ) ?>
+    </div>
+    <div class="col-md-2">
+        <?= $search->field('period')->dropDownList(
+            [
+                '1' => Yii::t('hipanel/server', '1 min/px'),
+                '5' => Yii::t('hipanel/server', '5 min/px'),
+                '60' => Yii::t('hipanel/server', '60 min/px'),
+                '720' => Yii::t('hipanel/server', '720 min/px'),
+            ],
+            ['class' => 'form-control input-sm']
+        ) ?>
+    </div>
+    <div class="col-md-2">
+        <?= $search->field('width')->textInput(['placeholder' => '1081', 'class' => 'form-control input-sm']) ?>
+    </div>
+    <div class="col-md-2">
+        <?= $search->field('shift')->textInput(['placeholder' => '0', 'class' => 'form-control input-sm']) ?>
+    </div>
 
 <?php
 $widgetId = $search->getDivId();
 
 $this->registerJs(<<<JS
-    $('#form-$widgetId').on('change', 'input[type="radio"]', function (event) {
+    $('#form-$widgetId').on('change', 'select', function (event) {
         $(this).submit();
     });
 JS

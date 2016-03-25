@@ -8,6 +8,7 @@ class Plugin extends \hiqdev\pluginmanager\Plugin
         'aliases' => [
             "@server" => "/server/server",
             "@rrd" => "/server/rrd",
+            "@switch-graph" => "/server/switch-graph",
         ],
         'menus' => [
             'hipanel\modules\server\SidebarMenu',
