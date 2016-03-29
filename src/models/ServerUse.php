@@ -43,9 +43,9 @@ class ServerUse extends RUse
     public function getDisplayAmount()
     {
         if (in_array($this->type, $this->getBandwidthTypes())) {
-            return round($this->last / 10**6, 2);
+            return round($this->last / pow(10, 6), 2);
         } elseif (in_array($this->type, $this->getTrafficTypes())) {
-            return round($this->total / 10**9, 2);
+            return round($this->total / pow(10, 9), 2);
         }
 
         return $this->total;
