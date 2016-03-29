@@ -7,7 +7,13 @@ use yii\helpers\Html;
  * @var array $labels
  * @var array $data
  */
-
+$this->registerCss('
+ul.line-legend {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+');
 ?>
 
 <div class="row traffic-consumption-chart-wrapper">
