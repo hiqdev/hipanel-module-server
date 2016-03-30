@@ -37,6 +37,7 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
         'tariff',
         'ip',
         'state',
+        'status_time',
         'expires',
     ],
 ]) ?>

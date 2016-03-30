@@ -68,7 +68,7 @@ return [
     'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!' => 'В случае отказа от услуги, сервер будет немедленно заблокирован и отключен. Все данные на сервере будут удалены.',
     'Internal note' => 'Внутренняя заметка',
     'Internal note changed' => 'Внутренняя заметка изменена',
-    'Last operation time' => 'Последнее выполнение',
+    'Status update time' => 'Дата изменения статуса',
     'Live CD booting task has been successfully added to queue' => 'Загрузка LiveCD начата',
     'Name' => 'Название',
     'Next discount' => 'Следующая скидка',

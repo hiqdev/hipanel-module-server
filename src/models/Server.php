@@ -199,7 +199,7 @@ class Server extends \hipanel\base\Model
             'remoteid'            => Yii::t('hipanel/server', 'Remote ID'),
             'name_like'           => Yii::t('hipanel/server', 'Name'),
             'name'                => Yii::t('hipanel/server', 'Name'),
-            'status_time'         => Yii::t('hipanel/server', 'Last operation time'),
+            'status_time'         => Yii::t('hipanel/server', 'Status update time'),
             'block_reason_label'  => Yii::t('hipanel/server', 'Block reason label'),
             'request_state_label' => Yii::t('hipanel/server', 'Request state label'),
             'ips'                 => Yii::t('hipanel/server', 'IP addresses'),
