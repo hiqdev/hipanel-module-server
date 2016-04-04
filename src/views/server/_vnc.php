@@ -35,7 +35,7 @@ if ($model->vnc['enabled']) {
     echo Html::submitButton(
         Yii::t('hipanel/server', 'Enable'),
         [
-            'class' => 'btn btn-success',
+            'class' => 'btn btn-success btn-block',
             'data-loading-text' => Yii::t('hipanel/server', 'Enabling...'),
             'onClick' => new \yii\web\JsExpression("$(this).closest('form').submit(); $(this).button('loading')"),
             'disabled' => !$model->isOperable() || !$model->isVNCSupported(),

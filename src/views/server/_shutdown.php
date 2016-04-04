@@ -7,7 +7,7 @@ ModalButton::begin([
     'scenario' => 'shutdown',
     'button'   => [
         'label'    => Yii::t('hipanel/server', 'Shutdown'),
-        'class'    => 'btn btn-default',
+        'class'    => 'btn btn-default btn-block',
         'disabled' => !$model->isOperable(),
     ],
     'modal'    => [

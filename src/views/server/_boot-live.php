@@ -19,7 +19,7 @@ if ($model->isLiveCDSupported()) {
         'model'    => $model,
         'button'   => [
             'label'    => Yii::t('hipanel/server', 'Boot LiveCD'),
-            'class'    => 'btn btn-default',
+            'class'    => 'btn btn-default btn-block',
             'disabled' => !$model->isOperable(),
             'position' => ModalButton::BUTTON_IN_MODAL,
         ],

@@ -21,6 +21,8 @@ $this->breadcrumbs->setItems([
     $this->title,
 ]);
 
+$this->registerCss('.btn-block {margin-bottom: .5em}');
+
 list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
 Pjax::begin();
@@ -29,7 +31,11 @@ Pjax::begin();
 
 <div class="row">
     <div class="col-md-3">
-        <?php Box::begin(); ?>
+        <?php Box::begin([
+            'bodyOptions' => [
+                'class' => 'no-padding'
+            ]
+        ]); ?>
             <div class="profile-user-img text-center">
                 <i class="fa fa-server fa-5x"></i>
             </div>
@@ -91,13 +97,24 @@ Pjax::begin();
                 $box->beginHeader();
                     echo $box->renderTitle(Yii::t('hipanel/server', 'System management'));
                 $box->endHeader();
-                $box->beginBody();
-                    echo $this->render('_reboot', compact(['model']));
-                    echo $this->render('_shutdown', compact(['model']));
-                    if ($model->isLiveCDSupported()) {
-                        echo $this->render('_boot-live', compact(['model', 'osimageslivecd']));
-                    }
-                    echo $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels']));
+                $box->beginBody(); ?>
+                <div class="row">
+                    <div class="col-md-6">
+                        <?= $this->render('_reboot', compact(['model'])) ?>
+                    </div>
+                    <div class="col-md-6">
+                        <?= $this->render('_shutdown', compact(['model'])) ?>
+                    </div>
+                    <?php if ($model->isLiveCDSupported()) : ?>
+                        <div class="col-md-6">
+                            <?= $this->render('_boot-live', compact(['model', 'osimageslivecd'])) ?>
+                        </div>
+                    <?php endif; ?>
+                    <div class="col-md-6">
+                        <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
+                    </div>
+                </div>
+                    <?php
                 $box->endBody();
                 $box->end();
                 ?>
