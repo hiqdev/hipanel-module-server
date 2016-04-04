@@ -7,7 +7,7 @@ ModalButton::begin([
     'scenario' => 'power-off',
     'button'   => [
         'label'    => Yii::t('hipanel/server', 'Power off'),
-        'class'    => 'btn btn-default',
+        'class'    => 'btn btn-default btn-block',
         'disabled' => !$model->isOperable(),
     ],
     'modal'    => [

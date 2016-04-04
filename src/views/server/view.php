@@ -127,13 +127,20 @@ Pjax::begin();
                     $box->beginHeader();
                         echo $box->renderTitle(Yii::t('hipanel/server', 'Power management'));
                     $box->endHeader();
-                    $box->beginBody();
-                        echo $this->render('_power-on', compact(['model']));
-                        echo $this->render('_power-off', compact(['model']));
-                        echo $this->render('_reset', compact(['model']));
-                    $box->endBody();
-                $box->end();
-                ?>
+                    $box->beginBody(); ?>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <?= $this->render('_power-on', compact(['model'])); ?>
+                            </div>
+                            <div class="col-md-4">
+                                <?= $this->render('_power-off', compact(['model'])); ?>
+                            </div>
+                            <div class="col-md-4">
+                                <?= $this->render('_reset', compact(['model'])); ?>
+                            </div>
+                        </div>
+
+                    <?php $box->endBody(); $box->end(); ?>
             </div>
         </div>
         <div class="row">

@@ -7,7 +7,7 @@ echo ModalButton::widget([
     'scenario' => 'power-on',
     'button'   => [
         'label'    => Yii::t('hipanel/server', 'Power on'),
-        'class'    => 'btn btn-default',
+        'class'    => 'btn btn-default btn-block',
         'disabled' => !$model->isOperable(),
     ],
     'body'     => Yii::t('hipanel/server', 'Turn ON server power?'),

@@ -7,7 +7,7 @@ ModalButton::begin([
     'scenario' => 'reset',
     'button'   => [
         'label'    => Yii::t('hipanel/server', 'Reset'),
-        'class'    => 'btn btn-default',
+        'class'    => 'btn btn-default btn-block',
         'disabled' => !$model->isOperable(),
     ],
     'modal'    => [
