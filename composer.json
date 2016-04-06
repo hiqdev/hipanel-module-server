@@ -1,7 +1,7 @@
 {
     "name": "hiqdev/hipanel-module-server",
     "type": "yii2-extension",
-    "description": "Server Plugin for HiPanel",
+    "description": "Server module for HiPanel",
     "keywords": [
         "server",
         "hipanel",
@@ -42,12 +42,6 @@
             "homepage": "http://hiqdev.com/"
         }
     ],
-    "repositories": [
-        {
-            "type": "vcs",
-            "url": "https://github.com/hiqdev/yii2-bootstrap-daterangepicker"
-        }
-    ],
     "require": {
         "yiisoft/yii2": "2.*",
         "hiqdev/hipanel-module-client": "*",
@@ -58,5 +52,11 @@
         "psr-4": {
             "hipanel\\modules\\server\\": "src"
         }
-    }
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/hiqdev/yii2-bootstrap-daterangepicker"
+        }
+    ]
 }

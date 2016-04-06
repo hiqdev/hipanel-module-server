@@ -1,12 +1,17 @@
 package:
-    name:           hipanel-module-server
-    namespace:      hipanel\modules\server
-    label:          HiPanel ServerModule
-    title:          Server Plugin for HiPanel
     type:           yii2-extension
+    name:           hipanel-module-server
+    title:          Server module for HiPanel
+    headline:       HiPanel Server Module
     keywords:       server, hipanel, plugin
-    year:           2014
+    namespace:      hipanel\modules\server
+    description:    |
+        [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
+
+        [HiPanel](http://hipanel.com) is the next generation control panel for hosting, domains and more.
+
+        This package provides server management for HiPanel.
 
 require:
-    hiqdev/hidev-config:        "*"
-    hiqdev/hidev-config-php:    "*"
+    hiqdev/hidev-php:       "*"
+    hiqdev/hidev-vendor:    "*"
