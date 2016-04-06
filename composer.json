@@ -53,10 +53,11 @@
             "hipanel\\modules\\server\\": "src"
         }
     },
+    "minimum-stability": "dev",
     "repositories": [
         {
-            "type": "vcs",
-            "url": "https://github.com/hiqdev/yii2-bootstrap-daterangepicker"
+            "type": "composer",
+            "url": "https://asset-packagist.hiqdev.com/"
         }
     ]
 }
