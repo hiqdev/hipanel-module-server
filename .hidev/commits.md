@@ -3,9 +3,15 @@ hiqdev/hipanel-module-server commits history
 
 ## Under development
 
+- Fixed build with asset-packagist
+    - 4d3908b 2016-04-06 phpcsfixed (sol@hiqdev.com)
+    - e4342b0 2016-04-06 inited tests (sol@hiqdev.com)
+    - b82c8a7 2016-04-06 fixed build with asset-packagist (sol@hiqdev.com)
+    - 009697d 2016-04-06 rehideved (sol@hiqdev.com)
+- Added RRD and network graphs
     - d96c027 2016-04-04 Fixed view layout (andreyklochok@gmail.com)
     - c584d4b 2016-04-04 Fixed view layout (andreyklochok@gmail.com)
-    - 88ea775 2016-03-30 Added server oreder by status_time (d.naumenko.a@gmail.com)
+    - 88ea775 2016-03-30 Added server oreder by `status_time` (d.naumenko.a@gmail.com)
     - 5f60ceb 2016-03-29 Add css list-style:none for ChartJs ul.line-legend (andreyklochok@gmail.com)
     - 9b26364 2016-03-29 Back to lagacy pow function (andreyklochok@gmail.com)
     - c9a958f 2016-03-25 Server RRD view page re-designed (d.naumenko.a@gmail.com)
@@ -33,6 +39,7 @@ hiqdev/hipanel-module-server commits history
     - 77ed40d 2016-03-09 Implemented PTR records management for the server IP addresses (d.naumenko.a@gmail.com)
     - eb8296c 2016-03-07 Server view - added IP addresses table (d.naumenko.a@gmail.com)
     - 12eb52e 2016-03-01 view page: added parts block (d.naumenko.a@gmail.com)
+- Added traffic charts
     - 6ad898c 2016-02-29 Server view - charts are hidden, when no data is available (d.naumenko.a@gmail.com)
     - 1e1d52e 2016-02-26 Minor refactors (d.naumenko.a@gmail.com)
     - 6b271a9 2016-02-25 Server charts config redone with CartOptions widget (d.naumenko.a@gmail.com)
@@ -62,9 +69,8 @@ hiqdev/hipanel-module-server commits history
     - 12a6672 2015-12-09 Removed PHP short-tags (d.naumenko.a@gmail.com)
     - 3b7f781 2015-12-04 Classes notation changed from pathtoClassName to PHP 5.6 ClassName::class (d.naumenko.a@gmail.com)
     - 03fa3a6 2015-11-26 Fix markup on index page when Advanced Search show up (andreyklochok@gmail.com)
-    - b0540fc 2015-11-11 Changed ServerColumn default attribute name device->server (d.naumenko.a@gmail.com)
+    - b0540fc 2015-11-11 Changed ServerColumn default attribute name device -> server (d.naumenko.a@gmail.com)
     - 1a85ec9 2015-11-11 Expires widget updated due to parent class API change (d.naumenko.a@gmail.com)
-- Fixed translation and minor issues
     - cf1014e 2015-10-15 ServerGridView changed call of ArraySpoiler due to class API changes (d.naumenko.a@gmail.com)
     - 4daa0ee 2015-10-12 Added server event list (d.naumenko.a@gmail.com)
     - b15ff81 2015-10-09 Server reinstall - hides IPS manager for customers without ISP in tariff (d.naumenko.a@gmail.com)
@@ -80,30 +86,25 @@ hiqdev/hipanel-module-server commits history
     - 780f3b8 2015-09-14 ServerController::actionList - removed (d.naumenko.a@gmail.com)
     - 3d585e1 2015-09-15 localized menu (sol@hiqdev.com)
     - 21fc871 2015-09-01 ServerCombo - changed search url (d.naumenko.a@gmail.com)
-    - efdd860 2015-08-28 Fixed osimages list for different virtualisations, index.php - removed column os_and_panel (d.naumenko.a@gmail.com)
+    - efdd860 2015-08-28 Fixed osimages list for different virtualisations, index.php - removed column `os_and_panel` (d.naumenko.a@gmail.com)
     - b49f726 2015-08-28 composer.json - added dependencies on client, tariff modules (d.naumenko.a@gmail.com)
     - 280bb07 2015-08-27 Note column separated to note/label (d.naumenko.a@gmail.com)
     - e9f8728 2015-08-27 Fixed breadcrumbs subtitle (d.naumenko.a@gmail.com)
-- Added server blocking
-    - 17ee153 2015-09-28 Incresased Server reinstall modal size (d.naumenko.a@gmail.com)
-    - 7b71771 2015-09-22 Implemented server blocking (d.naumenko.a@gmail.com)
-- Added server refuse/renew
-    - 68c4d70 2015-08-27 Server refuse/renew implemented (d.naumenko.a@gmail.com)
-    - 77b9b25 2015-08-26 ServerGridView - added note, tariff_and_discount columns. Other columns fixed/improved. Other minor (d.naumenko.a@gmail.com)
-- Fixed access control
-    - 7855150 2015-08-26 fixed access control (sol@hiqdev.com)
-- Fixed php warnings
     - 4ce7c81 2015-08-25 minor] (d.naumenko.a@gmail.com)
     - 12ad378 2015-08-25 Fix warnings (andreyklochok@gmail.com)
-- Fixed reset-password and reinstal,
+- Added server refuse, renew and blocking
+    - 17ee153 2015-09-28 Incresased Server reinstall modal size (d.naumenko.a@gmail.com)
+    - 7b71771 2015-09-22 Implemented server blocking (d.naumenko.a@gmail.com)
+    - 68c4d70 2015-08-27 Server refuse/renew implemented (d.naumenko.a@gmail.com)
+    - 77b9b25 2015-08-26 ServerGridView - added note, `tariff_and_discount` columns. Other columns fixed/improved. Other minor (d.naumenko.a@gmail.com)
+    - 7855150 2015-08-26 fixed access control (sol@hiqdev.com)
+- Fixed reset-password and reinstal
     - e767c21 2015-08-25 ServerController - fixed reset-password, reinstal, other minor (d.naumenko.a@gmail.com)
     - 96d66fd 2015-08-19 Index page redone with actual standarts (d.naumenko.a@gmail.com)
     - 09d4ca0 2015-08-19 ServerColumn - fixed Combo call (d.naumenko.a@gmail.com)
-- Changed: hideved
     - 2516278 2015-08-19 hideved (sol@hiqdev.com)
 - Added server/buy redirect
     - d43dba5 2015-08-19 + server/buy redirect (sol@hiqdev.com)
-- Fixed many things for first release
     - 7201011 2015-08-19 fixed @server alias (sol@hiqdev.com)
     - 3de1bcc 2015-08-17 Changes (andreyklochok@gmail.com)
     - 7e04acf 2015-08-12 Add per page and rewrite sorter (andreyklochok@gmail.com)
@@ -116,9 +117,8 @@ hiqdev/hipanel-module-server commits history
     - ba38409 2015-08-02 Code updated to actual agreed style Minor changes (d.naumenko.a@gmail.com)
     - 725eb99 2015-08-02 * Plugin: + aliases (sol@hiqdev.com)
     - 65edb18 2015-07-31 removed unused uses (d.naumenko.a@gmail.com)
-- Changed: moved to src
-    - 0d4e9de 2015-07-31 Sources moved to src directory (d.naumenko.a@gmail.com)
 - Added basics
+    - 0d4e9de 2015-07-31 Sources moved to src directory (d.naumenko.a@gmail.com)
     - bc3b774 2015-07-31 Server grid view implementation (d.naumenko.a@gmail.com)
     - 07a0697 2015-07-30 Fixed phpdoc (d.naumenko.a@gmail.com)
     - e03fc6e 2015-07-29 Old unccommited changes (d.naumenko.a@gmail.com)
