@@ -1,10 +1,18 @@
 <?php
 
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\server\grid;
 
 use hipanel\grid\DataColumn;
 use hipanel\modules\server\widgets\combo\ServerCombo;
-use hiqdev\combo\Combo;
 use yii\helpers\Html;
 
 class ServerColumn extends DataColumn
@@ -13,7 +21,8 @@ class ServerColumn extends DataColumn
     public $nameAttribute = 'server';
     public $format = 'html';
 
-    public function init () {
+    public function init()
+    {
         parent::init();
         if (!$this->filterInputOptions['id']) {
             $this->filterInputOptions['id'] = $this->attribute;
@@ -27,7 +36,8 @@ class ServerColumn extends DataColumn
         };
     }
 
-    public function getDataCellValue ($model, $key, $index) {
+    public function getDataCellValue($model, $key, $index)
+    {
         return Html::a($model->{$this->nameAttribute}, ['/server/server/view', 'id' => $model->{$this->attribute}]);
     }
 }

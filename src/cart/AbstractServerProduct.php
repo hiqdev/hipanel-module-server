@@ -1,10 +1,19 @@
 <?php
 
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\server\cart;
 
 use DateTime;
-use hipanel\modules\server\models\Server;
 use hipanel\modules\finance\cart\AbstractCartPosition;
+use hipanel\modules\server\models\Server;
 use Yii;
 
 abstract class AbstractServerProduct extends AbstractCartPosition
@@ -44,7 +53,7 @@ abstract class AbstractServerProduct extends AbstractCartPosition
 
             $result[$n] = Yii::t('hipanel/server', '{n, plural, one{# month} other{# months}} till {date}', [
                 'n' => $n,
-                'date' => Yii::$app->formatter->asDate($date)
+                'date' => Yii::$app->formatter->asDate($date),
             ]);
         }
 

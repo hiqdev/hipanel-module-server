@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 /**
  * @link    http://hiqdev.com/hipanel-module-domain
  * @license http://hiqdev.com/hipanel-module-domain/license
@@ -23,9 +33,9 @@ class Expires extends \hipanel\widgets\Label
 
         if (strtotime($expires) < time()) {
             $class = 'danger';
-        } elseif (strtotime($expires) < strtotime("+5 days", time())) {
+        } elseif (strtotime($expires) < strtotime('+5 days', time())) {
             $class = 'warning';
-        } elseif (strtotime($expires) < strtotime("+30 days", time())) {
+        } elseif (strtotime($expires) < strtotime('+30 days', time())) {
             $class = 'info';
         } else {
             $class = 'default';
@@ -35,5 +45,4 @@ class Expires extends \hipanel\widgets\Label
         $this->label = Yii::$app->formatter->asDate($expires);
         parent::init();
     }
-
 }

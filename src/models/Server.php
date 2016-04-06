@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-server
- * @license http://hiqdev.com/hipanel-module-server/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
@@ -55,7 +59,7 @@ class Server extends \hipanel\base\Model
                     'note',
                     'label',
                 ],
-                'safe'
+                'safe',
             ],
             [['last_expires', 'expires', 'status_time', 'sale_time'], 'date'],
             [
@@ -71,7 +75,7 @@ class Server extends \hipanel\base\Model
                     'boot-live',
                     'regen-root-password',
                     'reset-password',
-                ]
+                ],
             ],
             [['id'], 'required', 'on' => ['set-note', 'set-label']],
             [['id'], 'required', 'on' => ['enable-vnc']],
@@ -85,7 +89,7 @@ class Server extends \hipanel\base\Model
     }
 
     /**
-     * Determine good server states
+     * Determine good server states.
      *
      * @return array
      */
@@ -99,51 +103,52 @@ class Server extends \hipanel\base\Model
      */
     public function isOperable()
     {
-        if ($this->running_task || !in_array($this->state, $this->goodStates())) {
+        if ($this->running_task || !in_array($this->state, $this->goodStates(), true)) {
             return false;
         }
         return true;
     }
 
     /**
-     * Checks whether server supports VNC
+     * Checks whether server supports VNC.
      *
      * @return bool
      */
     public function isVNCSupported()
     {
-        return $this->type != 'ovds';
+        return $this->type !== 'ovds';
     }
 
     /**
-     * Checks whether server supports root password change
+     * Checks whether server supports root password change.
      *
      * @return bool
      */
     public function isPwChangeSupported()
     {
-        return $this->type == 'ovds';
+        return $this->type === 'ovds';
     }
 
     /**
-     * Checks whether server supports LiveCD
+     * Checks whether server supports LiveCD.
      *
      * @return bool
      */
     public function isLiveCDSupported()
     {
-        return $this->type != 'ovds';
+        return $this->type !== 'ovds';
     }
 
-    public function getIsBlocked() {
+    public function getIsBlocked()
+    {
         return $this->state === static::STATE_BLOCKED;
     }
 
     /**
-     * Checks whether server can be operated not
+     * Checks whether server can be operated not.
      *
-     * @return bool
      * @throws NotSupportedException
+     * @return bool
      * @see isOperable()
      */
     public function checkOperable()
@@ -155,7 +160,7 @@ class Server extends \hipanel\base\Model
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function scenarioCommands()
     {
@@ -191,7 +196,7 @@ class Server extends \hipanel\base\Model
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function attributeLabels()
     {

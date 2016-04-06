@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\server\widgets;
 
 use Yii;
@@ -7,9 +17,7 @@ use yii\helpers\Html;
 
 /**
  * Class DiscountFormatter
- * Renders a button with popover to display current and upcoming discount
- *
- * @package app\modules\server\widgets
+ * Renders a button with popover to display current and upcoming discount.
  */
 class DiscountFormatter extends Widget
 {

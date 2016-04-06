@@ -1,39 +1,47 @@
 <?php
 
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\server\widgets\combo;
 
 use hiqdev\combo\Combo;
-use yii\helpers\ArrayHelper;
 
 /**
- * Class Server
+ * Class Server.
  */
 class ServerCombo extends Combo
 {
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public $name = 'name';
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public $type = 'server/server';
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public $url = '/server/server/search';
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public $_return = ['id', 'client', 'client_id', 'seller', 'seller_id'];
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public $_rename = ['text' => 'name'];
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public $_filter = ['client' => 'client/client'];
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public $_pluginOptions = [
         'clearWhen' => ['client/client'],
         'affects'   => [
             'client/seller' => 'seller',
             'client/client' => 'client',
-        ]
+        ],
     ];
 }

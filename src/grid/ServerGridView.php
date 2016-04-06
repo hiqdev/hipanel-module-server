@@ -1,23 +1,27 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-server
- * @license http://hiqdev.com/hipanel-module-server/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
 
-use hipanel\grid\XEditableColumn;
-use hipanel\helpers\Url;
-use hipanel\widgets\ArraySpoiler;
-use Yii;
 use hipanel\grid\ActionColumn;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
+use hipanel\grid\XEditableColumn;
+use hipanel\helpers\Url;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\State;
+use hipanel\widgets\ArraySpoiler;
+use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -33,10 +37,11 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         static::$osImages = $osImages;
     }
 
-    public static function formatTariff($model) {
+    public static function formatTariff($model)
+    {
         if (Yii::$app->user->can('support')) {
             if ($model->parent_tariff && $model->parent_tariff !== $model->tariff) {
-                return Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => "tooltip"]);
+                return Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
             } else {
                 return $model->tariff;
             }
@@ -57,7 +62,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'note' => Yii::$app->user->can('support') ? 'label' : 'note',
                 'noteOptions' => [
                     'url' => Yii::$app->user->can('support') ? Url::to('set-label') : Url::to('set-note'),
-                ]
+                ],
             ],
             'state' => [
                 'class' => RefColumn::className(),
@@ -77,7 +82,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) {
                     return $model->panel ? Yii::t('hipanel/server/panel', $model->panel) : Yii::t('hipanel/server/panel', 'No control panel');
-                }
+                },
             ],
             'os' => [
                 'attribute' => 'os',
@@ -85,9 +90,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value' => function ($model) use ($osImages) {
                     return OSFormatter::widget([
                         'osimages' => $osImages,
-                        'imageName' => $model->osimage
+                        'imageName' => $model->osimage,
                     ]);
-                }
+                },
             ],
             'os_and_panel' => [
                 'attribute' => 'os',
@@ -95,11 +100,11 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value' => function ($model) use ($osImages) {
                     $html = OSFormatter::widget([
                         'osimages' => $osImages,
-                        'imageName' => $model->osimage
+                        'imageName' => $model->osimage,
                     ]);
                     $html .= ' ' . $model->panel ?: '';
                     return $html;
-                }
+                },
             ],
             'tariff_and_discount' => [
                 'attribute' => 'tariff',
@@ -109,7 +114,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'current' => $model->discounts['fee']['current'],
                         'next' => $model->discounts['fee']['next'],
                     ]);
-                }
+                },
             ],
             'discount' => [
                 'attribute' => 'discount',
@@ -121,7 +126,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'current' => $model->discounts['fee']['current'],
                         'next' => $model->discounts['fee']['next'],
                     ]);
-                }
+                },
             ],
             'actions' => [
                 'class' => ActionColumn::className(),
@@ -139,15 +144,15 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'tariff' => [
                 'format' => 'raw',
                 'attribute' => 'tariff',
-                'value'=> function ($model) {
+                'value' => function ($model) {
                     return self::formatTariff($model);
-                }
+                },
             ],
             'tariff_note' => [
                 'attribute' => 'tariff_note',
                 'value' => function ($model) {
 
-                }
+                },
             ],
             'ips' => [
                 'format' => 'raw',
@@ -158,9 +163,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'data' => ArrayHelper::getColumn($model->ips, 'ip'),
                         'delimiter' => '<br />',
                         'visibleCount' => 3,
-                        'button' => ['popoverOptions' => ['html' => true]]
+                        'button' => ['popoverOptions' => ['html' => true]],
                     ]);
-                }
+                },
             ],
             'sale_time' => [
                 'attribute' => 'sale_time',
@@ -169,26 +174,26 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'note' => [
                 'class' => XEditableColumn::class,
                 'pluginOptions' => [
-                    'url'       => Url::to('set-note')
+                    'url'       => Url::to('set-note'),
                 ],
                 'widgetOptions' => [
                     'linkOptions' => [
                         'data-type' => 'textarea',
-                    ]
-                ]
+                    ],
+                ],
             ],
             'label' => [
                 'class' => XEditableColumn::class,
                 'visible' => Yii::$app->user->can('support'),
                 'pluginOptions' => [
-                    'url'       => Url::to('set-label')
+                    'url'       => Url::to('set-label'),
                 ],
                 'widgetOptions' => [
                     'linkOptions' => [
                         'data-type' => 'textarea',
-                    ]
-                ]
-            ]
+                    ],
+                ],
+            ],
         ];
     }
 }

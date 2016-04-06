@@ -1,15 +1,17 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-server
- * @license http://hiqdev.com/hipanel-module-server/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
 
 use hipanel\modules\finance\models\RUse;
-use Yii;
-use yii\base\InvalidParamException;
 
 class ServerUse extends RUse
 {
@@ -42,9 +44,9 @@ class ServerUse extends RUse
 
     public function getDisplayAmount()
     {
-        if (in_array($this->type, $this->getBandwidthTypes())) {
+        if (in_array($this->type, $this->getBandwidthTypes(), true)) {
             return round($this->last / pow(10, 6), 2);
-        } elseif (in_array($this->type, $this->getTrafficTypes())) {
+        } elseif (in_array($this->type, $this->getTrafficTypes(), true)) {
             return round($this->total / pow(10, 9), 2);
         }
 

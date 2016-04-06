@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-server
- * @license http://hiqdev.com/hipanel-module-server/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\controllers;
@@ -54,7 +58,7 @@ class ServerController extends CrudController
                 },
                 'data' => function ($action) {
                     return [
-                        'states' => $action->controller->getStates()
+                        'states' => $action->controller->getStates(),
                     ];
                 },
                 'filterStorageMap' => [
@@ -63,10 +67,10 @@ class ServerController extends CrudController
                     'state' => 'server.server.state',
                     'client_id' => 'client.client.id',
                     'seller_id' => 'client.client.seller_id',
-                ]
+                ],
             ],
             'search' => [
-                'class' => SearchAction::class
+                'class' => SearchAction::class,
             ],
             'view' => [
                 'class' => ViewAction::class,
@@ -88,7 +92,7 @@ class ServerController extends CrudController
                 },
                 'data' => function ($action) {
                     /**
-                     * @var $controller $this
+                     * @var $this
                      * @var $model Server
                      */
                     $controller = $action->controller;
@@ -130,13 +134,13 @@ class ServerController extends CrudController
                         'osimageslivecd',
                         'grouped_osimages',
                         'panels',
-                        'blockReasons'
+                        'blockReasons',
                     ]);
                 },
             ],
             'requests-state' => [
                 'class' => RequestStateAction::className(),
-                'model' => Server::className()
+                'model' => Server::className(),
             ],
             'set-note' => [
                 'class' => SmartUpdateAction::class,
@@ -156,8 +160,8 @@ class ServerController extends CrudController
                     'save' => true,
                     'success' => [
                         'class' => ProxyAction::class,
-                        'action' => 'index'
-                    ]
+                        'action' => 'index',
+                    ],
                 ],
                 'POST' => [
                     'save' => true,
@@ -166,8 +170,8 @@ class ServerController extends CrudController
                         'return' => function ($action) {
                             /** @var \hipanel\actions\Action $action */
                             return $action->collection->models;
-                        }
-                    ]
+                        },
+                    ],
                 ],
             ],
             'enable-vnc' => [
@@ -178,7 +182,7 @@ class ServerController extends CrudController
                     $model->checkOperable();
                     $model->vnc = $action->controller->getVNCInfo($model, true);
                     return [];
-                }
+                },
             ],
             'reboot' => [
                 'class' => SmartUpdateAction::class,
@@ -270,7 +274,7 @@ class ServerController extends CrudController
     }
 
     /**
-     * Gets info of VNC on the server
+     * Gets info of VNC on the server.
      *
      * @param Server $model
      * @param bool $enable
@@ -291,7 +295,7 @@ class ServerController extends CrudController
     public function actionDrawChart()
     {
         $post = Yii::$app->request->post();
-        if (!in_array($post['type'], ['traffic', 'bandwidth'])) {
+        if (!in_array($post['type'], ['traffic', 'bandwidth'], true)) {
             throw new NotFoundHttpException();
         }
 
@@ -302,20 +306,20 @@ class ServerController extends CrudController
         $dataProvider->query->andWhere($post);
         $models = $dataProvider->getModels();
 
-        list ($labels, $data) = ServerHelper::groupUsesForChart($models);
+        list($labels, $data) = ServerHelper::groupUsesForChart($models);
 
         return $this->renderAjax('_' . $post['type'] . '_consumption', [
             'labels' => $labels,
-            'data' => $data
+            'data' => $data,
         ]);
     }
 
     /**
-     * Gets OS images
+     * Gets OS images.
      *
      * @param Server $model
-     * @return array
      * @throws NotFoundHttpException
+     * @return array
      */
     protected function getOsimages(Server $model = null)
     {
@@ -360,7 +364,7 @@ class ServerController extends CrudController
     }
 
     /**
-     * Generates array of osimages data, grouped by different fields to display on the website
+     * Generates array of osimages data, grouped by different fields to display on the website.
      *
      * @param $images array of osimages models to be proceed
      * @param bool $ispSupported
@@ -386,11 +390,11 @@ class ServerController extends CrudController
                 $oses[$system] = ['vendor' => $os, 'name' => $name];
             }
 
-            if ($panel != 'isp' || ($panel == 'isp' && $ispSupported)) {
+            if ($panel !== 'isp' || ($panel === 'isp' && $ispSupported)) {
                 $data = [
                     'name' => $softpack_name,
                     'description' => preg_replace('/^ISPmanager - /', '', $softpack['description']),
-                    'osimage' => $image->osimage
+                    'osimage' => $image->osimage,
                 ];
 
                 if ($softpack['soft']) {
@@ -402,10 +406,10 @@ class ServerController extends CrudController
                         $data['soft'][$soft] = [
                             'name' => $soft_info['name'],
                             'version' => $soft_info['version'],
-                            'description' => $soft_info['description']
+                            'description' => $soft_info['description'],
                         ];
                     }
-                    $data['html_desc'] = implode("<br>", $html_desc);
+                    $data['html_desc'] = implode('<br>', $html_desc);
                 }
                 $oses[$system]['panel'][$panel]['softpack'][$softpack_name] = $data;
                 $softpacks[$panel][$softpack_name] = $data;

@@ -1,12 +1,20 @@
 <?php
 
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\server;
 
 use Yii;
 
 class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInterface
 {
-
     protected $_addTo = 'sidebar';
 
     protected $_where = [
@@ -30,5 +38,4 @@ class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInter
             ],
         ];
     }
-
 }

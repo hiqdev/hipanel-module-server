@@ -1,8 +1,12 @@
 <?php
-/**
- * @link    http://hiqdev.com/hipanel-module-server
- * @license http://hiqdev.com/hipanel-module-server/license
- * @copyright Copyright (c) 2015 HiQDev
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
@@ -10,13 +14,14 @@ namespace hipanel\modules\server\models;
 use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
 
-class ServerSearch extends Server {
+class ServerSearch extends Server
+{
     use SearchModelTrait {
         searchAttributes as defaultSearchAttributes;
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function searchAttributes()
     {

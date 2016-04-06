@@ -1,4 +1,14 @@
 <?php
+
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 /**
  * @link    http://hiqdev.com/hipanel-module-domain
  * @license http://hiqdev.com/hipanel-module-domain/license
@@ -7,18 +17,16 @@
 
 namespace hipanel\modules\server\widgets;
 
-use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\JsExpression;
 
 /**
- * Class ChartOptions
- * @package hipanel\modules\server\widgets
+ * Class ChartOptions.
  */
 class ChartOptions extends \hipanel\widgets\ChartOptions
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function initDefaults()
     {
