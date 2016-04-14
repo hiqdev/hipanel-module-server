@@ -11,16 +11,22 @@
 
 namespace hipanel\modules\server\cart;
 
+use DateTime;
 use hipanel\modules\server\models\Server;
 use Yii;
 
+/**
+ * Class ServerRenewProduct
+ *
+ * @package hipanel\modules\server\cart
+ */
 class ServerRenewProduct extends AbstractServerProduct
 {
     /** {@inheritdoc} */
     protected $_purchaseModel = 'hipanel\modules\server\cart\ServerRenewPurchase';
 
     /** {@inheritdoc} */
-    protected $_operation = 'renew';
+    protected $_calculationModel = RenewCalculation::class;
 
     /** {@inheritdoc} */
     public static function primaryKey()
@@ -57,7 +63,26 @@ class ServerRenewProduct extends AbstractServerProduct
     {
         return parent::getCalculationModel(array_merge([
             'id' => $this->model_id,
+            'type' => 'renew',
+            'server' => $this->name,
+            'expires' => $this->_model->expires,
         ], $options));
+    }
+
+    /** {@inheritdoc} */
+    public function getQuantityOptions()
+    {
+        $result = [];
+        foreach ([1, 3, 6, 12] as $n) {
+            $date = (new DateTime($this->_model->expires))->add(new \DateInterval("P{$n}M"));
+
+            $result[$n] = Yii::t('hipanel/server', '{n, plural, one{# month} other{# months}} till {date}', [
+                'n' => $n,
+                'date' => Yii::$app->formatter->asDate($date),
+            ]);
+        }
+
+        return $result;
     }
 
     /** {@inheritdoc} */
@@ -72,6 +97,7 @@ class ServerRenewProduct extends AbstractServerProduct
     {
         return array_merge(parent::rules(), [
             [['model_id'], 'integer'],
+            [['name'], 'required'],
         ]);
     }
 }

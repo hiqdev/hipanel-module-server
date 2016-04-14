@@ -29,6 +29,8 @@ use Yii;
  */
 class Osimage extends \hiqdev\hiart\ActiveRecord
 {
+    const NO_PANEL = 'no';
+
     /**
      * @return array the list of attributes for this record
      */
@@ -59,6 +61,11 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
         return $this->hasSoftPack() ? $this->softpack['name'] : 'clear';
     }
 
+    public function getDisplaySoftPackName()
+    {
+        return Yii::t('hipanel/server/os', $this->getSoftPackName());
+    }
+
     public function hasSoftPack()
     {
         return !empty($this->softpack);
@@ -66,12 +73,21 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
 
     public function getPanelName()
     {
-        return $this->panel ?: 'no';
+        return $this->panel ?: static::NO_PANEL;
     }
 
     public function getSoftPack()
     {
         return $this->hasSoftPack() ? $this->softpack : [];
+    }
+
+    public function getDisplayPanelName()
+    {
+        $panel = $this->getPanelName();
+        if ($panel === static::NO_PANEL) {
+            $panel = 'No panel';
+        }
+        return Yii::t('hipanel/server/panel', $panel);
     }
 
     /**
@@ -81,8 +97,9 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
     {
         return [
             'osimagae' => Yii::t('hipanel/server/os', 'System name of image'),
-            'os'       => Yii::t('hipanel/server/os', 'OS'),
+            'os' => Yii::t('hipanel/server/os', 'OS'),
             'softpack' => Yii::t('hipanel/server/os', 'Soft package'),
+            'panel' => Yii::t('hipanel/server/os', 'Panel'),
         ];
     }
 }

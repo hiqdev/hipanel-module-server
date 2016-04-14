@@ -37,7 +37,7 @@ ModalButton::begin([
                 <div class="panel-heading"><?= \Yii::t('hipanel/server', 'OS') ?></div>
                 <div class="list-group">
                     <?php
-                    foreach ($grouped_osimages['vendors'] as $vendor) { ?>
+                    foreach ($groupedOsimages['vendors'] as $vendor) { ?>
                         <div class="list-group-item">
                             <h4 class="list-group-item-heading"><?= $vendor['name'] ?></h4>
 
@@ -61,14 +61,14 @@ ModalButton::begin([
                 <div class="list-group">
                     <?php
                     foreach ($panels as $panel => $panel_name) {
-                        if (empty($grouped_osimages['softpacks'][$panel])) {
+                        if (empty($groupedOsimages['softpacks'][$panel])) {
                             continue;
                         } ?>
                         <div class="list-group-item soft-list" data-panel="<?= $panel ?>">
                             <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/panel', $panel_name) ?></h4>
 
                             <div class="list-group-item-text">
-                                <?php foreach ($grouped_osimages['softpacks'][$panel] as $softpack) { ?>
+                                <?php foreach ($groupedOsimages['softpacks'][$panel] as $softpack) { ?>
                                     <div class="radio">
                                         <label>
                                             <?= Html::radio('panel_soft', false, [
@@ -95,7 +95,7 @@ ModalButton::begin([
     </div>
 <?php OsSelectionAsset::register($this);
 $this->registerJs("
-    var osparams = " . Json::encode($grouped_osimages['oses']) . ";
+    var osparams = " . Json::encode($groupedOsimages['oses']) . ";
     $('.os-selector').osSelector({
         osparams: osparams
     });

@@ -11,26 +11,22 @@
 
 namespace hipanel\modules\server\cart;
 
+use yii\base\InvalidConfigException;
+
 /**
- * Class ServerRenewPurchase
- *
+ * Class ServerOrderPurchase
  * @package hipanel\modules\server\cart
  */
-class ServerRenewPurchase extends AbstractServerPurchase
+class ServerOrderPurchase extends AbstractServerPurchase
 {
     /** {@inheritdoc} */
     public static function operation()
     {
-        return 'Renew';
+        return 'Buy';
     }
-
-    /**
-     * @var string domain expiration datetime
-     */
-    public $expires;
-
     public function rules()
     {
+        throw new InvalidConfigException('Server purchasing is not implemented yet. '); // todo
         return array_merge(parent::rules(), [
             [['expires'], 'required'],
         ]);

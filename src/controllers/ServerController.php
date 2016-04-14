@@ -323,20 +323,19 @@ class ServerController extends CrudController
      */
     protected function getOsimages(Server $model = null)
     {
-        $condition = [];
         if ($model !== null) {
-            $condition['type'] = $model->type;
+            $type = $model->type;
+        } else {
+            $type = null;
         }
 
-        $models = Yii::$app->cache->getTimeCached(3600, [$condition], function ($condition) {
-            return Osimage::find()->where($condition)->all();
-        });
+        $models = ServerHelper::getOsimages($type);
 
-        if ($models !== null) {
-            return $models;
+        if ($models === null) {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
 
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $models;
     }
 
     protected function getOsimagesLiveCd()
@@ -354,82 +353,12 @@ class ServerController extends CrudController
 
     protected function getPanelTypes()
     {
-        return Ref::getList('type,panel');
+        return ServerHelper::getPanels();
     }
 
     protected function getStates()
     {
         $states = Ref::getList('state,device');
         return $states;
-    }
-
-    /**
-     * Generates array of osimages data, grouped by different fields to display on the website.
-     *
-     * @param $images array of osimages models to be proceed
-     * @param bool $ispSupported
-     * @return array
-     */
-    protected function getGroupedOsimages($images, $ispSupported = false)
-    {
-        $softpacks = [];
-        $oses = [];
-        $vendors = [];
-        foreach ($images as $image) {
-            /** @var Osimage $image */
-            $os = $image->os;
-            $name = $image->getFullOsName();
-            $panel = $image->getPanelName();
-            $system = $image->getFullOsName('');
-            $softpack_name = $image->getSoftPackName();
-            $softpack = $image->getSoftPack();
-
-            if (!array_key_exists($system, $oses)) {
-                $vendors[$os]['name'] = $os;
-                $vendors[$os]['oses'][$system] = $name;
-                $oses[$system] = ['vendor' => $os, 'name' => $name];
-            }
-
-            if ($panel !== 'isp' || ($panel === 'isp' && $ispSupported)) {
-                $data = [
-                    'name' => $softpack_name,
-                    'description' => preg_replace('/^ISPmanager - /', '', $softpack['description']),
-                    'osimage' => $image->osimage,
-                ];
-
-                if ($softpack['soft']) {
-                    $html_desc = [];
-                    foreach ($softpack['soft'] as $soft => $soft_info) {
-                        $soft_info['description'] = preg_replace('/,([^\s])/', ', $1', $soft_info['description']);
-
-                        $html_desc[] = "<b>{$soft_info['name']} {$soft_info['version']}</b>: <i>{$soft_info['description']}</i>";
-                        $data['soft'][$soft] = [
-                            'name' => $soft_info['name'],
-                            'version' => $soft_info['version'],
-                            'description' => $soft_info['description'],
-                        ];
-                    }
-                    $data['html_desc'] = implode('<br>', $html_desc);
-                }
-                $oses[$system]['panel'][$panel]['softpack'][$softpack_name] = $data;
-                $softpacks[$panel][$softpack_name] = $data;
-            } else {
-                $oses[$system]['panel'][$panel] = false;
-            }
-        }
-
-        foreach ($oses as $system => $os) {
-            $delete = true;
-            foreach ($os['panel'] as $panel => $info) {
-                if ($info !== false) {
-                    $delete = false;
-                }
-            }
-            if ($delete) {
-                unset($vendors[$os['vendor']]['oses'][$system]);
-            }
-        }
-
-        return compact('vendors', 'oses', 'softpacks');
     }
 }
