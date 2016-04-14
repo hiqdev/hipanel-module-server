@@ -11,7 +11,9 @@
 
 namespace hipanel\modules\server\cart;
 
-class Calculation extends \hipanel\modules\finance\models\Calculation
+use Yii;
+
+class OrderCalculation extends \hipanel\modules\finance\models\Calculation
 {
     use \hipanel\base\ModelTrait;
 
@@ -20,8 +22,13 @@ class Calculation extends \hipanel\modules\finance\models\Calculation
     {
         parent::init();
 
-        $this->client = $this->position->getModel()->client;
-        $this->seller = $this->position->getModel()->seller;
+        if (Yii::$app->user->getIsGuest()) {
+            $this->seller = Yii::$app->params['seller'];
+        } else {
+            $this->seller = Yii::$app->user->identity->seller;
+            $this->client = Yii::$app->user->identity->login;
+        }
+
         $this->object = 'server';
     }
 
@@ -29,8 +36,7 @@ class Calculation extends \hipanel\modules\finance\models\Calculation
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['server', 'expires'], 'safe'],
-            [['id'], 'integer'],
+            [['tariff_id'], 'integer'],
         ]);
     }
 }
