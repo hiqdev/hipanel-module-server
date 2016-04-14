@@ -11,6 +11,8 @@
 
 return [
     'OS' => 'ОС',
-    'Soft package' => 'Пакет ОП',
+    'Soft package' => 'Пакет ПО',
     'System name of image' => 'Название образа',
+    'Panel' => 'Панель управления',
+    'clear' => 'отсутствует'
 ];
