@@ -114,6 +114,11 @@ class ServerOrderProduct extends AbstractServerProduct
         $this->ensureRelatedData(); // To get fresh domain expiration date
         return parent::getPurchaseModel(array_merge([
             'osimage' => $this->os,
+            'panel' => $this->_image->getPanelName(),
+            'cluster_id' => $this->cluster_id,
+            'social' => $this->social,
+            'purpose' => $this->purpose,
+            'tariff_id' => $this->tariff_id
         ], $options));
     }
 
@@ -124,7 +129,13 @@ class ServerOrderProduct extends AbstractServerProduct
             [['cluster_id', 'tariff_id'], 'integer'],
             [['social', 'osimage'], 'safe'],
             [['tariff_id', 'purpose', 'osimage'], 'required'],
+            [['cluster_id'], 'validateClusterId']
         ]);
+    }
+
+    public function validateClusterId($value)
+    {
+        return in_array($this->cluster_id, array_keys($this->_model->getLocations()));
     }
 
     /** {@inheritdoc} */

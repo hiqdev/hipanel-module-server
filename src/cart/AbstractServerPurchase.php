@@ -23,22 +23,4 @@ abstract class AbstractServerPurchase extends \hipanel\modules\finance\cart\Abst
     {
         return 'server';
     }
-
-    /** {@inheritdoc} */
-    public function init()
-    {
-        parent::init();
-
-        $this->server = $this->position->name;
-        $this->amount = $this->position->getQuantity();
-    }
-
-    /** {@inheritdoc} */
-    public function rules()
-    {
-        return array_merge(parent::rules(), [
-            [['server', 'expires'], 'safe'],
-            [['amount'], 'number'],
-        ]);
-    }
 }

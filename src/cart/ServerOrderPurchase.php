@@ -11,7 +11,7 @@
 
 namespace hipanel\modules\server\cart;
 
-use yii\base\InvalidConfigException;
+use hipanel\base\ModelTrait;
 
 /**
  * Class ServerOrderPurchase
@@ -19,16 +19,28 @@ use yii\base\InvalidConfigException;
  */
 class ServerOrderPurchase extends AbstractServerPurchase
 {
+    use ModelTrait;
+
     /** {@inheritdoc} */
     public static function operation()
     {
         return 'Buy';
     }
+
+    /** {@inheritdoc} */
+    public function init()
+    {
+        parent::init();
+
+        $this->amount = $this->position->getQuantity();
+    }
+
     public function rules()
     {
-        throw new InvalidConfigException('Server purchasing is not implemented yet. '); // todo
         return array_merge(parent::rules(), [
-            [['expires'], 'required'],
+            [['osimage', 'panel', 'cluster_id', 'social', 'purpose', 'tariff_id'], 'required'],
+            [['osimage', 'panel', 'social', 'purpose'], 'safe'],
+            [['tariff_id', 'cluster_id'], 'integer']
         ]);
     }
 }

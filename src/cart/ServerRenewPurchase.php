@@ -11,6 +11,8 @@
 
 namespace hipanel\modules\server\cart;
 
+use hipanel\base\ModelTrait;
+
 /**
  * Class ServerRenewPurchase
  *
@@ -18,10 +20,21 @@ namespace hipanel\modules\server\cart;
  */
 class ServerRenewPurchase extends AbstractServerPurchase
 {
+    use ModelTrait;
+
     /** {@inheritdoc} */
     public static function operation()
     {
         return 'Renew';
+    }
+
+    /** {@inheritdoc} */
+    public function init()
+    {
+        parent::init();
+
+        $this->server = $this->position->name;
+        $this->amount = $this->position->getQuantity();
     }
 
     /**
@@ -32,7 +45,8 @@ class ServerRenewPurchase extends AbstractServerPurchase
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['expires'], 'required'],
+            [['server', 'expires'], 'safe'],
+            [['expires', 'amount'], 'required'],
         ]);
     }
 }
