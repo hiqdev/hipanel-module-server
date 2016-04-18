@@ -120,7 +120,7 @@ class ServerController extends CrudController
                     }
 
                     $osimages = $controller->getOsimages($model);
-                    $grouped_osimages = $controller->getGroupedOsimages($osimages, $ispSupported);
+                    $groupedOsimages = ServerHelper::groupOsimages($osimages, $ispSupported);
 
                     if ($model->isLiveCDSupported()) {
                         $osimageslivecd = $controller->getOsimagesLiveCd();
@@ -132,7 +132,7 @@ class ServerController extends CrudController
                         'model',
                         'osimages',
                         'osimageslivecd',
-                        'grouped_osimages',
+                        'groupedOsimages',
                         'panels',
                         'blockReasons',
                     ]);

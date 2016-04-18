@@ -54,7 +54,7 @@ class ServerHelper
         });
     }
 
-    public static function groupOsmages($images, $ispSupported = false)
+    public static function groupOsimages($images, $ispSupported = false)
     {
         $softpacks = [];
         $oses = [];

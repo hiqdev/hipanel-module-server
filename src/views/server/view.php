@@ -111,7 +111,7 @@ Pjax::begin();
                         </div>
                     <?php endif; ?>
                     <div class="col-md-6">
-                        <?= $this->render('_reinstall', compact(['model', 'grouped_osimages', 'panels'])) ?>
+                        <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
                     </div>
                 </div>
                     <?php
