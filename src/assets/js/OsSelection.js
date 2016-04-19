@@ -126,6 +126,8 @@
 						}
 					}
 				}, 200);
+			}).on("click", function(event) {
+				event.preventDefault();
 			});
 		}
 
