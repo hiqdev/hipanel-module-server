@@ -102,8 +102,9 @@ class OSFormatter extends Widget
      */
     public function run()
     {
-        if (!($this->osimage instanceof Osimage)) {
+        if (!$this->osimage instanceof Osimage) {
             echo $this->imageName;
+            return;
         }
 
         echo $this->osimage->getFullOsName();
