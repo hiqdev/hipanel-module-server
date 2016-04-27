@@ -13,12 +13,14 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
+use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\ProxyAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\RequestStateAction;
 use hipanel\actions\SearchAction;
+use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
@@ -270,6 +272,81 @@ class ServerController extends CrudController
                 'class' => AddToCartAction::class,
                 'productClass' => ServerRenewProduct::class,
             ],
+            'delete' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel/server', 'Server was deleted successfully'),
+                'error' => Yii::t('hipanel/server', 'Failed to delete server')
+            ],
+            'bulk-delete-modal' => [
+                'class' => PrepareBulkAction::class,
+                'scenario' => 'delete',
+                'view' => '_bulkDelete',
+            ],
+            'bulk-enable-block' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'enable-block',
+                'success' => Yii::t('hipanel/server', 'Servers were blocked successfully'),
+                'error' => Yii::t('hipanel/server', 'Error during the servers blocking'),
+                'POST html' => [
+                    'save'    => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $type = Yii::$app->request->post('type');
+                    $comment = Yii::$app->request->post('comment');
+                    if (!empty($type)) {
+                        foreach ($action->collection->models as $model) {
+                            $model->setAttributes([
+                                'type' => $type,
+                                'comment' => $comment
+                            ]);
+
+                        }
+                    }
+                },
+            ],
+            'bulk-enable-block-modal' => [
+                'class' => PrepareBulkAction::class,
+                'scenario' => 'enable-block',
+                'view' => '_bulkEnableBlock',
+                'data' => function ($action, $data) {
+                    return array_merge($data, [
+                        'blockReasons' => $this->getBlockReasons()
+                    ]);
+                }
+            ],
+            'bulk-disable-block' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'disable-block',
+                'success' => Yii::t('hipanel/server', 'Servers were unblocked successfully'),
+                'error' => Yii::t('hipanel/server', 'Error during the servers unblocking'),
+                'POST html' => [
+                    'save'    => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $comment = Yii::$app->request->post('comment');
+                    if (!empty($type)) {
+                        foreach ($action->collection->models as $model) {
+                            $model->setAttribute('comment', $comment);
+                        }
+                    }
+                },
+            ],
+            'bulk-disable-block-modal' => [
+                'class' => PrepareBulkAction::class,
+                'scenario' => 'disable-block',
+                'view' => '_bulkDisableBlock',
+            ],
+
         ];
     }
 

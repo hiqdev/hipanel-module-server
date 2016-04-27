@@ -77,10 +77,24 @@ class Server extends \hipanel\base\Model
                     'reset-password',
                 ],
             ],
-            [['id'], 'required', 'on' => ['set-note', 'set-label']],
-            [['id'], 'required', 'on' => ['enable-vnc']],
-            [['id'], 'required', 'on' => ['enable-autorenewal']],
-            [['id'], 'required', 'on' => ['refuse']],
+            [
+                ['id'],
+                'required',
+                'on' => [
+                    'refuse', 'delete', 'enable-autorenewal',
+                    'enable-vnc', 'set-note', 'set-label',
+                    'enable-block', 'disable-block'
+                ]
+            ],
+            [
+                ['id'],
+                'integer',
+                'on' => [
+                    'refuse', 'delete', 'enable-autorenewal',
+                    'enable-vnc', 'set-note', 'set-label',
+                    'enable-block', 'disable-block'
+                ]
+            ],
             [['id', 'osimage', 'panel'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
             [['type', 'comment'], 'required', 'on' => ['enable-block']],
