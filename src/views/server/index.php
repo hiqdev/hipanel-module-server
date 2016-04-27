@@ -55,8 +55,8 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
         <?= Dropdown::widget([
             'encodeLabels' => false,
             'items' => [
-                ['label' => Yii::t('hipanel/domain', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-                ['label' => Yii::t('hipanel/domain', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+                ['label' => Yii::t('hipanel/server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+                ['label' => Yii::t('hipanel/server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
                 ['label' => Yii::t('hipanel', 'Delete'), 'url' => '#bulk-server-delete-modal', 'linkOptions' => ['data-toggle' => 'modal']],
             ]
         ]); ?>
