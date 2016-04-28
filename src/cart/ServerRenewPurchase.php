@@ -14,9 +14,7 @@ namespace hipanel\modules\server\cart;
 use hipanel\base\ModelTrait;
 
 /**
- * Class ServerRenewPurchase
- *
- * @package hipanel\modules\server\cart
+ * Class ServerRenewPurchase.
  */
 class ServerRenewPurchase extends AbstractServerPurchase
 {

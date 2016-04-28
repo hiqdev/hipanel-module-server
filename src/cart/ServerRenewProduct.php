@@ -16,9 +16,7 @@ use hipanel\modules\server\models\Server;
 use Yii;
 
 /**
- * Class ServerRenewProduct
- *
- * @package hipanel\modules\server\cart
+ * Class ServerRenewProduct.
  */
 class ServerRenewProduct extends AbstractServerProduct
 {

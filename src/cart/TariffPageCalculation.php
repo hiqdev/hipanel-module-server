@@ -11,15 +11,11 @@
 
 namespace hipanel\modules\server\cart;
 
-use Yii;
-
 /**
  * Class TariffPageCalculation is designed to calculate servers' prices
- * when server is not created yet (using tariff only) and is not added to the cart
+ * when server is not created yet (using tariff only) and is not added to the cart.
  *
  * The class has dropped dependency on Cart module
- *
- * @package hipanel\modules\server\cart
  */
 class TariffPageCalculation extends OrderCalculation
 {
@@ -29,7 +25,7 @@ class TariffPageCalculation extends OrderCalculation
         return ['tariff_id'];
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function synchronize()
     {
         return true;

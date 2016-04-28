@@ -1,7 +1,7 @@
 <?php
 
 /*
- * Finance module for HiPanel
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server

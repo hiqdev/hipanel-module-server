@@ -83,8 +83,8 @@ class Server extends \hipanel\base\Model
                 'on' => [
                     'refuse', 'delete', 'enable-autorenewal',
                     'enable-vnc', 'set-note', 'set-label',
-                    'enable-block', 'disable-block'
-                ]
+                    'enable-block', 'disable-block',
+                ],
             ],
             [
                 ['id'],
@@ -92,8 +92,8 @@ class Server extends \hipanel\base\Model
                 'on' => [
                     'refuse', 'delete', 'enable-autorenewal',
                     'enable-vnc', 'set-note', 'set-label',
-                    'enable-block', 'disable-block'
-                ]
+                    'enable-block', 'disable-block',
+                ],
             ],
             [['id', 'osimage', 'panel'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],

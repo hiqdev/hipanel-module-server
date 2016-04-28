@@ -14,8 +14,7 @@ namespace hipanel\modules\server\cart;
 use hipanel\base\ModelTrait;
 
 /**
- * Class ServerOrderPurchase
- * @package hipanel\modules\server\cart
+ * Class ServerOrderPurchase.
  */
 class ServerOrderPurchase extends AbstractServerPurchase
 {
@@ -40,7 +39,7 @@ class ServerOrderPurchase extends AbstractServerPurchase
         return array_merge(parent::rules(), [
             [['osimage', 'panel', 'cluster_id', 'social', 'purpose', 'tariff_id'], 'required'],
             [['osimage', 'panel', 'social', 'purpose'], 'safe'],
-            [['tariff_id', 'cluster_id'], 'integer']
+            [['tariff_id', 'cluster_id'], 'integer'],
         ]);
     }
 }

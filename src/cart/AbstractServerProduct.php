@@ -17,8 +17,7 @@ use hipanel\modules\server\models\Server;
 use Yii;
 
 /**
- * Class AbstractServerProduct is an abstract cart position for server produce
- * @package hipanel\modules\server\cart
+ * Class AbstractServerProduct is an abstract cart position for server produce.
  */
 abstract class AbstractServerProduct extends AbstractCartPosition
 {

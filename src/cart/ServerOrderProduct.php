@@ -118,7 +118,7 @@ class ServerOrderProduct extends AbstractServerProduct
             'cluster_id' => $this->cluster_id,
             'social' => $this->social,
             'purpose' => $this->purpose,
-            'tariff_id' => $this->tariff_id
+            'tariff_id' => $this->tariff_id,
         ], $options));
     }
 
@@ -129,13 +129,13 @@ class ServerOrderProduct extends AbstractServerProduct
             [['cluster_id', 'tariff_id'], 'integer'],
             [['social', 'osimage'], 'safe'],
             [['tariff_id', 'purpose', 'osimage'], 'required'],
-            [['cluster_id'], 'validateClusterId']
+            [['cluster_id'], 'validateClusterId'],
         ]);
     }
 
     public function validateClusterId($value)
     {
-        return in_array($this->cluster_id, array_keys($this->_model->getLocations()));
+        return in_array($this->cluster_id, array_keys($this->_model->getLocations()), true);
     }
 
     /** {@inheritdoc} */
@@ -144,7 +144,7 @@ class ServerOrderProduct extends AbstractServerProduct
         return ArrayHelper::merge(parent::attributeLabels(), [
             'cluster_id' => Yii::t('hipanel/server', 'Server location'),
             'purpose' => Yii::t('hipanel/server', 'Purpose'),
-            'social' => Yii::t('hipanel/server', 'Social network')
+            'social' => Yii::t('hipanel/server', 'Social network'),
         ]);
     }
 

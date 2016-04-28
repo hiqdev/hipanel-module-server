@@ -94,7 +94,7 @@ class ServerController extends CrudController
                 },
                 'data' => function ($action) {
                     /**
-                     * @var $this
+                     * @var
                      * @var $model Server
                      */
                     $controller = $action->controller;
@@ -275,7 +275,7 @@ class ServerController extends CrudController
             'delete' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel/server', 'Server was deleted successfully'),
-                'error' => Yii::t('hipanel/server', 'Failed to delete server')
+                'error' => Yii::t('hipanel/server', 'Failed to delete server'),
             ],
             'bulk-delete-modal' => [
                 'class' => PrepareBulkAction::class,
@@ -302,9 +302,8 @@ class ServerController extends CrudController
                         foreach ($action->collection->models as $model) {
                             $model->setAttributes([
                                 'type' => $type,
-                                'comment' => $comment
+                                'comment' => $comment,
                             ]);
-
                         }
                     }
                 },
@@ -315,9 +314,9 @@ class ServerController extends CrudController
                 'view' => '_bulkEnableBlock',
                 'data' => function ($action, $data) {
                     return array_merge($data, [
-                        'blockReasons' => $this->getBlockReasons()
+                        'blockReasons' => $this->getBlockReasons(),
                     ]);
-                }
+                },
             ],
             'bulk-disable-block' => [
                 'class' => SmartUpdateAction::class,

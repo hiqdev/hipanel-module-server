@@ -1,5 +1,14 @@
 <?php
 
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\server\models;
 
 use hipanel\modules\server\cart\Tariff;
@@ -57,7 +66,7 @@ class Package extends Model
 
             $this->_resources[$id] = Yii::createObject([
                 'class' => $this->buildResourceClass($resource),
-                'resource' => $resource
+                'resource' => $resource,
             ]);
         }
     }
@@ -105,14 +114,14 @@ class Package extends Model
     {
         $part = $this->getPartByType('ram');
         preg_match('/((\d{1,5}) MB)$/i', $part->partno, $matches);
-        return Yii::t('yii', '{nFormatted} GB', ['nFormatted' => (int)$matches[2] / 1024]); // Gb
+        return Yii::t('yii', '{nFormatted} GB', ['nFormatted' => (int) $matches[2] / 1024]); // Gb
     }
 
     protected function getResourceOveruse_ram()
     {
         return [
             'price' => Yii::$app->formatter->asCurrency(4, Yii::$app->params['currency']),
-            'unit' => Yii::t('yii', '{nFormatted} GB', ['nFormatted' => 1])
+            'unit' => Yii::t('yii', '{nFormatted} GB', ['nFormatted' => 1]),
         ];
     }
 
@@ -125,7 +134,7 @@ class Package extends Model
     {
         $part = $this->getPartByType('hdd');
         preg_match('/((\d{1,5}) GB)$/i', $part->partno, $matches);
-        return Yii::t('yii', '{nFormatted} GB', ['nFormatted' => (int)$matches[2]]); // Gb
+        return Yii::t('yii', '{nFormatted} GB', ['nFormatted' => (int) $matches[2]]); // Gb
     }
 
     protected function getResourceOveruse_hdd()
@@ -133,7 +142,7 @@ class Package extends Model
         // TODO: extract from overuse resource
         return [
             'price' => Yii::$app->formatter->asCurrency(0.2, Yii::$app->params['currency']),
-            'unit' => Yii::t('yii', '{nFormatted} GB', ['nFormatted' => 1])
+            'unit' => Yii::t('yii', '{nFormatted} GB', ['nFormatted' => 1]),
         ];
     }
 
@@ -152,7 +161,7 @@ class Package extends Model
         // TODO: extract from overuse resource
         return [
             'price' => Yii::$app->formatter->asCurrency(3.5, Yii::$app->params['currency']),
-            'unit' => Yii::t('yii', '{n} IP', ['n' => 1])
+            'unit' => Yii::t('yii', '{n} IP', ['n' => 1]),
         ];
     }
 
@@ -164,13 +173,13 @@ class Package extends Model
     protected function getResourceValue_support_time()
     {
         $quantity = $this->getResourceByType('support_time')->quantity;
-        if ($quantity == 1) {
+        if ($quantity === 1) {
             return Yii::t('hipanel/server', 'Bronze');
-        } elseif ($quantity == 1.5) {
+        } elseif ($quantity === 1.5) {
             return Yii::t('hipanel/server', 'Silver');
-        } elseif ($quantity == 2) {
+        } elseif ($quantity === 2) {
             return Yii::t('hipanel/server', 'Gold');
-        } elseif ($quantity == 3) {
+        } elseif ($quantity === 3) {
             return Yii::t('hipanel/server', 'Platinum');
         } else {
             return Yii::t('hipanel/server', '{n, plural, one{# hour} other {# hours}}', ['n' => $quantity]);
@@ -182,7 +191,7 @@ class Package extends Model
         // TODO: extract from overuse resource
         return [
             'price' => Yii::$app->formatter->asCurrency(0.02, Yii::$app->params['currency']),
-            'unit' => Yii::t('yii', '{nFormatted} GB', ['nFormatted' => 1])
+            'unit' => Yii::t('yii', '{nFormatted} GB', ['nFormatted' => 1]),
         ];
     }
 
@@ -233,7 +242,6 @@ class Package extends Model
         return Yii::t('hipanel/server', 'Purpose');
     }
 
-
     /**
      * @return float
      */
@@ -243,13 +251,13 @@ class Package extends Model
     }
 
     /**
-     * @return string
      * @throws InvalidConfigException
+     * @return string
      */
     public function getDisplayPrice()
     {
         return Yii::t('hipanel/server', '{price}/mo', [
-            'price' => Yii::$app->formatter->asCurrency($this->getPrice(), Yii::$app->params['currency'])
+            'price' => Yii::$app->formatter->asCurrency($this->getPrice(), Yii::$app->params['currency']),
         ]);
     }
 
@@ -263,8 +271,8 @@ class Package extends Model
 
     /**
      * @param string $type
-     * @return mixed
      * @throws InvalidConfigException
+     * @return mixed
      */
     public function getResourceValue($type)
     {
@@ -279,8 +287,8 @@ class Package extends Model
 
     /**
      * @param string $type
-     * @return string
      * @throws InvalidConfigException
+     * @return string
      */
     public function getResourceTitle($type)
     {
@@ -294,8 +302,8 @@ class Package extends Model
 
     /**
      * @param $type
-     * @return array|null
      * @throws InvalidConfigException
+     * @return array|null
      */
     public function getOverusePrice($type)
     {
@@ -305,7 +313,6 @@ class Package extends Model
         }
 
         throw new InvalidConfigException("Overuse getter for resource type \"$type\" is not described in the Package");
-
     }
 
     /**
@@ -325,7 +332,7 @@ class Package extends Model
 
     /**
      * @param string $type
-     * @return Resource|null
+     * @return resource|null
      */
     public function getResourceByType($type)
     {
@@ -340,7 +347,7 @@ class Package extends Model
 
     /**
      * @param string $type
-     * @return Resource|null
+     * @return resource|null
      */
     public function getResourceByModelType($type)
     {

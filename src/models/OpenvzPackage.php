@@ -1,11 +1,20 @@
 <?php
 
+/*
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ */
+
 namespace hipanel\modules\server\models;
 
 use Yii;
 
 /**
- * Class OpenvzPackage
+ * Class OpenvzPackage.
  * @property string $name
  */
 class OpenvzPackage extends Package
@@ -22,7 +31,7 @@ class OpenvzPackage extends Package
         return Yii::t('hipanel/server', 'HDD + SSD cache');
     }
 
-    /** @inheritdoc */
+    /** {@inheritdoc} */
     public function getLocations()
     {
         return [

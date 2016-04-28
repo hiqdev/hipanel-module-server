@@ -125,9 +125,9 @@ class ServerHelper
     /**
      * @param string $type (svds|ovds)
      * @param integer $tariff_id
-     * @return Package|array
      * @throws NotFoundHttpException
      * @throws UnprocessableEntityHttpException
+     * @return Package|array
      */
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
@@ -140,7 +140,7 @@ class ServerHelper
             Yii::$app->params['seller'],
             Yii::$app->user->id,
             $type,
-            $tariff_id
+            $tariff_id,
         ];
 
         /** @var Tariff[] $tariffs */
@@ -163,7 +163,7 @@ class ServerHelper
         }
 
         $calculationData = [];
-        foreach ((array)$calculations as $calculation) {
+        foreach ((array) $calculations as $calculation) {
             $calculationData[$calculation->getPrimaryKey()] = $calculation->getAttributes();
         }
 
@@ -182,7 +182,7 @@ class ServerHelper
             $tariffPartsIds = array_filter(ArrayHelper::getColumn($tariff->resources, 'object_id'));
 
             foreach ($parts as $id => $part) {
-                if (in_array($id, $tariffPartsIds)) {
+                if (in_array($id, $tariffPartsIds, true)) {
                     $tariffParts[$id] = $part;
                 }
             }
