@@ -38,7 +38,7 @@ $box = ActionBox::begin([
         ],
         'action' => ['@rrd/view', 'id' => $model->id],
         'submitButtonWrapperOptions' => [
-            'class' => 'col-md-2 md-pt-20'
+            'class' => 'col-md-4 md-pt-20'
         ],
     ]);
     echo GridView::widget([

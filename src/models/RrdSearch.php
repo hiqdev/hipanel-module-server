@@ -53,10 +53,10 @@ class RrdSearch extends Rrd
     public function attributeLabels()
     {
         return [
-            'graph' => Yii::t('hipanel/server/rrd', 'Graph'),
-            'period' => Yii::t('hipanel/server/rrd', 'Precision (min/px)'),
-            'shift' => Yii::t('hipanel/server/rrd', 'Shift (minutes)'),
-            'width' => Yii::t('hipanel/server/rrd', 'Width (px)'),
+            'graph'  => Yii::t('hipanel/server/rrd', 'Graph'),
+            'period' => Yii::t('hipanel/server/rrd', 'Precision'),
+            'shift'  => Yii::t('hipanel/server/rrd', 'Shift (minutes)'),
+            'width'  => Yii::t('hipanel/server/rrd', 'Width (px)'),
         ];
     }
 }
