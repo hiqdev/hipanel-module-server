@@ -3,7 +3,8 @@ hiqdev/hipanel-module-server changelog
 
 ## Under development
 
-- Fixed build with asset-packagist
+- Fixed build with asset-packagist and newer hidev
+- Added server ordering and bulk operations
 - Added RRD and network graphs
 - Added traffic charts
 - Added server refuse, renew and blocking

@@ -3,12 +3,25 @@ hiqdev/hipanel-module-server commits history
 
 ## Under development
 
-- Fixed build with asset-packagist
+- Fixed build with asset-packagist and newer hidev
+    - cab1ba2 2016-04-28 phpcsfixed (sol@hiqdev.com)
+    - ceebbfa 2016-04-28 rehideved (sol@hiqdev.com)
+    - e293d58 2016-04-28 added tests (sol@hiqdev.com)
     - 4d3908b 2016-04-06 phpcsfixed (sol@hiqdev.com)
     - e4342b0 2016-04-06 inited tests (sol@hiqdev.com)
     - b82c8a7 2016-04-06 fixed build with asset-packagist (sol@hiqdev.com)
     - 009697d 2016-04-06 rehideved (sol@hiqdev.com)
+- Added server ordering and bulk operations
+    - e20745c 2016-04-27 translations (sol@hiqdev.com)
+    - 380ab33 2016-04-27 Added bulk server blocking, unblocking and deleting (d.naumenko.a@gmail.com)
+    - 7427c2c 2016-04-19 Hadle on click action in pop-over on oreder page (andreyklochok@gmail.com)
+    - 775519a 2016-04-18 Fixed server/view: typos in variable names (d.naumenko.a@gmail.com)
+    - ee333a7 2016-04-15 implemented server order class (d.naumenko.a@gmail.com)
+    - 441ca22 2016-04-14 Major refactoring of server module. Added posibility to add server to cart for order operations (d.naumenko.a@gmail.com)
+    - 2124278 2016-04-14 Translations updated (d.naumenko.a@gmail.com)
+    - e090b2f 2016-04-14 Calculation renamed to OrderCalculation (d.naumenko.a@gmail.com)
 - Added RRD and network graphs
+    - af6aee9 2016-04-28 minor improved rrd search form (sol@hiqdev.com)
     - d96c027 2016-04-04 Fixed view layout (andreyklochok@gmail.com)
     - c584d4b 2016-04-04 Fixed view layout (andreyklochok@gmail.com)
     - 88ea775 2016-03-30 Added server oreder by `status_time` (d.naumenko.a@gmail.com)
