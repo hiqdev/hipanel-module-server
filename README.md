@@ -14,7 +14,9 @@ HiPanel Server Module
 
 [HiPanel](http://hipanel.com) is the next generation control panel for hosting, domains and more.
 
-This package provides server management for HiPanel.
+This package provides server management for HiPanel:
+
+- server index and details
 
 ## Installation
 

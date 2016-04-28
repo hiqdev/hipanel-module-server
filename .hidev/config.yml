@@ -10,8 +10,6 @@ package:
 
         [HiPanel](http://hipanel.com) is the next generation control panel for hosting, domains and more.
 
-        This package provides server management for HiPanel.
+        This package provides server management for HiPanel:
 
-require:
-    hiqdev/hidev-php:       "*"
-    hiqdev/hidev-vendor:    "*"
+        - server index and details
