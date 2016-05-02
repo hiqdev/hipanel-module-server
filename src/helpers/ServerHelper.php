@@ -27,6 +27,13 @@ use yii\web\UnprocessableEntityHttpException;
 
 class ServerHelper
 {
+    /**
+     * Method groups array of [[ServerUse]] in order to use it in charts.
+     * @param ServerUse[] $uses
+     * @return array of two items:
+     *  0 - labels (like months)
+     *  1 - values (value for each month)
+     */
     public static function groupUsesForChart($uses)
     {
         $labels = [];
