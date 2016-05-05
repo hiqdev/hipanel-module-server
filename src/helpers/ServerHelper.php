@@ -54,6 +54,12 @@ class ServerHelper
         return [$labels, $data];
     }
 
+    /**
+     * Gets array of [[Osimage]] for $type
+     *
+     * @param string $type
+     * @return Osimage[]|null
+     */
     public static function getOsimages($type = null)
     {
         return Yii::$app->cache->getTimeCached(3600, [$type], function ($type) {
@@ -67,7 +73,6 @@ class ServerHelper
         $oses = [];
         $vendors = [];
         foreach ($images as $image) {
-            /** @var Osimage $image */
             $os = $image->os;
             $name = $image->getFullOsName();
             $panel = $image->getPanelName();
