@@ -67,6 +67,18 @@ class ServerHelper
         });
     }
 
+
+    /**
+     * Regroups array of $images into 3 arrays of unique OS vendors (Ubuntu, FreeBSD, ...),
+     * OSeses (Ubuntu 16.04, FreeBSD 10.3, ...) and softpacks (LAMP, no, ...)
+     *
+     * @param Osimage[] $images
+     * @param bool $ispSupported whether ISP manager panel is supported
+     * @return array of 3 elements:
+     *  0 - vendors,
+     *  1 - oses,
+     *  2 - softpacks
+     */
     public static function groupOsimages($images, $ispSupported = false)
     {
         $softpacks = [];
