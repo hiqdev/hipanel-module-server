@@ -141,6 +141,9 @@ class ServerHelper
         return compact('vendors', 'oses', 'softpacks');
     }
 
+    /**
+     * @return array
+     */
     public static function getPanels()
     {
         return Ref::getList('type,panel');
