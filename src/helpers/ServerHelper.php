@@ -235,6 +235,10 @@ class ServerHelper
         return $packages;
     }
 
+    /**
+     * @param $tariff
+     * @return mixed
+     */
     public static function buildPackageClass($tariff)
     {
         if ($tariff->type === Tariff::TYPE_OPENVZ) {
