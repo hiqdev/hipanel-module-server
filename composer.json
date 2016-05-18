@@ -44,8 +44,8 @@
     ],
     "require": {
         "yiisoft/yii2": "2.*",
-        "hiqdev/hipanel-module-client": "*",
-        "hiqdev/hipanel-module-finance": "*",
+        "hiqdev/hipanel-module-client": "<2.0 || dev-master",
+        "hiqdev/hipanel-module-finance": "<2.0 || dev-master",
         "omnilight/yii2-bootstrap-daterangepicker": "*"
     },
     "require-dev": {
@@ -55,6 +55,12 @@
     "autoload": {
         "psr-4": {
             "hipanel\\modules\\server\\": "src"
+        }
+    },
+    "extra": {
+        "config-plugin": {
+            "hisite": "src/config/hisite.php",
+            "hidev": "src/config/hidev.php"
         }
     },
     "minimum-stability": "dev",
