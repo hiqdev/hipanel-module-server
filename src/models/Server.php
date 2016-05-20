@@ -206,7 +206,7 @@ class Server extends \hipanel\base\Model
 
     public function getIps()
     {
-        return $this->hasMany(Ip::class, ['some_id' => 'id'])->join('links');
+        return $this->hasMany(Ip::class, ['device_id' => 'id'])->join('links');
     }
 
     /**
