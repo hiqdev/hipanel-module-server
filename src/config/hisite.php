@@ -28,9 +28,11 @@ return [
                     'basePath' => '@hipanel/modules/server/messages',
                     'fileMap' => [
                         'hipanel/server' => 'server.php',
-                        'hipanel/server/os' => 'os.php',
-                        'hipanel/server/panel' => 'panel.php',
+                        'hipanel/server/os' => 'os.php', // outer
+                        'hipanel/server/panel' => 'panel.php', // outer
                         'hipanel/server/rrd' => 'rrd.php',
+                        'hipanel/server/order' => 'order.php',
+                        'hipanel/server/order/purpose' => 'purpose.php', // outer
                     ],
                 ],
                 'omnilight/daterangepicker' => [ // TODO: get rid after PluginManager removing

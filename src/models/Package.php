@@ -95,19 +95,19 @@ class Package extends Model
 
     protected function getResourceTitle_cpu()
     {
-        return Yii::t('hipanel/server', 'CPU');
+        return Yii::t('hipanel/server/order', 'CPU');
     }
 
     protected function getResourceValue_cpu()
     {
         $part = $this->getPartByType('cpu');
         preg_match('/((\d+) cores?)$/i', $part->partno, $matches);
-        return Yii::t('hipanel/server', '{0, plural, one{# core} other{# cores}}', $matches[2]);
+        return Yii::t('hipanel/server/order', '{0, plural, one{# core} other{# cores}}', $matches[2]);
     }
 
     protected function getResourceTitle_ram()
     {
-        return Yii::t('hipanel/server', 'RAM');
+        return Yii::t('hipanel/server/order', 'RAM');
     }
 
     protected function getResourceValue_ram()
@@ -127,7 +127,7 @@ class Package extends Model
 
     protected function getResourceTitle_hdd()
     {
-        return Yii::t('hipanel/server', 'SSD');
+        return Yii::t('hipanel/server/order', 'SSD');
     }
 
     protected function getResourceValue_hdd()
@@ -148,7 +148,7 @@ class Package extends Model
 
     protected function getResourceTitle_ip()
     {
-        return Yii::t('hipanel/server', 'Dedicated IP');
+        return Yii::t('hipanel/server/order', 'Dedicated IP');
     }
 
     protected function getResourceValue_ip()
@@ -167,22 +167,22 @@ class Package extends Model
 
     protected function getResourceTitle_support_time()
     {
-        return Yii::t('hipanel/server', '24/7 support');
+        return Yii::t('hipanel/server/order', '24/7 support');
     }
 
     protected function getResourceValue_support_time()
     {
         $quantity = $this->getResourceByType('support_time')->quantity;
         if ($quantity === 1) {
-            return Yii::t('hipanel/server', 'Bronze');
+            return Yii::t('hipanel/server/order', 'Bronze');
         } elseif ($quantity === 1.5) {
-            return Yii::t('hipanel/server', 'Silver');
+            return Yii::t('hipanel/server/order', 'Silver');
         } elseif ($quantity === 2) {
-            return Yii::t('hipanel/server', 'Gold');
+            return Yii::t('hipanel/server/order', 'Gold');
         } elseif ($quantity === 3) {
-            return Yii::t('hipanel/server', 'Platinum');
+            return Yii::t('hipanel/server/order', 'Platinum');
         } else {
-            return Yii::t('hipanel/server', '{n, plural, one{# hour} other {# hours}}', ['n' => $quantity]);
+            return Yii::t('hipanel/server/order', '{n, plural, one{# hour} other{# hours}}', ['n' => $quantity]);
         }
     }
 
@@ -197,7 +197,7 @@ class Package extends Model
 
     protected function getResourceTitle_traffic()
     {
-        return Yii::t('hipanel/server', 'Traffic');
+        return Yii::t('hipanel/server/order', 'Traffic');
     }
 
     protected function getResourceValue_traffic()
@@ -208,20 +208,19 @@ class Package extends Model
 
     protected function getResourceValue_speed()
     {
-        return Yii::t('hipanel/server', '{n} Gbit/s', ['n' => 1]);
+        return Yii::t('hipanel/server/order', '{n} Gbit/s', ['n' => 1]);
     }
 
     protected function getResourceTitle_speed()
     {
-        return Yii::t('hipanel/server', 'Port speed');
+        return Yii::t('hipanel/server/order', 'Port speed');
     }
 
     protected function getResourceValue_panel()
     {
-        $result = Yii::t('hipanel/server', 'No panel / {hipanelLink}',
-            ['hipanelLink' => 'HiPanel']); // todo: add faq link
+        $result = Yii::t('hipanel/server/order', 'No panel / {hipanelLink}', ['hipanelLink' => 'HiPanel']); // todo: add faq link
         if ($this->getResourceByType('isp5')->quantity > 0) {
-            $result .= ' / ' . Yii::t('hipanel/server', 'ISP manager');
+            $result .= ' / ' . Yii::t('hipanel/server/order', 'ISP manager');
         }
 
         return $result;
@@ -229,17 +228,17 @@ class Package extends Model
 
     protected function getResourceTitle_panel()
     {
-        return Yii::t('hipanel/server', 'Control panel');
+        return Yii::t('hipanel/server/order', 'Control panel');
     }
 
     protected function getResourceValue_purpose()
     {
-        return Yii::t('hipanel/server', $this->_tariff->label); // todo: translate possible labels
+        return Yii::t('hipanel/server/order/purpose', $this->_tariff->label);
     }
 
     protected function getResourceTitle_purpose()
     {
-        return Yii::t('hipanel/server', 'Purpose');
+        return Yii::t('hipanel/server/order', 'Purpose');
     }
 
     /**
@@ -256,7 +255,7 @@ class Package extends Model
      */
     public function getDisplayPrice()
     {
-        return Yii::t('hipanel/server', '{price}/mo', [
+        return Yii::t('hipanel/server/order', '{price}/mo', [
             'price' => Yii::$app->formatter->asCurrency($this->getPrice(), Yii::$app->params['currency']),
         ]);
     }
@@ -366,7 +365,7 @@ class Package extends Model
     public function getLocations()
     {
         return [
-            1 => Yii::t('hipanel/server', 'Netherlands, Amsterdam'),
+            1 => Yii::t('hipanel/server/order', 'Netherlands, Amsterdam'),
         ];
     }
 

@@ -32,11 +32,18 @@
 				var soft = $(this).val();
 				var panel = $(this).data('panel');
 				var os = _this.oslist.find('input.radio:checked').first().val();
-				$(_this.settings.osimageInput).val(_this.osparams[os]['panel'][panel]['softpack'][soft]['osimage']);
+				if (_this.osparams[os]['panel'][panel] !== undefined) {
+					var osimage = _this.osparams[os]['panel'][panel]['softpack'][soft]['osimage'];
+				} else {
+					osimage = _this.osparams[os]['panel'][panel]['softpack'][soft]['osimage'];
+				}
+				$(_this.settings.osimageInput).val(osimage);
 				if (panel != 'no') {
 					$(_this.settings.panelInput).removeAttr('disabled');
 					$(_this.settings.panelInput).val(panel);
-				} else $(_this.settings.panelInput).attr('disabled', 'disabled');
+				} else {
+					$(_this.settings.panelInput).attr('disabled', 'disabled');
+				}
 			});
 
 			$(this.oslist).on('change', function () {

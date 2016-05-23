@@ -26,7 +26,7 @@ class OrderCalculation extends \hipanel\modules\finance\models\Calculation
             $this->seller = Yii::$app->params['seller'];
         } else {
             $this->seller = Yii::$app->user->identity->seller;
-            $this->client = Yii::$app->user->identity->login;
+            $this->client = Yii::$app->user->identity->username;
         }
 
         $this->object = 'server';

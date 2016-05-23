@@ -37,7 +37,7 @@ class ServerOrderPurchase extends AbstractServerPurchase
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['osimage', 'panel', 'cluster_id', 'social', 'purpose', 'tariff_id'], 'required'],
+            [['osimage', 'panel', 'cluster_id', 'purpose', 'tariff_id'], 'required'],
             [['osimage', 'panel', 'social', 'purpose'], 'safe'],
             [['tariff_id', 'cluster_id'], 'integer'],
         ]);

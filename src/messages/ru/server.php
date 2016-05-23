@@ -182,5 +182,5 @@ return [
     'Error during the servers blocking' => 'Ошибка при блокировании серверов',
     'Servers were blocked successfully' => 'Серверы были успешно заблокированы',
     'Server was deleted successfully' => 'Сервер был успешно удален',
-    'Failed to delete server' => 'Не удалось удалить сервер',
+    'Failed to delete server' => 'Не удалось удалить сервер'
 ];

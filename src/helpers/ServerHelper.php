@@ -209,7 +209,7 @@ class ServerHelper
             $tariffPartsIds = array_filter(ArrayHelper::getColumn($tariff->resources, 'object_id'));
 
             foreach ($parts as $id => $part) {
-                if (in_array($id, $tariffPartsIds, true)) {
+                if (in_array($id, $tariffPartsIds)) {
                     $tariffParts[$id] = $part;
                 }
             }

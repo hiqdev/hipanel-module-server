@@ -113,7 +113,7 @@ class ServerOrderProduct extends AbstractServerProduct
     {
         $this->ensureRelatedData(); // To get fresh domain expiration date
         return parent::getPurchaseModel(array_merge([
-            'osimage' => $this->os,
+            'osimage' => $this->osimage,
             'panel' => $this->_image->getPanelName(),
             'cluster_id' => $this->cluster_id,
             'social' => $this->social,
@@ -142,9 +142,9 @@ class ServerOrderProduct extends AbstractServerProduct
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'cluster_id' => Yii::t('hipanel/server', 'Server location'),
-            'purpose' => Yii::t('hipanel/server', 'Purpose'),
-            'social' => Yii::t('hipanel/server', 'Social network'),
+            'cluster_id' => Yii::t('hipanel/server/order', 'Server location'),
+            'purpose' => Yii::t('hipanel/server/order', 'Purpose'),
+            'social' => Yii::t('hipanel/server/order', 'Social network'),
         ]);
     }
 
@@ -152,8 +152,8 @@ class ServerOrderProduct extends AbstractServerProduct
     public function attributeHints()
     {
         return ArrayHelper::merge(parent::attributeHints(), [
-            'purpose' => Yii::t('hipanel/server', 'How are you going to use the server'),
-            'social' => Yii::t('hipanel/server', 'Any social network link. Will be used in case of emergency contact'),
+            'purpose' => Yii::t('hipanel/server/order', 'How are you going to use the server?'),
+            'social' => Yii::t('hipanel/server/order', 'Any social network link. Will be used in case of emergency contact'),
         ]);
     }
 
