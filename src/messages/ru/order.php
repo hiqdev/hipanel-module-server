@@ -28,5 +28,7 @@ return [
     'Server location' => 'Расположение сервера',
     'Social network' => 'Социальная сеть',
     'How are you going to use the server?' => 'Для чего вы планируете использовать сервер?',
-    'Any social network link. Will be used in case of emergency contact' => 'Ссылка на любую социальную сеть. Будет использовано для срочной связи при необходимости.'
+    'Any social network link. Will be used in case of emergency contact' => 'Ссылка на любую социальную сеть. Будет использовано для срочной связи при необходимости.',
+    'Server setup will be performed as soon as manager confirms your account verification. Pleas wait.' => 'Сервер будет создан сразу после того, как менеджер верифицирует Ваш аккаунт. Пожалуйста, ожидайте.',
+    'You will receive an email with server access information right after setup' => 'Вы получите данные для доступа на сервера стразу после окончания установки.'
 ];
