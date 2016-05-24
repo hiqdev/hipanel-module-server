@@ -61,6 +61,11 @@ class ServerOrderProduct extends AbstractServerProduct
      */
     public $osimage;
 
+    /**
+     * @var string software package name
+     */
+    public $panel_soft;
+
     /** {@inheritdoc} */
     public static function primaryKey()
     {
@@ -97,7 +102,11 @@ class ServerOrderProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     public function getId()
     {
-        return hash('crc32b', implode('_', ['server', 'order', $this->_model->id]));
+        if ($this->_id === null) {
+            $this->_id = hash('crc32b', implode('_', ['server', 'order', $this->_model->id]));
+        }
+
+        return $this->_id;
     }
 
     /** {@inheritdoc} */
@@ -112,14 +121,21 @@ class ServerOrderProduct extends AbstractServerProduct
     public function getPurchaseModel($options = [])
     {
         $this->ensureRelatedData(); // To get fresh domain expiration date
-        return parent::getPurchaseModel(array_merge([
+
+        $options = array_merge([
             'osimage' => $this->osimage,
             'panel' => $this->_image->getPanelName(),
             'cluster_id' => $this->cluster_id,
             'social' => $this->social,
             'purpose' => $this->purpose,
             'tariff_id' => $this->tariff_id,
-        ], $options));
+        ], $options);
+
+        if ($options['panel'] === Osimage::NO_PANEL) {
+            unset($options['panel']);
+        }
+
+        return parent::getPurchaseModel($options);
     }
 
     /** {@inheritdoc} */
