@@ -48,7 +48,7 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
     }
 
     /**
-     * @param string $delimiter defines delimiter to separeate os, version and bitwise of OS
+     * @param string $delimiter defines delimiter to separate os, version and bitwise of OS
      * @return string
      */
     public function getFullOsName($delimiter = ' ')
