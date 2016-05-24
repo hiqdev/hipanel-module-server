@@ -35,7 +35,7 @@
 				if (_this.osparams[os]['panel'][panel] !== undefined) {
 					var osimage = _this.osparams[os]['panel'][panel]['softpack'][soft]['osimage'];
 				} else {
-					osimage = _this.osparams[os]['panel'][panel]['softpack'][soft]['osimage'];
+					osimage = null;
 				}
 				$(_this.settings.osimageInput).val(osimage);
 				if (panel != 'no') {
@@ -53,7 +53,10 @@
 		update: function () {
 			var _this = this;
 
-			if (this.oslist.find('.radio:enabled:checked').length < 1) this.oslist.find('.radio:enabled').first().prop('checked', true);
+			if (this.oslist.find('.radio:enabled:checked').length < 1) {
+				this.oslist.find('.radio:enabled').first().prop('checked', true);
+			}
+
 			this.oslist.find('.radio:enabled').each(function () {
 				if ($(this).prop('checked')) {
 					_this.softlist.find('input').attr('disabled', 'disabled');
@@ -83,14 +86,14 @@
 						}
 					}
 					if (_this.softlist.find('input:enabled:checked').length == 0) {
-						_this.softlist.find('input:enabled').first().attr('checked', 'checked');
+						_this.softlist.find('input:enabled').first().prop('checked', true);
 					}
 					_this.softlist.find('input:checked').trigger('change').trigger('click');
 				}
 			});
 		},
 		afterInit: function () {
-			this.oslist.find('input:enabled').first().attr('checked', 'checked').trigger('change');
+			this.oslist.find('input:enabled').first().prop('checked', true).trigger('change');
 		},
 		enableInfoPopover: function () {
 			var counter;
