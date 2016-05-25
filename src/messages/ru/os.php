@@ -15,4 +15,6 @@ return [
     'System name of image' => 'Название образа',
     'Panel' => 'Панель управления',
     'clear' => 'отсутствует',
+
+    'Softpack for usual website projects' => 'Пакет подходит для обычных сайтов'
 ];
