@@ -36,7 +36,7 @@ class OrderController extends CrudController
 
     public function actionIndex()
     {
-        return $this->actionXenSsd();
+        return $this->render('index');
     }
 
     public function actionXenSsd()
@@ -49,7 +49,7 @@ class OrderController extends CrudController
 
     public function actionOpenVz()
     {
-        return $this->render('xen_ssd', [
+        return $this->render('open_vz', [
             'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_OPENVZ),
             'tariffTypes' => Yii::$app->params['vdsproduct'],
         ]);
