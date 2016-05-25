@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var \hipanel\modules\server\cart\ServerOrderProduct
+ * @var \hipanel\modules\server\cart\ServerOrderProduct $position
  */
 use yii\helpers\Html;
 
