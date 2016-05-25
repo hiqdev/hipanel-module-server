@@ -29,10 +29,17 @@ return [
                     'fileMap' => [
                         'hipanel/server' => 'server.php',
                         'hipanel/server/os' => 'os.php', // outer
-                        'hipanel/server/panel' => 'panel.php', // outer
                         'hipanel/server/rrd' => 'rrd.php',
                         'hipanel/server/order' => 'order.php',
                         'hipanel/server/order/purpose' => 'purpose.php', // outer
+                    ],
+                ],
+                'hipanel/server/panel' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
+                    'forceTranslation' => true,
+                    'fileMap' => [
+                        'hipanel/server/panel' => 'panel.php',
                     ],
                 ],
                 'omnilight/daterangepicker' => [ // TODO: get rid after PluginManager removing
