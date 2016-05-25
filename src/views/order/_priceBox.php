@@ -6,8 +6,8 @@ use yii\helpers\Html;
  */
 
 $info = '<i class="fa fa-info-circle" aria-hidden="true" style="color: #3E65BF;"></i>';
-$this->registerCss("
-
+$this->registerJs("
+$('[data-toggle=\"popover\"]').popover();
 ");
 ?>
 <div class="box">
