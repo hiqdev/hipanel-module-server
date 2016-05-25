@@ -16,7 +16,8 @@ class OrderController extends CrudController
         return [
             'add-to-cart' => [
                 'class' => AddToCartAction::class,
-                'productClass' => ServerOrderProduct::class
+                'productClass' => ServerOrderProduct::class,
+                'redirectToCart' => true,
             ]
         ];
     }

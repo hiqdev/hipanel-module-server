@@ -35,7 +35,7 @@ $this->registerCss("
                 </div>
                 <div class="box-body">
                     <div class="text-center order-price">
-                        <?= Yii::$app->formatter->asCurrency($package->getPrice(), Yii::$app->params['currency']) ?>
+                        <?= Yii::t('hipanel/server/order', '{price}/mo', ['price' => Yii::$app->formatter->asCurrency($package->getPrice(), Yii::$app->params['currency'])]) ?>
                     </div>
 
                     <dl class="dl-horizontal">
@@ -55,7 +55,7 @@ $this->registerCss("
                     <h3 class="box-title"><?= Yii::t('hipanel/server/order', 'Customise your server'); // todo: we need a good text  ?></h3>
                 </div>
                 <div class="box-body">
-                    <div class="order-boxes lg-pt-20 md-pt-20 sm-pt-20 xs-pt-20">
+                    <div class="order-boxes">
 
 
                         <?php $form = ActiveForm::begin(['action' => ['add-to-cart']]); ?>
@@ -67,9 +67,9 @@ $this->registerCss("
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="list-group">
-                    <span class="list-group-item disabled">
-                        <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'Location') ?></h4>
-                    </span>
+                                        <div class="list-group-item disabled">
+                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'Location') ?></h4>
+                                        </div>
                                         <div class="list-group-item">
                                             <div class="list-group-item-text os-list">
                                                 <?= $form->field($product, 'cluster_id')->dropDownList($package->getLocations(), ['name' => 'cluster_id'])->label(false) ?>
@@ -80,9 +80,9 @@ $this->registerCss("
 
                                 <div class="col-md-3">
                                     <div class="list-group">
-                    <span class="list-group-item disabled">
-                        <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'OS') ?></h4>
-                    </span>
+                                        <div class="list-group-item disabled">
+                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'OS') ?></h4>
+                                        </div>
                                         <?php
                                         foreach ($groupedOsimages['vendors'] as $vendor) { ?>
                                             <div class="list-group-item">
@@ -103,9 +103,9 @@ $this->registerCss("
 
                                 <div class="col-md-3">
                                     <div class="list-group">
-                    <span class="list-group-item disabled">
-                        <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'Panel and software') ?></h4>
-                    </span>
+                                        <div class="list-group-item disabled">
+                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'Panel and software') ?></h4>
+                                        </div>
                                         <?php foreach ($panels as $panel => $panel_name) {
                                             if (empty($groupedOsimages['softpacks'][$panel])) {
                                                 continue;
@@ -125,7 +125,7 @@ $this->registerCss("
                                                                     ],
                                                                     'value' => $softpack['name'],
                                                                 ]) ?>
-                                                                <strong><?= $softpack['name'] ?></strong>
+                                                                <strong><?= Yii::t('hipanel/server/panel', $softpack['name']) ?></strong>
                                                                 <small style="font-weight: normal">
                                                                     <?= Yii::t('hipanel/server/os', $softpack['description']) ?>
                                                                 </small>

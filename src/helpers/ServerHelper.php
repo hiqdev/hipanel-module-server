@@ -146,7 +146,7 @@ class ServerHelper
      */
     public static function getPanels()
     {
-        return Ref::getList('type,panel');
+        return Ref::getList('type,panel', [], 'hipanel/server/panel');
     }
 
     /**
