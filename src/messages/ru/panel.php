@@ -14,5 +14,6 @@ return [
     'NO CONTROL PANEL' => 'Без панели управления',
     'AHnames panel' => 'Панель управления HiPanel',
     'No panel' => 'Без панели управления',
-    'clear' => 'Чистый образ ОС'
+    'clear' => 'Чистый образ ОС',
+    'rcp' => 'HiPanel',
 ];

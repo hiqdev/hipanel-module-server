@@ -11,5 +11,6 @@
 
 return [
     'AHnames panel' => 'HiPanel control panel',
+    'rcp' => 'HiPanel',
     'clear' => 'Clear OS image'
 ];
