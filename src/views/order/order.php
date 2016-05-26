@@ -7,6 +7,7 @@
  * @var array $panels
  */
 
+use hipanel\modules\server\assets\OsSelectionAsset;
 use hipanel\modules\server\models\Package;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -17,7 +18,7 @@ $this->breadcrumbs->setItems([
     ['label' => Yii::t('hipanel/server/order', 'Buy server'), 'url' => ['index']],
     $this->title
 ]);
-\hipanel\modules\server\assets\OsSelectionAsset::register($this);
+OsSelectionAsset::register($this);
 $this->registerCss("
 .order-price {
     color: #444;

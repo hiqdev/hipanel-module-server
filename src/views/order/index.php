@@ -1,9 +1,11 @@
 <?php
 use yii\helpers\Html;
+
 $this->title = Yii::t('hipanel/server/order', 'Buy server');
 $this->breadcrumbs->setItems([
     $this->title
 ]);
+
 ?>
 
 <div class="row">
