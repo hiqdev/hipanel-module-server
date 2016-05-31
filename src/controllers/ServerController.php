@@ -13,6 +13,7 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
+use hipanel\actions\OrientationAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\ProxyAction;
 use hipanel\actions\RedirectAction;
@@ -345,6 +346,12 @@ class ServerController extends CrudController
                 'scenario' => 'disable-block',
                 'view' => '_bulkDisableBlock',
             ],
+            'set-orientation' => [
+                'class' => OrientationAction::class,
+                'allowedRoutes' => [
+                    '@server/index'
+                ]
+            ]
 
         ];
     }

@@ -3,14 +3,11 @@
 use hipanel\base\View;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OsimageSearch;
-use hipanel\widgets\ActionBox;
 use hipanel\widgets\AjaxModal;
-use hipanel\widgets\BulkButtons;
-use hipanel\widgets\LinkSorter;
+use hipanel\widgets\IndexLayoutSwitcher;
+use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
-use yii\bootstrap\ButtonDropdown;
 use yii\bootstrap\Dropdown;
-use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 /**
@@ -24,15 +21,18 @@ $this->title = Yii::t('hipanel/server', 'Servers');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->breadcrumbs->setItems([
     $this->title
-]);
+]); ?>
 
-Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]));
-?>
+<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])); ?>
+<?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+<?= $page->setSearchFormData(compact(['states'])) ?>
+<?php $page->beginContent('main-actions') ?>
 
-<?php $box = ActionBox::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
-<?php $box->beginActions() ?>
-    <?= $box->renderSearchButton() ?>
-<?= $box->renderSorter([
+<?php $page->endContent() ?>
+<?php $page->beginContent('show-actions') ?>
+<?= IndexLayoutSwitcher::widget() ?>
+
+<?= $page->renderSorter([
     'attributes' => [
         'name',
         'id',
@@ -44,23 +44,27 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
         'expires',
     ],
 ]) ?>
-<?= $box->renderPerPage() ?>
-<?php $box->endActions() ?>
-<?php $box->beginBulkActions() ?>
-    <div class="dropdown" style="display: inline-block">
-        <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <?= Yii::t('hipanel', 'Basic actions') ?>
-            <span class="caret"></span>
-        </button>
-        <?= Dropdown::widget([
-            'encodeLabels' => false,
-            'items' => [
-                ['label' => Yii::t('hipanel/server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-                ['label' => Yii::t('hipanel/server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-                ['label' => Yii::t('hipanel', 'Delete'), 'url' => '#bulk-server-delete-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-            ]
-        ]); ?>
-    </div>
+
+<?= $page->renderPerPage() ?>
+
+<?= $page->renderRepresentation() ?>
+<?php $page->endContent() ?>
+
+<?php $page->beginContent('bulk-actions') ?>
+<div class="dropdown" style="display: inline-block">
+    <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <?= Yii::t('hipanel', 'Basic actions') ?>
+        <span class="caret"></span>
+    </button>
+    <?= Dropdown::widget([
+        'encodeLabels' => false,
+        'items' => [
+            ['label' => Yii::t('hipanel/server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+            ['label' => Yii::t('hipanel/server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+            ['label' => Yii::t('hipanel', 'Delete'), 'url' => '#bulk-server-delete-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+        ]
+    ]); ?>
+</div>
 <?= AjaxModal::widget([
     'id' => 'bulk-server-block-modal',
     'bulkPage' => true,
@@ -85,14 +89,13 @@ Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true]))
     'actionUrl' => ['bulk-delete-modal'],
     'toggleButton' => false,
 ]) ?>
-<?php $box->endBulkActions() ?>
-<?= $box->renderSearchForm(compact('states')) ?>
-<?php $box->end() ?>
+<?php $page->endContent('bulk-actions') ?>
 
-<?php
-$box->beginBulkForm();
-print ServerGridView::widget([
+<?php $page->beginContent('table') ?>
+<?php $page->beginBulkForm(); ?>
+<?= ServerGridView::widget([
     'dataProvider' => $dataProvider,
+    'boxed' => false,
     'filterModel' => $model,
     'osImages' => $osimages,
     'columns' => [
@@ -106,6 +109,9 @@ print ServerGridView::widget([
         'tariff_and_discount',
         'actions',
     ]
-]);
-$box->endBulkForm();
-Pjax::end();
+]); ?>
+<?php $page->endBulkForm(); ?>
+<?php $page->endContent() ?>
+<?php $page->end() ?>
+
+<?php Pjax::end(); ?>

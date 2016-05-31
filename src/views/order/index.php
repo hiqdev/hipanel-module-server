@@ -7,6 +7,7 @@ $this->breadcrumbs->setItems([
     $this->title
 ]);
 ServerAsset::register($this);
+
 ?>
 
 <div class="row">
