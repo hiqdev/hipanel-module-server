@@ -58,6 +58,7 @@ $this->breadcrumbs->setItems([
     </button>
     <?= Dropdown::widget([
         'encodeLabels' => false,
+        'options' => ['class' => 'pull-right'],
         'items' => [
             ['label' => Yii::t('hipanel/server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
             ['label' => Yii::t('hipanel/server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
