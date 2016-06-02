@@ -173,8 +173,6 @@ return [
     '60 min/px' => '60 мин/пиксель',
     '720 min/px' => '720 мин/пиксель',
     'Server ordering' => 'Покупка сервера',
-    'Block servers' => 'Заблокировать серверы',
-    'Unblock servers' => 'Разблокировать серверы',
     'This action is irreversible and causes full data loss including backups!' => 'Это действие неоратимо и приводит к полной потере данных, включая резервные копии!',
     'Affected servers' => 'Серверы',
     'Servers were unblocked successfully' => 'Серверы были успешно разблокированы',
@@ -182,5 +180,8 @@ return [
     'Error during the servers blocking' => 'Ошибка при блокировании серверов',
     'Servers were blocked successfully' => 'Серверы были успешно заблокированы',
     'Server was deleted successfully' => 'Сервер был успешно удален',
-    'Failed to delete server' => 'Не удалось удалить сервер'
+    'Failed to delete server' => 'Не удалось удалить сервер',
+    'New' => 'Новый',
+    'Approved' => 'Подтвержденный',
+    'Rejected' => 'Отклонённый',
 ];
