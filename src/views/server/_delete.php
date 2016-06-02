@@ -5,7 +5,7 @@ use yii\helpers\Html;
 echo ModalButton::widget([
     'model'    => $model,
     'scenario' => 'delete',
-    'button'   => ['label' => '<i class="fa fa-trash-o"></i>' . Yii::t('hipanel/server', 'Delete')],
+    'button'   => ['label' => '<i class="fa fa-fw fa-trash-o"></i>' . Yii::t('hipanel/server', 'Delete')],
     'body'     => Yii::t('hipanel/server', 'Are you sure you want to delete server {name}? You will loose everything!', ['name' => $model->name]),
     'modal'    => [
         'header'        => Html::tag('h4', Yii::t('hipanel/server', 'Confirm server deleting')),

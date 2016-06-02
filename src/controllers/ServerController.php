@@ -177,6 +177,19 @@ class ServerController extends CrudController
                     ],
                 ],
             ],
+            'sale' => [
+                'class' => SmartUpdateAction::class,
+                'view' => '_saleModal',
+                'POST' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RenderJsonAction::class,
+                        'return' => function ($action) {
+                            return ['success' => !$action->collection->hasErrors()];
+                        },
+                    ],
+                ],
+            ],
             'enable-vnc' => [
                 'class' => ViewAction::class,
                 'view' => '_vnc',

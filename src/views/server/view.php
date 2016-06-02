@@ -8,6 +8,7 @@ use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
+use hipanel\widgets\SettingsModal;
 use yii\helpers\Html;
 
 /**
@@ -48,7 +49,15 @@ Pjax::begin();
             <div class="profile-usermenu">
                 <ul class="nav">
                     <li>
-                        <?= Html::a('<i class="fa fa-forward"></i>' . Yii::t('hipanel/server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]); ?>
+                        <?= Html::a('<i class="fa fa-fw fa-forward"></i>' . Yii::t('hipanel/server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]); ?>
+                    </li>
+                    <li>
+                        <?= SettingsModal::widget([
+                            'model'    => $model,
+                            'title'    => Yii::t('hipanel/server', 'Change tariff'),
+                            'icon'     => 'fa-fw fa-money',
+                            'scenario' => 'sale',
+                        ]) ?>
                     </li>
                     <?php if ($model->isPwChangeSupported()) { ?>
                         <li>
@@ -56,8 +65,8 @@ Pjax::begin();
                         </li>
                     <?php } ?>
                     <li>
-                        <?= Html::a('<i class="fa fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]); ?>
-                        <?= Html::a('<i class="fa fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]); ?>
+                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]); ?>
+                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]); ?>
                     </li>
                     <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
                         <li>
@@ -174,8 +183,12 @@ Pjax::begin();
                                 'osImages' => $osimages,
                             ],
                             'columns' => [
-                                'client_id', 'seller_id', 'note', 'label',
-                                ['attribute' => 'name'],
+                                'client_id', 'seller_id',
+                                [
+                                    'attribute' => 'name',
+                                    'contentOptions' => ['class' => 'text-bold'],
+                                ],
+                                'note', 'label',
                                 'state', 'os', 'panel'
                             ],
                         ]);

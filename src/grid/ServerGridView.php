@@ -71,7 +71,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
-                        $html .= ' ' . Yii::t('hipanel/server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]);
+                        $html .= ' '. Html::tag('nobr', Yii::t('hipanel/server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
                     }
                     return $html;
                 },
