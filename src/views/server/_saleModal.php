@@ -2,8 +2,8 @@
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\TariffCombo;
-use kartik\form\ActiveForm;
-use kartik\widgets\DateTimePicker;
+use dosamigos\datetimepicker\DateTimePicker;
+use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -23,7 +23,11 @@ use yii\helpers\Url;
     <?= $form->field($model, 'tariff')->widget(TariffCombo::class, [
         'tariffType' => 'server',
     ]) ?>
-    <?= $form->field($model, 'sale_time')->widget(DateTimePicker::class) ?>
+    <?= $form->field($model, 'sale_time')->widget(DateTimePicker::class, [
+        'clientOptions' => [
+            'autoclose' => true,
+        ],
+    ]) ?>
 
     <hr>
 
