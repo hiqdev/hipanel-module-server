@@ -15,10 +15,5 @@ use Yii;
 
 class Change extends \hipanel\modules\finance\models\Change
 {
-    public static function find()
-    {
-        $query = parent::find();
-        $query->andWhere(['class' => 'serverBuy']);
-        return $query;
-    }
+
 }

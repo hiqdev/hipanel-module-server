@@ -1,16 +1,18 @@
 <?php
 
 use hipanel\base\View;
+use hipanel\modules\finance\grid\ChangeGridView;
 use hipanel\modules\server\models\OsimageSearch;
+use hipanel\widgets\AjaxModal;
 use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
+use yii\bootstrap\Dropdown;
+use yii\bootstrap\Modal;
+use yii\helpers\Html;
 
 /**
  * @var OsimageSearch $osimages
- */
-
-/**
  * @var View $this
  * @var array $states
  */
@@ -21,39 +23,72 @@ $this->breadcrumbs->setItems([$this->title]); ?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])); ?>
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-<?= $page->setSearchFormData(compact(['states'])) ?>
-<?php $page->beginContent('main-actions') ?>
+    <?= $page->setSearchFormData(compact(['states'])) ?>
+    <?php $page->beginContent('main-actions') ?>
+        <?php // TODO: add actions ?>
+    <?php $page->endContent() ?>
+    <?php $page->beginContent('show-actions') ?>
+        <?= IndexLayoutSwitcher::widget() ?>
+        <?= $page->renderSorter([
+            'attributes' => [
+                'client',
+                'time'
+            ],
+        ]) ?>
 
-<?php $page->endContent() ?>
-<?php $page->beginContent('show-actions') ?>
-<?= IndexLayoutSwitcher::widget() ?>
-<?= $page->renderSorter([
-    'attributes' => [
-        'client',
-        'user_comment',
-        'tech_comment',
-    ],
-]) ?>
+        <?= $page->renderPerPage() ?>
+        <?= $page->renderRepresentation() ?>
+    <?php $page->endContent() ?>
+    <?php $page->beginContent('bulk-actions') ?>
+        <div>
+            <?= AjaxModal::widget([
+                'id' => 'bulk-approve-modal',
+                'bulkPage' => true,
+                'header'=> Html::tag('h4', Yii::t('hipanel/finance/change', 'Approve'), ['class' => 'modal-title']),
+                'scenario' => 'bulk-approve',
+                'actionUrl' => ['bulk-approve-modal'],
+                'size' => Modal::SIZE_LARGE,
+                'handleSubmit' => false,
+                'toggleButton' => [
+                    'class' => 'btn btn-success btn-sm',
+                    'label' => Yii::t('hipanel/finance/change', 'Approve')
+                ],
+            ]) ?>
+            <?= AjaxModal::widget([
+                'id' => 'bulk-reject-modal',
+                'bulkPage' => true,
+                'header'=> Html::tag('h4', Yii::t('hipanel/finance/change', 'Reject'), ['class' => 'modal-title']),
+                'scenario' => 'bulk-reject',
+                'actionUrl' => ['bulk-reject-modal'],
+                'size' => Modal::SIZE_LARGE,
+                'handleSubmit' => false,
+                'toggleButton' => [
+                    'class' => 'btn btn-danger btn-sm',
+                    'label' => Yii::t('hipanel/finance/change', 'Reject')
+                ],
+            ]) ?>
+        </div>
+        <?php if (Yii::$app->user->can('delete-bills')) print $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger'); ?>
+    <?php $page->endContent() ?>
 
-<?= $page->renderPerPage() ?>
-<?= $page->renderRepresentation() ?>
-<?php $page->endContent() ?>
 
-<?php $page->beginContent('table') ?>
-<?php $page->beginBulkForm(); ?>
-<?= \hipanel\modules\finance\grid\ChangeGridView::widget([
-    'dataProvider' => $dataProvider,
-    'boxed' => false,
-    'filterModel' => $model,
-    'columns' => [
-        'client',
-        'user_comment',
-        'tech_comment',
-        'actions',
-    ]
-]); ?>
-<?php $page->endBulkForm(); ?>
-<?php $page->endContent() ?>
+    <?php $page->beginContent('table') ?>
+        <?php $page->beginBulkForm(); ?>
+            <?= ChangeGridView::widget([
+                'dataProvider' => $dataProvider,
+                'boxed' => false,
+                'filterModel' => $model,
+                'columns' => [
+                    'checkbox',
+                    'client',
+                    'user_comment',
+                    'tech_comment',
+                    'time',
+                    'actions',
+                ]
+            ]); ?>
+        <?php $page->endBulkForm(); ?>
+    <?php $page->endContent() ?>
 <?php $page->end() ?>
 
 <?php Pjax::end(); ?>
