@@ -51,33 +51,27 @@ Pjax::begin();
                     <li>
                         <?= Html::a('<i class="fa fa-fw fa-forward"></i>' . Yii::t('hipanel/server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]); ?>
                     </li>
+                <?php if ($model->isPwChangeSupported()) { ?>
                     <li>
-                        <?= SettingsModal::widget([
-                            'model'    => $model,
-                            'title'    => Yii::t('hipanel/server', 'Change tariff'),
-                            'icon'     => 'fa-fw fa-money',
-                            'scenario' => 'sale',
-                        ]) ?>
+                        <?= $this->render('_reset-password', compact(['model'])) ?>
                     </li>
-                    <?php if ($model->isPwChangeSupported()) { ?>
-                        <li>
-                            <?= $this->render('_reset-password', compact(['model'])) ?>
-                        </li>
-                    <?php } ?>
+                <?php } ?>
                     <li>
-                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]); ?>
-                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]); ?>
+                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]) ?>
                     </li>
-                    <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) { ?>
-                        <li>
-                            <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
-                        </li>
-                    <?php } ?>
-                    <?php if (Yii::$app->user->can('support')) { ?>
-                        <li>
-                            <?= $this->render('_delete', compact(['model'])) ?>
-                        </li>
-                    <?php } ?>
+                    <li>
+                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]) ?>
+                    </li>
+                <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) : ?>
+                    <li>
+                        <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
+                    </li>
+                <?php endif ?>
+                <?php if (Yii::$app->user->can('support')) : ?>
+                    <li>
+                        <?= $this->render('_delete', compact(['model'])) ?>
+                    </li>
+                <?php endif ?>
                 </ul>
             </div>
             <?php Pjax::end() ?>
@@ -216,6 +210,16 @@ Pjax::begin();
                     $box->endBody();
                     $box->beginFooter();
                         echo $this->render('_refuse', compact(['model']));
+                        if (Yii::$app->user->can('manage')) {
+                            echo SettingsModal::widget([
+                                'model'    => $model,
+                                'title'    => Yii::t('hipanel/server', 'Change tariff'),
+                                'scenario' => 'sale',
+                                'toggleButton' => [
+                                    'class' => 'btn btn-default',
+                                ],
+                            ]);
+                        }
                     $box->endFooter();
                 $box->end();
                 ?>

@@ -17,8 +17,6 @@ use yii\helpers\Url;
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
 ]) ?>
 
-    <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
-
     <?= $form->field($model, 'client')->widget(ClientCombo::class) ?>
     <?= $form->field($model, 'tariff')->widget(TariffCombo::class, [
         'tariffType' => 'server',

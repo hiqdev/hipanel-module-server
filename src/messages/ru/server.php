@@ -105,6 +105,7 @@ return [
     'Refuse' => 'Отказаться',
     'Refuse service' => 'Отказ от услуги',
     'Refusing...' => 'Отказываемся...',
+    'Change tariff' => 'Сменить тариф',
     'Reinstall' => 'Переустановить',
     'Reinstall OS' => 'Переустановка ОС',
     'Remote ID' => 'Удаленный ID',
