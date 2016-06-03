@@ -5,18 +5,18 @@
  * @var \hipanel\widgets\AdvancedSearch $search
  */
 use hipanel\modules\client\widgets\combo\ClientCombo;
-use hiqdev\combo\StaticCombo;
+use hipanel\widgets\RefCombo;
 ?>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('name_like') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('client_id')->widget(ClientCombo::classname()) ?>
+    <?= $search->field('client_id')->widget(ClientCombo::class) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('seller_id')->widget(ClientCombo::classname()) ?>
+    <?= $search->field('seller_id')->widget(ClientCombo::class) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
@@ -24,13 +24,15 @@ use hiqdev\combo\StaticCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('state')->widget(StaticCombo::classname(), [
-        'data' => $states,
-        'hasId' => true,
-        'pluginOptions' => [
-            'select2Options' => [
-                'multiple' => true,
-            ]
-        ],
+    <?= $search->field('type')->widget(RefCombo::class, [
+        'gtype' => 'type,device,server',
+        'multiple' => true,
+    ]) ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('state')->widget(RefCombo::class, [
+        'gtype' => 'state,device',
+        'multiple' => true,
     ]) ?>
 </div>

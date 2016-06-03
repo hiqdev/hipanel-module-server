@@ -61,7 +61,8 @@ class ServerController extends CrudController
                 },
                 'data' => function ($action) {
                     return [
-                        'states' => $action->controller->getStates(),
+                        'types'  => Ref::getList('type,device,server'),
+                        'states' => Ref::getList('state,device'),
                     ];
                 },
                 'filterStorageMap' => [
@@ -450,11 +451,5 @@ class ServerController extends CrudController
     protected function getPanelTypes()
     {
         return ServerHelper::getPanels();
-    }
-
-    protected function getStates()
-    {
-        $states = Ref::getList('state,device');
-        return $states;
     }
 }
