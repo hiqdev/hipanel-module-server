@@ -59,12 +59,6 @@ class ServerController extends CrudController
                         ->andWhere(['with_ips' => 1])
                         ->select(['*']);
                 },
-                'data' => function ($action) {
-                    return [
-                        'types'  => Ref::getList('type,device,server'),
-                        'states' => Ref::getList('state,device'),
-                    ];
-                },
                 'filterStorageMap' => [
                     'name_like' => 'server.server.name',
                     'ips' => 'hosting.ip.ip_in',
