@@ -185,5 +185,7 @@ return [
     'New' => 'Новый',
     'Approved' => 'Подтвержденный',
     'Rejected' => 'Отклонённый',
-    'Pending confirmation servers' => 'Серверы, ожидающие подтверждения'
+    'Pending confirmation servers' => 'Серверы, ожидающие подтверждения',
+    'Affected VDS orders' => 'Будут затронуты следующие заказы VDS',
+    'Pre-orders' => 'Предзаказы'
 ];
