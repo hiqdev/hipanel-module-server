@@ -11,12 +11,28 @@ use hipanel\base\CrudController;
 use hipanel\modules\server\models\Change;
 use Yii;
 use yii\base\Event;
+use yii\filters\AccessControl;
 
 class PreOrderController extends CrudController
 {
     public static function modelClassName()
     {
         return Change::class;
+    }
+
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow'   => true,
+                        'roles'   => ['resell'],
+                    ],
+                ],
+            ],
+        ]);
     }
 
     public function actions()
@@ -34,8 +50,8 @@ class PreOrderController extends CrudController
             'bulk-approve' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'approve',
-                'success' => Yii::t('hipanel/server', 'Hosting accounts were blocked successfully'),
-                'error' => Yii::t('hipanel/server', 'Error during the hosting accounts blocking'),
+                'success' => Yii::t('hipanel/server', 'VDS were approved successfully'),
+                'error' => Yii::t('hipanel/server', 'Error occurred during VDS approving'),
                 'POST html' => [
                     'save'    => true,
                     'success' => [
@@ -46,11 +62,8 @@ class PreOrderController extends CrudController
                     /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;
                     $comment = Yii::$app->request->post('comment');
-                    if (!empty($type)) {
-                        foreach ($action->collection->models as $model) {
-                            $model->setAttribute('comment', $comment);
-
-                        }
+                    foreach ($action->collection->models as $model) {
+                        $model->setAttribute('comment', $comment);
                     }
                 },
             ],
@@ -58,6 +71,37 @@ class PreOrderController extends CrudController
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'approve',
                 'view' => '_bulkApprove',
+                'findOptions' => [
+                    'state' => Change::STATE_NEW
+                ]
+            ],
+            'bulk-reject' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'reject',
+                'success' => Yii::t('hipanel/server', 'VDS were rejected successfully'),
+                'error' => Yii::t('hipanel/server', 'Error occurred during VDS rejecting'),
+                'POST html' => [
+                    'save'    => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $comment = Yii::$app->request->post('comment');
+                    foreach ($action->collection->models as $model) {
+                        $model->setAttribute('comment', $comment);
+                    }
+                },
+            ],
+            'bulk-reject-modal' => [
+                'class' => PrepareBulkAction::class,
+                'scenario' => 'reject',
+                'view' => '_bulkReject',
+                'findOptions' => [
+                    'state' => Change::STATE_NEW
+                ]
             ],
         ];
     }

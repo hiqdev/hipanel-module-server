@@ -9,8 +9,8 @@ use yii\helpers\Html;
  */
 ?>
 <?php $form = ActiveForm::begin([
-    'id' => 'bulk-approve-form',
-    'action' => Url::toRoute('bulk-approve'),
+    'id' => 'bulk-reject-form',
+    'action' => Url::toRoute('bulk-reject'),
     'enableAjaxValidation' => false,
 ]) ?>
 
@@ -38,13 +38,13 @@ use yii\helpers\Html;
 <div class="row">
     <div class="col-sm-6">
         <?= $form->field($model, 'comment')->textInput([
-            'id' => 'change-approve-comment',
+            'id' => 'change-reject-comment',
             'name' => 'comment'
         ]); ?>
     </div>
 </div>
 
 <hr>
-<?= Html::submitButton(Yii::t('hipanel/finance/change', 'Approve'), ['class' => 'btn btn-success']) ?>
+<?= Html::submitButton(Yii::t('hipanel/finance/change', 'Reject'), ['class' => 'btn btn-danger']) ?>
 
 <?php ActiveForm::end() ?>
