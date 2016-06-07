@@ -18,6 +18,31 @@ $this->title = Yii::t('hipanel/server', 'Servers');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->breadcrumbs[] = $this->title;
 
+$representations = [
+    'common' => [
+        'label'   => Yii::t('hipanel', 'common'),
+        'columns' => [
+            'checkbox',
+            'server', 'client_id', 'seller_id',
+            'ips', 'state', 'expires',
+            'tariff_and_discount',
+        ],
+    ],
+    'hw' => [
+        'label'   => Yii::t('hipanel/server', 'hardware'),
+        'columns' => [
+            'checkbox',
+            'client_id',
+            'rack', 'dc', 'server', 'hwsummary',
+        ],
+    ],
+];
+
+$representation = Yii::$app->request->get('representation');
+if (!isset($representations[$representation])) {
+    $representation = key($representations);
+}
+
 ?>
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])); ?>
@@ -31,19 +56,14 @@ $this->breadcrumbs[] = $this->title;
 
         <?= $page->renderSorter([
             'attributes' => [
-                'name',
-                'id',
-                'client',
-                'tariff',
-                'ip',
-                'state',
-                'status_time',
-                'expires',
+                'name', 'id',
+                'client', 'tariff', 'ip',
+                'state', 'status_time', 'expires',
             ],
         ]) ?>
 
         <?= $page->renderPerPage() ?>
-        <?= $page->renderRepresentation() ?>
+        <?= $page->renderRepresentations($representations, $representation) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
@@ -95,16 +115,7 @@ $this->breadcrumbs[] = $this->title;
                 'boxed' => false,
                 'filterModel' => $model,
                 'osImages' => $osimages,
-                'columns' => [
-                    'checkbox',
-                    'server',
-                    'client_id',
-                    'seller_id',
-                    'ips',
-                    'state',
-                    'expires',
-                    'tariff_and_discount',
-                ]
+                'columns' => $representations[$representation]['columns'],
             ]) ?>
         <?php $page->endBulkForm(); ?>
     <?php $page->endContent() ?>

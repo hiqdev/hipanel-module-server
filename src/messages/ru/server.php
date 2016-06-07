@@ -185,5 +185,6 @@ return [
     'New' => 'Новый',
     'Approved' => 'Подтвержденный',
     'Rejected' => 'Отклонённый',
-    'Pending confirmation servers' => 'Серверы, ожидающие подтверждения'
+    'Pending confirmation servers' => 'Серверы, ожидающие подтверждения',
+    'hardware' => 'железо',
 ];
