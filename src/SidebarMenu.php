@@ -43,6 +43,11 @@ class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInter
                         'url'     => ['/server/pre-order/index'],
                         'visible' => function () { return Yii::$app->user->can('resell') ?: false; },
                     ],
+                    'refuse' => [
+                        'label'   => Yii::t('hipanel/server', 'Refuses'),
+                        'url'     => ['/server/refuse/index'],
+                        'visible' => function () { return Yii::$app->user->can('resell') ?: false; },
+                    ],
                 ],
             ],
         ];
