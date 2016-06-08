@@ -1,7 +1,9 @@
 <?php
 use hipanel\helpers\Url;
+use hipanel\modules\server\grid\RefuseGridView;
 use hipanel\modules\server\models\Change;
 use yii\bootstrap\ActiveForm;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 
 /**
@@ -15,15 +17,15 @@ use yii\helpers\Html;
 ]) ?>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><?= Yii::t('hipanel/server', 'Affected VDS orders') ?></div>
+    <div class="panel-heading"><?= Yii::t('hipanel/server', 'Affected VDS') ?></div>
     <div class="panel-body">
-            <?= \hipanel\modules\server\grid\PreOrderGridView::widget([
-                'dataProvider' => new \yii\data\ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
+            <?= RefuseGridView::widget([
+                'dataProvider' => new ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
                 'boxed' => false,
                 'columns' => [
                     'client',
+                    'server',
                     'user_comment',
-                    'tech_details',
                     'time',
                 ],
                 'layout' => '{items}'
