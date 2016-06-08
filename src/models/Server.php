@@ -31,11 +31,12 @@ class Server extends \hipanel\base\Model
     {
         return [
             [['id', 'tariff_id', 'client_id', 'seller_id'], 'integer'],
-            [['osimage'], EidValidator::className()],
-            [['panel'], RefValidator::className()],
+            [['osimage'], EidValidator::class],
+            [['panel'], RefValidator::class],
             [
                 [
                     'name',
+                    'dc',
                     'seller',
                     'client',
                     'panel',
@@ -58,9 +59,11 @@ class Server extends \hipanel\base\Model
                     'running_task',
                     'note',
                     'label',
+                    'hwsummary',
                 ],
                 'safe',
             ],
+            [['switches', 'rack'], 'safe'],
             [['last_expires', 'expires', 'status_time', 'sale_time'], 'date'],
             [
                 ['state'],
@@ -168,7 +171,7 @@ class Server extends \hipanel\base\Model
     public function checkOperable()
     {
         if (!$this->isOperable()) {
-            throw new NotSupportedException(\Yii::t('hipanel/server', 'Server already has a running task. Can not start new.'));
+            throw new NotSupportedException(Yii::t('hipanel/server', 'Server already has a running task. Can not start new.'));
         }
         return true;
     }
@@ -218,6 +221,8 @@ class Server extends \hipanel\base\Model
             'remoteid'            => Yii::t('hipanel/server', 'Remote ID'),
             'name_like'           => Yii::t('hipanel/server', 'Name'),
             'name'                => Yii::t('hipanel/server', 'Name'),
+            'dc'                  => Yii::t('hipanel/server', 'DC'),
+            'rack'                => Yii::t('hipanel/server', 'Rack'),
             'status_time'         => Yii::t('hipanel/server', 'Status update time'),
             'block_reason_label'  => Yii::t('hipanel/server', 'Block reason label'),
             'request_state_label' => Yii::t('hipanel/server', 'Request state label'),

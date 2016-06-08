@@ -20,7 +20,11 @@ use hipanel\widgets\RefCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('note') ?>
+    <?= $search->field('rack_like') ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field(Yii::$app->user->can('support') ? 'label' : 'note') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">

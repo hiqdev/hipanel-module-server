@@ -28,12 +28,11 @@ $representations = [
             'tariff_and_discount',
         ],
     ],
-    'hw' => [
-        'label'   => Yii::t('hipanel/server', 'hardware'),
+    'manager' => [
+        'label'   => Yii::t('hipanel/server', 'manager'),
         'columns' => [
-            'checkbox',
-            'client_id',
-            'rack', 'dc', 'server', 'hwsummary',
+            'checkbox', 'client_id',
+            'rack', 'dc', 'server', 'tariff', 'hwsummary',
         ],
     ],
 ];

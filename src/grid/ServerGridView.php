@@ -194,6 +194,13 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     ],
                 ],
             ],
+            'rack' => [
+                'format' => 'html',
+                'filterAttribute' => 'rack_like',
+                'value'  => function ($model) {
+                    return $model->switches['rack']['switch'];
+                },
+            ],
         ];
     }
 }

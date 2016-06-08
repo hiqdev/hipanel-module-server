@@ -54,9 +54,10 @@ class ServerController extends CrudController
                     $dataProvider->query->joinWith('ips');
 
                     $dataProvider->query
+                        ->andWhere(['with_ips' => 1])
+                        ->andWhere(['with_switches' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
-                        ->andWhere(['with_ips' => 1])
                         ->select(['*']);
                 },
                 'filterStorageMap' => [
