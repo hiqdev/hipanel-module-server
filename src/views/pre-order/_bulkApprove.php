@@ -17,7 +17,7 @@ use yii\helpers\Html;
 <div class="panel panel-default">
     <div class="panel-heading"><?= Yii::t('hipanel/server', 'Affected VDS orders') ?></div>
     <div class="panel-body">
-            <?= \hipanel\modules\server\grid\ChangeGridView::widget([
+            <?= \hipanel\modules\server\grid\PreOrderGridView::widget([
                 'dataProvider' => new \yii\data\ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
                 'boxed' => false,
                 'columns' => [

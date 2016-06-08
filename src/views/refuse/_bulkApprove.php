@@ -1,7 +1,9 @@
 <?php
 use hipanel\helpers\Url;
+use hipanel\modules\server\grid\RefuseGridView;
 use hipanel\modules\server\models\Change;
 use yii\bootstrap\ActiveForm;
+use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
 
 /**
@@ -9,21 +11,21 @@ use yii\helpers\Html;
  */
 ?>
 <?php $form = ActiveForm::begin([
-    'id' => 'bulk-reject-form',
-    'action' => Url::toRoute('bulk-reject'),
+    'id' => 'bulk-approve-form',
+    'action' => Url::toRoute('bulk-approve'),
     'enableAjaxValidation' => false,
 ]) ?>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><?= Yii::t('hipanel/server', 'Affected VDS orders') ?></div>
+    <div class="panel-heading"><?= Yii::t('hipanel/server', 'Affected VDS') ?></div>
     <div class="panel-body">
-            <?= \hipanel\modules\server\grid\PreOrderGridView::widget([
-                'dataProvider' => new \yii\data\ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
+            <?= RefuseGridView::widget([
+                'dataProvider' => new ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
                 'boxed' => false,
                 'columns' => [
                     'client',
+                    'server',
                     'user_comment',
-                    'tech_details',
                     'time',
                 ],
                 'layout' => '{items}'
@@ -38,13 +40,13 @@ use yii\helpers\Html;
 <div class="row">
     <div class="col-sm-6">
         <?= $form->field($model, 'comment')->textInput([
-            'id' => 'change-reject-comment',
+            'id' => 'change-approve-comment',
             'name' => 'comment'
         ]); ?>
     </div>
 </div>
 
 <hr>
-<?= Html::submitButton(Yii::t('hipanel/finance/change', 'Reject'), ['class' => 'btn btn-danger']) ?>
+<?= Html::submitButton(Yii::t('hipanel/finance/change', 'Approve'), ['class' => 'btn btn-success']) ?>
 
 <?php ActiveForm::end() ?>

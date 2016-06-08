@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\base\View;
+use hipanel\modules\server\grid\RefuseGridView;
 use hipanel\modules\server\models\OsimageSearch;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\IndexLayoutSwitcher;
@@ -16,7 +17,7 @@ use yii\helpers\Html;
  * @var \hipanel\modules\server\models\Change $model
  */
 
-$this->title = Yii::t('hipanel/server', 'Pending confirmation servers');
+$this->title = Yii::t('hipanel/server', 'Refuses');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]); ?>
 
@@ -68,21 +69,20 @@ $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]
                 ]) ?>
             </div>
         <?php } ?>
-        <?php if (Yii::$app->user->can('delete-bills')) print $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger'); ?>
     <?php $page->endContent() ?>
 
 
     <?php $page->beginContent('table') ?>
         <?php $page->beginBulkForm(); ?>
-            <?= \hipanel\modules\server\grid\PreOrderGridView::widget([
+            <?= RefuseGridView::widget([
                 'dataProvider' => $dataProvider,
                 'boxed' => false,
                 'filterModel' => $model,
                 'columns' => [
                     'checkbox',
                     'client',
+                    'server',
                     'user_comment',
-                    'tech_comment',
                     'time',
                 ]
             ]); ?>

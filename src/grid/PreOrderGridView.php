@@ -11,20 +11,16 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\grid\ActionColumn;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\widgets\OSFormatter;
 use Yii;
 
-class ChangeGridView extends \hipanel\modules\finance\grid\ChangeGridView
+class PreOrderGridView extends \hipanel\grid\BoxedGridView
 {
     public static function defaultColumns()
     {
         return array_merge(parent::defaultColumns(), [
-            'user_comment' => [
-                'value' => function ($model) {
-                    return $model->user_comment . ': ' . $model->params['purpose'];
-                }
-            ],
             'tech_details' => [
                 'format' => 'raw',
                 'label' => Yii::t('hipanel/finance/change', 'Operation details'),
@@ -36,6 +32,25 @@ class ChangeGridView extends \hipanel\modules\finance\grid\ChangeGridView
                         'infoCircle' => false,
                     ]);
                 }
+            ],
+            'user_comment' => [
+                'filterAttribute' => 'user_comment_like',
+                'value' => function ($model) {
+                    return $model->user_comment;
+                }
+            ],
+            'tech_comment' => [
+                'attribute' => 'tech_comment',
+            ],
+            'time' => [
+                'value' => function ($model) {
+                    return Yii::$app->formatter->asDatetime($model->time);
+                }
+            ],
+            'actions' => [
+                'class' => ActionColumn::class,
+                'template' => '{view}',
+                'header' => Yii::t('hipanel', 'Actions'),
             ],
         ]);
     }
