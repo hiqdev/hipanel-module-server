@@ -182,10 +182,10 @@ return [
     'Servers were blocked successfully' => 'Серверы были успешно заблокированы',
     'Server was deleted successfully' => 'Сервер был успешно удален',
     'Failed to delete server' => 'Не удалось удалить сервер',
-    'New' => 'Новый',
-    'Approved' => 'Подтвержденный',
-    'Rejected' => 'Отклонённый',
     'Pending confirmation servers' => 'Серверы, ожидающие подтверждения',
     'Affected VDS orders' => 'Будут затронуты следующие заказы VDS',
-    'Pre-orders' => 'Предзаказы'
+    'Pre-orders' => 'Предзаказы',
+    'Server' => 'Сервер',
+    'Refuses' => 'Отказы',
+    'Affected VDS' => 'Будут затронуты следующие VDS',
 ];
