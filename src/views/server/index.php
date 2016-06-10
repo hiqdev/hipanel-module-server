@@ -18,38 +18,12 @@ $this->title = Yii::t('hipanel/server', 'Servers');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->breadcrumbs[] = $this->title;
 
-$representations = [
-    'common' => [
-        'label'   => Yii::t('hipanel', 'common'),
-        'columns' => [
-            'checkbox',
-            'server', 'client_id', 'seller_id',
-            'ips', 'state', 'expires',
-            'tariff_and_discount',
-        ],
-    ],
-    'manager' => [
-        'label'   => Yii::t('hipanel/server', 'manager'),
-        'columns' => [
-            'checkbox', 'client_id',
-            'rack', 'dc', 'server', 'tariff', 'hwsummary',
-        ],
-    ],
-];
-
 $representation = Yii::$app->request->get('representation');
-if (!isset($representations[$representation])) {
-    $representation = key($representations);
-}
 
 ?>
 
-<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])); ?>
+<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
-    <?= $page->setSearchFormData() ?>
-    <?php $page->beginContent('main-actions') ?>
-
-    <?php $page->endContent() ?>
     <?php $page->beginContent('show-actions') ?>
         <?= IndexLayoutSwitcher::widget() ?>
 
@@ -62,7 +36,7 @@ if (!isset($representations[$representation])) {
         ]) ?>
 
         <?= $page->renderPerPage() ?>
-        <?= $page->renderRepresentations($representations, $representation) ?>
+        <?= $page->renderRepresentations(ServerGridView::class, $representation) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
@@ -114,10 +88,9 @@ if (!isset($representations[$representation])) {
                 'boxed' => false,
                 'filterModel' => $model,
                 'osImages' => $osimages,
-                'columns' => $representations[$representation]['columns'],
+                'representation' => $representation,
             ]) ?>
         <?php $page->endBulkForm(); ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
-
 <?php Pjax::end() ?>
