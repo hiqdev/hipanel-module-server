@@ -187,10 +187,10 @@ return [
     'Rejected' => 'Отклонённый',
     'Pending confirmation servers' => 'Серверы, ожидающие подтверждения',
     'hardware' => 'железо',
-    'Pending confirmation servers' => 'Серверы, ожидающие подтверждения',
     'Affected VDS orders' => 'Будут затронуты следующие заказы VDS',
     'Pre-orders' => 'Предзаказы',
     'Server' => 'Сервер',
     'Refuses' => 'Отказы',
     'Affected VDS' => 'Будут затронуты следующие VDS',
+    'Rack' => 'Стойка',
 ];
