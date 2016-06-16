@@ -13,6 +13,7 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
+use Yii;
 
 class ServerSearch extends Server
 {
@@ -30,6 +31,13 @@ class ServerSearch extends Server
             'with_requests',
             'show_deleted',
             'with_discounts',
+        ]);
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'rack_like' => Yii::t('hipanel/server', 'Rack')
         ]);
     }
 }

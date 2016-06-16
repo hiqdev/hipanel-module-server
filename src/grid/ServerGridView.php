@@ -56,7 +56,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
         return [
             'server' => [
-                'class' => MainColumn::className(),
+                'class' => MainColumn::class,
                 'attribute' => 'name',
                 'filterAttribute' => 'name_like',
                 'note' => Yii::$app->user->can('support') ? 'label' : 'note',
@@ -65,7 +65,8 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 ],
             ],
             'state' => [
-                'class' => RefColumn::className(),
+                'class' => RefColumn::class,
+                'i18nDictionary' => 'hipanel/server',
                 'format' => 'raw',
                 'gtype' => 'state,device',
                 'value' => function ($model) {
@@ -129,7 +130,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 },
             ],
             'actions' => [
-                'class' => ActionColumn::className(),
+                'class' => ActionColumn::class,
                 'template' => '{view}',
                 'header' => Yii::t('hipanel', 'Actions'),
             ],

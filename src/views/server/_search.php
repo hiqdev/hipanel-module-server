@@ -30,6 +30,7 @@ use hipanel\widgets\RefCombo;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('type')->widget(RefCombo::class, [
         'gtype' => 'type,device,server',
+        'i18nDictionary' => 'hipanel/server',
         'multiple' => true,
     ]) ?>
 </div>
@@ -37,6 +38,7 @@ use hipanel\widgets\RefCombo;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('state')->widget(RefCombo::class, [
         'gtype' => 'state,device',
+        'i18nDictionary' => 'hipanel/server',
         'multiple' => true,
     ]) ?>
 </div>
