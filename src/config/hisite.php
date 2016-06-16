@@ -26,6 +26,7 @@ return [
                 'hipanel/server*' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
+                    'forceTranslation' => true,
                     'fileMap' => [
                         'hipanel/server' => 'server.php',
                         'hipanel/server/os' => 'os.php', // outer
