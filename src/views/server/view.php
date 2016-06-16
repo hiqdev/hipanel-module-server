@@ -102,18 +102,18 @@ Pjax::begin();
                 $box->endHeader();
                 $box->beginBody(); ?>
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <?= $this->render('_reboot', compact(['model'])) ?>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <?= $this->render('_shutdown', compact(['model'])) ?>
                     </div>
                     <?php if ($model->isLiveCDSupported()) : ?>
-                        <div class="col-md-6">
+                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <?= $this->render('_boot-live', compact(['model', 'osimageslivecd'])) ?>
                         </div>
                     <?php endif; ?>
-                    <div class="col-md-6">
+                    <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
                     </div>
                 </div>
@@ -132,13 +132,13 @@ Pjax::begin();
                     $box->endHeader();
                     $box->beginBody(); ?>
                         <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                 <?= $this->render('_power-on', compact(['model'])); ?>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                 <?= $this->render('_power-off', compact(['model'])); ?>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                 <?= $this->render('_reset', compact(['model'])); ?>
                             </div>
                         </div>
