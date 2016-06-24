@@ -85,6 +85,7 @@ $representation = Yii::$app->request->get('representation');
         <?php $page->beginBulkForm(); ?>
             <?= ServerGridView::widget([
                 'dataProvider' => $dataProvider,
+                #'filterPosition' => false,
                 'boxed' => false,
                 'filterModel' => $model,
                 'osImages' => $osimages,

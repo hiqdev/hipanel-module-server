@@ -64,6 +64,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     'url' => Yii::$app->user->can('support') ? Url::to('set-label') : Url::to('set-note'),
                 ],
             ],
+            'dc' => [
+                'attribute' => 'dc',
+                'filter' => false,
+            ],
             'state' => [
                 'class' => RefColumn::class,
                 'i18nDictionary' => 'hipanel/server',
@@ -155,10 +159,16 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
                 },
             ],
+            'ip' => [
+                'filter' => false,
+            ],
+            'mac' => [
+                'filter' => false,
+            ],
             'ips' => [
                 'format' => 'raw',
                 'attribute' => 'ips',
-                'label' => Yii::t('hipanel/server', 'IP addresses'),
+                'filter' => false,
                 'value' => function ($model) {
                     return ArraySpoiler::widget([
                         'data' => ArrayHelper::getColumn($model->ips, 'ip'),
@@ -195,6 +205,13 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     ],
                 ],
             ],
+            'type' => [
+                'format' => 'html',
+                'filter' => false,
+                'value'  => function ($model) {
+                    return $model->type_label;
+                },
+            ],
             'rack' => [
                 'format' => 'html',
                 'filterAttribute' => 'rack_like',
@@ -202,7 +219,51 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return $model->switches['rack']['switch'];
                 },
             ],
+            'net' => [
+                'format' => 'html',
+                'filter' => false,
+                'value'  => function ($model) {
+                    return static::renderSwitchPort($model->switches['net']);
+                },
+            ],
+            'kvm' => [
+                'format' => 'html',
+                'filter' => false,
+                'value'  => function ($model) {
+                    return static::renderSwitchPort($model->switches['kvm']);
+                },
+            ],
+            'pdu' => [
+                'format' => 'html',
+                'filter' => false,
+                'value'  => function ($model) {
+                    return static::renderSwitchPort($model->switches['pdu']);
+                },
+            ],
+            'ipmi' => [
+                'format' => 'raw',
+                'filter' => false,
+                'value'  => function ($model) {
+                    $ipmi = $model->switches['ipmi']['device_ip'];
+                    $link = $ipmi ? Html::a($ipmi, "http://$ipmi/", ['target' => '_blank']) . ' ' : '';
+                    return $link . static::renderSwitchPort($model->switches['ipmi']);
+                },
+            ],
         ];
+    }
+
+    public static function renderSwitchPort($data)
+    {
+        $label  = $data['switch_label'];
+        $inn    = $data['switch_inn'];
+        $name   = $data['switch'];
+        $port   = $data['port'];
+
+        $inn    = $inn ? "($inn)" : '';
+        $main   = $port ? "$name:$port" : $name;
+        $main   = $main ? "<b>$main</b>" : '';
+
+        return "$inn $main $label";
     }
 
     public static function defaultRepresentations()
@@ -222,6 +283,13 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'columns' => [
                     'checkbox', 'client_id',
                     'rack', 'dc', 'server', 'tariff', 'hwsummary',
+                ],
+            ] : null,
+            'admin' => Yii::$app->user->can('support') ? [
+                'label'   => Yii::t('hipanel/server', 'admin'),
+                'columns' => [
+                    'checkbox', 'dc', 'server', 'type',
+                    'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac',
                 ],
             ] : null,
         ];
