@@ -27,17 +27,9 @@ class ServerSearch extends Server
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
-            'name_like',
             'with_requests',
             'show_deleted',
             'with_discounts',
-        ]);
-    }
-
-    public function attributeLabels()
-    {
-        return array_merge(parent::attributeLabels(), [
-            'rack_like' => Yii::t('hipanel/server', 'Rack')
         ]);
     }
 }
