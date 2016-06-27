@@ -44,7 +44,7 @@ class Server extends \hipanel\base\Model
                     'type', 'type_label', 'state', 'state_label', 'statuses',
                     'block_reason_label',
                     'running_task',
-                    'ip', 'ips', 'mac',
+                    'ip', 'mac',
                     'vnc',
                     'note', 'label', 'hwsummary',
                 ],
