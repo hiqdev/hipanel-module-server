@@ -222,6 +222,7 @@ class Server extends \hipanel\base\Model
             'label'               => Yii::t('hipanel/server', 'Internal note'),
             'os'                  => Yii::t('hipanel/server', 'OS'),
             'comment'             => Yii::t('hipanel/server', 'Comment'),
+            'hwsummary'           => Yii::t('hipanel/server', 'HW summary'),
         ]);
     }
 }
