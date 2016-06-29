@@ -20,13 +20,18 @@ use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\State;
+use hipanel\modules\hosting\controllers\AccountController;
+use hipanel\modules\hosting\controllers\IpController;
 use hipanel\widgets\ArraySpoiler;
+use hipanel\widgets\Label;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 class ServerGridView extends \hipanel\grid\BoxedGridView
 {
+    public $controllerUrl = '@server';
+
     /**
      * @var array
      */
@@ -63,6 +68,19 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'noteOptions' => [
                     'url' => Yii::$app->user->can('support') ? Url::to('set-label') : Url::to('set-note'),
                 ],
+                'badges' => function ($model) {
+                    $badges = '';
+                    if (Yii::$app->user->can('support')) {
+                        if ($model->wizzarded) {
+                            $badges .= Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']);
+                        }
+                        /*if ($model->state === 'disabled') {
+                            $badges .= ' ' . Label::widget(['label' => 'Panel OFF', 'tag' => 'sup', 'color' => 'danger', 'type' => 'text']);
+                        }*/
+                    }
+
+                    return $badges;
+                },
             ],
             'dc' => [
                 'attribute' => 'dc',
@@ -132,11 +150,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'next' => $model->discounts['fee']['next'],
                     ]);
                 },
-            ],
-            'actions' => [
-                'class' => ActionColumn::class,
-                'template' => '{view}',
-                'header' => Yii::t('hipanel', 'Actions'),
             ],
             'expires' => [
                 'filter' => false,
@@ -214,7 +227,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'rack' => [
                 'format' => 'html',
-                'filterAttribute' => 'rack_like',
+                'filter' => false,
                 'value'  => function ($model) {
                     return $model->switches['rack']['switch'];
                 },
@@ -249,6 +262,31 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return $link . static::renderSwitchPort($model->switches['ipmi']);
                 },
             ],
+            'nums' => [
+                'label' => '',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    $ips_num = $model->ips_num;
+                    $ips = $ips_num ? Html::a("$ips_num ips", IpController::getSearchUrl(['server' => $model->name])) : 'no ips';
+                    $act_acs_num = $model->acs_num - $model->del_acs_num;
+                    $del_acs_num = $model->del_acs_num;
+                    $acs_num = $act_acs_num . ($del_acs_num ? "+$del_acs_num" : '');
+                    $acs = $acs_num ? Html::a("$acs_num acc", AccountController::getSearchUrl(['server' => $model->name])) : 'no acc';
+                    return Html::tag('nobr', $ips) . ' ' . Html::tag('nobr', $acs);
+                },
+            ],
+            'actions' => [
+                'class' => ActionColumn::class,
+                'template' => '{view} {rrd} {switch-graph}',
+                'buttons' => [
+                    'switch-graph' => function ($url, $model) {
+                        return Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]);
+                    },
+                    'rrd' => function ($url, $model) {
+                        return Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]);
+                    },
+                ],
+            ],
         ];
     }
 
@@ -282,7 +320,8 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'label'   => Yii::t('hipanel/server', 'manager'),
                 'columns' => [
                     'checkbox', 'client_id',
-                    'rack', 'dc', 'server', 'tariff', 'hwsummary',
+                    'rack', 'server', 'tariff',
+                    'hwsummary', 'nums', 'actions',
                 ],
             ] : null,
             'admin' => Yii::$app->user->can('support') ? [

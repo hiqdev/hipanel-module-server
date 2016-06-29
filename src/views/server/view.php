@@ -57,7 +57,7 @@ Pjax::begin();
                     </li>
                 <?php } ?>
                     <li>
-                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]) ?>
+                        <?= Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]) ?>
                     </li>
                     <li>
                         <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]) ?>

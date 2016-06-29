@@ -11,8 +11,8 @@
 
 return [
     'aliases' => [
-        '@server' => '/server/server',
-        '@rrd' => '/server/rrd',
+        '@server'       => '/server/server',
+        '@rrd'          => '/server/rrd',
         '@switch-graph' => '/server/switch-graph',
     ],
     'modules' => [

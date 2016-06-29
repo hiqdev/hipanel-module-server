@@ -9,12 +9,6 @@
  * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
-/**
- * @link    http://hiqdev.com/hipanel-module-domain
- * @license http://hiqdev.com/hipanel-module-domain/license
- * @copyright Copyright (c) 2015 HiQDev
- */
-
 namespace hipanel\modules\server\widgets;
 
 class State extends \hipanel\widgets\Type
@@ -23,7 +17,7 @@ class State extends \hipanel\widgets\Type
     public $model = [];
     public $values = [];
     public $defaultValues = [
-        'info'      => ['ok'],
+        'info'      => ['ok', 'active'],
         'danger'    => ['expired'],
         'warning'   => ['blocked'],
     ];

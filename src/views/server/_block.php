@@ -1,15 +1,16 @@
 <?php
+
 use hipanel\helpers\Url;
-use yii\helpers\Html;
 use hipanel\widgets\ModalButton;
+use yii\helpers\Html;
 
 ?>
 
-<?php if (!$model->isBlocked) {
-    $modalButton = ModalButton::begin([
+<?php if (!$model->isBlocked) : ?>
+    <?php $modalButton = ModalButton::begin([
         'model' => $model,
         'scenario' => 'enable-block',
-        'button' => ['label' => '<i class="ion-locked"></i>' . Yii::t('hipanel/server', 'Block server')],
+        'button' => ['label' => '<i class="fa fa-lock fa-fw"></i>' . Yii::t('hipanel/server', 'Block server')],
         'form' => [
             'enableAjaxValidation'   => true,
             'validationUrl'          => Url::toRoute(['validate-form', 'scenario' => 'enable-block']),
@@ -23,20 +24,20 @@ use hipanel\widgets\ModalButton;
                 'class' => 'btn btn-danger',
             ]
         ]
-    ]); ?>
+    ]) ?>
     <div class="callout callout-warning">
         <h4><?= Yii::t('hipanel/server', 'This will immediately reject new SSH, FTP and WEB connections to the server!') ?></h4>
     </div>
 
-    <?php echo $modalButton->form->field($model, 'type')->dropDownList($blockReasons); ?>
-    <?php echo $modalButton->form->field($model, 'comment'); ?>
+    <?= $modalButton->form->field($model, 'type')->dropDownList($blockReasons) ?>
+    <?= $modalButton->form->field($model, 'comment') ?>
 
-    <?php $modalButton->end();
-} else {
-    $modalButton = ModalButton::begin([
+    <?php $modalButton->end() ?>
+<?php else : ?>
+    <?php $modalButton = ModalButton::begin([
         'model' => $model,
         'scenario' => 'disable-block',
-        'button' => ['label' => '<i class="ion-unlocked"></i>' . Yii::t('hipanel/server', 'Unblock server')],
+        'button' => ['label' => '<i class="fa fa-unlock fa-fw"></i>' . Yii::t('hipanel/server', 'Unblock server')],
         'form' => [
             'enableAjaxValidation'   => true,
             'validationUrl'          => Url::toRoute(['validate-form', 'scenario' => 'disable-block']),
@@ -50,10 +51,9 @@ use hipanel\widgets\ModalButton;
                 'class' => 'btn btn-info',
             ]
         ]
-    ]); ?>
+    ]) ?>
 
-    <?php echo $modalButton->form->field($model, 'comment'); ?>
+    <?= $modalButton->form->field($model, 'comment') ?>
 
-    <?php $modalButton->end();
-}
-
+    <?php $modalButton->end() ?>
+<?php endif ?>
