@@ -5,10 +5,10 @@ use hipanel\widgets\Box;
 use yii\helpers\Html;
 use yii\data\ArrayDataProvider;
 
-if (Yii::getAlias('@ip', false)) : ?>
+if (Yii::getAlias('@ip', false) && $model->ips_num) : ?>
     <?php $box = Box::begin(['renderBody' => false]) ?>
         <?php $box->beginHeader() ?>
-            <?= $box->renderTitle(Yii::t('hipanel/server', 'IP addresses')) ?>
+            <?= $box->renderTitle(Yii::t('hipanel/server', 'IP addresses'), $model->ips_num) ?>
             <?php if (Yii::$app->user->can('support')) : ?>
                 <?php $box->beginTools() ?>
                     <?= Html::a(
@@ -23,9 +23,12 @@ if (Yii::getAlias('@ip', false)) : ?>
             <?= IpGridView::widget([
                 'dataProvider' => new ArrayDataProvider([
                     'allModels' => $model->ips,
-                    'pagination' => false,
+                    'pagination' => [
+                        'pageSize' => 25,
+                    ],
                     'sort' => false,
                 ]),
+                'layout' => '{items}',
                 'boxed' => false,
                 'summary' => false,
                 'columns' => ['ip', 'ptr', 'services'],

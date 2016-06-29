@@ -129,16 +129,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return $html;
                 },
             ],
-            'tariff_and_discount' => [
-                'attribute' => 'tariff',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return self::formatTariff($model) . ' ' . DiscountFormatter::widget([
-                        'current' => $model->discounts['fee']['current'],
-                        'next' => $model->discounts['fee']['next'],
-                    ]);
-                },
-            ],
             'discount' => [
                 'attribute' => 'discount',
                 'label' => Yii::t('hipanel/server', 'Discount'),
@@ -161,7 +151,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'tariff' => [
                 'format' => 'raw',
-                'attribute' => 'tariff',
+                'filterAttribute' => 'tariff_like',
                 'value' => function ($model) {
                     return self::formatTariff($model);
                 },
@@ -170,6 +160,17 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'attribute' => 'tariff_note',
                 'value' => function ($model) {
 
+                },
+            ],
+            'tariff_and_discount' => [
+                'attribute' => 'tariff',
+                'filterAttribute' => 'tariff_like',
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return self::formatTariff($model) . ' ' . DiscountFormatter::widget([
+                        'current' => $model->discounts['fee']['current'],
+                        'next' => $model->discounts['fee']['next'],
+                    ]);
                 },
             ],
             'ip' => [

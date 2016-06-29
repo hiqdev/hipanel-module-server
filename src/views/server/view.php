@@ -62,7 +62,7 @@ Pjax::begin();
                     <li>
                         <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]) ?>
                     </li>
-                <?php if (Yii::$app->user->can('support')  && Yii::$app->user->id != $model->client_id) : ?>
+                <?php if (Yii::$app->user->can('support')  && Yii::$app->user->not($model->client_id)) : ?>
                     <li>
                         <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
                     </li>
@@ -182,7 +182,7 @@ Pjax::begin();
                                     'attribute' => 'name',
                                     'contentOptions' => ['class' => 'text-bold'],
                                 ],
-                                'note', 'label',
+                                'ip', 'note', 'label',
                                 'state', 'os', 'panel'
                             ],
                         ]);

@@ -7,8 +7,13 @@
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\widgets\RefCombo;
 ?>
+
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('name_like') ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field(Yii::$app->user->can('support') ? 'label_like' : 'note_like') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
@@ -64,5 +69,9 @@ use hipanel\widgets\RefCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field(Yii::$app->user->can('support') ? 'label' : 'note') ?>
+    <?= $search->field('mac_like') ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('tariff_like') ?>
 </div>
