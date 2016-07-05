@@ -16,6 +16,17 @@ namespace hipanel\modules\server\widgets\combo;
  */
 class PanelServerCombo extends ServerCombo
 {
+    public $state;
+
+    public function init()
+    {
+        parent::init();
+
+        if ($this->state !== null) {
+            $this->_filter['state'] = ['format' => $this->state];
+        }
+    }
+
     public $_filter = [
         'client' => 'client/client',
         'panel' => ['format' => 'rcp'],
