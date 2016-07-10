@@ -138,8 +138,8 @@ class ServerController extends CrudController
                 },
             ],
             'requests-state' => [
-                'class' => RequestStateAction::className(),
-                'model' => Server::className(),
+                'class' => RequestStateAction::class,
+                'model' => Server::class,
             ],
             'set-note' => [
                 'class' => SmartUpdateAction::class,
