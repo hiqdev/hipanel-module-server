@@ -38,6 +38,7 @@ use Yii;
 use yii\base\Event;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
+use yii\web\Response;
 
 class ServerController extends CrudController
 {
@@ -446,5 +447,18 @@ class ServerController extends CrudController
     protected function getPanelTypes()
     {
         return ServerHelper::getPanels();
+    }
+
+    public function actionIsOperable($id)
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
+        $result = ['id' => $id, 'result' => false];
+
+        if ($server = Server::find()->where(['id' => $id])->one()) {
+            $result['result'] = $server->isOperable();
+        }
+
+        return $result;
     }
 }

@@ -1,7 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\modules\server\assets\OsSelectionAsset;
+use hipanel\modules\server\assets\ServerTaskCheckerAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\ChartOptions;
@@ -10,6 +10,7 @@ use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\SettingsModal;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 /**
  * @var $model Server
@@ -22,15 +23,13 @@ $this->breadcrumbs->setItems([
     $this->title,
 ]);
 
-$this->registerCss('.btn-block {margin-bottom: .5em}');
-
 list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
-Pjax::begin();
+Pjax::begin(Yii::$app->params['pjax']);
 
 ?>
 
-<div class="row">
+<div class="row server-view">
     <div class="col-md-3">
         <?php Box::begin([
             'bodyOptions' => [
@@ -313,5 +312,25 @@ Pjax::begin();
 </div>
 
 <?php
-$this->registerCss("th { white-space: nowrap; }");
+$this->registerCss('
+th {
+    white-space: nowrap;
+}
+
+.btn-block {
+    margin-bottom: .5em
+}');
+
+if ($model->running_task) {
+    ServerTaskCheckerAsset::register($this);
+
+    $checkerOptions = Json::encode([
+        'id' => $model->id,
+        'ajax' => ['url' => Url::to('@server/is-operable')],
+        'pjaxSelector' => '#' . Yii::$app->params['pjax']['id']
+    ]);
+
+    $this->registerJs("$('.server-view').serverTaskChecker($checkerOptions);");
+}
+
 Pjax::end();

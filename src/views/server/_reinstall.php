@@ -78,7 +78,7 @@ ModalButton::begin([
                                                 ],
                                                 'value' => $softpack['name']
                                             ]) ?>
-                                            <strong><?= $softpack['name'] ?></strong>
+                                            <strong><?= Yii::t('hipanel/server/panel', $softpack['name']) ?></strong>
                                             <small style="font-weight: normal"><?= Yii::t('hipanel/server/os', $softpack['description']) ?></small>
                                             <a class="softinfo-bttn glyphicon glyphicon-info-sign" href="#"></a>
 
