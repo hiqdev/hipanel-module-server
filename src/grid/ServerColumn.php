@@ -20,6 +20,7 @@ class ServerColumn extends DataColumn
     public $attribute = 'server_id';
     public $nameAttribute = 'server';
     public $format = 'html';
+    public $comboClass = ServerCombo::class;
 
     public function init()
     {
@@ -28,11 +29,12 @@ class ServerColumn extends DataColumn
             $this->filterInputOptions['id'] = $this->attribute;
         }
         if (!$this->filter && $this->grid->filterModel) {
-            $this->filter = ServerCombo::widget([
+            $this->filter = \Yii::createObject([
+                'class' => $this->comboClass,
                 'attribute'           => $this->attribute,
                 'model'               => $this->grid->filterModel,
                 'formElementSelector' => 'td',
-            ]);
+            ])->run();
         };
     }
 

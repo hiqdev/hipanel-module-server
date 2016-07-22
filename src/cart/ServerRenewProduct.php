@@ -14,6 +14,7 @@ namespace hipanel\modules\server\cart;
 use DateTime;
 use hipanel\modules\server\models\Server;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * Class ServerRenewProduct.
@@ -97,5 +98,10 @@ class ServerRenewProduct extends AbstractServerProduct
             [['model_id'], 'integer'],
             [['name'], 'required'],
         ]);
+    }
+
+    public function renderDescription()
+    {
+        return $this->getIcon() . ' ' . Html::a($this->getName(), ['@server/view', 'id' => $this->model_id]) . ' ' . Html::tag('span', $this->getDescription(), ['class' => 'text-muted']);
     }
 }

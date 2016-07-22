@@ -92,8 +92,9 @@ class ServerController extends CrudController
                 },
                 'data' => function ($action) {
                     /**
-                     * @var
-                     * @var $model Server
+                     * @var Action $action
+                     * @var self $controller
+                     * @var Server $model
                      */
                     $controller = $action->controller;
                     $model = $action->getModel();
