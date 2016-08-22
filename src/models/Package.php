@@ -102,6 +102,7 @@ class Package extends Model
     {
         $part = $this->getPartByType('cpu');
         preg_match('/((\d+) cores?)$/i', $part->partno, $matches);
+        $matches[2] = $matches[2] === null ? 0 : $matches[2];
         return Yii::t('hipanel/server/order', '{0, plural, one{# core} other{# cores}}', $matches[2]);
     }
 
