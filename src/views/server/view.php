@@ -16,12 +16,10 @@ use yii\helpers\Json;
  * @var $model Server
  */
 
-$this->title    = $model->name;
+$this->title = $model->name;
 $this->subtitle = Yii::t('hipanel/server', 'Server detailed information') . ' #' . $model->id;
-$this->breadcrumbs->setItems([
-    ['label' => Yii::t('hipanel/server', 'Servers'), 'url' => ['index']],
-    $this->title,
-]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server', 'Servers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 
 list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
@@ -35,7 +33,7 @@ Pjax::begin(Yii::$app->params['pjax']);
             'bodyOptions' => [
                 'class' => 'no-padding'
             ]
-        ]); ?>
+        ]) ?>
             <div class="profile-user-img text-center">
                 <i class="fa fa-server fa-5x"></i>
             </div>
@@ -48,7 +46,7 @@ Pjax::begin(Yii::$app->params['pjax']);
             <div class="profile-usermenu">
                 <ul class="nav">
                     <li>
-                        <?= Html::a('<i class="fa fa-fw fa-forward"></i>' . Yii::t('hipanel/server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]); ?>
+                        <?= Html::a('<i class="fa fa-fw fa-forward"></i>' . Yii::t('hipanel/server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]) ?>
                     </li>
                 <?php if ($model->isPwChangeSupported()) { ?>
                     <li>
@@ -63,7 +61,7 @@ Pjax::begin(Yii::$app->params['pjax']);
                     </li>
                 <?php if (Yii::$app->user->can('support')  && Yii::$app->user->not($model->client_id)) : ?>
                     <li>
-                        <?= $this->render('_block', compact(['model', 'blockReasons'])); ?>
+                        <?= $this->render('_block', compact(['model', 'blockReasons'])) ?>
                     </li>
                 <?php endif ?>
                 <?php if (Yii::$app->user->can('support')) : ?>
@@ -74,7 +72,7 @@ Pjax::begin(Yii::$app->params['pjax']);
                 </ul>
             </div>
             <?php Pjax::end() ?>
-        <?php Box::end(); ?>
+        <?php Box::end() ?>
 
         <?php if ($model->isVNCSupported()) { ?>
             <div class="row">
@@ -99,7 +97,7 @@ Pjax::begin(Yii::$app->params['pjax']);
                 $box->beginHeader();
                     echo $box->renderTitle(Yii::t('hipanel/server', 'System management'));
                 $box->endHeader();
-                $box->beginBody(); ?>
+                $box->beginBody() ?>
                 <div class="row">
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <?= $this->render('_reboot', compact(['model'])) ?>
@@ -111,7 +109,7 @@ Pjax::begin(Yii::$app->params['pjax']);
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <?= $this->render('_boot-live', compact(['model', 'osimageslivecd'])) ?>
                         </div>
-                    <?php endif; ?>
+                    <?php endif ?>
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
                     </div>
@@ -132,13 +130,13 @@ Pjax::begin(Yii::$app->params['pjax']);
                     $box->beginBody(); ?>
                         <div class="row">
                             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                <?= $this->render('_power-on', compact(['model'])); ?>
+                                <?= $this->render('_power-on', compact(['model'])) ?>
                             </div>
                             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                <?= $this->render('_power-off', compact(['model'])); ?>
+                                <?= $this->render('_power-off', compact(['model'])) ?>
                             </div>
                             <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
-                                <?= $this->render('_reset', compact(['model'])); ?>
+                                <?= $this->render('_reset', compact(['model'])) ?>
                             </div>
                         </div>
 

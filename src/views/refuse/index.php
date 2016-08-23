@@ -19,9 +19,12 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel/server', 'Refuses');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
-$this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]); ?>
+$this->params['breadcrumbs'][] = Html::a(Yii::t('hipanel/server', 'Servers'), ['@server']);
+$this->params['breadcrumbs'][] = $this->title;
 
-<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])); ?>
+?>
+
+<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
     <?= $page->setSearchFormData(compact(['states'])) ?>
     <?php $page->beginContent('main-actions') ?>
@@ -38,7 +41,7 @@ $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]
 
         <?= $page->renderPerPage() ?>
     <?php $page->endContent() ?>
-    <?php $page->beginContent('bulk-actions'); ?>
+    <?php $page->beginContent('bulk-actions') ?>
         <?php if ($model->state === $model::STATE_NEW) { ?>
             <div>
                 <?= AjaxModal::widget([
@@ -73,7 +76,7 @@ $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]
 
 
     <?php $page->beginContent('table') ?>
-        <?php $page->beginBulkForm(); ?>
+        <?php $page->beginBulkForm() ?>
             <?= RefuseGridView::widget([
                 'dataProvider' => $dataProvider,
                 'boxed' => false,
@@ -85,9 +88,9 @@ $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]
                     'user_comment',
                     'time',
                 ]
-            ]); ?>
-        <?php $page->endBulkForm(); ?>
+            ]) ?>
+        <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
 
-<?php Pjax::end(); ?>
+<?php Pjax::end() ?>

@@ -19,11 +19,9 @@ $models = $dataProvider->getModels();
 $model = reset($models);
 
 $this->title = Yii::t('hipanel/server', '{server} - RRD', ['server' => $model->server->name]);
-$this->breadcrumbs->setItems([
-    Html::a(Yii::t('hipanel/server', 'Servers'), ['@server']),
-    Html::a($model->server->name, ['@server/view', 'id' => $model->server->id]),
-    Yii::t('hipanel/server', 'RRD')
-]);
+$this->params['breadcrumbs'][] = Html::a(Yii::t('hipanel/server', 'Servers'), ['@server']);
+$this->params['breadcrumbs'][] = Html::a($model->server->name, ['@server/view', 'id' => $model->server->id]);
+$this->params['breadcrumbs'][] = Yii::t('hipanel/server', 'RRD');
 
 ?>
 
@@ -70,7 +68,7 @@ $this->breadcrumbs->setItems([
                         }
                     ]
                 ]
-            ]); ?>
+            ]) ?>
         <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>
     <?php $page->end() ?>

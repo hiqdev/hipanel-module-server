@@ -1,11 +1,11 @@
 <?php
+
 use hipanel\modules\server\assets\ServerAsset;
 use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel/server/order', 'Buy server');
-$this->breadcrumbs->setItems([
-    $this->title
-]);
+$this->params['breadcrumbs'][] = $this->title;
+
 ServerAsset::register($this);
 
 ?>
@@ -17,7 +17,7 @@ ServerAsset::register($this);
                 <h3 class="box-title">
                     <?= Html::img(Yii::$app->assetManager->getPublishedUrl('@vendor/hiqdev/hipanel-module-server/src/assets') . '/img/openvz-logo.png', ['style' => 'height: 15px; line-height: 1;']) ?>
                     &nbsp;
-                    <?= Yii::t('hipanel/server/order', 'OpenVZ'); ?>
+                    <?= Yii::t('hipanel/server/order', 'OpenVZ') ?>
                 </h3>
             </div>
             <div class="box-body">
@@ -35,7 +35,7 @@ ServerAsset::register($this);
                 <h3 class="box-title">
                     <?= Html::img(Yii::$app->assetManager->getPublishedUrl('@vendor/hiqdev/hipanel-module-server/src/assets') . '/img/xen-logo.png', ['style' => 'height: 15px; line-height: 1;']) ?>
                     &nbsp;
-                    <?= Yii::t('hipanel/server/order', 'XEN SSD'); ?>
+                    <?= Yii::t('hipanel/server/order', 'XEN SSD') ?>
                 </h3>
             </div>
             <div class="box-body">

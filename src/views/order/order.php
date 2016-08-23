@@ -14,10 +14,9 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 
 $this->title = Yii::t('hipanel/server/order', 'Order creating');
-$this->breadcrumbs->setItems([
-    ['label' => Yii::t('hipanel/server/order', 'Buy server'), 'url' => ['index']],
-    $this->title
-]);
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server/order', 'Buy server'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
+
 OsSelectionAsset::register($this);
 $this->registerCss("
 .order-price {
@@ -43,7 +42,7 @@ $this->registerCss("
                         <?php foreach (['cpu', 'ram', 'hdd', 'ip', 'traffic'] as $item) : ?>
                             <dt><?= $package->getResourceTitle($item) ?></dt>
                             <dd><?= $package->getResourceValue($item) ?></dd>
-                        <?php endforeach; ?>
+                        <?php endforeach ?>
                         <dt><?= Yii::t('hipanel/server/order', 'Traffic overuse') ?></dt>
                         <dd><?= Yii::t('hipanel/server/order', '{price}/{unit}', $package->getOverusePrice('traffic')) ?></dd>
                     </dl>
@@ -59,7 +58,7 @@ $this->registerCss("
                     <div class="order-boxes">
 
 
-                        <?php $form = ActiveForm::begin(['action' => ['add-to-cart']]); ?>
+                        <?php $form = ActiveForm::begin(['action' => ['add-to-cart']]) ?>
                         <?= Html::activeHiddenInput($product, 'tariff_id', ['name' => 'tariff_id']) ?>
                         <?= Html::hiddenInput('osimage', null, ['class' => 'reinstall-osimage']) ?>
                         <?= Html::hiddenInput('panel', null, ['class' => 'reinstall-panel']) ?>
@@ -161,7 +160,7 @@ $this->registerCss("
                                 </div>
                             </div>
                         </div>
-                        <?php $form->end(); ?>
+                        <?php $form->end() ?>
                     </div>
                 </div>
             </div>

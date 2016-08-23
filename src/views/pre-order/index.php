@@ -18,9 +18,12 @@ use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel/server', 'Pending confirmation servers');
 $this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
-$this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]); ?>
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server', 'Servers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = $this->title;
 
-<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])); ?>
+?>
+
+<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
     <?= $page->setSearchFormData(compact(['states'])) ?>
     <?php $page->beginContent('main-actions') ?>
@@ -37,7 +40,7 @@ $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]
 
         <?= $page->renderPerPage() ?>
     <?php $page->endContent() ?>
-    <?php $page->beginContent('bulk-actions'); ?>
+    <?php $page->beginContent('bulk-actions') ?>
         <?php if ($model->state === $model::STATE_NEW) { ?>
             <div>
                 <?= AjaxModal::widget([
@@ -68,12 +71,14 @@ $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]
                 ]) ?>
             </div>
         <?php } ?>
-        <?php if (Yii::$app->user->can('delete-bills')) print $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger'); ?>
+        <?php if (Yii::$app->user->can('delete-bills')) : ?>
+            <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger') ?>
+        <?php endif ?>
     <?php $page->endContent() ?>
 
 
     <?php $page->beginContent('table') ?>
-        <?php $page->beginBulkForm(); ?>
+        <?php $page->beginBulkForm() ?>
             <?= \hipanel\modules\server\grid\PreOrderGridView::widget([
                 'dataProvider' => $dataProvider,
                 'boxed' => false,
@@ -85,9 +90,9 @@ $this->breadcrumbs->setItems([Yii::t('hipanel/server', 'Servers'), $this->title]
                     'tech_comment',
                     'time',
                 ]
-            ]); ?>
-        <?php $page->endBulkForm(); ?>
+            ]) ?>
+        <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
 
-<?php Pjax::end(); ?>
+<?php Pjax::end() ?>
