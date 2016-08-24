@@ -1,17 +1,17 @@
 <?php
 
+use hipanel\modules\server\assets\OsSelectionAsset;
+use hipanel\modules\server\models\Package;
+use yii\bootstrap\ActiveForm;
+use yii\helpers\Html;
+use yii\helpers\Json;
+
 /**
  * @var Package $package
  * @var \hipanel\modules\server\cart\ServerOrderProduct $product
  * @var array $groupedOsimages
  * @var array $panels
  */
-
-use hipanel\modules\server\assets\OsSelectionAsset;
-use hipanel\modules\server\models\Package;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\Html;
-use yii\helpers\Json;
 
 $this->title = Yii::t('hipanel/server/order', 'Order creating');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server/order', 'Buy server'), 'url' => ['index']];

@@ -1,22 +1,19 @@
 <?php
 
-use hipanel\base\View;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OsimageSearch;
 use hipanel\widgets\AjaxModal;
-use hipanel\widgets\IndexLayoutSwitcher;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\bootstrap\Dropdown;
 use yii\helpers\Html;
 
 /** @var OsimageSearch $osimages */
-
-/** @var View $this */
+/** @var yii\web\View $this */
 
 $this->title = Yii::t('hipanel/server', 'Servers');
-$this->subtitle = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
-$this->breadcrumbs[] = $this->title;
+$this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
+$this->params['breadcrumbs'][] = $this->title;
 
 $representation = Yii::$app->request->get('representation');
 
@@ -25,8 +22,7 @@ $representation = Yii::$app->request->get('representation');
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
     <?php $page->beginContent('show-actions') ?>
-        <?= IndexLayoutSwitcher::widget() ?>
-
+        <?= $page->renderLayoutSwitcher() ?>
         <?= $page->renderSorter([
             'attributes' => [
                 'name', 'id',
@@ -34,7 +30,6 @@ $representation = Yii::$app->request->get('representation');
                 'state', 'status_time', 'expires',
             ],
         ]) ?>
-
         <?= $page->renderPerPage() ?>
         <?= $page->renderRepresentations(ServerGridView::class, $representation) ?>
     <?php $page->endContent() ?>

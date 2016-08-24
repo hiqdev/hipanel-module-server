@@ -17,7 +17,7 @@ use yii\helpers\Json;
  */
 
 $this->title = $model->name;
-$this->subtitle = Yii::t('hipanel/server', 'Server detailed information') . ' #' . $model->id;
+$this->params['subtitle'] = Yii::t('hipanel/server', 'Server detailed information') . ' #' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server', 'Servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
