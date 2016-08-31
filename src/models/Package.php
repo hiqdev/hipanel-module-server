@@ -11,6 +11,7 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\modules\finance\models\Resource;
 use hipanel\modules\server\cart\Tariff;
 use hipanel\modules\stock\models\Part;
 use Yii;
@@ -32,7 +33,7 @@ class Package extends Model
     protected $_tariff;
 
     /** @var Part[] */
-    public $parts;
+    public $parts = [];
 
     /** @var array */
     public $calculation;
@@ -44,7 +45,13 @@ class Package extends Model
 
     public function init()
     {
-        //$this->initResources();
+        if (empty($this->parts)) {
+            foreach ($this->getTariff()->resources as $resource) {
+                if (isset($resource->part)) {
+                    $this->parts[$resource->part->id] = $resource->part;
+                }
+            }
+        }
     }
 
     /**
@@ -155,6 +162,16 @@ class Package extends Model
     protected function getResourceValue_ip()
     {
         return $this->getResourceByType('ip_num')->quantity;
+    }
+
+    protected function getResourceTitle_chassis()
+    {
+        return Yii::t('hipanel/server/order', 'Chassis');
+    }
+
+    protected function getResourceValue_chassis()
+    {
+        return $this->getPartByType('chassis')->partno;
     }
 
     protected function getResourceOveruse_ip()
@@ -332,7 +349,7 @@ class Package extends Model
 
     /**
      * @param string $type
-     * @return resource|null
+     * @return Resource|null
      */
     public function getResourceByType($type)
     {
