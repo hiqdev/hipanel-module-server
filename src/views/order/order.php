@@ -39,7 +39,7 @@ $this->registerCss("
                     </div>
 
                     <dl class="dl-horizontal">
-                        <?php foreach (['cpu', 'ram', 'hdd', 'ip', 'traffic'] as $item) : ?>
+                        <?php foreach (['cpu', 'ram', 'hdd', 'ip_num', 'traffic'] as $item) : ?>
                             <dt><?= $package->getResourceTitle($item) ?></dt>
                             <dd><?= $package->getResourceValue($item) ?></dd>
                         <?php endforeach ?>

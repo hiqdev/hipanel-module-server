@@ -5,5 +5,3 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server/order', 'Buy
 $this->params['breadcrumbs'][] = $this->title;
 
 echo $this->render('_priceBox', compact('packages', 'tariffTypes', 'testVDSPurchased'));
-
-?>

@@ -67,16 +67,16 @@ $('[data-toggle=\"popover\"]').popover();
 
                             <tr>
                                 <?php
-                                $title = $packages[0]->getResourceTitle('ip');
+                                $title = $packages[0]->getResourceTitle('ip_num');
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Additionally {price}/{unit}', $packages[0]->getOverusePrice('ip')),
+                                    'content' => Yii::t('hipanel/server/order', 'Additionally {price}/{unit}', $packages[0]->getOverusePrice('ip_num')),
                                 ]]);
                                 echo Html::tag('td', $title . $overuse);
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('ip'));
+                                    echo Html::tag('td', $package->getResourceValue('ip_num'));
                                 } ?>
                             </tr>
                             <tr>
