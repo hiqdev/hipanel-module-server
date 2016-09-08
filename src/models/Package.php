@@ -11,8 +11,9 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\modules\finance\models\ServerResource;
+use hipanel\modules\finance\models\stubs\ServerResourceStub;
 use hipanel\modules\server\cart\Tariff;
-use hipanel\modules\stock\models\Part;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -31,27 +32,8 @@ class Package extends Model
     /** @var Tariff */
     protected $_tariff;
 
-    /** @var Part[] */
-    public $parts = [];
-
     /** @var array */
     public $calculation;
-
-    /**
-     * @var
-     */
-    protected $_resources;
-
-    public function init()
-    {
-        if (empty($this->parts)) {
-            foreach ($this->getTariff()->resources as $resource) {
-                if (isset($resource->part)) {
-                    $this->parts[$resource->part->id] = $resource->part;
-                }
-            }
-        }
-    }
 
     /**
      * @param Tariff $tariff
@@ -62,36 +44,6 @@ class Package extends Model
     }
 
     /**
-     * @throws InvalidConfigException
-     * TODO: implement and get rid of many magic functions bellow
-     */
-    protected function initResources()
-    {
-        foreach ($this->_tariff->resources as $resource) {
-            $id = $resource->id;
-
-            $this->_resources[$id] = Yii::createObject([
-                'class' => $this->buildResourceClass($resource),
-                'resource' => $resource,
-            ]);
-        }
-    }
-
-    /**
-     * @param $resource
-     * @return string
-     * TODO: implement and get rid of many magic functions bellow
-     */
-    protected function buildResourceClass($resource)
-    {
-        if ($this->parts[$resource->object_id]) {
-            return 'yii\base\Object';
-        } else {
-            return 'yii\base\Object';
-        }
-    }
-
-    /**
      * @return Tariff
      */
     public function getTariff()
@@ -99,29 +51,12 @@ class Package extends Model
         return $this->_tariff;
     }
 
-    protected function getResourceValue_panel()
+    public function getStubResource($type)
     {
-        $result = Yii::t('hipanel/server/order', 'No panel / {hipanelLink}', ['hipanelLink' => 'HiPanel']); // todo: add faq link
-        if ($this->getResourceByType('isp5')->quantity > 0) {
-            $result .= ' / ' . Yii::t('hipanel/server/order', 'ISP manager');
-        }
-
-        return $result;
-    }
-
-    protected function getResourceTitle_panel()
-    {
-        return Yii::t('hipanel/server/order', 'Control panel');
-    }
-
-    protected function getResourceValue_purpose()
-    {
-        return Yii::t('hipanel/server/order/purpose', $this->_tariff->label);
-    }
-
-    protected function getResourceTitle_purpose()
-    {
-        return Yii::t('hipanel/server/order', 'Purpose');
+        return new ServerResourceStub([
+            'tariff' => $this->_tariff,
+            'type' => $type
+        ]);
     }
 
     /**
@@ -152,84 +87,17 @@ class Package extends Model
     }
 
     /**
-     * @param string $type
-     * @throws InvalidConfigException
-     * @return mixed
-     */
-    public function getResourceValue($type)
-    {
-        $method = 'getResourceValue_' . $type;
-
-        if (method_exists($this, $method)) {
-            return call_user_func([$this, $method]);
-        }
-
-        throw new InvalidConfigException("Resource type \"$type\" is not described in the Package");
-    }
-
-    /**
-     * @param string $type
-     * @throws InvalidConfigException
-     * @return string
-     */
-    public function getResourceTitle($type)
-    {
-        $method = 'getResourceTitle_' . $type;
-        if (method_exists($this, $method)) {
-            return call_user_func([$this, $method]);
-        }
-
-        throw new InvalidConfigException("Resource type \"$type\" is not described in the Package");
-    }
-
-    /**
      * @param $type
-     * @throws InvalidConfigException
-     * @return array|null
-     */
-    public function getOverusePrice($type)
-    {
-        $method = 'getResourceOveruse_' . $type;
-        if (method_exists($this, $method)) {
-            return call_user_func([$this, $method]);
-        }
-
-        throw new InvalidConfigException("Overuse getter for resource type \"$type\" is not described in the Package");
-    }
-
-    /**
-     * @param string $type
-     * @return Part|null
-     */
-    public function getPartByType($type)
-    {
-        foreach ($this->parts as $part) {
-            if ($part->model_type === $type) {
-                return $part;
-            }
-        }
-
-        return null;
-    }
-
-    /**
-     * @param string $type
-     * @return Resource|null
+     * @return \hipanel\modules\finance\models\DomainResource|ServerResource|Resource
      */
     public function getResourceByType($type)
     {
-        foreach ($this->_tariff->resources as $resource) {
-            if ($resource->type === $type) {
-                return $resource;
-            }
-        }
-
-        return null;
+        return $this->_tariff->getResourceByType($type);
     }
 
     /**
      * @param string $type
-     * @return resource|null
+     * @return ServerResource|null
      */
     public function getResourceByModelType($type)
     {

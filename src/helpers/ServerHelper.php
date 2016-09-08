@@ -159,9 +159,7 @@ class ServerHelper
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
         $part_ids = [];
-        $parts = [];
-        /** @var Calculation[] $calculations */
-        $calculations = [];
+        $calculationData = [];
 
         $cacheKeys = [
             Yii::$app->params['seller'],
@@ -171,26 +169,17 @@ class ServerHelper
         ];
 
         /** @var Tariff[] $tariffs */
-        $tariffs = Yii::$app->getCache()->getTimeCached(3600, $cacheKeys, function ($seller, $client_id, $type, $tariff_id) {
+        $tariffs = Yii::$app->getCache()->getTimeCached(2, $cacheKeys, function ($seller, $client_id, $type, $tariff_id) {
             return Tariff::find(['scenario' => 'get-available-info'])
-                ->joinWith('resources')
-                ->where(['seller' => $seller])
+                ->details()
+                ->andWhere(['seller' => $seller])
                 ->andFilterWhere(['id' => $tariff_id])
                 ->andFilterWhere(['type' => $type])
                 ->all();
         });
 
         foreach ($tariffs as $tariff) {
-            $part_ids = ArrayHelper::merge($part_ids, array_filter(ArrayHelper::getColumn($tariff->resources, 'object_id')));
-            $calculations[] = $tariff->getCalculationModel();
-        }
-
-        if (!empty($part_ids)) {
-            $parts = Part::find()->where(['id' => $part_ids])->indexBy('id')->all();
-        }
-
-        $calculationData = [];
-        foreach ((array) $calculations as $calculation) {
+            $calculation = $tariff->getCalculationModel();
             $calculationData[$calculation->getPrimaryKey()] = $calculation->getAttributes();
         }
 
@@ -205,19 +194,9 @@ class ServerHelper
         $packages = [];
 
         foreach ($tariffs as $tariff) {
-            $tariffParts = [];
-            $tariffPartsIds = array_filter(ArrayHelper::getColumn($tariff->resources, 'object_id'));
-
-            foreach ($parts as $id => $part) {
-                if (in_array($id, $tariffPartsIds)) {
-                    $tariffParts[$id] = $part;
-                }
-            }
-
             $packages[] = Yii::createObject([
                 'class' => static::buildPackageClass($tariff),
                 'tariff' => $tariff,
-                'parts' => $tariffParts,
                 'calculation' => $prices[$tariff->id],
             ]);
         }

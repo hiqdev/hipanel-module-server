@@ -22,7 +22,7 @@ use yii\helpers\ArrayHelper;
 class ServerOrderProduct extends AbstractServerProduct
 {
     /** {@inheritdoc} */
-    protected $_purchaseModel = 'hipanel\modules\server\cart\ServerOrderPurchase';
+    protected $_purchaseModel = ServerOrderPurchase::class;
 
     /** @var Package */
     protected $_model;
@@ -42,7 +42,7 @@ class ServerOrderProduct extends AbstractServerProduct
 
     /**
      * @var integer id of cluster. See [[hipanel\modules\server\models\Package::getLocations()]] for details
-     * @see hipanel\modules\server\models\Package::getLocations()
+     * @see \hipanel\modules\server\models\Package::getLocations()
      */
     public $cluster_id;
 

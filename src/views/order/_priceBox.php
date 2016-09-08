@@ -29,102 +29,114 @@ $('[data-toggle=\"popover\"]').popover();
                             <tbody>
                             <tr>
                                 <?php
-                                echo Html::tag('td', $packages[0]->getResourceTitle('cpu'));
+                                echo Html::tag('td', $packages[0]->getResourceByModelType('cpu')->decorator()->displayTitle());
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('cpu'));
+                                    echo Html::tag('td', $package->getResourceByModelType('cpu')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
                             <tr>
                                 <?php
-                                $title = $packages[0]->getResourceTitle('ram');
+                                $title = $packages[0]->getResourceByModelType('ram')->decorator()->displayTitle();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Additionally {price}/{unit}', $packages[0]->getOverusePrice('ram')),
+                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                        'price' => $packages[0]->getResourceByModelType('ram')->decorator()->displayOverusePrice(),
+                                        'unit' => $packages[0]->getResourceByModelType('ram')->decorator()->displayUnit(),
+                                    ]),
                                 ]]);
                                 echo Html::tag('td', $title . $overuse);
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('ram'));
+                                    echo Html::tag('td', $package->getResourceByModelType('ram')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
                             <tr>
                                 <?php
-                                $title = $packages[0]->getResourceTitle('hdd');
+                                $title = $packages[0]->getResourceByModelType('hdd')->decorator()->displayTitle();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Additionally {price}/{unit}', $packages[0]->getOverusePrice('hdd')),
+                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                        'price' => $packages[0]->getResourceByModelType('hdd')->decorator()->displayOverusePrice(),
+                                        'unit' => $packages[0]->getResourceByModelType('hdd')->decorator()->displayUnit(),
+                                    ]),
                                 ]]);
                                 echo Html::tag('td', $title . $overuse);
 
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('hdd'));
+                                    echo Html::tag('td', $package->getResourceByModelType('hdd')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
 
                             <tr>
                                 <?php
-                                $title = $packages[0]->getResourceTitle('ip_num');
+                                $title = $packages[0]->getResourceByType('ip_num')->decorator()->displayTitle();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Additionally {price}/{unit}', $packages[0]->getOverusePrice('ip_num')),
+                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                        'price' => $packages[0]->getResourceByType('ip_num')->decorator()->displayOverusePrice(),
+                                        'unit' => $packages[0]->getResourceByType('ip_num')->decorator()->displayUnit(),
+                                    ]),
                                 ]]);
                                 echo Html::tag('td', $title . $overuse);
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('ip_num'));
+                                    echo Html::tag('td', $package->getResourceByType('ip_num')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
                             <tr>
                                 <?php
-                                echo Html::tag('td', $packages[0]->getResourceTitle('support_time'));
+                                echo Html::tag('td', $packages[0]->getResourceByType('support_time')->decorator()->displayTitle());
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('support_time'));
+                                    echo Html::tag('td', $package->getResourceByType('support_time')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
                             <tr>
                                 <?php
-                                $title = $packages[0]->getResourceTitle('traffic');
+                                $title = $packages[0]->getResourceByType('server_traf_max')->decorator()->displayTitle();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Additionally {price}/{unit}', $packages[0]->getOverusePrice('traffic')),
+                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                        'price' => $packages[0]->getResourceByType('server_traf_max')->decorator()->displayOverusePrice(),
+                                        'unit' => $packages[0]->getResourceByType('server_traf_max')->decorator()->displayUnit(),
+                                    ]),
                                 ]]);
                                 echo Html::tag('td', $title . $overuse);
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('traffic'));
+                                    echo Html::tag('td', $package->getResourceByType('server_traf_max')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
 
                             <tr>
                                 <?php
-                                echo Html::tag('td', $packages[0]->getResourceTitle('speed'));
+                                echo Html::tag('td', $packages[0]->getStubResource('speed')->decorator()->displayTitle());
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('speed'));
+                                    echo Html::tag('td', $package->getStubResource('speed')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
 
                             <tr>
                                 <?php
-                                echo Html::tag('td', $packages[0]->getResourceTitle('panel'));
+                                echo Html::tag('td', $packages[0]->getStubResource('panel')->decorator()->displayTitle());
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('panel'), ['style' => 'font-size: smaller;']);
+                                    echo Html::tag('td', $package->getStubResource('panel')->decorator()->displayPrepaidAmount(), ['style' => 'font-size: smaller;']);
                                 } ?>
                             </tr>
                             <tr>
                                 <?php
-                                echo Html::tag('td', $packages[0]->getResourceTitle('purpose'));
+                                echo Html::tag('td', Yii::t('hipanel/server/order', 'Purpose'));
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getResourceValue('purpose'), ['style' => 'font-size: smaller;']);
+                                    echo Html::tag('td', Yii::t('hipanel/server/order/purpose', $package->getTariff()->label), ['style' => 'font-size: smaller;']);
                                 } ?>
                             </tr>
 
