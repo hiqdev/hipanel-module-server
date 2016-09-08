@@ -16,8 +16,6 @@ return [
     '{price}/mo' => '{price}/мес',
     'Price' => 'Цена',
     'ORDER NOW' => 'Заказать',
-    'No panel / {hipanelLink}' => 'Без панели / {hipanelLink}',
-    'ISP manager' => 'ISP manager',
     'Order creating' => 'Создание заказа',
     'Customise your server' => 'Персонализируйте ваш сервер',
     'Traffic overuse' => 'Перерасход трафика',
@@ -31,5 +29,5 @@ return [
     'Any social network link. Will be used in case of emergency contact' => 'Ссылка на любую социальную сеть. Будет использовано для срочной связи при необходимости.',
     'Server setup will be performed as soon as manager confirms your account verification. Pleas wait.' => 'Сервер будет создан сразу после того, как менеджер верифицирует Ваш аккаунт. Пожалуйста, ожидайте.',
     'You will receive an email with server access information right after setup' => 'Вы получите данные для доступа на сервера стразу после окончания установки.',
-    'Additionally {price}/{unit}' => 'Дополнительно {price}/{unit}',
+    'Overuse {price}/{unit}' => 'Сверх объема тарифа: {price}/{unit}'
 ];
