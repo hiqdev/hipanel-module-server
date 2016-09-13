@@ -11,9 +11,11 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\modules\finance\logic\TariffCalculator;
+use hipanel\modules\finance\models\Calculation;
 use hipanel\modules\finance\models\ServerResource;
 use hipanel\modules\finance\models\stubs\ServerResourceStub;
-use hipanel\modules\server\cart\Tariff;
+use hipanel\modules\finance\models\Tariff;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\base\Model;
@@ -32,7 +34,7 @@ class Package extends Model
     /** @var Tariff */
     protected $_tariff;
 
-    /** @var array */
+    /** @var Calculation */
     public $calculation;
 
     /**
@@ -64,7 +66,7 @@ class Package extends Model
      */
     public function getPrice()
     {
-        return $this->calculation['value']['usd']['value'];
+        return $this->calculation->forCurrency($this->getTariff()->currency)->value;
     }
 
     /**

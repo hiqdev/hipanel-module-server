@@ -3,8 +3,8 @@
 namespace hipanel\modules\server\controllers;
 
 use hipanel\base\CrudController;
+use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerOrderProduct;
-use hipanel\modules\server\cart\Tariff;
 use hipanel\modules\server\helpers\ServerHelper;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;

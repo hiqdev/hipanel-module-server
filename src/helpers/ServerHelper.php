@@ -12,13 +12,13 @@
 namespace hipanel\modules\server\helpers;
 
 use hipanel\models\Ref;
+use hipanel\modules\finance\logic\TariffCalculator;
 use hipanel\modules\finance\models\Calculation;
-use hipanel\modules\server\cart\Tariff;
+use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\models\OpenvzPackage;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
 use hipanel\modules\server\models\ServerUse;
-use hipanel\modules\stock\models\Part;
 use hiqdev\hiart\ErrorResponseException;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -159,7 +159,6 @@ class ServerHelper
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
         $part_ids = [];
-        $calculationData = [];
 
         $cacheKeys = [
             Yii::$app->params['seller'],
@@ -169,7 +168,7 @@ class ServerHelper
         ];
 
         /** @var Tariff[] $tariffs */
-        $tariffs = Yii::$app->getCache()->getTimeCached(2, $cacheKeys, function ($seller, $client_id, $type, $tariff_id) {
+        $tariffs = Yii::$app->getCache()->getTimeCached(3600, $cacheKeys, function ($seller, $client_id, $type, $tariff_id) {
             return Tariff::find(['scenario' => 'get-available-info'])
                 ->details()
                 ->andWhere(['seller' => $seller])
@@ -178,26 +177,14 @@ class ServerHelper
                 ->all();
         });
 
-        foreach ($tariffs as $tariff) {
-            $calculation = $tariff->getCalculationModel();
-            $calculationData[$calculation->getPrimaryKey()] = $calculation->getAttributes();
-        }
-
-        try {
-            $prices = Calculation::perform('CalcValue', $calculationData, true);
-        } catch (ErrorResponseException $e) {
-            $prices = $e->errorInfo['response'];
-        } catch (\Exception $e) {
-            throw new UnprocessableEntityHttpException('Failed to calculate tariff value', 0, $e);
-        }
+        $calculator = new TariffCalculator($tariffs);
 
         $packages = [];
-
         foreach ($tariffs as $tariff) {
             $packages[] = Yii::createObject([
                 'class' => static::buildPackageClass($tariff),
                 'tariff' => $tariff,
-                'calculation' => $prices[$tariff->id],
+                'calculation' => $calculator->getCalculation($tariff->id)
             ]);
         }
 
