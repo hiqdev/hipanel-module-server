@@ -11,6 +11,7 @@
 
 namespace hipanel\modules\server\cart;
 
+use hipanel\modules\finance\cart\Calculation;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
@@ -28,7 +29,7 @@ class ServerOrderProduct extends AbstractServerProduct
     protected $_model;
 
     /** {@inheritdoc} */
-    protected $_calculationModel = OrderCalculation::class;
+    protected $_calculationModel = Calculation::class;
 
     /**
      * @var Osimage the selected OS image detailed information
@@ -114,6 +115,7 @@ class ServerOrderProduct extends AbstractServerProduct
     {
         return parent::getCalculationModel(array_merge([
             'tariff_id' => $this->tariff_id,
+            'object' => 'server'
         ], $options));
     }
 

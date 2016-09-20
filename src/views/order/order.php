@@ -39,12 +39,19 @@ $this->registerCss("
                     </div>
 
                     <dl class="dl-horizontal">
-                        <?php foreach (['cpu', 'ram', 'hdd', 'ip_num', 'traffic'] as $item) : ?>
-                            <dt><?= $package->getResourceTitle($item) ?></dt>
-                            <dd><?= $package->getResourceValue($item) ?></dd>
+                        <?php foreach (['cpu', 'ram', 'hdd'] as $item) : ?>
+                            <dt><?= $package->getResourceByModelType($item)->decorator()->displayTitle() ?></dt>
+                            <dd><?= $package->getResourceByModelType($item)->decorator()->displayPrepaidAmount() ?></dd>
+                        <?php endforeach ?>
+                        <?php foreach (['ip_num', 'server_traf_max'] as $item) : ?>
+                            <dt><?= $package->getResourceByType($item)->decorator()->displayTitle() ?></dt>
+                            <dd><?= $package->getResourceByType($item)->decorator()->displayPrepaidAmount() ?></dd>
                         <?php endforeach ?>
                         <dt><?= Yii::t('hipanel/server/order', 'Traffic overuse') ?></dt>
-                        <dd><?= Yii::t('hipanel/server/order', '{price}/{unit}', $package->getOverusePrice('traffic')) ?></dd>
+                        <dd><?= Yii::t('hipanel/server/order', '{price}/{unit}', [
+                            'price' => $package->getResourceByType('server_traf_max')->decorator()->displayOverusePrice(),
+                            'unit' => $package->getResourceByType('server_traf_max')->decorator()->displayUnit(),
+                        ])?></dd>
                     </dl>
                 </div>
             </div>
