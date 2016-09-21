@@ -193,6 +193,8 @@ return [
     'Refuses' => 'Отказы',
     'Affected VDS' => 'Будут затронуты следующие VDS',
     'Rack' => 'Стойка',
+    'Sale time' => 'Время продажи',
+    'Expires' => 'Оплачен до',
 
     /// Server states
     'On' => 'Ок, без панели',
