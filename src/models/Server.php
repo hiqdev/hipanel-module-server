@@ -223,6 +223,8 @@ class Server extends \hipanel\base\Model
             'os'                  => Yii::t('hipanel/server', 'OS'),
             'comment'             => Yii::t('hipanel/server', 'Comment'),
             'hwsummary'           => Yii::t('hipanel/server', 'HW summary'),
+            'sale_time'           => Yii::t('hipanel/server', 'Sale time'),
+            'expires'             => Yii::t('hipanel/server', 'Expires'),
         ]);
     }
 }

@@ -201,7 +201,7 @@ Pjax::begin(Yii::$app->params['pjax']);
                             'boxed'   => false,
                             'model'   => $model,
                             'columns' => [
-                                'tariff', 'tariff_note', 'sale_time', 'discount', 'expires',
+                                'tariff', 'sale_time', 'discount', 'expires',
                             ],
                         ]);
                     $box->endBody();

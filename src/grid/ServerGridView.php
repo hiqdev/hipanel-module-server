@@ -46,13 +46,14 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
     {
         if (Yii::$app->user->can('support')) {
             if ($model->parent_tariff && $model->parent_tariff !== $model->tariff) {
-                return Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
+                return Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip'])
+                     . ' ' . Html::a('<i class="fa fa-external-link"></i>', ['@tariff/view', 'id' => $model->tariff_id]);
             } else {
                 return $model->tariff;
             }
-        } else {
-            return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
         }
+
+        return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
     }
 
     public static function defaultColumns()
@@ -156,12 +157,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return self::formatTariff($model);
                 },
             ],
-            'tariff_note' => [
-                'attribute' => 'tariff_note',
-                'value' => function ($model) {
-
-                },
-            ],
             'tariff_and_discount' => [
                 'attribute' => 'tariff',
                 'filterAttribute' => 'tariff_like',
@@ -194,7 +189,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'sale_time' => [
                 'attribute' => 'sale_time',
-                'format' => 'date',
+                'format' => 'datetime',
             ],
             'note' => [
                 'class' => XEditableColumn::class,
