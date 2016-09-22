@@ -51,8 +51,18 @@ return [
             ],
         ],
         'menuManager' => [
-            'menus' => [
-                'server' => \hipanel\modules\server\SidebarMenu::class,
+            'items' => [
+                'sidebar' => [
+                    'add' => [
+                        'server' => [
+                            'menu' => \hipanel\modules\server\menus\SidebarMenu::class,
+                            'where' => [
+                                'after'     => ['domains', 'tickets', 'finance', 'clients', 'dashboard'],
+                                'before'    => ['hosting'],
+                            ],
+                        ],
+                    ],
+                ],
             ],
         ],
     ],

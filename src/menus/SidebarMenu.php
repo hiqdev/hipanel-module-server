@@ -9,19 +9,12 @@
  * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\modules\server;
+namespace hipanel\modules\server\menus;
 
 use Yii;
 
-class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInterface
+class SidebarMenu extends \hiqdev\menumanager\Menu
 {
-    protected $_addTo = 'sidebar';
-
-    protected $_where = [
-        'after'     => ['domains', 'tickets', 'finance', 'clients', 'dashboard'],
-        'before'    => ['hosting'],
-    ];
-
     public function items()
     {
         return [
@@ -41,12 +34,12 @@ class SidebarMenu extends \hipanel\base\Menu implements \yii\base\BootstrapInter
                     'pre-order' => [
                         'label'   => Yii::t('hipanel/server', 'Pre-orders'),
                         'url'     => ['/server/pre-order/index'],
-                        'visible' => function () { return Yii::$app->user->can('resell') ?: false; },
+                        'visible' => Yii::$app->user->can('resell'),
                     ],
                     'refuse' => [
                         'label'   => Yii::t('hipanel/server', 'Refuses'),
                         'url'     => ['/server/refuse/index'],
-                        'visible' => function () { return Yii::$app->user->can('resell') ?: false; },
+                        'visible' => Yii::$app->user->can('resell'),
                     ],
                 ],
             ],
