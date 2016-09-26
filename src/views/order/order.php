@@ -79,7 +79,9 @@ $this->registerCss("
                                         </div>
                                         <div class="list-group-item">
                                             <div class="list-group-item-text os-list">
-                                                <?= $form->field($product, 'cluster_id')->dropDownList($package->getLocations(), ['name' => 'cluster_id'])->label(false) ?>
+                                                <?= $form->field($product, 'cluster_id')->dropDownList(
+                                                    $package->getStubResource('location')->decorator()->prepaidAmountType()->getOptions(),
+                                                    ['name' => 'cluster_id'])->label(false) ?>
                                             </div>
                                         </div>
                                     </div>

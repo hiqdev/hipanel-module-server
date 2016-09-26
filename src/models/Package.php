@@ -117,9 +117,18 @@ class Package extends Model
      */
     public function getLocations()
     {
-        return [
-            1 => Yii::t('hipanel/server/order', 'Netherlands, Amsterdam'),
+        $data = [
+            Tariff::TYPE_XEN => [
+                1 => Yii::t('hipanel/server/order', 'Netherlands, Amsterdam'),
+                2 => Yii::t('hipanel/server/order', 'USA, Ashburn'),
+            ],
+            Tariff::TYPE_OPENVZ => [
+                2 => Yii::t('hipanel/server/order', 'USA, Ashburn'),
+                3 => Yii::t('hipanel/server/order', 'Netherlands, Amsterdam'),
+            ],
         ];
+
+        return $data[$this->_tariff->type];
     }
 
     /**
