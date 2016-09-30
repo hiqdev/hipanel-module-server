@@ -12,14 +12,12 @@
 namespace hipanel\modules\server\helpers;
 
 use hipanel\models\Ref;
-use hipanel\modules\finance\logic\TariffCalculator;
-use hipanel\modules\finance\models\Calculation;
+use hipanel\modules\finance\logic\Calculator;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\models\OpenvzPackage;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
 use hipanel\modules\server\models\ServerUse;
-use hiqdev\hiart\ErrorResponseException;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
@@ -158,8 +156,6 @@ class ServerHelper
      */
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
-        $part_ids = [];
-
         $cacheKeys = [
             Yii::$app->params['seller'],
             Yii::$app->user->id,
@@ -177,14 +173,15 @@ class ServerHelper
                 ->all();
         });
 
-        $calculator = new TariffCalculator($tariffs);
+        $calculator = new Calculator($tariffs);
 
         $packages = [];
         foreach ($tariffs as $tariff) {
+            $calculation = $calculator->getCalculation($tariff->id);
             $packages[] = Yii::createObject([
                 'class' => static::buildPackageClass($tariff),
                 'tariff' => $tariff,
-                'calculation' => $calculator->getCalculation($tariff->id)
+                'calculation' => $calculation
             ]);
         }
 
