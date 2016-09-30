@@ -68,12 +68,6 @@ class ServerOrderProduct extends AbstractServerProduct
     public $panel_soft;
 
     /** {@inheritdoc} */
-    public static function primaryKey()
-    {
-        return ['model_id'];
-    }
-
-    /** {@inheritdoc} */
     public function load($data, $formName = null)
     {
         if ($result = parent::load($data, '')) {
@@ -91,13 +85,13 @@ class ServerOrderProduct extends AbstractServerProduct
             throw new InvalidConfigException('Failed to find tariff');
         }
 
-        $this->_image = Osimage::find()->where(['osimage' => $this->osimage])->one();
+        $this->_image = Osimage::find()->where(['osimage' => $this->osimage, 'type' => $this->_model->getType()])->one();
         if ($this->_image === null) {
             throw new InvalidConfigException('Failed to find osimage');
         }
 
         $this->name = $this->_model->getName();
-        $this->description = Yii::t('hipanel/server', 'Order');
+        $this->description = Yii::t('hipanel/server/order', 'Order');
     }
 
     /** {@inheritdoc} */

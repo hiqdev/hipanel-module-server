@@ -3,7 +3,7 @@
 use hipanel\modules\server\assets\ServerAsset;
 use yii\helpers\Html;
 
-$this->title = Yii::t('hipanel/server/order', 'Buy server');
+$this->title = Yii::t('hipanel/server/order', 'Order server');
 $this->params['breadcrumbs'][] = $this->title;
 
 ServerAsset::register($this);
@@ -25,7 +25,7 @@ ServerAsset::register($this);
                     <?= Yii::t('hipanel/server/order', 'VDS based on OpenVZ - is an inexpensive and reliable solution for small projects that do not require many resources (HTML web-sites, landing pages, small blogs, personal websites, business cards, etc.). An additional advantage of our VDS based on OpenVZ is utilization of SSD cache system that improves performance of the disk subsystem during frequently accessed data readings.') ?>
                 </p>
                 <hr>
-                <?= Html::a(Yii::t('hipanel/server/order', 'BUY SERVER'), ['open-vz'], ['class' => 'btn bg-orange btn-lg btn-block']) ?>
+                <?= Html::a(Yii::t('hipanel/server/order', 'ORDER SERVER'), ['open-vz'], ['class' => 'btn bg-orange btn-lg btn-block']) ?>
             </div>
         </div>
     </div>
@@ -45,7 +45,7 @@ ServerAsset::register($this);
                 </p>
 
                 <hr>
-                <?= Html::a(Yii::t('hipanel/server/order', 'BUY SERVER'), ['xen-ssd'], ['class' => 'btn bg-purple btn-lg btn-block']) ?>
+                <?= Html::a(Yii::t('hipanel/server/order', 'ORDER SERVER'), ['xen-ssd'], ['class' => 'btn bg-purple btn-lg btn-block']) ?>
             </div>
         </div>
     </div>

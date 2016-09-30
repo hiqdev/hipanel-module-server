@@ -28,7 +28,7 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
                         'url'   => ['/server/server/index'],
                     ],
                     'buy-server' => [
-                        'label' => Yii::t('hipanel/server/order', 'Buy server'),
+                        'label' => Yii::t('hipanel/server/order', 'Order server'),
                         'url'   => ['/server/order/index'],
                     ],
                     'pre-order' => [

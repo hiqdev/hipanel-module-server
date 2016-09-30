@@ -11,7 +11,7 @@
 
 namespace hipanel\modules\server\models;
 
-use hipanel\modules\finance\logic\TariffCalculator;
+use hipanel\modules\finance\logic\Calculator;
 use hipanel\modules\finance\models\Calculation;
 use hipanel\modules\finance\models\ServerResource;
 use hipanel\modules\finance\models\stubs\ServerResourceStub;
@@ -86,6 +86,14 @@ class Package extends Model
     public function getName()
     {
         return $this->_tariff->name;
+    }
+
+    /**
+     * @return string tariff type
+     */
+    public function getType()
+    {
+        return $this->_tariff->type;
     }
 
     /**

@@ -14,7 +14,7 @@ use yii\helpers\Json;
  */
 
 $this->title = Yii::t('hipanel/server/order', 'Order creating');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server/order', 'Buy server'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server/order', 'Order server'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 OsSelectionAsset::register($this);

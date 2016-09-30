@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Buy server' => 'Купить сервер',
+    'Order server' => 'Заказать сервер',
     '{0, plural, one{# core} other{# cores}}' => '{0, plural, one{# ядро} few{# ядра} many{# ядер} other{# ядер}}',
     '{n, plural, one{# hour} other{# hours}}' => '{n, plural, one{# час} few{# часа} many{# часов} other{# часов}}',
     'CPU' => 'Процессор',
@@ -15,6 +15,7 @@ return [
     'Price per Month' => 'Цена за месяц',
     '{price}/mo' => '{price}/мес',
     'Price' => 'Цена',
+    'ORDER SERVER' => 'Заказать',
     'ORDER NOW' => 'Заказать',
     'Order creating' => 'Создание заказа',
     'Customise your server' => 'Персонализируйте ваш сервер',
@@ -33,4 +34,5 @@ return [
     'Remote backup' => 'Удалённый бэкап',
     'Backup overuse' => 'Перебор бэкапа',
     'Backup usage' => 'Использование бэкапа',
+    'Order' => 'Заказ',
 ];
