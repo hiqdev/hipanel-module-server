@@ -157,7 +157,7 @@ class ServerHelper
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
         $cacheKeys = [
-            Yii::$app->params['seller'],
+            Yii::$app->params['user.seller'],
             Yii::$app->user->id,
             $type,
             $tariff_id,
