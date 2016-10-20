@@ -156,13 +156,7 @@ class ServerHelper
      */
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
-        $cacheKeys = [
-            Yii::$app->params['user.seller'],
-            Yii::$app->user->id,
-            $type,
-            $tariff_id,
-        ];
-
+        $cacheKeys = [Yii::$app->params['user.seller'], Yii::$app->user->id, $type, $tariff_id, 'tariffs'];
         /** @var Tariff[] $tariffs */
         $tariffs = Yii::$app->getCache()->getTimeCached(3600, $cacheKeys, function ($seller, $client_id, $type, $tariff_id) {
             return Tariff::find(['scenario' => 'get-available-info'])
@@ -173,17 +167,23 @@ class ServerHelper
                 ->all();
         });
 
-        $calculator = new Calculator($tariffs);
+        $cacheKeys = [Yii::$app->params['user.seller'], Yii::$app->user->id, $type, $tariff_id, 'tariffs', 'packages'];
+        /** @var Package[] $packages */
+        $packages = Yii::$app->getCache()->getTimeCached(3600, $cacheKeys, function () use ($tariffs) {
+            $calculator = new Calculator($tariffs);
 
-        $packages = [];
-        foreach ($tariffs as $tariff) {
-            $calculation = $calculator->getCalculation($tariff->id);
-            $packages[] = Yii::createObject([
-                'class' => static::buildPackageClass($tariff),
-                'tariff' => $tariff,
-                'calculation' => $calculation
-            ]);
-        }
+            $packages = [];
+            foreach ($tariffs as $tariff) {
+                $calculation = $calculator->getCalculation($tariff->id);
+                $packages[] = Yii::createObject([
+                    'class' => static::buildPackageClass($tariff),
+                    'tariff' => $tariff,
+                    'calculation' => $calculation
+                ]);
+            }
+
+            return $packages;
+        });
 
         ArrayHelper::multisort($packages, 'price', SORT_ASC, SORT_NUMERIC);
 
