@@ -18,9 +18,11 @@ use hipanel\widgets\RefCombo;
     <?= $search->field(Yii::$app->user->can('support') ? 'label_like' : 'note_like') ?>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('dc_like') ?>
-</div>
+<?php if (Yii::$app->user->can('support')) { ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('dc_like') ?>
+    </div>
+<?php } ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('ip_like') ?>
@@ -34,11 +36,11 @@ use hipanel\widgets\RefCombo;
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('seller_id')->widget(SellerCombo::class) ?>
     </div>
-<?php } ?>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('hwsummary_like') ?>
-</div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('hwsummary_like') ?>
+    </div>
+<?php } ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('type')->widget(RefCombo::class, [
@@ -56,26 +58,28 @@ use hipanel\widgets\RefCombo;
     ]) ?>
 </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('net_like') ?>
-</div>
+<?php if (Yii::$app->user->can('support')) { ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('net_like') ?>
+    </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('kvm_like') ?>
-</div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('kvm_like') ?>
+    </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('pdu_like') ?>
-</div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('pdu_like') ?>
+    </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('rack_like') ?>
-</div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('rack_like') ?>
+    </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('mac_like') ?>
-</div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('mac_like') ?>
+    </div>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('tariff_like') ?>
-</div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('tariff_like') ?>
+    </div>
+<?php } ?>
