@@ -379,7 +379,7 @@ class ServerController extends CrudController
     public function getVNCInfo($model, $enable = false)
     {
         $vnc['endTime'] = strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC']));
-        if (($vnc['endTime'] > time() || $enable) && $model->isOperable()) {
+        if (($vnc['endTime'] > time() || $enable) && $model->canEnableVnc()) {
             $vnc['enabled'] = true;
             $vnc = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
         }

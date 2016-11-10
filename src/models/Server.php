@@ -108,10 +108,21 @@ class Server extends \hipanel\base\Model
      */
     public function isOperable()
     {
-        if ($this->running_task || !in_array($this->state, $this->goodStates(), true)) {
+        if ($this->running_task || !$this->isStateGood()) {
             return false;
         }
+
         return true;
+    }
+
+    public function canEnableVNC()
+    {
+        return $this->isVNCSupported() && $this->isStateGood();
+    }
+
+    public function isStateGood()
+    {
+        return in_array($this->state, $this->goodStates(), true);
     }
 
     /**
