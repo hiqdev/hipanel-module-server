@@ -14,7 +14,7 @@ namespace hipanel\modules\server\cart;
 /**
  * Class RenewCalculation performs calculation for server renewal operation.
  */
-class RenewCalculation extends \hipanel\modules\finance\models\Calculation
+class RenewCalculation extends \hipanel\modules\finance\cart\Calculation
 {
     use \hipanel\base\ModelTrait;
 
