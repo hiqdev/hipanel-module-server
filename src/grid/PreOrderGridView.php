@@ -23,7 +23,7 @@ class PreOrderGridView extends \hipanel\grid\BoxedGridView
         return array_merge(parent::defaultColumns(), [
             'tech_details' => [
                 'format' => 'raw',
-                'label' => Yii::t('hipanel/finance/change', 'Operation details'),
+                'label' => Yii::t('hipanel:finance:change', 'Operation details'),
                 'value' => function ($model) {
                     $params = $model->params;
                     return OSFormatter::widget([

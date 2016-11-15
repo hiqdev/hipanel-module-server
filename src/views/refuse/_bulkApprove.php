@@ -47,6 +47,6 @@ use yii\helpers\Html;
 </div>
 
 <hr>
-<?= Html::submitButton(Yii::t('hipanel/finance/change', 'Approve'), ['class' => 'btn btn-success']) ?>
+<?= Html::submitButton(Yii::t('hipanel:finance:change', 'Approve'), ['class' => 'btn btn-success']) ?>
 
 <?php ActiveForm::end() ?>
