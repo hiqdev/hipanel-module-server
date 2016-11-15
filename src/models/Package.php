@@ -75,7 +75,7 @@ class Package extends Model
      */
     public function getDisplayPrice()
     {
-        return Yii::t('hipanel/server/order', '{price}/mo', [
+        return Yii::t('hipanel:server:order', '{price}/mo', [
             'price' => Yii::$app->formatter->asCurrency($this->getPrice(), Yii::$app->params['currency']),
         ]);
     }
@@ -127,12 +127,12 @@ class Package extends Model
     {
         $data = [
             Tariff::TYPE_XEN => [
-                1 => Yii::t('hipanel/server/order', 'Netherlands, Amsterdam'),
-                2 => Yii::t('hipanel/server/order', 'USA, Ashburn'),
+                1 => Yii::t('hipanel:server:order', 'Netherlands, Amsterdam'),
+                2 => Yii::t('hipanel:server:order', 'USA, Ashburn'),
             ],
             Tariff::TYPE_OPENVZ => [
-                2 => Yii::t('hipanel/server/order', 'USA, Ashburn'),
-                3 => Yii::t('hipanel/server/order', 'Netherlands, Amsterdam'),
+                2 => Yii::t('hipanel:server:order', 'USA, Ashburn'),
+                3 => Yii::t('hipanel:server:order', 'Netherlands, Amsterdam'),
             ],
         ];
 

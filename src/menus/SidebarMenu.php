@@ -19,26 +19,26 @@ class SidebarMenu extends \hiqdev\menumanager\Menu
     {
         return [
             'servers' => [
-                'label' => Yii::t('hipanel/server', 'Servers'),
+                'label' => Yii::t('hipanel:server', 'Servers'),
                 'url'   => ['/server/server/index'],
                 'icon'  => 'fa-server',
                 'items' => [
                     'servers' => [
-                        'label' => Yii::t('hipanel/server', 'Servers'),
+                        'label' => Yii::t('hipanel:server', 'Servers'),
                         'url'   => ['/server/server/index'],
                     ],
                     'buy-server' => [
-                        'label' => Yii::t('hipanel/server/order', 'Order server'),
+                        'label' => Yii::t('hipanel:server:order', 'Order server'),
                         'url'   => ['/server/order/index'],
                         'visible' => Yii::$app->user->can('deposit'),
                     ],
                     'pre-order' => [
-                        'label'   => Yii::t('hipanel/server', 'Pre-orders'),
+                        'label'   => Yii::t('hipanel:server', 'Pre-orders'),
                         'url'     => ['/server/pre-order/index'],
                         'visible' => Yii::$app->user->can('resell'),
                     ],
                     'refuse' => [
-                        'label'   => Yii::t('hipanel/server', 'Refuses'),
+                        'label'   => Yii::t('hipanel:server', 'Refuses'),
                         'url'     => ['/server/refuse/index'],
                         'visible' => Yii::$app->user->can('resell'),
                     ],

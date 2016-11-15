@@ -48,10 +48,10 @@ class ServerOrderPurchase extends AbstractServerPurchase
     public function execute()
     {
         if (parent::execute()) {
-            Yii::$app->getView()->params['remarks'][] = Yii::t('hipanel/server/order', 'You will receive an email with server access information right after setup');
+            Yii::$app->getView()->params['remarks'][] = Yii::t('hipanel:server:order', 'You will receive an email with server access information right after setup');
 
             if (is_array($this->_result) && isset($this->_result['_action_pending'])) {
-                throw new PendingPurchaseException(Yii::t('hipanel/server/order', 'Server setup will be performed as soon as manager confirms your account verification. Pleas wait.'), $this);
+                throw new PendingPurchaseException(Yii::t('hipanel:server:order', 'Server setup will be performed as soon as manager confirms your account verification. Pleas wait.'), $this);
             }
 
             return true;

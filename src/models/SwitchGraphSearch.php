@@ -48,7 +48,7 @@ class SwitchGraphSearch extends SwitchGraph
     public function attributeLabels()
     {
         return [
-            'width' => Yii::t('hipanel/server/rrd', 'Width (px)'),
+            'width' => Yii::t('hipanel:server:rrd', 'Width (px)'),
         ];
     }
 }

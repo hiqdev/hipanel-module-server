@@ -36,7 +36,7 @@ class VNCFormatter extends Widget
         return Html::tag($this->tagName,
             Yii::$app->formatter->asPercent($this->current / 100),
             [
-                'title'        => Yii::t('hipanel/server', 'Next discount'),
+                'title'        => Yii::t('hipanel:server', 'Next discount'),
                 'class'        => 'btn btn-default btn-xs discount-popover',
                 'data-trigger' => 'focus',
                 'data-content' => Yii::$app->formatter->asPercent($this->next / 100),

@@ -45,7 +45,7 @@ class DiscountFormatter extends Widget
 
             return Html::a(Yii::$app->formatter->asPercent($this->current / 100), '#', [
                 'onClick' => 'return false',
-                'title' => Yii::t('hipanel/server', 'Next discount'),
+                'title' => Yii::t('hipanel:server', 'Next discount'),
                 'class' => 'btn btn-default btn-xs discount-popover',
                 'data-trigger' => 'focus',
                 'data-content' => Yii::$app->formatter->asPercent($this->next / 100),

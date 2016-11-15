@@ -50,8 +50,8 @@ class RefuseController extends CrudController
             'bulk-approve' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'approve',
-                'success' => Yii::t('hipanel/server', 'Server refuse was approved successfully'),
-                'error' => Yii::t('hipanel/server', 'Error occurred during server refuse approving'),
+                'success' => Yii::t('hipanel:server', 'Server refuse was approved successfully'),
+                'error' => Yii::t('hipanel:server', 'Error occurred during server refuse approving'),
                 'POST html' => [
                     'save'    => true,
                     'success' => [
@@ -78,8 +78,8 @@ class RefuseController extends CrudController
             'bulk-reject' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'reject',
-                'success' => Yii::t('hipanel/server', 'Server refuse was rejected successfully'),
-                'error' => Yii::t('hipanel/server', 'Error occurred during server refuse rejecting'),
+                'success' => Yii::t('hipanel:server', 'Server refuse was rejected successfully'),
+                'error' => Yii::t('hipanel:server', 'Error occurred during server refuse rejecting'),
                 'POST html' => [
                     'save'    => true,
                     'success' => [

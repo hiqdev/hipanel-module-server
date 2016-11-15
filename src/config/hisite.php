@@ -29,27 +29,27 @@ return [
                     'sourceLanguage' => 'en-US',
                 ],
                 'hipanel:server' => [
-                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
                 'hipanel:server:os' => [
-                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
                 'hipanel:server:rrd' => [
-                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
                 'hipanel:server:order' => [
-                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
                 'hipanel:server:order:purpose' => [
-                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
                 'hipanel:server:panel' => [
-                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
             ],

@@ -50,8 +50,8 @@ class PreOrderController extends CrudController
             'bulk-approve' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'approve',
-                'success' => Yii::t('hipanel/server', 'VDS were approved successfully'),
-                'error' => Yii::t('hipanel/server', 'Error occurred during VDS approving'),
+                'success' => Yii::t('hipanel:server', 'VDS were approved successfully'),
+                'error' => Yii::t('hipanel:server', 'Error occurred during VDS approving'),
                 'POST html' => [
                     'save'    => true,
                     'success' => [
@@ -78,8 +78,8 @@ class PreOrderController extends CrudController
             'bulk-reject' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'reject',
-                'success' => Yii::t('hipanel/server', 'VDS were rejected successfully'),
-                'error' => Yii::t('hipanel/server', 'Error occurred during VDS rejecting'),
+                'success' => Yii::t('hipanel:server', 'VDS were rejected successfully'),
+                'error' => Yii::t('hipanel:server', 'Error occurred during VDS rejecting'),
                 'POST html' => [
                     'save'    => true,
                     'success' => [

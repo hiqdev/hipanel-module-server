@@ -17,7 +17,7 @@ use yii\helpers\Html;
 ]) ?>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><?= Yii::t('hipanel/server', 'Affected VDS') ?></div>
+    <div class="panel-heading"><?= Yii::t('hipanel:server', 'Affected VDS') ?></div>
     <div class="panel-body">
             <?= RefuseGridView::widget([
                 'dataProvider' => new ArrayDataProvider(['allModels' => $models, 'pagination' => false]),

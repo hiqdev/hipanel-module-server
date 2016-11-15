@@ -13,8 +13,8 @@ use yii\helpers\Json;
  * @var array $panels
  */
 
-$this->title = Yii::t('hipanel/server/order', 'Order creating');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server/order', 'Order server'), 'url' => ['index']];
+$this->title = Yii::t('hipanel:server:order', 'Order creating');
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server:order', 'Order server'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 OsSelectionAsset::register($this);
@@ -35,7 +35,7 @@ $this->registerCss("
                 </div>
                 <div class="box-body">
                     <div class="text-center order-price">
-                        <?= Yii::t('hipanel/server/order', '{price}/mo', ['price' => Yii::$app->formatter->asCurrency($package->getPrice(), Yii::$app->params['currency'])]) ?>
+                        <?= Yii::t('hipanel:server:order', '{price}/mo', ['price' => Yii::$app->formatter->asCurrency($package->getPrice(), Yii::$app->params['currency'])]) ?>
                     </div>
 
                     <dl class="dl-horizontal">
@@ -47,8 +47,8 @@ $this->registerCss("
                             <dt><?= $package->getResourceByType($item)->decorator()->displayTitle() ?></dt>
                             <dd><?= $package->getResourceByType($item)->decorator()->displayPrepaidAmount() ?></dd>
                         <?php endforeach ?>
-                        <dt><?= Yii::t('hipanel/server/order', 'Traffic overuse') ?></dt>
-                        <dd><?= Yii::t('hipanel/server/order', '{price}/{unit}', [
+                        <dt><?= Yii::t('hipanel:server:order', 'Traffic overuse') ?></dt>
+                        <dd><?= Yii::t('hipanel:server:order', '{price}/{unit}', [
                             'price' => $package->getResourceByType('server_traf_max')->decorator()->displayOverusePrice(),
                             'unit' => $package->getResourceByType('server_traf_max')->decorator()->displayUnit(),
                         ])?></dd>
@@ -59,7 +59,7 @@ $this->registerCss("
         <div class="col-md-9">
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('hipanel/server/order', 'Customise your server'); // todo: we need a good text  ?></h3>
+                    <h3 class="box-title"><?= Yii::t('hipanel:server:order', 'Customise your server'); // todo: we need a good text  ?></h3>
                 </div>
                 <div class="box-body">
                     <div class="order-boxes">
@@ -75,7 +75,7 @@ $this->registerCss("
                                 <div class="col-md-3">
                                     <div class="list-group">
                                         <div class="list-group-item disabled">
-                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'Location') ?></h4>
+                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:order', 'Location') ?></h4>
                                         </div>
                                         <div class="list-group-item">
                                             <div class="list-group-item-text os-list">
@@ -90,7 +90,7 @@ $this->registerCss("
                                 <div class="col-md-3">
                                     <div class="list-group">
                                         <div class="list-group-item disabled">
-                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'OS') ?></h4>
+                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:order', 'OS') ?></h4>
                                         </div>
                                         <?php
                                         foreach ($groupedOsimages['vendors'] as $vendor) { ?>
@@ -113,7 +113,7 @@ $this->registerCss("
                                 <div class="col-md-3">
                                     <div class="list-group">
                                         <div class="list-group-item disabled">
-                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'Panel and software') ?></h4>
+                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:order', 'Panel and software') ?></h4>
                                         </div>
                                         <?php foreach ($panels as $panel => $panel_name) {
                                             if (empty($groupedOsimages['softpacks'][$panel])) {
@@ -121,7 +121,7 @@ $this->registerCss("
                                             } ?>
 
                                             <div class="list-group-item soft-list" data-panel="<?= $panel ?>">
-                                                <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/panel', $panel_name) ?></h4>
+                                                <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:panel', $panel_name) ?></h4>
 
                                                 <div class="list-group-item-text">
                                                     <?php foreach ($groupedOsimages['softpacks'][$panel] as $softpack) { ?>
@@ -134,9 +134,9 @@ $this->registerCss("
                                                                     ],
                                                                     'value' => $softpack['name'],
                                                                 ]) ?>
-                                                                <strong><?= Yii::t('hipanel/server/panel', $softpack['name']) ?></strong>
+                                                                <strong><?= Yii::t('hipanel:server:panel', $softpack['name']) ?></strong>
                                                                 <small style="font-weight: normal">
-                                                                    <?= Yii::t('hipanel/server/os', $softpack['description']) ?>
+                                                                    <?= Yii::t('hipanel:server:os', $softpack['description']) ?>
                                                                 </small>
                                                                 <a class="softinfo-bttn glyphicon glyphicon-info-sign"
                                                                    href="#"></a>
@@ -154,7 +154,7 @@ $this->registerCss("
                                 <div class="col-md-3">
                                     <div class="list-group">
                                         <div class="list-group-item disabled">
-                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel/server/order', 'Information') ?></h4>
+                                            <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:order', 'Information') ?></h4>
                                         </div>
                                         <div class="list-group-item">
                                             <?= $form->field($product, 'purpose')->textInput(['name' => 'purpose']) ?>

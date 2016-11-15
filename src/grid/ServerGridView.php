@@ -89,13 +89,13 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'state' => [
                 'class' => RefColumn::class,
-                'i18nDictionary' => 'hipanel/server',
+                'i18nDictionary' => 'hipanel:server',
                 'format' => 'raw',
                 'gtype' => 'state,device',
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
-                        $html .= ' '. Html::tag('nobr', Yii::t('hipanel/server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
+                        $html .= ' '. Html::tag('nobr', Yii::t('hipanel:server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
                     }
                     return $html;
                 },
@@ -105,7 +105,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'text',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) {
-                    return $model->panel ? Yii::t('hipanel/server/panel', $model->panel) : Yii::t('hipanel/server/panel', 'No control panel');
+                    return $model->panel ? Yii::t('hipanel:server:panel', $model->panel) : Yii::t('hipanel:server:panel', 'No control panel');
                 },
             ],
             'os' => [
@@ -132,7 +132,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'discount' => [
                 'attribute' => 'discount',
-                'label' => Yii::t('hipanel/server', 'Discount'),
+                'label' => Yii::t('hipanel:server', 'Discount'),
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'value' => function ($model) {
@@ -276,10 +276,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'template' => '{view} {rrd} {switch-graph}',
                 'buttons' => [
                     'switch-graph' => function ($url, $model) {
-                        return Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]);
+                        return Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel:server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]);
                     },
                     'rrd' => function ($url, $model) {
-                        return Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]);
+                        return Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel:server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]);
                     },
                 ],
             ],
@@ -313,7 +313,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 ],
             ],
             'manager' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel/server', 'manager'),
+                'label'   => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
                     'checkbox', 'client_id',
                     'rack', 'server', 'tariff',
@@ -321,7 +321,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 ],
             ] : null,
             'admin' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel/server', 'admin'),
+                'label'   => Yii::t('hipanel:server', 'admin'),
                 'columns' => [
                     'checkbox', 'dc', 'server', 'type',
                     'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac',

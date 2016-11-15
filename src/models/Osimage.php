@@ -63,7 +63,7 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
 
     public function getDisplaySoftPackName()
     {
-        return Yii::t('hipanel/server/os', $this->getSoftPackName());
+        return Yii::t('hipanel:server:os', $this->getSoftPackName());
     }
 
     public function hasSoftPack()
@@ -87,7 +87,7 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
         if ($panel === static::NO_PANEL) {
             $panel = 'No panel';
         }
-        return Yii::t('hipanel/server/panel', $panel);
+        return Yii::t('hipanel:server:panel', $panel);
     }
 
     /**
@@ -96,10 +96,10 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
     public function attributeLabels()
     {
         return [
-            'osimagae' => Yii::t('hipanel/server/os', 'System name of image'),
-            'os' => Yii::t('hipanel/server/os', 'OS'),
-            'softpack' => Yii::t('hipanel/server/os', 'Soft package'),
-            'panel' => Yii::t('hipanel/server/os', 'Panel'),
+            'osimagae' => Yii::t('hipanel:server:os', 'System name of image'),
+            'os' => Yii::t('hipanel:server:os', 'OS'),
+            'softpack' => Yii::t('hipanel:server:os', 'Soft package'),
+            'panel' => Yii::t('hipanel:server:os', 'Panel'),
         ];
     }
 }

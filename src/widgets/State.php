@@ -22,5 +22,5 @@ class State extends \hipanel\widgets\Type
         'warning'   => ['blocked'],
     ];
     public $field = 'state';
-    public $i18nDictionary = 'hipanel/server';
+    public $i18nDictionary = 'hipanel:server';
 }

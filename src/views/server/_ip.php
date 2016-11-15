@@ -8,11 +8,11 @@ use yii\data\ArrayDataProvider;
 if (Yii::getAlias('@ip', false) && $model->ips_num) : ?>
     <?php $box = Box::begin(['renderBody' => false]) ?>
         <?php $box->beginHeader() ?>
-            <?= $box->renderTitle(Yii::t('hipanel/server', 'IP addresses'), $model->ips_num) ?>
+            <?= $box->renderTitle(Yii::t('hipanel:server', 'IP addresses'), $model->ips_num) ?>
             <?php if (Yii::$app->user->can('support')) : ?>
                 <?php $box->beginTools() ?>
                     <?= Html::a(
-                        Yii::t('hipanel/server', 'Manage IP addresses'),
+                        Yii::t('hipanel:server', 'Manage IP addresses'),
                         ['@ip', 'IpSearch' => ['server_in' => $model->name]],
                         ['class' => 'btn btn-default btn-sm']
                     ) ?>

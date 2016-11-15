@@ -11,7 +11,7 @@ use yii\helpers\Html;
 /** @var OsimageSearch $osimages */
 /** @var yii\web\View $this */
 
-$this->title = Yii::t('hipanel/server', 'Servers');
+$this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -45,8 +45,8 @@ $representation = Yii::$app->request->get('representation');
                     'encodeLabels' => false,
                     'options' => ['class' => 'pull-right'],
                     'items' => [
-                        ['label' => Yii::t('hipanel/server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-                        ['label' => Yii::t('hipanel/server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+                        ['label' => Yii::t('hipanel:server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+                        ['label' => Yii::t('hipanel:server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
                         ['label' => Yii::t('hipanel', 'Delete'), 'url' => '#bulk-server-delete-modal', 'linkOptions' => ['data-toggle' => 'modal']],
                     ]
                 ]); ?>
@@ -54,7 +54,7 @@ $representation = Yii::$app->request->get('representation');
             <?= AjaxModal::widget([
                 'id' => 'bulk-server-block-modal',
                 'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel/server', 'Block servers'), ['class' => 'modal-title']),
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Block servers'), ['class' => 'modal-title']),
                 'scenario' => 'enable-block',
                 'actionUrl' => ['bulk-enable-block-modal'],
                 'toggleButton' => false,
@@ -62,7 +62,7 @@ $representation = Yii::$app->request->get('representation');
             <?= AjaxModal::widget([
                 'id' => 'bulk-server-unblock-modal',
                 'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel/server', 'Unblock servers'), ['class' => 'modal-title']),
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Unblock servers'), ['class' => 'modal-title']),
                 'scenario' => 'disable-block',
                 'actionUrl' => ['bulk-disable-block-modal'],
                 'toggleButton' => false,

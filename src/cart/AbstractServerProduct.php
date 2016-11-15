@@ -39,7 +39,7 @@ abstract class AbstractServerProduct extends AbstractCartPosition
         foreach ([1, 3, 6, 12] as $n) {
             $date = (new DateTime())->add(new \DateInterval("P{$n}M"));
 
-            $result[$n] = Yii::t('hipanel/server', '{n, plural, one{# month} other{# months}} till {date}', [
+            $result[$n] = Yii::t('hipanel:server', '{n, plural, one{# month} other{# months}} till {date}', [
                 'n' => $n,
                 'date' => Yii::$app->formatter->asDate($date),
             ]);

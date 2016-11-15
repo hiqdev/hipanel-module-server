@@ -9,7 +9,7 @@
 
     <div class="col-md-2">
         <?= $search->field('graph')->dropDownList(
-            array_merge(['' => Yii::t('hipanel/server/rrd', 'Index')],
+            array_merge(['' => Yii::t('hipanel:server:rrd', 'Index')],
                 array_combine((array)$model->graphs, (array)$model->graphs)),
             ['class' => 'form-control input-sm']
         ) ?>
@@ -17,10 +17,10 @@
     <div class="col-md-2">
         <?= $search->field('period')->dropDownList(
             [
-                '1' => Yii::t('hipanel/server', '1 min/px'),
-                '5' => Yii::t('hipanel/server', '5 min/px'),
-                '60' => Yii::t('hipanel/server', '60 min/px'),
-                '720' => Yii::t('hipanel/server', '720 min/px'),
+                '1' => Yii::t('hipanel:server', '1 min/px'),
+                '5' => Yii::t('hipanel:server', '5 min/px'),
+                '60' => Yii::t('hipanel:server', '60 min/px'),
+                '720' => Yii::t('hipanel:server', '720 min/px'),
             ],
             ['class' => 'form-control input-sm']
         ) ?>

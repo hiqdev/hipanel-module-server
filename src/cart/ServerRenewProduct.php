@@ -48,7 +48,7 @@ class ServerRenewProduct extends AbstractServerProduct
     {
         $this->_model = Server::findOne(['id' => $this->model_id]);
         $this->name = $this->_model->name;
-        $this->description = Yii::t('hipanel/server', 'Renewal');
+        $this->description = Yii::t('hipanel:server', 'Renewal');
     }
 
     /** {@inheritdoc} */
@@ -75,7 +75,7 @@ class ServerRenewProduct extends AbstractServerProduct
         foreach ([1, 3, 6, 12] as $n) {
             $date = (new DateTime($this->_model->expires))->add(new \DateInterval("P{$n}M"));
 
-            $result[$n] = Yii::t('hipanel/server', '{n, plural, one{# month} other{# months}} till {date}', [
+            $result[$n] = Yii::t('hipanel:server', '{n, plural, one{# month} other{# months}} till {date}', [
                 'n' => $n,
                 'date' => Yii::$app->formatter->asDate($date),
             ]);

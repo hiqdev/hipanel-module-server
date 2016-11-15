@@ -12,11 +12,11 @@ use yii\helpers\Html;
 ]) ?>
 
     <div class="callout callout-warning">
-        <h4><?= Yii::t('hipanel/server', 'This action is irreversible and causes full data loss including backups!') ?></h4>
+        <h4><?= Yii::t('hipanel:server', 'This action is irreversible and causes full data loss including backups!') ?></h4>
     </div>
 
     <div class="panel panel-default">
-        <div class="panel-heading"><?= Yii::t('hipanel/server', 'Affected servers') ?></div>
+        <div class="panel-heading"><?= Yii::t('hipanel:server', 'Affected servers') ?></div>
         <div class="panel-body">
             <?= ArraySpoiler::widget([
                 'data' => $models,

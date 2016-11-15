@@ -14,9 +14,9 @@ use yii\helpers\Html;
  * @var \hipanel\modules\server\models\Change $model
  */
 
-$this->title = Yii::t('hipanel/server', 'Refuses');
+$this->title = Yii::t('hipanel:server', 'Refuses');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
-$this->params['breadcrumbs'][] = Html::a(Yii::t('hipanel/server', 'Servers'), ['@server']);
+$this->params['breadcrumbs'][] = Html::a(Yii::t('hipanel:server', 'Servers'), ['@server']);
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>

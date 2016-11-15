@@ -23,20 +23,20 @@ class OpenvzPackage extends Package
     {
         $part = $this->getPartByType('cpu');
         preg_match('/((\d+) MHz)$/i', $part->partno, $matches);
-        return Yii::t('hipanel/server', '{0, number} MHz', $matches[2]);
+        return Yii::t('hipanel:server', '{0, number} MHz', $matches[2]);
     }
 
     protected function getResourceTitle_hdd()
     {
-        return Yii::t('hipanel/server', 'HDD + SSD cache');
+        return Yii::t('hipanel:server', 'HDD + SSD cache');
     }
 
     /** {@inheritdoc} */
     public function getLocations()
     {
         return [
-            3 => Yii::t('hipanel/server', 'Netherlands, Amsterdam'),
-            2 => Yii::t('hipanel/server', 'USA, Ashburn'),
+            3 => Yii::t('hipanel:server', 'Netherlands, Amsterdam'),
+            2 => Yii::t('hipanel:server', 'USA, Ashburn'),
         ];
     }
 }

@@ -41,7 +41,7 @@ $('[data-toggle=\"popover\"]').popover();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                    'content' => Yii::t('hipanel:server:order', 'Overuse {price}/{unit}', [
                                         'price' => $packages[0]->getResourceByModelType('ram')->decorator()->displayOverusePrice(),
                                         'unit' => $packages[0]->getResourceByModelType('ram')->decorator()->displayUnit(),
                                     ]),
@@ -58,7 +58,7 @@ $('[data-toggle=\"popover\"]').popover();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                    'content' => Yii::t('hipanel:server:order', 'Overuse {price}/{unit}', [
                                         'price' => $packages[0]->getResourceByModelType('hdd')->decorator()->displayOverusePrice(),
                                         'unit' => $packages[0]->getResourceByModelType('hdd')->decorator()->displayUnit(),
                                     ]),
@@ -77,7 +77,7 @@ $('[data-toggle=\"popover\"]').popover();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                    'content' => Yii::t('hipanel:server:order', 'Overuse {price}/{unit}', [
                                         'price' => $packages[0]->getResourceByType('ip_num')->decorator()->displayOverusePrice(),
                                         'unit' => $packages[0]->getResourceByType('ip_num')->decorator()->displayUnit(),
                                     ]),
@@ -102,7 +102,7 @@ $('[data-toggle=\"popover\"]').popover();
                                 $overuse = Html::tag('span', $info, ['class' => 'pull-right', 'data' => [
                                     'trigger' => 'hover',
                                     'toggle' => 'popover',
-                                    'content' => Yii::t('hipanel/server/order', 'Overuse {price}/{unit}', [
+                                    'content' => Yii::t('hipanel:server:order', 'Overuse {price}/{unit}', [
                                         'price' => $packages[0]->getResourceByType('server_traf_max')->decorator()->displayOverusePrice(),
                                         'unit' => $packages[0]->getResourceByType('server_traf_max')->decorator()->displayUnit(),
                                     ]),
@@ -133,15 +133,15 @@ $('[data-toggle=\"popover\"]').popover();
                             </tr>
                             <tr>
                                 <?php
-                                echo Html::tag('td', Yii::t('hipanel/server/order', 'Purpose'));
+                                echo Html::tag('td', Yii::t('hipanel:server:order', 'Purpose'));
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', Yii::t('hipanel/server/order/purpose', $package->getTariff()->label), ['style' => 'font-size: smaller;']);
+                                    echo Html::tag('td', Yii::t('hipanel:server:order:purpose', $package->getTariff()->label), ['style' => 'font-size: smaller;']);
                                 } ?>
                             </tr>
 
                             <tr class="price-comparison">
-                                <td><?= Yii::t('hipanel/server/order', 'Price') ?></td>
+                                <td><?= Yii::t('hipanel:server:order', 'Price') ?></td>
                                 <?php foreach ($packages as $package) {
                                     echo Html::tag('td', $package->getDisplayPrice());
                                 } ?>
@@ -150,7 +150,7 @@ $('[data-toggle=\"popover\"]').popover();
                             <tr>
                                 <td></td>
                                 <?php foreach ($packages as $package) {
-                                    $button = Html::a(Yii::t('hipanel/server/order', 'ORDER NOW'), [
+                                    $button = Html::a(Yii::t('hipanel:server:order', 'ORDER NOW'), [
                                         'order',
                                         'id' => $package->tariff->id,
                                     ], ['class' => 'btn bg-olive']);

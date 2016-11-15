@@ -28,7 +28,7 @@ class RefuseGridView extends \hipanel\grid\BoxedGridView
                 }
             ],
             'server' => [
-                'label' => Yii::t('hipanel/server', 'Server'),
+                'label' => Yii::t('hipanel:server', 'Server'),
                 'value' => function ($model) {
                     return $model->params['name'] ?: $model->params['server'];
                 }

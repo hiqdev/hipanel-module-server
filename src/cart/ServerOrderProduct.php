@@ -91,7 +91,7 @@ class ServerOrderProduct extends AbstractServerProduct
         }
 
         $this->name = $this->_model->getName();
-        $this->description = Yii::t('hipanel/server/order', 'Order');
+        $this->description = Yii::t('hipanel:server:order', 'Order');
     }
 
     /** {@inheritdoc} */
@@ -154,9 +154,9 @@ class ServerOrderProduct extends AbstractServerProduct
     public function attributeLabels()
     {
         return ArrayHelper::merge(parent::attributeLabels(), [
-            'cluster_id' => Yii::t('hipanel/server/order', 'Server location'),
-            'purpose' => Yii::t('hipanel/server/order', 'Purpose'),
-            'social' => Yii::t('hipanel/server/order', 'Social network'),
+            'cluster_id' => Yii::t('hipanel:server:order', 'Server location'),
+            'purpose' => Yii::t('hipanel:server:order', 'Purpose'),
+            'social' => Yii::t('hipanel:server:order', 'Social network'),
         ]);
     }
 
@@ -164,8 +164,8 @@ class ServerOrderProduct extends AbstractServerProduct
     public function attributeHints()
     {
         return ArrayHelper::merge(parent::attributeHints(), [
-            'purpose' => Yii::t('hipanel/server/order', 'How are you going to use the server?'),
-            'social' => Yii::t('hipanel/server/order', 'Any social network link. Will be used in case of emergency contact'),
+            'purpose' => Yii::t('hipanel:server:order', 'How are you going to use the server?'),
+            'social' => Yii::t('hipanel:server:order', 'Any social network link. Will be used in case of emergency contact'),
         ]);
     }
 

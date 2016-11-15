@@ -17,8 +17,8 @@ use yii\helpers\Json;
  */
 
 $this->title = $model->name;
-$this->params['subtitle'] = Yii::t('hipanel/server', 'Server detailed information') . ' #' . $model->id;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel/server', 'Servers'), 'url' => ['index']];
+$this->params['subtitle'] = Yii::t('hipanel:server', 'Server detailed information') . ' #' . $model->id;
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
@@ -44,7 +44,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <div class="profile-usermenu">
                 <ul class="nav">
                     <li>
-                        <?= Html::a('<i class="fa fa-fw fa-forward"></i>' . Yii::t('hipanel/server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]) ?>
+                        <?= Html::a('<i class="fa fa-fw fa-forward"></i>' . Yii::t('hipanel:server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]) ?>
                     </li>
                 <?php if ($model->isPwChangeSupported()) { ?>
                     <li>
@@ -52,10 +52,10 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </li>
                 <?php } ?>
                     <li>
-                        <?= Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel/server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]) ?>
+                        <?= Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel:server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]) ?>
                     </li>
                     <li>
-                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel/server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]) ?>
+                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel:server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]) ?>
                     </li>
                 <?php if (Yii::$app->user->can('support')  && Yii::$app->user->not($model->client_id)) : ?>
                     <li>
@@ -78,7 +78,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel/server', 'VNC server'));
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'VNC server'));
                         $box->endHeader();
                         $box->beginBody();
                             echo $this->render('_vnc', compact(['model']));
@@ -93,7 +93,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel/server', 'System management'));
+                    echo $box->renderTitle(Yii::t('hipanel:server', 'System management'));
                 $box->endHeader();
                 $box->beginBody() ?>
                 <div class="row">
@@ -123,7 +123,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Power management'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Power management'));
                     $box->endHeader();
                     $box->beginBody(); ?>
                         <div class="row">
@@ -146,7 +146,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Event log'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Event log'));
                     $box->endHeader();
                     $box->beginBody();
                         echo $this->render('_log', compact('model'));
@@ -162,7 +162,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Server information'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Server information'));
                     $box->endHeader();
                     $box->beginBody();
                         echo ServerGridView::detailView([
@@ -192,7 +192,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel/server', 'Financial information'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
                     $box->endHeader();
                     $box->beginBody();
                         echo ServerGridView::detailView([
@@ -208,7 +208,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         if (Yii::$app->user->can('manage')) {
                             echo SettingsModal::widget([
                                 'model'    => $model,
-                                'title'    => Yii::t('hipanel/server', 'Change tariff'),
+                                'title'    => Yii::t('hipanel:server', 'Change tariff'),
                                 'scenario' => 'sale',
                                 'toggleButton' => [
                                     'class' => 'btn btn-default',
@@ -228,7 +228,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel/server', 'Parts'));
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'Parts'));
                         $box->endHeader();
                         $box->beginBody();
                             $url = Url::to(['@part/render-object-parts', 'id' => $model->id]);
@@ -254,7 +254,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel/server', 'Traffic consumption'));
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'Traffic consumption'));
                             $box->beginTools();
                                 echo ChartOptions::widget([
                                     'id' => 'traffic-consumption',
@@ -282,7 +282,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel/server', 'Bandwidth consumption'));
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'Bandwidth consumption'));
                             $box->beginTools();
                             echo ChartOptions::widget([
                                 'id' => 'bandwidth-consumption',

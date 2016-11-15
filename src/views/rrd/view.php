@@ -18,10 +18,10 @@ $searchModel = $model;
 $models = $dataProvider->getModels();
 $model = reset($models);
 
-$this->title = Yii::t('hipanel/server', '{server} - RRD', ['server' => $model->server->name]);
-$this->params['breadcrumbs'][] = Html::a(Yii::t('hipanel/server', 'Servers'), ['@server']);
+$this->title = Yii::t('hipanel:server', '{server} - RRD', ['server' => $model->server->name]);
+$this->params['breadcrumbs'][] = Html::a(Yii::t('hipanel:server', 'Servers'), ['@server']);
 $this->params['breadcrumbs'][] = Html::a($model->server->name, ['@server/view', 'id' => $model->server->id]);
-$this->params['breadcrumbs'][] = Yii::t('hipanel/server', 'RRD');
+$this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'RRD');
 
 ?>
 
