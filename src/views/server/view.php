@@ -23,8 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
-Pjax::begin(Yii::$app->params['pjax']);
-
 ?>
 
 <div class="row server-view">
@@ -330,5 +328,3 @@ if ($model->running_task) {
 
     $this->registerJs("$('.server-view').serverTaskChecker($checkerOptions);");
 }
-
-Pjax::end();

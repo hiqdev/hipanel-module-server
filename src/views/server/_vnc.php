@@ -8,7 +8,7 @@ Pjax::begin([
     'enableReplaceState' => false,
 ]);
 
-if ($model->vnc['enabled']) {
+if ($model->vnc['enabled'] === true) {
     echo Html::tag('span',
         Html::tag('i', '', ['class' => 'glyphicon glyphicon-ok']) . ' ' . Yii::t('hipanel/server', 'Enabled'),
         ['class' => 'label label-success']);

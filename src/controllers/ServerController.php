@@ -33,6 +33,7 @@ use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
+use hiqdev\hiart\ErrorResponseException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\base\Event;
@@ -194,8 +195,10 @@ class ServerController extends CrudController
                 'view' => '_vnc',
                 'data' => function ($action) {
                     $model = $action->getModel();
-                    $model->checkOperable();
-                    $model->vnc = $action->controller->getVNCInfo($model, true);
+                    if ($model->canEnableVNC()) {
+                        $model->vnc = $this->getVNCInfo($model, true);
+                    }
+
                     return [];
                 },
             ],
@@ -373,15 +376,22 @@ class ServerController extends CrudController
      *
      * @param Server $model
      * @param bool $enable
-     *
      * @return array
+     * @throws ErrorResponseException
      */
     public function getVNCInfo($model, $enable = false)
     {
-        $vnc['endTime'] = strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC']));
-        if (($vnc['endTime'] > time() || $enable) && $model->canEnableVnc()) {
-            $vnc['enabled'] = true;
-            $vnc = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
+        $vnc = ['endTime' => strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC']))];
+        if ($model->canEnableVnc() && $vnc['endTime'] > time() || $enable) {
+            try {
+                $vnc = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
+                $vnc['enabled'] = true;
+            } catch (ErrorResponseException $e) {
+                if ($e->getMessage() !== 'vds_has_tasks') { // expected error, that could be skipped
+                    throw $e;
+                }
+                $vnc['enabled'] = false;
+            }
         }
 
         return $vnc;
