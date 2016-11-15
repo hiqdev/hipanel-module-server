@@ -23,30 +23,34 @@ return [
     'components' => [
         'i18n' => [
             'translations' => [
-                'hipanel/server*' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
-                    'forceTranslation' => true,
-                    'fileMap' => [
-                        'hipanel/server' => 'server.php',
-                        'hipanel/server/os' => 'os.php', // outer
-                        'hipanel/server/rrd' => 'rrd.php',
-                        'hipanel/server/order' => 'order.php',
-                        'hipanel/server/order/purpose' => 'purpose.php', // outer
-                    ],
-                ],
-                'hipanel/server/panel' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
-                    'forceTranslation' => true,
-                    'fileMap' => [
-                        'hipanel/server/panel' => 'panel.php',
-                    ],
-                ],
                 'omnilight/daterangepicker' => [ // TODO: get rid after PluginManager removing
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@omnilight/daterangepicker/messages',
                     'sourceLanguage' => 'en-US',
+                ],
+                'hipanel:server' => [
+                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
+                ],
+                'hipanel:server:os' => [
+                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
+                ],
+                'hipanel:server:rrd' => [
+                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
+                ],
+                'hipanel:server:order' => [
+                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
+                ],
+                'hipanel:server:order:purpose' => [
+                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
+                ],
+                'hipanel:server:panel' => [
+                    'claas' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
                 ],
             ],
         ],
