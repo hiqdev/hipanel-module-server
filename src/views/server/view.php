@@ -3,12 +3,14 @@
 use hipanel\helpers\Url;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
 use hipanel\modules\server\grid\ServerGridView;
+use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\SettingsModal;
+use hiqdev\menumanager\widgets\DetailMenu;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
@@ -42,32 +44,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             </p>
             <?php Pjax::begin(['enablePushState' => false]) ?>
             <div class="profile-usermenu">
-                <ul class="nav">
-                    <li>
-                        <?= Html::a('<i class="fa fa-fw fa-forward"></i>' . Yii::t('hipanel:server', 'Renew server'), ['add-to-cart-renewal', 'model_id' => $model->id], ['data-pjax' => 0]) ?>
-                    </li>
-                <?php if ($model->isPwChangeSupported()) { ?>
-                    <li>
-                        <?= $this->render('_reset-password', compact(['model'])) ?>
-                    </li>
-                <?php } ?>
-                    <li>
-                        <?= Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel:server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]) ?>
-                    </li>
-                    <li>
-                        <?= Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel:server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]) ?>
-                    </li>
-                <?php if (Yii::$app->user->can('support')  && Yii::$app->user->not($model->client_id)) : ?>
-                    <li>
-                        <?= $this->render('_block', compact(['model', 'blockReasons'])) ?>
-                    </li>
-                <?php endif ?>
-                <?php if (Yii::$app->user->can('support')) : ?>
-                    <li>
-                        <?= $this->render('_delete', compact(['model'])) ?>
-                    </li>
-                <?php endif ?>
-                </ul>
+                <?= ServerDetailMenu::create(['model' => $model, 'blockReasons' => $blockReasons])->render(DetailMenu::class) ?>
             </div>
             <?php Pjax::end() ?>
         <?php Box::end() ?>
