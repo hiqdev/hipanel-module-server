@@ -11,7 +11,7 @@ if (empty($model->statuses)) {
         </tr>
         <?php foreach ($model->statuses as $status => $time) {
             echo Html::beginTag('tr');
-            echo Html::tag('td', Yii::t('synt', $status));
+            echo Html::tag('td', Yii::t('hipanel:synt', $status));
             echo Html::tag('td', Yii::$app->formatter->asDatetime($time));
             echo Html::endTag('tr');
         } ?>
