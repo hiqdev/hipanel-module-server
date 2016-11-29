@@ -163,7 +163,7 @@ $this->registerCss("
                                             <?= $form->field($product, 'social')->textInput(['name' => 'social']) ?>
                                         </div>
                                         <div class="list-group-item">
-                                            <?= Html::submitButton(Yii::t('cart', 'Place order'), ['class' => 'btn btn-default btn-block']) ?>
+                                            <?= Html::submitButton(Yii::t('hipanel:server:order', 'Order server'), ['class' => 'btn btn-default btn-block']) ?>
                                         </div>
                                     </div>
                                 </div>
