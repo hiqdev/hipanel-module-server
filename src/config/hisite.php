@@ -54,16 +54,16 @@ return [
                 ],
             ],
         ],
-        'menuManager' => [
-            'items' => [
-                'sidebar' => [
-                    'add' => [
-                        'server' => [
-                            'menu' => \hipanel\modules\server\menus\SidebarMenu::class,
-                            'where' => [
-                                'after'     => ['domains', 'tickets', 'finance', 'clients', 'dashboard'],
-                                'before'    => ['hosting'],
-                            ],
+    ],
+    'container' => [
+        'definitions' => [
+            \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
+                'add' => [
+                    'server' => [
+                        'menu' => \hipanel\modules\server\menus\SidebarMenu::class,
+                        'where' => [
+                            'after'     => ['domains', 'tickets', 'finance', 'clients', 'dashboard'],
+                            'before'    => ['hosting'],
                         ],
                     ],
                 ],
