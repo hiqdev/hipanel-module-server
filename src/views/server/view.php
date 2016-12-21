@@ -10,7 +10,6 @@ use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\SettingsModal;
-use hiqdev\menumanager\widgets\DetailMenu;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
@@ -40,11 +39,11 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <p class="text-center">
                 <span class="profile-user-role"><?= $model->name ?></span>
                 <br>
-                <span class="profile-user-name"><?= ClientSellerLink::widget(compact('model')) ?></span>
+                <span class="profile-user-name"><?= ClientSellerLink::widget(['model' => $model]) ?></span>
             </p>
             <?php Pjax::begin(['enablePushState' => false]) ?>
             <div class="profile-usermenu">
-                <?= ServerDetailMenu::create(['model' => $model, 'blockReasons' => $blockReasons])->render(DetailMenu::class) ?>
+                <?= ServerDetailMenu::widget(['model' => $model, 'blockReasons' => $blockReasons]) ?>
             </div>
             <?php Pjax::end() ?>
         <?php Box::end() ?>

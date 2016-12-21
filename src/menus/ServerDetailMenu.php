@@ -2,10 +2,9 @@
 
 namespace hipanel\modules\server\menus;
 
-use hiqdev\menumanager\Menu;
 use Yii;
 
-class ServerDetailMenu extends Menu
+class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
 {
     public $model;
 
@@ -24,7 +23,7 @@ class ServerDetailMenu extends Menu
                 ],
             ],
             [
-                'label' => $this->renderView('_reset-password', ['model' => $this->model]),
+                'label' => $this->render('_reset-password', ['model' => $this->model]),
                 'visible' => $this->model->isPwChangeSupported(),
                 'encode' => false,
             ],
@@ -39,12 +38,12 @@ class ServerDetailMenu extends Menu
                 'url' => ['@switch-graph/view', 'id' => $this->model->id],
             ],
             [
-                'label' => $this->renderView('_block', ['model' => $this->model, 'blockReasons' => $this->blockReasons]),
+                'label' => $this->render('_block', ['model' => $this->model, 'blockReasons' => $this->blockReasons]),
                 'visible' => Yii::$app->user->can('support') && Yii::$app->user->not($this->model->client_id),
                 'encode' => false,
             ],
             [
-                'label' => $this->renderView('_delete', ['model' => $this->model]),
+                'label' => $this->render('_delete', ['model' => $this->model]),
                 'encode' => false,
                 'visible' => Yii::$app->user->can('support'),
             ],
