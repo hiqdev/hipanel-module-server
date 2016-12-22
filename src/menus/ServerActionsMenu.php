@@ -2,9 +2,7 @@
 
 namespace hipanel\modules\server\menus;
 
-use hiqdev\menumanager\Menu;
-
-class ServerActionsMenu extends Menu
+class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
 {
     public $model;
 
