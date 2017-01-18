@@ -11,8 +11,8 @@
 
 return [
     'aliases' => [
-        '@server'       => '/server/server',
-        '@rrd'          => '/server/rrd',
+        '@server' => '/server/server',
+        '@rrd' => '/server/rrd',
         '@switch-graph' => '/server/switch-graph',
     ],
     'modules' => [
@@ -62,8 +62,8 @@ return [
                     'server' => [
                         'menu' => \hipanel\modules\server\menus\SidebarMenu::class,
                         'where' => [
-                            'after'     => ['domains', 'tickets', 'finance', 'clients', 'dashboard'],
-                            'before'    => ['hosting'],
+                            'after' => ['domains', 'tickets', 'finance', 'clients', 'dashboard'],
+                            'before' => ['hosting'],
                         ],
                     ],
                 ],
