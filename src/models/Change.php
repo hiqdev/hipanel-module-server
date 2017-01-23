@@ -11,8 +11,6 @@
 
 namespace hipanel\modules\server\models;
 
-use Yii;
-
 class Change extends \hipanel\modules\finance\models\Change
 {
 
