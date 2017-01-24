@@ -384,7 +384,7 @@ class ServerController extends CrudController
         $vnc = ['endTime' => strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC']))];
         if ($model->canEnableVnc() && $vnc['endTime'] > time() || $enable) {
             try {
-                $vnc = ArrayHelper::merge($vnc, Server::perform('EnableVNC', ['id' => $model->id]));
+                $vnc = ArrayHelper::merge($vnc, Server::perform('enable-VNC', ['id' => $model->id]));
                 $vnc['enabled'] = true;
             } catch (ErrorResponseException $e) {
                 if ($e->getMessage() !== 'vds_has_tasks') { // expected error, that could be skipped
