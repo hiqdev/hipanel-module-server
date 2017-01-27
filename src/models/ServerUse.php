@@ -22,12 +22,7 @@ class ServerUse extends RUse
         return 'ServerUse';
     }
 
-    public static function index()
-    {
-        return 'servers';
-    }
-
-    public static function type()
+    public static function from()
     {
         return 'server';
     }

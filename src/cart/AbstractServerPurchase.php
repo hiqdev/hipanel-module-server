@@ -19,7 +19,7 @@ abstract class AbstractServerPurchase extends \hipanel\modules\finance\cart\Abst
     use \hipanel\base\ModelTrait;
 
     /** {@inheritdoc} */
-    public static function type()
+    public static function from()
     {
         return 'server';
     }
