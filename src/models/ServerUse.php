@@ -22,7 +22,7 @@ class ServerUse extends RUse
         return 'ServerUse';
     }
 
-    public static function from()
+    public static function tableName()
     {
         return 'server';
     }
