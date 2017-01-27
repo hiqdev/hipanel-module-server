@@ -44,13 +44,17 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
     public static function formatTariff($model)
     {
-        if (Yii::$app->user->can('support')) {
-            if ($model->parent_tariff && $model->parent_tariff !== $model->tariff) {
-                return Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip'])
-                     . ' ' . Html::a('<i class="fa fa-external-link"></i>', ['@tariff/view', 'id' => $model->tariff_id]);
+        if (Yii::$app->user->can('manage')) {
+
+            if ($model->parent_tariff) {
+                $html[] = Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
             } else {
-                return $model->tariff;
+                $html[] = $model->tariff;
             }
+
+            $html[] = Html::a('<i class="fa fa-external-link"></i>', ['@tariff/view', 'id' => $model->tariff_id]);
+
+            return implode(' ', $html);
         }
 
         return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
