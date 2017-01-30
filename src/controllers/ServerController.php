@@ -33,7 +33,7 @@ use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
-use hiqdev\hiart\ErrorResponseException;
+use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\base\Event;
@@ -377,7 +377,7 @@ class ServerController extends CrudController
      * @param Server $model
      * @param bool $enable
      * @return array
-     * @throws ErrorResponseException
+     * @throws ResponseErrorException
      */
     public function getVNCInfo($model, $enable = false)
     {
@@ -386,7 +386,7 @@ class ServerController extends CrudController
             try {
                 $vnc = ArrayHelper::merge($vnc, Server::perform('enable-VNC', ['id' => $model->id]));
                 $vnc['enabled'] = true;
-            } catch (ErrorResponseException $e) {
+            } catch (ResponseErrorException $e) {
                 if ($e->getMessage() !== 'vds_has_tasks') { // expected error, that could be skipped
                     throw $e;
                 }
