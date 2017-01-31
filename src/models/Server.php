@@ -178,11 +178,11 @@ class Server extends \hipanel\base\Model
     /**
      * {@inheritdoc}
      */
-    public function scenarioCommands()
+    public function scenarioActions()
     {
         return [
             'reinstall' => 'resetup',
-            'reset-password' => 'regenRootPassword',
+            'reset-password' => 'regen-root-password',
         ];
     }
 
