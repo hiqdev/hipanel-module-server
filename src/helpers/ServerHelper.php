@@ -60,9 +60,9 @@ class ServerHelper
      */
     public static function getOsimages($type = null)
     {
-        return Yii::$app->cache->getTimeCached(3600, [$type], function ($type) {
+        return Yii::$app->cache->getOrSet([__METHOD__, $type], function () use ($type) {
             return Osimage::find()->andFilterWhere(['type' => $type])->all();
-        });
+        }, 3600);
     }
 
 
@@ -156,20 +156,20 @@ class ServerHelper
      */
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
-        $cacheKeys = [Yii::$app->params['user.seller'], Yii::$app->user->id, $type, $tariff_id, 'tariffs'];
+        $cacheKeys = [__METHOD__, 'tariffs', Yii::$app->user->id, $type, $tariff_id];
         /** @var Tariff[] $tariffs */
-        $tariffs = Yii::$app->getCache()->getTimeCached(3600, $cacheKeys, function ($seller, $client_id, $type, $tariff_id) {
-            return Tariff::find(['scenario' => 'get-available-info'])
+        $tariffs = Yii::$app->getCache()->getOrSet($cacheKeys, function () use ($type, $tariff_id) {
+            return Tariff::find()
+                ->action('get-available-info')
                 ->details()
-                ->andWhere(['seller' => $seller])
-                ->andFilterWhere(['id' => $tariff_id])
-                ->andFilterWhere(['type' => $type])
+                ->andWhere(['seller' => Yii::$app->params['user.seller']])
+                ->andFilterWhere(['id' => $tariff_id, 'type' => $type])
                 ->all();
-        });
+        }, 3600);
 
-        $cacheKeys = [Yii::$app->params['user.seller'], Yii::$app->user->id, $type, $tariff_id, 'tariffs', 'packages'];
+        $cacheKeys = [__METHOD__, 'tariffs', 'packages', Yii::$app->user->id, $type, $tariff_id];
         /** @var Package[] $packages */
-        $packages = Yii::$app->getCache()->getTimeCached(3600, $cacheKeys, function () use ($tariffs) {
+        $packages = Yii::$app->getCache()->getOrSet($cacheKeys, function () use ($tariffs) {
             $calculator = new Calculator($tariffs);
 
             $packages = [];

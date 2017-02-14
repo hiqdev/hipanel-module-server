@@ -104,9 +104,10 @@ class ServerController extends CrudController
 
                     $panels = $controller->getPanelTypes();
 
-                    $tariff = Yii::$app->cache->getAuthTimeCached(3600, [$model->tariff_id], function ($tariff_id) {
+                    $cacheKeys = [__METHOD__, 'view', 'tariff', $model->tariff_id, Yii::$app->user->getId()];
+                    $tariff = Yii::$app->cache->getOrSet($cacheKeys, function () use ($model) {
                         return Tariff::find()->where([
-                            'id' => $tariff_id,
+                            'id' => $model->tariff_id,
                             'show_final' => true,
                             'show_deleted' => true,
                             'with_resources' => true,
@@ -445,9 +446,9 @@ class ServerController extends CrudController
 
     protected function getOsimagesLiveCd()
     {
-        $models = Yii::$app->cache->getTimeCached(3600, [true], function ($livecd) {
-            return Osimage::findAll(['livecd' => $livecd]);
-        });
+        $models = Yii::$app->cache->getOrSet([__METHOD__], function () {
+            return Osimage::findAll(['livecd' => true]);
+        }, 3600);
 
         if ($models !== null) {
             return $models;
