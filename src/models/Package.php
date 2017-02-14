@@ -53,14 +53,6 @@ class Package extends Model
         return $this->_tariff;
     }
 
-    public function getStubResource($type)
-    {
-        return new ServerResourceStub([
-            'tariff' => $this->_tariff,
-            'type' => $type
-        ]);
-    }
-
     /**
      * @return float
      */
@@ -107,9 +99,11 @@ class Package extends Model
 
     /**
      * @param string $type
-     * @return ServerResource|null
+     * @param bool $stubWhenNotFound whether to return Resource Stub when
+     * `$tariff` does not have a relevant resource
+     * @return ServerResource|ServerResourceStub|null
      */
-    public function getResourceByModelType($type)
+    public function getResourceByModelType($type, $stubWhenNotFound = true)
     {
         foreach ($this->_tariff->resources as $resource) {
             if ($resource->model_type === $type) {
@@ -117,7 +111,7 @@ class Package extends Model
             }
         }
 
-        return null;
+        return $stubWhenNotFound ? $this->_tariff->getStubResource($type) : null;
     }
 
     /**

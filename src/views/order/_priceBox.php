@@ -116,19 +116,19 @@ $('[data-toggle=\"popover\"]').popover();
 
                             <tr>
                                 <?php
-                                echo Html::tag('td', $packages[0]->getStubResource('speed')->decorator()->displayTitle());
+                                echo Html::tag('td', $packages[0]->getResourceByType('speed')->decorator()->displayTitle());
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getStubResource('speed')->decorator()->displayPrepaidAmount());
+                                    echo Html::tag('td', $package->getResourceByType('speed')->decorator()->displayPrepaidAmount());
                                 } ?>
                             </tr>
 
                             <tr>
                                 <?php
-                                echo Html::tag('td', $packages[0]->getStubResource('panel')->decorator()->displayTitle());
+                                echo Html::tag('td', $packages[0]->getResourceByType('panel')->decorator()->displayTitle());
 
                                 foreach ($packages as $package) {
-                                    echo Html::tag('td', $package->getStubResource('panel')->decorator()->displayPrepaidAmount(), ['style' => 'font-size: smaller;']);
+                                    echo Html::tag('td', $package->getResourceByType('panel')->decorator()->displayPrepaidAmount(), ['style' => 'font-size: smaller;']);
                                 } ?>
                             </tr>
                             <tr>
