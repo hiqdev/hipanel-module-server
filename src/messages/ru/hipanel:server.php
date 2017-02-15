@@ -152,6 +152,8 @@ return [
     'Physical information' => 'Физическая информация',
     'Traffic consumption' => 'Потребление трафика',
     'Bandwidth consumption' => 'Использование полосы пропускания',
+    'Bandwidth consumption history is not available for this server' => 'История потребления полосы пропускания для этого сервера недоступна',
+    'Traffic consumption history is not available for this server' => 'История потребления трафика для этого сервера недоступна',
     '95th percentile for outgoing bandwidth, Mbit/s' => '95 перцинтиль исходящего канала передачи данных, Мбит/с',
     '95th percentile for incoming bandwidth, Mbit/s' => '95 перцинтиль входящего канала передачи данных, Мбит/с',
     'Total incoming traffic, Gb' => 'Всего входящего трафика, Гб',
