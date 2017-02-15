@@ -407,7 +407,7 @@ class ServerController extends CrudController
         $searchModel = new ServerUseSearch();
         $dataProvider = $searchModel->search([]);
         $dataProvider->pagination = false;
-        $dataProvider->query->options = ['scenario' => 'get-uses'];
+        $dataProvider->query->action('get-uses');
         $dataProvider->query->andWhere($post);
         $models = $dataProvider->getModels();
 
