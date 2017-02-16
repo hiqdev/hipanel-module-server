@@ -22,6 +22,7 @@ use hipanel\actions\RenderAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\RequestStateAction;
 use hipanel\actions\SmartDeleteAction;
+use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
@@ -36,12 +37,33 @@ use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\base\Event;
+use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class ServerController extends CrudController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            'server-actions-verb' => [
+                'class' => VerbFilter::class,
+                'actions' => [
+                    'reboot' => ['post'],
+                    'reset' => ['post'],
+                    'shutdown' => ['post'],
+                    'power-off' => ['post'],
+                    'power-on' => ['post'],
+                    'reset-password' => ['post'],
+                    'enable-block' => ['post'],
+                    'disable-block' => ['post'],
+                    'refuse' => ['post'],
+                ]
+            ]
+        ]);
+    }
+
     public function actions()
     {
         return [
@@ -203,47 +225,47 @@ class ServerController extends CrudController
                 },
             ],
             'reboot' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Reboot task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the rebooting'),
             ],
             'reset' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Reset task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the resetting'),
             ],
             'shutdown' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Shutdown task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the shutting down'),
             ],
             'power-off' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Power off task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the turning power off'),
             ],
             'power-on' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Power on task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the turning power on'),
             ],
             'reset-password' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Root password reset task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the resetting root password'),
             ],
             'enable-block' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Server was blocked successfully'),
                 'error' => Yii::t('hipanel:server', 'Error during the server blocking'),
             ],
             'disable-block' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Server was unblocked successfully'),
                 'error' => Yii::t('hipanel:server', 'Error during the server unblocking'),
             ],
             'refuse' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'You have refused the service'),
                 'error' => Yii::t('hipanel:server', 'Error during the refusing the service'),
             ],
