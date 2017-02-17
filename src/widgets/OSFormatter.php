@@ -66,14 +66,16 @@ class OSFormatter extends Widget
      */
     public function generateOSInfo()
     {
-        $html = Html::beginTag('dl', ['class' => 'dl-horizontal']);
+        $html = Html::beginTag('table', ['class' => 'table table-condensed table-striped']);
 
         foreach ($this->osimage->softpack['soft'] as $item) {
-            $html .= Html::tag('dt', $item['name'] . ' ' . $item['version']);
-            $html .= Html::tag('dd', $item['description']);
+            $html .= Html::beginTag('tr');
+            $html .= Html::tag('th', $item['name'] . ' ' . $item['version'], ['class' => 'text-right']);
+            $html .= Html::tag('td', str_replace(',', ', ', $item['description']));
+            $html .= Html::endTag('tr');
         }
 
-        $html .= Html::endTag('dl');
+        $html .= Html::endTag('table');
 
         return $html;
     }
@@ -85,14 +87,14 @@ class OSFormatter extends Widget
     {
         Modal::begin([
             'toggleButton' => [
-                'class' => 'fa fa-info-circle text-info os-info-popover',
+                'class' => 'fa fa-info text-info os-info-popover',
                 'label' => '',
             ],
             'header'       => Html::tag('h4', $this->osimage->getFullOsName()),
             'size'         => Modal::SIZE_LARGE,
         ]);
         echo Html::tag('div', $this->generateOSInfo(), [
-            'class' => 'row',
+            'class' => 'table-responsive',
         ]);
         Modal::end();
     }
