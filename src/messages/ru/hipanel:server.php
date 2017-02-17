@@ -38,6 +38,7 @@ return [
     'Blocking...' => 'Блокируется...',
     'Boot LiveCD' => 'Загрузить LiveCD',
     'Comment' => 'Комментарий',
+    'Configuration' => 'Конфигурация',
     'Confirm booting from Live CD' => 'Подтвердите загрузку с LiveCD',
     'Confirm root password resetting' => 'Подтвердите сброс пароля пользователя root',
     'Confirm server blocking' => 'Подтвердите блокировку сервера',
