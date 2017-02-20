@@ -1,12 +1,11 @@
 <?php
 
-use hipanel\base\View;
 use hipanel\helpers\Url;
-use hipanel\widgets\ActionBox;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\web\View;
 
 /**
  * @var View $this
@@ -27,8 +26,8 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'Switch graphs');
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
     <?php $page = IndexPage::begin(['model' => $searchModel, 'dataProvider' => $dataProvider, 'layout' => 'rrd']) ?>
-        <?= $page->setSearchFormData(['model' => $model]) ?>
-        <?= $page->setSearchFormOptions([
+        <?php $page->setSearchFormData(['model' => $model]) ?>
+        <?php $page->setSearchFormOptions([
             'id' => 'switchgraph-form',
             'options' => [
                 'displayNone' => false,

@@ -15,6 +15,11 @@ class SwitchGraph extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;
 
+    public static function tableName()
+    {
+        return 'switchgraph';
+    }
+
     public function rules()
     {
         return [
