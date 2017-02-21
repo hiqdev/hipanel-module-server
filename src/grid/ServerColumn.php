@@ -11,8 +11,9 @@
 
 namespace hipanel\modules\server\grid;
 
-use hipanel\grid\DataColumn;
 use hipanel\modules\server\widgets\combo\ServerCombo;
+use hiqdev\higrid\DataColumn;
+use Yii;
 use yii\helpers\Html;
 
 class ServerColumn extends DataColumn
@@ -29,7 +30,7 @@ class ServerColumn extends DataColumn
             $this->filterInputOptions['id'] = $this->attribute;
         }
         if (!$this->filter && $this->grid->filterModel) {
-            $this->filter = \Yii::createObject([
+            $this->filter = Yii::createObject([
                 'class' => $this->comboClass,
                 'attribute'           => $this->attribute,
                 'model'               => $this->grid->filterModel,

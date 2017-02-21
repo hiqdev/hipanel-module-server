@@ -1,12 +1,11 @@
 <?php
 
-use hipanel\base\View;
 use hipanel\helpers\Url;
-use hipanel\widgets\ActionBox;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\web\View;
 
 /**
  * @var View $this
