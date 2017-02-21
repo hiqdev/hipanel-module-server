@@ -6,4 +6,10 @@ return [
     'For complex projects that require significant resources and administration.' => 'Для более сложных проектов, требующих значительных ресурсов и администрирования.',
     'For resource intensive websites and high performance scripts.' => 'Для ресурсоемких веб-сайтов и скриптов, требующих большей производительности.',
     'For resource-intensive projects. A reliable alternative to a dedicated server.' => 'Для крупных ресурсоемких проектов. Отличная альтернатива выделенному серверу.',
+
+    'For landing pages and personal blogs' => 'Для лендинг пейдж, персональных блогов.',
+    'For small projects, simple online stores' => 'Для небольших проектов, простых интернет-магазинов.',
+    'For most online stores, websites with interactive features' => 'Для большинства интернет-магазинов, сайтов с интерактивной направленностью.',
+    'For resource-intensive projects, websites with multimedia features' => 'Для ресурсоемких проектов, сайтов мультимедийной направленности.',
+    'For large and high-load online projects' => 'Для крупных и высоконагруженных интернет-проектов.',
 ];
