@@ -288,7 +288,7 @@ class ServerController extends CrudController
                 'error' => Yii::t('hipanel:server', 'Error during the server reinstalling'),
             ],
             'boot-live' => [
-                'class' => SmartUpdateAction::class,
+                'class' => SmartPerformAction::class,
                 'on beforeSave' => function (Event $event) {
                     /** @var Action $action */
                     $action = $event->sender;
