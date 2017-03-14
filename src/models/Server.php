@@ -23,6 +23,7 @@ class Server extends \hipanel\base\Model
     use \hipanel\base\ModelTrait;
 
     const STATE_OK = 'ok';
+    const STATE_ACTIVE = 'active';
     const STATE_DISABLED = 'disabled';
     const STATE_BLOCKED = 'blocked';
     const STATE_DELETED = 'deleted';
@@ -100,7 +101,7 @@ class Server extends \hipanel\base\Model
      */
     public function goodStates()
     {
-        return [static::STATE_OK, static::STATE_DISABLED];
+        return [static::STATE_OK, static::STATE_DISABLED, static::STATE_ACTIVE];
     }
 
     /**
