@@ -5,16 +5,18 @@ use yii\helpers\Html;
 if ($model->isLiveCDSupported()) {
     $os_items = [];
     foreach ($osimageslivecd as $item) {
-        $js         = "$(this).closest('form').find('.livecd-osimage').val({$item['osimage']}).end().submit(); $(this).closest('button').button('loading');";
+        $js         = "$(this).closest('form').find('.livecd-osimage').val('{$item['osimage']}').end().submit(); $(this).closest('button').button('loading');";
         $os_items[] = [
             'label'   => $item['os'] . ' ' . $item['bitwise'],
             'url'     => '#',
-            'onclick' => new \yii\web\JsExpression($js)
+            'options' => [
+                'onclick' => new \yii\web\JsExpression($js),
+            ],
         ];
 
     }
 
-    $model->scenario = 'bool-live';
+    $model->scenario = 'boot-live';
     ModalButton::begin([
         'model'    => $model,
         'button'   => [
