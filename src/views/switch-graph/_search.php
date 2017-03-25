@@ -3,7 +3,6 @@
 /**
  * @var \hipanel\widgets\AdvancedSearch $search
  */
-
 ?>
 <?= $search->field('id')->hiddenInput()->label(false) ?>
 

@@ -24,7 +24,7 @@ use yii\helpers\Html;
                 'formatter' => function ($model) {
                     return $model->name;
                 },
-                'delimiter' => ',&nbsp; '
+                'delimiter' => ',&nbsp; ',
             ]); ?>
         </div>
     </div>

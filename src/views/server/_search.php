@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var array $states
+ * @var array
  * @var \hipanel\widgets\AdvancedSearch $search
  */
 use hipanel\modules\client\widgets\combo\ClientCombo;
@@ -18,17 +18,17 @@ use hipanel\widgets\RefCombo;
     <?= $search->field(Yii::$app->user->can('support') ? 'label_like' : 'note_like') ?>
 </div>
 
-<?php if (Yii::$app->user->can('support')) { ?>
+<?php if (Yii::$app->user->can('support')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('dc_like') ?>
     </div>
-<?php } ?>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('ip_like') ?>
 </div>
 
-<?php if (Yii::$app->user->can('support')) { ?>
+<?php if (Yii::$app->user->can('support')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('client_id')->widget(ClientCombo::class) ?>
     </div>
@@ -40,7 +40,7 @@ use hipanel\widgets\RefCombo;
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('hwsummary_like') ?>
     </div>
-<?php } ?>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('type')->widget(RefCombo::class, [
@@ -58,7 +58,7 @@ use hipanel\widgets\RefCombo;
     ]) ?>
 </div>
 
-<?php if (Yii::$app->user->can('support')) { ?>
+<?php if (Yii::$app->user->can('support')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('net_like') ?>
     </div>
@@ -82,4 +82,4 @@ use hipanel\widgets\RefCombo;
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('tariff_like') ?>
     </div>
-<?php } ?>
+<?php endif ?>

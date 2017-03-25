@@ -1,12 +1,11 @@
 <?php
-
-/*
- * Server module for HiPanel
+/**
+ * Server module for HiPanel.
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\helpers;
@@ -53,7 +52,7 @@ class ServerHelper
     }
 
     /**
-     * Gets array of [[Osimage]] for $type
+     * Gets array of [[Osimage]] for $type.
      *
      * @param string $type
      * @return Osimage[]|null
@@ -65,10 +64,9 @@ class ServerHelper
         }, 3600);
     }
 
-
     /**
      * Regroups array of $images into 3 arrays of unique OS vendors (Ubuntu, FreeBSD, ...),
-     * OSeses (Ubuntu 16.04, FreeBSD 10.3, ...) and softpacks (LAMP, no, ...)
+     * OSeses (Ubuntu 16.04, FreeBSD 10.3, ...) and softpacks (LAMP, no, ...).
      *
      * @param Osimage[] $images
      * @param bool $ispSupported whether ISP manager panel is supported
@@ -178,7 +176,7 @@ class ServerHelper
                 $packages[] = Yii::createObject([
                     'class' => static::buildPackageClass($tariff),
                     'tariff' => $tariff,
-                    'calculation' => $calculation
+                    'calculation' => $calculation,
                 ]);
             }
 

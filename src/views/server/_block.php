@@ -22,8 +22,8 @@ use yii\helpers\Html;
                 'label' => Yii::t('hipanel:server', 'Block'),
                 'data-loading-text' => Yii::t('hipanel:server', 'Blocking...'),
                 'class' => 'btn btn-danger',
-            ]
-        ]
+            ],
+        ],
     ]) ?>
     <div class="callout callout-warning">
         <h4><?= Yii::t('hipanel:server', 'This will immediately reject new SSH, FTP and WEB connections to the server!') ?></h4>
@@ -49,8 +49,8 @@ use yii\helpers\Html;
                 'label' => Yii::t('hipanel:server', 'Unblock'),
                 'data-loading-text' => Yii::t('hipanel:server', 'Unblocking...'),
                 'class' => 'btn btn-info',
-            ]
-        ]
+            ],
+        ],
     ]) ?>
 
     <?= $modalButton->form->field($model, 'comment') ?>

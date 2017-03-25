@@ -17,8 +17,8 @@ ModalButton::begin([
             'label'             => Yii::t('hipanel:server', 'Shutdown'),
             'data-loading-text' => Yii::t('hipanel:server', 'Shutting down...'),
             'class'             => 'btn btn-warning',
-        ]
-    ]
+        ],
+    ],
 ]);
 ?>
     <div class="callout callout-warning">

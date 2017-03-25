@@ -1,12 +1,11 @@
 <?php
-
-/*
- * Server module for HiPanel
+/**
+ * Server module for HiPanel.
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
  */
 
 error_reporting(E_ALL & ~E_NOTICE);
@@ -24,4 +23,3 @@ if (!class_exists('PHPUnit_Framework_TestCase') && class_exists('PHPUnit\Framewo
     {
     }
 }
-

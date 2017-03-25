@@ -28,7 +28,7 @@ use yii\helpers\Html;
                     'user_comment',
                     'time',
                 ],
-                'layout' => '{items}'
+                'layout' => '{items}',
             ]) ?>
     </div>
 </div>
@@ -41,7 +41,7 @@ use yii\helpers\Html;
     <div class="col-sm-6">
         <?= $form->field($model, 'comment')->textInput([
             'id' => 'change-approve-comment',
-            'name' => 'comment'
+            'name' => 'comment',
         ]); ?>
     </div>
 </div>

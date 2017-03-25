@@ -7,12 +7,11 @@ use hipanel\widgets\Pjax;
 use yii\helpers\Html;
 
 /**
- * @var OsimageSearch $osimages
  * @var \yii\web\View $this
+ * @var OsimageSearch $osimages
  * @var array $states
  * @var \hipanel\modules\server\models\Change $model
  */
-
 $this->title = Yii::t('hipanel:server', 'Pending confirmation servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
@@ -24,7 +23,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
     <?= $page->setSearchFormData(compact(['states'])) ?>
     <?php $page->beginContent('main-actions') ?>
-        <?php // TODO: add actions ?>
+        <?php // TODO: add actions?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('show-actions') ?>
@@ -32,14 +31,14 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $page->renderSorter([
             'attributes' => [
                 'client',
-                'time'
+                'time',
             ],
         ]) ?>
         <?= $page->renderPerPage() ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?php if ($model->state === $model::STATE_NEW) { ?>
+        <?php if ($model->state === $model::STATE_NEW) : ?>
             <div>
                 <?= AjaxModal::widget([
                     'id' => 'bulk-approve-modal',
@@ -51,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'handleSubmit' => false,
                     'toggleButton' => [
                         'class' => 'btn btn-success btn-sm',
-                        'label' => Yii::t('hipanel:finance:change', 'Approve')
+                        'label' => Yii::t('hipanel:finance:change', 'Approve'),
                     ],
                 ]) ?>
                 <?= AjaxModal::widget([
@@ -64,11 +63,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'handleSubmit' => false,
                     'toggleButton' => [
                         'class' => 'btn btn-danger btn-sm',
-                        'label' => Yii::t('hipanel:finance:change', 'Reject')
+                        'label' => Yii::t('hipanel:finance:change', 'Reject'),
                     ],
                 ]) ?>
             </div>
-        <?php } ?>
+        <?php endif ?>
         <?php if (Yii::$app->user->can('delete-bills')) : ?>
             <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger') ?>
         <?php endif ?>
@@ -83,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'columns' => [
                     'checkbox', 'client',
                     'user_comment', 'tech_comment', 'time',
-                ]
+                ],
             ]) ?>
         <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>

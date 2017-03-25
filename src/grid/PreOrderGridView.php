@@ -1,12 +1,11 @@
 <?php
-
-/*
- * Finance module for HiPanel
+/**
+ * Server module for HiPanel.
  *
- * @link      https://github.com/hiqdev/hipanel-module-finance
- * @package   hipanel-module-finance
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
@@ -31,13 +30,13 @@ class PreOrderGridView extends \hipanel\grid\BoxedGridView
                         'imageName' => $params['osimage'],
                         'infoCircle' => false,
                     ]);
-                }
+                },
             ],
             'user_comment' => [
                 'filterAttribute' => 'user_comment_like',
                 'value' => function ($model) {
                     return $model->user_comment;
-                }
+                },
             ],
             'tech_comment' => [
                 'attribute' => 'tech_comment',
@@ -45,7 +44,7 @@ class PreOrderGridView extends \hipanel\grid\BoxedGridView
             'time' => [
                 'value' => function ($model) {
                     return Yii::$app->formatter->asDatetime($model->time);
-                }
+                },
             ],
             'actions' => [
                 'class' => ActionColumn::class,

@@ -26,7 +26,7 @@ use yii\helpers\Html;
                     'tech_details',
                     'time',
                 ],
-                'layout' => '{items}'
+                'layout' => '{items}',
             ]) ?>
     </div>
 </div>
@@ -39,7 +39,7 @@ use yii\helpers\Html;
     <div class="col-sm-6">
         <?= $form->field($model, 'comment')->textInput([
             'id' => 'change-reject-comment',
-            'name' => 'comment'
+            'name' => 'comment',
         ]); ?>
     </div>
 </div>

@@ -1,6 +1,6 @@
 <?php
-use yii\helpers\Html;
 use hipanel\widgets\ModalButton;
+use yii\helpers\Html;
 
 ModalButton::begin([
     'model'    => $model,
@@ -17,8 +17,8 @@ ModalButton::begin([
             'label'             => Yii::t('hipanel:server', 'Reset power'),
             'data-loading-text' => Yii::t('hipanel:server', 'Resetting power...'),
             'class'             => 'btn btn-warning',
-        ]
-    ]
+        ],
+    ],
 ]);
 ?>
     <div class="callout callout-warning">

@@ -10,7 +10,6 @@ use yii\helpers\Html;
 
 /** @var OsimageSearch $osimages */
 /** @var yii\web\View $this */
-
 $this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
@@ -48,7 +47,7 @@ $representation = Yii::$app->request->get('representation');
                         ['label' => Yii::t('hipanel:server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
                         ['label' => Yii::t('hipanel:server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
                         ['label' => Yii::t('hipanel', 'Delete'), 'url' => '#bulk-server-delete-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-                    ]
+                    ],
                 ]); ?>
             </div>
             <?= AjaxModal::widget([
@@ -82,7 +81,7 @@ $representation = Yii::$app->request->get('representation');
         <?php $page->beginBulkForm(); ?>
             <?= ServerGridView::widget([
                 'dataProvider' => $dataProvider,
-                #'filterPosition' => false,
+                //'filterPosition' => false,
                 'boxed' => false,
                 'filterModel' => $model,
                 'osImages' => $osimages,

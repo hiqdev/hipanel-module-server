@@ -2,8 +2,8 @@
 
 use hipanel\modules\hosting\grid\IpGridView;
 use hipanel\widgets\Box;
-use yii\helpers\Html;
 use yii\data\ArrayDataProvider;
+use yii\helpers\Html;
 
 if (Yii::getAlias('@ip', false) && $model->ips_num) : ?>
     <?php $box = Box::begin(['renderBody' => false]) ?>

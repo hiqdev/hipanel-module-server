@@ -1,12 +1,11 @@
 <?php
-
-/*
- * Server module for HiPanel
+/**
+ * Server module for HiPanel.
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\controllers;
@@ -59,8 +58,8 @@ class ServerController extends CrudController
                     'enable-block' => ['post'],
                     'disable-block' => ['post'],
                     'refuse' => ['post'],
-                ]
-            ]
+                ],
+            ],
         ]);
     }
 
@@ -386,10 +385,9 @@ class ServerController extends CrudController
             'set-orientation' => [
                 'class' => OrientationAction::class,
                 'allowedRoutes' => [
-                    '@server/index'
-                ]
-            ]
-
+                    '@server/index',
+                ],
+            ],
         ];
     }
 
@@ -398,8 +396,8 @@ class ServerController extends CrudController
      *
      * @param Server $model
      * @param bool $enable
-     * @return array
      * @throws ResponseErrorException
+     * @return array
      */
     public function getVNCInfo($model, $enable = false)
     {

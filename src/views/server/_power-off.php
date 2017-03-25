@@ -17,8 +17,8 @@ ModalButton::begin([
             'label'             => Yii::t('hipanel:server', 'Power OFF'),
             'data-loading-text' => Yii::t('hipanel:server', 'Turning power OFF...'),
             'class'             => 'btn btn-warning',
-        ]
-    ]
+        ],
+    ],
 ]);
 ?>
     <div class="callout callout-warning">

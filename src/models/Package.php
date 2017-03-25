@@ -1,17 +1,15 @@
 <?php
-
-/*
- * Server module for HiPanel
+/**
+ * Server module for HiPanel.
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
 
-use hipanel\modules\finance\logic\Calculator;
 use hipanel\modules\finance\models\Calculation;
 use hipanel\modules\finance\models\ServerResource;
 use hipanel\modules\finance\models\stubs\ServerResourceStub;
@@ -90,7 +88,7 @@ class Package extends Model
 
     /**
      * @param $type
-     * @return \hipanel\modules\finance\models\DomainResource|ServerResource|Resource
+     * @return \hipanel\modules\finance\models\DomainResource|ServerResource|resource
      */
     public function getResourceByType($type)
     {

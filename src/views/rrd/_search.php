@@ -3,14 +3,13 @@
 /**
  * @var \hipanel\widgets\AdvancedSearch $search
  */
-
 ?>
 <?= $search->field('id')->hiddenInput()->label(false) ?>
 
     <div class="col-md-2">
         <?= $search->field('graph')->dropDownList(
             array_merge(['' => Yii::t('hipanel:server:rrd', 'Index')],
-                array_combine((array)$model->graphs, (array)$model->graphs)),
+                array_combine((array) $model->graphs, (array) $model->graphs)),
             ['class' => 'form-control input-sm']
         ) ?>
     </div>

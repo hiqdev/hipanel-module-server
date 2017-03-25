@@ -3,9 +3,9 @@
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\TariffCombo;
 use hipanel\widgets\DateTimePicker;
-use yii\widgets\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\ActiveForm;
 
 ?>
 

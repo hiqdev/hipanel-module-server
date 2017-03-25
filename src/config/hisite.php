@@ -1,20 +1,19 @@
 <?php
-
-/*
-* Server module for HiPanel
-*
-* @link      https://github.com/hiqdev/hipanel-module-server
-* @package   hipanel-module-server
-* @license   BSD-3-Clause
-* @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
-*/
+/**
+ * Server module for HiPanel.
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ */
 
 return [
     'aliases' => [
         '@server' => '/server/server',
         '@rrd' => '/server/rrd',
         '@switch-graph' => '/server/switch-graph',
-        '@pre-order' => '/server/pre-order'
+        '@pre-order' => '/server/pre-order',
     ],
     'modules' => [
         'server' => [

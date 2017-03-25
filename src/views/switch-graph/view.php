@@ -8,11 +8,10 @@ use yii\helpers\Html;
 use yii\web\View;
 
 /**
- * @var View $this
+ * @var View
  * @var \hipanel\modules\server\models\SwitchGraphSearch $model
  * @var \hiqdev\hiart\ActiveDataProvider $dataProvider
  */
-
 $searchModel = $model;
 $models = $dataProvider->getModels();
 $model = reset($models);
@@ -34,7 +33,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'Switch graphs');
             ],
             'action' => ['@switch-graph/view', 'id' => $model->id],
             'submitButtonWrapperOptions' => [
-                'class' => 'col-md-2 md-pt-20'
+                'class' => 'col-md-2 md-pt-20',
             ],
         ]) ?>
         <?php $page->beginContent('table') ?>
@@ -42,7 +41,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'Switch graphs');
                 <?= GridView::widget([
                     'showHeader' => false,
                     'options' => [
-                        'class' => 'table-responsive'
+                        'class' => 'table-responsive',
                     ],
                     'tableOptions' => [
                         'class' => 'table',
@@ -64,9 +63,9 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'Switch graphs');
                                 }
 
                                 return Html::tag('div', $html, ['class' => 'text-center']);
-                            }
-                        ]
-                    ]
+                            },
+                        ],
+                    ],
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>

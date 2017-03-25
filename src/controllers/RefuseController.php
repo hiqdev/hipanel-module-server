@@ -1,8 +1,15 @@
 <?php
+/**
+ * Server module for HiPanel.
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\controllers;
 
-use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
@@ -72,8 +79,8 @@ class RefuseController extends CrudController
                 'scenario' => 'approve',
                 'view' => '_bulkApprove',
                 'findOptions' => [
-                    'state' => Change::STATE_NEW
-                ]
+                    'state' => Change::STATE_NEW,
+                ],
             ],
             'bulk-reject' => [
                 'class' => SmartUpdateAction::class,
@@ -100,8 +107,8 @@ class RefuseController extends CrudController
                 'scenario' => 'reject',
                 'view' => '_bulkReject',
                 'findOptions' => [
-                    'state' => Change::STATE_NEW
-                ]
+                    'state' => Change::STATE_NEW,
+                ],
             ],
         ];
     }

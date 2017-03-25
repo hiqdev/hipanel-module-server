@@ -7,7 +7,6 @@ use yii\helpers\Html;
  * @var array $labels
  * @var array $data
  */
-
 ?>
 
 <div class="row bandwidth-consumption-chart-wrapper">
@@ -24,27 +23,27 @@ use yii\helpers\Html;
                     'datasets' => [
                         [
                             'label' => Yii::t('hipanel:server', '95th percentile for outgoing bandwidth, Mbit/s'),
-                            'backgroundColor' => "rgba(139, 195, 74, 0.5)",
-                            'borderColor' => "rgba(139, 195, 74, 1)",
-                            'pointBackgroundColor' => "rgba(139, 195, 74, 1)",
-                            'pointBorderColor' => "#fff",
-                            'data' => $data['server_traf95']
+                            'backgroundColor' => 'rgba(139, 195, 74, 0.5)',
+                            'borderColor' => 'rgba(139, 195, 74, 1)',
+                            'pointBackgroundColor' => 'rgba(139, 195, 74, 1)',
+                            'pointBorderColor' => '#fff',
+                            'data' => $data['server_traf95'],
                         ],
                         [
                             'label' => Yii::t('hipanel:server', '95th percentile for incoming bandwidth, Mbit/s'),
-                            'backgroundColor' => "rgba(151,187,205,0.5)",
-                            'borderColor' => "rgba(151,187,205,1)",
-                            'pointBackgroundColor' => "rgba(151,187,205,1)",
-                            'pointBorderColor' => "#fff",
-                            'data' => $data['server_traf95_in']
-                        ]
-                    ]
+                            'backgroundColor' => 'rgba(151,187,205,0.5)',
+                            'borderColor' => 'rgba(151,187,205,1)',
+                            'pointBackgroundColor' => 'rgba(151,187,205,1)',
+                            'pointBorderColor' => '#fff',
+                            'data' => $data['server_traf95_in'],
+                        ],
+                    ],
                 ],
                 'clientOptions' => [
                     'bezierCurve' => false,
                     'responsive' => true,
                     'maintainAspectRatio' => true,
-                ]
+                ],
             ]));
         }
 

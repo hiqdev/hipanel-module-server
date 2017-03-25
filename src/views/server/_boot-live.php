@@ -1,4 +1,13 @@
 <?php
+/**
+ * Server module for HiPanel.
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ */
+
 use hipanel\widgets\ModalButton;
 use yii\helpers\Html;
 
@@ -13,7 +22,6 @@ if ($model->isLiveCDSupported()) {
                 'onclick' => new \yii\web\JsExpression($js),
             ],
         ];
-
     }
 
     $model->scenario = 'boot-live';
@@ -31,15 +39,14 @@ if ($model->isLiveCDSupported()) {
             'footer'        => \yii\bootstrap\ButtonDropdown::widget([
                 'label'    => Yii::t('hipanel:server', 'Boot LiveCD'),
                 'dropdown' => [
-                    'items' => $os_items
+                    'items' => $os_items,
                 ],
                 'options'  => [
                     'class'             => 'btn btn-info',
                     'data-loading-text' => '<i class="fa fa-circle-o-notch fa-spin"></i> ' . Yii::t('hipanel', 'loading'),
-                ]
-            ])
-        ]
-
+                ],
+            ]),
+        ],
     ]);
     echo Html::hiddenInput('osimage', null, ['class' => 'livecd-osimage']);
     echo Yii::t('hipanel:server', 'This action will shutdown the server and boot live cd image');

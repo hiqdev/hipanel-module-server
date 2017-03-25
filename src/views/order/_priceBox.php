@@ -4,7 +4,6 @@ use yii\helpers\Html;
 /**
  * @var \hipanel\modules\server\models\Package[] $packages
  */
-
 $info = '<i class="fa fa-info-circle" aria-hidden="true" style="color: #3E65BF;"></i>';
 $this->registerJs("
 $('[data-toggle=\"popover\"]').popover();
@@ -21,9 +20,9 @@ $('[data-toggle=\"popover\"]').popover();
                             <thead>
                             <tr>
                                 <th></th>
-                                <?php foreach ($packages as $package) {
-                                    echo Html::tag('th', $package->name);
-                                } ?>
+                                <?php foreach ($packages as $package) : ?>
+                                    <?= Html::tag('th', $package->name) ?>
+                                <?php endforeach ?>
                             </tr>
                             </thead>
                             <tbody>
@@ -64,7 +63,6 @@ $('[data-toggle=\"popover\"]').popover();
                                     ]),
                                 ]]);
                                 echo Html::tag('td', $title . $overuse);
-
 
                                 foreach ($packages as $package) {
                                     echo Html::tag('td', $package->getResourceByModelType('hdd')->decorator()->displayPrepaidAmount());

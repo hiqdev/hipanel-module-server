@@ -1,6 +1,6 @@
 <?php
-use yii\helpers\Html;
 use hipanel\widgets\ModalButton;
+use yii\helpers\Html;
 
 ?>
 
@@ -19,7 +19,7 @@ use hipanel\widgets\ModalButton;
                 'label' => Yii::t('hipanel:server', 'Refuse'),
                 'data-loading-text' => Yii::t('hipanel:server', 'Refusing...'),
                 'class' => 'btn btn-danger',
-            ]
+            ],
         ],
         'body' => function ($model) {
             if ($model->canFullRefuse()) {
@@ -27,9 +27,9 @@ use hipanel\widgets\ModalButton;
             } else {
                 return Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
             }
-        }
+        },
     ]);
-} elseif (in_array($model->state, $model->goodStates())) {
+} elseif (in_array($model->state, $model->goodStates(), true)) {
     echo ModalButton::widget([
         'model' => $model,
         'scenario' => 'enable-autorenewal',
@@ -44,9 +44,8 @@ use hipanel\widgets\ModalButton;
                 'label' => Yii::t('hipanel:server', 'Renew'),
                 'data-loading-text' => Yii::t('hipanel:server', 'Renewing...'),
                 'class' => 'btn btn-info',
-            ]
+            ],
         ],
-        'body' => Yii::t('hipanel:server', 'Are you sure, you want to renew the service?')
+        'body' => Yii::t('hipanel:server', 'Are you sure, you want to renew the service?'),
     ]);
 }
-

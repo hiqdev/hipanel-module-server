@@ -12,20 +12,19 @@ use yii\helpers\Json;
  * @var array $groupedOsimages
  * @var array $panels
  */
-
 $this->title = Yii::t('hipanel:server:order', 'Order creating');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server:order', 'Order server'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 OsSelectionAsset::register($this);
-$this->registerCss("
+$this->registerCss('
 .order-price {
     color: #444;
     font-size: 47px;
     margin-top: 15px;
     margin-bottom: 25px;
 }
-");
+');
 ?>
     <div class="row">
         <div class="col-md-3">
@@ -59,7 +58,7 @@ $this->registerCss("
         <div class="col-md-9">
             <div class="box box-solid">
                 <div class="box-header with-border">
-                    <h3 class="box-title"><?= Yii::t('hipanel:server:order', 'Customise your server'); // todo: we need a good text  ?></h3>
+                    <h3 class="box-title"><?= Yii::t('hipanel:server:order', 'Customise your server'); // todo: we need a good text?></h3>
                 </div>
                 <div class="box-body">
                     <div class="order-boxes">
@@ -92,21 +91,20 @@ $this->registerCss("
                                         <div class="list-group-item disabled">
                                             <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:order', 'OS') ?></h4>
                                         </div>
-                                        <?php
-                                        foreach ($groupedOsimages['vendors'] as $vendor) { ?>
+                                        <?php foreach ($groupedOsimages['vendors'] as $vendor) : ?>
                                             <div class="list-group-item">
                                                 <h4 class="list-group-item-heading"><?= $vendor['name'] ?></h4>
                                                 <div class="list-group-item-text os-list">
-                                                    <?php foreach ($vendor['oses'] as $system => $os) {
-                                                        echo Html::tag('div', Html::radio('os', false, [
-                                                            'label' => $os,
-                                                            'value' => $system,
-                                                            'class' => 'radio',
-                                                        ]), ['class' => 'radio']);
-                                                    } ?>
+                                                    <?php foreach ($vendor['oses'] as $system => $os) : ?>
+                                                        <?= Html::tag('div', Html::radio('os', false, [
+                                                                'label' => $os,
+                                                                'value' => $system,
+                                                                'class' => 'radio',
+                                                            ]), ['class' => 'radio']); ?>
+                                                    <?php endforeach ?>
                                                 </div>
                                             </div>
-                                        <?php } ?>
+                                        <?php endforeach ?>
                                     </div>
                                 </div>
 
@@ -115,8 +113,8 @@ $this->registerCss("
                                         <div class="list-group-item disabled">
                                             <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:order', 'Panel and software') ?></h4>
                                         </div>
-                                        <?php foreach ($panels as $panel => $panel_name) {
-                                            if (empty($groupedOsimages['softpacks'][$panel])) {
+                                        <?php foreach ($panels as $panel => $panel_name) : ?>
+                                            <?php if (empty($groupedOsimages['softpacks'][$panel])) {
                                                 continue;
                                             } ?>
 
@@ -124,13 +122,13 @@ $this->registerCss("
                                                 <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:panel', $panel_name) ?></h4>
 
                                                 <div class="list-group-item-text">
-                                                    <?php foreach ($groupedOsimages['softpacks'][$panel] as $softpack) { ?>
+                                                    <?php foreach ($groupedOsimages['softpacks'][$panel] as $softpack) : ?>
                                                         <div class="radio">
                                                             <label>
                                                                 <?= Html::radio('panel_soft', false, [
                                                                     'data' => [
                                                                         'panel-soft' => 'soft',
-                                                                        'panel' => $panel
+                                                                        'panel' => $panel,
                                                                     ],
                                                                     'value' => $softpack['name'],
                                                                 ]) ?>
@@ -144,10 +142,10 @@ $this->registerCss("
                                                                 <div class="soft-desc" style="display: none;"></div>
                                                             </label>
                                                         </div>
-                                                    <?php } ?>
+                                                    <?php endforeach ?>
                                                 </div>
                                             </div>
-                                        <?php } ?>
+                                        <?php endforeach ?>
                                     </div>
                                 </div>
 
@@ -176,10 +174,9 @@ $this->registerCss("
         </div>
     </div>
 
-<?php $this->registerJs("
-    var osparams = " . Json::encode($groupedOsimages['oses']) . ";
+<?php $this->registerJs('
+    var osparams = ' . Json::encode($groupedOsimages['oses']) . ";
     $('.os-selector').osSelector({
         osparams: osparams
     });
 ", \yii\web\View::POS_READY, 'os-selector-init');
-

@@ -1,12 +1,11 @@
 <?php
-
-/*
- * Server module for HiPanel
+/**
+ * Server module for HiPanel.
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2016, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
@@ -16,12 +15,12 @@ use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\Url;
+use hipanel\modules\hosting\controllers\AccountController;
+use hipanel\modules\hosting\controllers\IpController;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\State;
-use hipanel\modules\hosting\controllers\AccountController;
-use hipanel\modules\hosting\controllers\IpController;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\Label;
 use Yii;
@@ -45,7 +44,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
     public static function formatTariff($model)
     {
         if (Yii::$app->user->can('manage')) {
-
             if ($model->parent_tariff) {
                 $html[] = Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
             } else {
@@ -99,7 +97,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
-                        $html .= ' '. Html::tag('nobr', Yii::t('hipanel:server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
+                        $html .= ' ' . Html::tag('nobr', Yii::t('hipanel:server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
                     }
                     return $html;
                 },
