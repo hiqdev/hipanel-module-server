@@ -382,12 +382,6 @@ class ServerController extends CrudController
                 'scenario' => 'disable-block',
                 'view' => '_bulkDisableBlock',
             ],
-            'set-orientation' => [
-                'class' => OrientationAction::class,
-                'allowedRoutes' => [
-                    '@server/index',
-                ],
-            ],
         ];
     }
 
