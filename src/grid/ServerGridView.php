@@ -309,7 +309,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'label'   => Yii::t('hipanel', 'common'),
                 'columns' => [
                     'checkbox',
-                    'server', 'client_id', 'seller_id',
+                    'server', 'client_like', 'seller_id',
                     'ips', 'state', 'expires',
                     'tariff_and_discount',
                 ],
@@ -317,7 +317,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'manager' => Yii::$app->user->can('support') ? [
                 'label'   => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
-                    'checkbox', 'client_id',
+                    'checkbox', 'client_like',
                     'rack', 'server', 'tariff',
                     'hwsummary', 'nums', 'actions',
                 ],
