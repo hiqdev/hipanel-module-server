@@ -131,7 +131,7 @@ class Server extends \hipanel\base\Model
      */
     public function isVNCSupported()
     {
-        return $this->type !== 'ovds';
+        return $this->type === 'svds';
     }
 
     /**
@@ -151,7 +151,7 @@ class Server extends \hipanel\base\Model
      */
     public function isLiveCDSupported()
     {
-        return $this->type !== 'ovds';
+        return $this->type === 'svds';
     }
 
     public function getIsBlocked()
