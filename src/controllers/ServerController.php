@@ -430,9 +430,10 @@ class ServerController extends CrudController
 
         list($labels, $data) = ServerHelper::groupUsesForChart($models);
 
-        return $this->renderAjax('_' . $post['type'] . '_consumption', [
+        return $this->renderAjax('_consumption', [
             'labels' => $labels,
             'data' => $data,
+            'consumptionBase' => $post['type'] === 'traffic' ? 'server_traf' : 'server_traf95',
         ]);
     }
 

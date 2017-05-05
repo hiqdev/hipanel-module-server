@@ -336,19 +336,25 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             echo $box->renderTitle(Yii::t('hipanel:server', 'Traffic consumption'));
                             $box->beginTools();
                                 echo ChartOptions::widget([
-                                    'id' => 'traffic-consumption',
+                                    'id' => 'server_traf',
                                     'form' => [
                                         'action' => 'draw-chart'
                                     ],
                                     'hiddenInputs' => [
                                         'id' => ['value' => $model->id],
-                                        'type' => ['value' => 'traffic']
+                                        'type' => ['value' => 'traffic'],
                                     ]
                                 ]);
                             $box->endTools();
                         $box->endHeader();
                         $box->beginBody();
-                            echo $this->render('_traffic_consumption', ['labels' => $chartsLabels, 'data' => $chartsData]);
+                            echo $this->render('_consumption', [
+                                'labels' => $chartsLabels,
+                                'data' => $chartsData,
+                                'consumptionBase' => 'server_traf',
+                                'isClientRegisterCss' => true,
+                            ]);
+
                         $box->endBody();
                     $box->end();
                     ?>
@@ -364,19 +370,23 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             echo $box->renderTitle(Yii::t('hipanel:server', 'Bandwidth consumption'));
                             $box->beginTools();
                             echo ChartOptions::widget([
-                                'id' => 'bandwidth-consumption',
+                                'id' => 'server_traf95',
                                 'form' => [
                                     'action' => 'draw-chart'
                                 ],
                                 'hiddenInputs' => [
                                     'id' => ['value' => $model->id],
-                                    'type' => ['value' => 'bandwidth']
+                                    'type' => ['value' => 'bandwidth'],
                                 ]
                             ]);
                             $box->endTools();
                         $box->endHeader();
                         $box->beginBody();
-                            echo $this->render('_bandwidth_consumption', ['labels' => $chartsLabels, 'data' => $chartsData]);
+                            echo $this->render('_consumption', [
+                                'labels' => $chartsLabels,
+                                'data' => $chartsData,
+                                'consumptionBase' => 'server_traf95',
+                            ]);
                         $box->endBody();
                     $box->end();
                     ?>
