@@ -39,6 +39,7 @@ class SimpleOperation extends Widget
      */
     public $defaultOptions = [
         'buttonClass' => 'btn btn-default btn-block',
+        'form' => [],
     ];
 
     /**
@@ -46,6 +47,11 @@ class SimpleOperation extends Widget
      * After Modal creating, stores the object.
      */
     protected $modal = [];
+
+    /**
+     * @var boolean for ignoring device states
+     */
+    public $skipCheckOperable = false;
 
     public function init()
     {
@@ -71,7 +77,7 @@ class SimpleOperation extends Widget
             'button' => [
                 'label' => $this->configOptions['buttonLabel'],
                 'class' => $this->configOptions['buttonClass'],
-                'disabled' => !$this->model->isOperable(),
+                'disabled' => !$this->model->isOperable() && !$this->skipCheckOperable,
             ],
             'body' => $this->configOptions['body'],
             'form' => $this->configOptions['form'],

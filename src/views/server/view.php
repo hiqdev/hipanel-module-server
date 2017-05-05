@@ -85,7 +85,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Reboot will interrupt all processes on the server. Are you sure you want to reset the server?') . '</p>',
-                                'form' => [],
                                 'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server reboot'),
                                 'modalHeaderOptions' => ['class' => 'label-warning'],
                                 'modalFooterLabel' => Yii::t('hipanel:server', 'Reboot'),
@@ -104,7 +103,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Shutdown will interrupt all processes on the server. Are you sure you want to shutdown the server?') . '</p>',
-                                'form' => [],
                                 'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
                                 'modalHeaderOptions' => ['class' => 'label-warning'],
                                 'modalFooterLabel' => Yii::t('hipanel:server', 'Shutdown'),
@@ -153,7 +151,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                        'configOptions' => [
                                            'buttonLabel' => Yii::t('hipanel:server', 'Power on'),
                                            'body' => Yii::t('hipanel:server', 'Turn ON server power?'),
-                                           'form' => [],
                                            'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server power ON'),
                                            'modalHeaderOptions' => ['class' => 'label-info'],
                                            'modalFooterLabel' => Yii::t('hipanel:server', 'Power ON'),
@@ -172,7 +169,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Power off will immediately interrupt all processes on the server in a dangerous way. Always try to shutdown it, before turning off the power. Are you sure you want to power off the server?') . '</p>',
-                                           'form' => [],
                                            'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
                                            'modalHeaderOptions' => ['class' => 'label-warning'],
                                            'modalFooterLabel' => Yii::t('hipanel:server', 'Power OFF'),
@@ -191,7 +187,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Power reset will interrupt all processes on the server in a dangerous way. Always try to reboot it, before resetting. Are you sure you want to reset power of the server?') . '</p>',
-                                            'form' => [],
                                             'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server power reset'),
                                             'modalHeaderOptions' => ['class' => 'label-warning'],
                                             'modalFooterLabel' => Yii::t('hipanel:server', 'Reset power'),
@@ -284,7 +279,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                                     ? Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!')
                                                     : Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
                                             },
-                                            'form' => [],
                                             'modalHeaderLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Confirm service refuse') : Yii::t('hipanel:server', 'Confirm service renewal'),
                                             'modalHeaderOptions' => ['class' => $model->autorenewal ? 'label-danger' : 'label-info'],
                                             'modalFooterLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Refuse') : Yii::t('hipanel:server', 'Renew'),

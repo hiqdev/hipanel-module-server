@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\menus;
 
+use hipanel\modules\server\widgets\SimpleOperation;
 use Yii;
 
 class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
@@ -51,7 +52,21 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'encode' => false,
             ],
             [
-                'label' => $this->render('_delete', ['model' => $this->model]),
+                'label' => SimpleOperation::widget([
+                    'model' => $this->model,
+                    'scenario' => 'delete',
+                    'skipCheckOperable' => true,
+                    'configOptions' => [
+                        'buttonLabel' => '<i class="fa fa-fw fa-trash-o"></i>' . Yii::t('hipanel:server', 'Delete'),
+                        'buttonClass' => '',
+                        'body' => Yii::t('hipanel:server', 'Are you sure you want to delete server {name}? You will loose everything!', ['name' => $model->name]),
+                        'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server deleting'),
+                        'modalHeaderOptions' => ['class' => 'label-danger'],
+                        'modalFooterLabel' => Yii::t('hipanel:server', 'Delete server'),
+                        'modalFooterLoading' => Yii::t('hipanel:server', 'Deleting server'),
+                        'modalFooterClass' => 'btn btn-danger',
+                    ],
+                ]),
                 'encode' => false,
                 'visible' => Yii::$app->user->can('support'),
             ],
