@@ -42,9 +42,21 @@ $this->params['breadcrumbs'][] = $this->title;
                     'encodeLabels' => false,
                     'options' => ['class' => 'pull-right'],
                     'items' => [
-                        ['label' => Yii::t('hipanel:server', 'Block servers'), 'url' => '#bulk-server-block-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-                        ['label' => Yii::t('hipanel:server', 'Unblock servers'), 'url' => '#bulk-server-unblock-modal', 'linkOptions' => ['data-toggle' => 'modal']],
-                        ['label' => Yii::t('hipanel', 'Delete'), 'url' => '#bulk-server-delete-modal', 'linkOptions' => ['data-toggle' => 'modal']],
+                        [
+                            'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
+                            'url' => '#bulk-server-block-modal',
+                            'linkOptions' => ['data-toggle' => 'modal']
+                        ],
+                        [
+                            'label' => '<i class="fa fa-toggle-off"></i> ' . Yii::t('hipanel', 'Disable block'),
+                            'url' => '#bulk-server-unblock-modal',
+                            'linkOptions' => ['data-toggle' => 'modal']
+                        ],
+                        [
+                            'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
+                            'url' => '#bulk-server-delete-modal',
+                            'linkOptions' => ['data-toggle' => 'modal']
+                        ],
                     ],
                 ]); ?>
             </div>
