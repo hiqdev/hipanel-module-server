@@ -73,12 +73,12 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith('ips');
+                    $dataProvider->query
+                        ->joinWith('ips');
 
                     $dataProvider->query
                         ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_tariffs' => 1])
-                        ->andWhere(['with_switches' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->select(['*']);
@@ -100,8 +100,10 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith('uses');
-                    $dataProvider->query->joinWith('ips');
+                    $dataProvider->query
+                        ->joinWith('uses')
+                        ->joinWith('ips')
+                        ->joinWith('switches');
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
@@ -110,6 +112,7 @@ class ServerController extends CrudController
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
                         ->andWhere(['with_ips' => 1])
+                        ->andWhere(['with_switches' => 1])
                         ->select(['*']);
                 },
                 'data' => function ($action) {
