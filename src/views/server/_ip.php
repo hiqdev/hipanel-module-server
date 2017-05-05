@@ -31,6 +31,7 @@ if (Yii::getAlias('@ip', false) && $model->ips_num) : ?>
                 'layout' => '{items}',
                 'boxed' => false,
                 'summary' => false,
+                'controllerUrl' => '@ip',
                 'columns' => ['ip', 'ptr', 'services'],
             ]) ?>
         <?php $box->endBody() ?>
