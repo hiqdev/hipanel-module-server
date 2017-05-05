@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?php if (Yii::$app->user->can('manage')): ?>
+        <?php if (Yii::$app->user->can('support')): ?>
             <div class="dropdown" style="display: inline-block">
                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?= Yii::t('hipanel', 'Basic actions') ?>

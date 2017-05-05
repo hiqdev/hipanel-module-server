@@ -177,6 +177,7 @@ class Server extends \hipanel\base\Model
     {
         return $this->type === 'dedicated';
     }
+
     public function getIsBlocked()
     {
         return $this->state === static::STATE_BLOCKED;

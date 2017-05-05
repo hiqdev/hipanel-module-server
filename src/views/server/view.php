@@ -50,7 +50,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <?php Pjax::end() ?>
         <?php Box::end() ?>
 
-        <?php if ($model->isVNCSupported()) { ?>
+        <?php if ($model->isVNCSupported()) : ?>
             <div class="row">
                 <div class="col-md-12">
                     <?php
@@ -65,7 +65,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     ?>
                 </div>
             </div>
-        <?php } ?>
+        <?php endif ?>
         <div class="row">
             <div class="col-md-12">
                 <?php
@@ -327,7 +327,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
     </div>
     <div class="col-md-5">
         <?php echo $this->render('_ip', ['model' => $model]) ?>
-        <?php if (isset($chartsData['server_traf'])) { ?>
+        <?php if (isset($chartsData['server_traf'])) : ?>
             <div class="row">
                 <div class="col-md-12">
                     <?php
@@ -353,9 +353,9 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     $box->end();
                     ?>
                 </div>
-            <?php } ?>
+            <?php endif ?>
         </div>
-        <?php if (isset($chartsData['server_traf95'])) { ?>
+        <?php if (isset($chartsData['server_traf95'])) : ?>
             <div class="row">
                 <div class="col-md-12">
                     <?php
@@ -382,7 +382,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     ?>
                 </div>
             </div>
-        <?php } ?>
+        <?php endif ?>
     </div>
 </div>
 
