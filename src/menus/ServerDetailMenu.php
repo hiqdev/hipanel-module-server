@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\menus;
 
 use hipanel\modules\server\widgets\SimpleOperation;
+use hipanel\widgets\BlockModalButton;
 use Yii;
 
 class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
@@ -21,7 +22,12 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
 
     public function items()
     {
-        $actions = ServerActionsMenu::create(['model' => $this->model])->items();
+        $actions = ServerActionsMenu::create([
+            'model' => $this->model,
+        ])->items();
+
+        $user = Yii::$app->user;
+
         $items = array_merge($actions, [
             [
                 'label' => Yii::t('hipanel:server', 'Renew server'),
@@ -47,8 +53,8 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'url' => ['@switch-graph/view', 'id' => $this->model->id],
             ],
             [
-                'label' => $this->render('_block', ['model' => $this->model, 'blockReasons' => $this->blockReasons]),
-                'visible' => Yii::$app->user->can('support') && Yii::$app->user->not($this->model->client_id),
+                'label' => BlockModalButton::widget(['model' => $this->model]),
+                'visible' => $user->can('support') && $user->not($this->model->client_id),
                 'encode' => false,
             ],
             [
