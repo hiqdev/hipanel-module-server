@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\widgets\EventLog;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
@@ -198,7 +199,9 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         echo $box->renderTitle(Yii::t('hipanel:server', 'Event log'));
                     $box->endHeader();
                     $box->beginBody();
-                        echo $this->render('_log', compact('model'));
+                        echo EventLog::widget([
+                            'statuses' => $model->statuses,
+                        ]);
                     $box->endBody();
                 $box->end();
                 ?>
