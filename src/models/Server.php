@@ -91,8 +91,7 @@ class Server extends \hipanel\base\Model
             ],
             [['id', 'osimage'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
-            [['type', 'comment'], 'required', 'on' => ['enable-block']],
-            [['comment'], 'safe', 'on' => ['disable-block']],
+            [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
         ];
     }
 
