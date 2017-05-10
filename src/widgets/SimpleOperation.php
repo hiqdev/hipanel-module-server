@@ -30,16 +30,12 @@ class SimpleOperation extends Widget
     public $scenario;
 
     /**
-     * @var array. Store options for [[ModalButton]]
-     */
-    public $configOptions = [];
-
-    /**
      * @var array. Store default options for [[ModalButton]]
      */
-    public $defaultOptions = [
-        'buttonClass' => 'btn btn-default btn-block',
-        'form' => [],
+    public $modalOptions = [
+        'button' => [
+            'class' => 'btn btn-default btn-block',
+        ],
     ];
 
     /**
@@ -47,6 +43,23 @@ class SimpleOperation extends Widget
      * After Modal creating, stores the object.
      */
     protected $modal = [];
+
+    /**
+     * @var string
+     */
+    public $buttonLabel;
+    public $buttonClass;
+    public $body;
+    public $modalHeaderLabel;
+    public $modalFooterLabel;
+    public $modalFooterLoading;
+    public $modalFooterClass;
+
+    /**
+     * @var array
+     */
+    public $form;
+    public $modalHeaderOptions;
 
     /**
      * @var boolean for ignoring device states
@@ -64,34 +77,41 @@ class SimpleOperation extends Widget
         if ($this->scenario === null) {
             throw new InvalidConfigException('Please specify the "scenario" property.');
         }
-
-        $this->configOptions = ArrayHelper::merge($this->defaultOptions, $this->configOptions);
     }
 
-    public function run()
+    protected function buildModalOptions()
     {
-        $config = [
+         $config = ArrayHelper::merge([
             'class' => ModalButton::class,
             'model' => $this->model,
             'scenario' => $this->scenario,
             'button' => [
-                'label' => $this->configOptions['buttonLabel'],
-                'class' => $this->configOptions['buttonClass'],
+                'label' => $this->buttonLabel,
+                'class' => $this->buttonClass,
                 'disabled' => !$this->model->isOperable() && !$this->skipCheckOperable,
             ],
-            'body' => $this->configOptions['body'],
-            'form' => $this->configOptions['form'],
+            'body' => $this->body,
+            'form' => $this->form ? : [],
             'modal' => [
-                'header' => Html::tag('h4', $this->configOptions['modalHeaderLabel']),
-                'headerOptions' =>  $this->configOptions['modalHeaderOptions'],
+                'header' => Html::tag('h4', $this->modalHeaderLabel),
+                'headerOptions' =>  $this->modalHeaderOptions,
                 'footer' => [
-                    'label' => $this->configOptions['modalFooterLabel'],
-                    'data-loading-text' => $this->configOptions['modalFooterLoading'],
-                    'class' => $this->configOptions['modalFooterClass'],
+                    'label' => $this->modalFooterLabel,
+                    'data-loading-text' => $this->modalFooterLoading,
+                    'class' => $this->modalFooterClass,
                 ],
             ],
-        ];
-        $this->modal = call_user_func([ArrayHelper::remove($config, 'class'), 'begin'], $config);
-        $this->modal->end();
+        ], $this->modalOptions);
+
+        if ($this->buttonClass !== null) {
+            $config['button']['class'] = $this->buttonClass;
+        }
+
+        return $config;
+    }
+
+    public function run()
+    {
+        echo Yii::createObject($this->buildModalOptions())->run();
     }
 }

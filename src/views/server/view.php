@@ -79,36 +79,32 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         <?= SimpleOperation::widget([
                             'model' => $model,
                             'scenario' => 'reboot',
-                            'configOptions' => [
-                                'buttonLabel' => Yii::t('hipanel:server', 'Reboot'),
-                                'body' => '<div class="callout callout-warning">
+                            'buttonLabel' => Yii::t('hipanel:server', 'Reboot'),
+                            'body' => '<div class="callout callout-warning">
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Reboot will interrupt all processes on the server. Are you sure you want to reset the server?') . '</p>',
-                                'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server reboot'),
-                                'modalHeaderOptions' => ['class' => 'label-warning'],
-                                'modalFooterLabel' => Yii::t('hipanel:server', 'Reboot'),
-                                'modalFooterLoading' => Yii::t('hipanel:server', 'Rebooting...'),
-                                'modalFooterClass' => 'btn btn-warning',
-                            ],
+                            'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server reboot'),
+                            'modalHeaderOptions' => ['class' => 'label-warning'],
+                            'modalFooterLabel' => Yii::t('hipanel:server', 'Reboot'),
+                            'modalFooterLoading' => Yii::t('hipanel:server', 'Rebooting...'),
+                            'modalFooterClass' => 'btn btn-warning',
                         ]) ?>
                     </div>
                     <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                         <?= SimpleOperation::widget([
                             'model' => $model,
                             'scenario' => 'shutdown',
-                            'configOptions' => [
-                                'buttonLabel' => Yii::t('hipanel:server', 'Shutdown'),
-                                'body' => '<div class="callout callout-warning">
+                            'buttonLabel' => Yii::t('hipanel:server', 'Shutdown'),
+                            'body' => '<div class="callout callout-warning">
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Shutdown will interrupt all processes on the server. Are you sure you want to shutdown the server?') . '</p>',
-                                'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
-                                'modalHeaderOptions' => ['class' => 'label-warning'],
-                                'modalFooterLabel' => Yii::t('hipanel:server', 'Shutdown'),
-                                'modalFooterLoading' => Yii::t('hipanel:server', 'Shutting down...'),
-                                'modalFooterClass' => 'btn btn-warning',
-                            ],
+                            'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
+                            'modalHeaderOptions' => ['class' => 'label-warning'],
+                            'modalFooterLabel' => Yii::t('hipanel:server', 'Shutdown'),
+                            'modalFooterLoading' => Yii::t('hipanel:server', 'Shutting down...'),
+                            'modalFooterClass' => 'btn btn-warning',
                         ]) ?>
                     </div>
                     <?php if ($model->isLiveCDSupported()) : ?>
@@ -148,51 +144,45 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                     <?= SimpleOperation::widget([
                                        'model' => $model,
                                        'scenario' => 'power-on',
-                                       'configOptions' => [
-                                           'buttonLabel' => Yii::t('hipanel:server', 'Power on'),
-                                           'body' => Yii::t('hipanel:server', 'Turn ON server power?'),
-                                           'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server power ON'),
-                                           'modalHeaderOptions' => ['class' => 'label-info'],
-                                           'modalFooterLabel' => Yii::t('hipanel:server', 'Power ON'),
-                                           'modalFooterLoading' => Yii::t('hipanel:server', 'Turning power ON...'),
-                                           'modalFooterClass' => 'btn btn-info',
-                                       ],
+                                       'buttonLabel' => Yii::t('hipanel:server', 'Power on'),
+                                       'body' => Yii::t('hipanel:server', 'Turn ON server power?'),
+                                       'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server power ON'),
+                                       'modalHeaderOptions' => ['class' => 'label-info'],
+                                       'modalFooterLabel' => Yii::t('hipanel:server', 'Power ON'),
+                                       'modalFooterLoading' => Yii::t('hipanel:server', 'Turning power ON...'),
+                                       'modalFooterClass' => 'btn btn-info',
                                     ]) ?>
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                    <?= SimpleOperation::widget([
                                        'model' => $model,
                                        'scenario' => 'power-off',
-                                       'configOptions' => [
-                                           'buttonLabel' => Yii::t('hipanel:server', 'Power off'),
-                                           'body' => '<div class="callout callout-warning">
+                                       'buttonLabel' => Yii::t('hipanel:server', 'Power off'),
+                                       'body' => '<div class="callout callout-warning">
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Power off will immediately interrupt all processes on the server in a dangerous way. Always try to shutdown it, before turning off the power. Are you sure you want to power off the server?') . '</p>',
-                                           'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
-                                           'modalHeaderOptions' => ['class' => 'label-warning'],
-                                           'modalFooterLabel' => Yii::t('hipanel:server', 'Power OFF'),
-                                           'modalFooterLoading' => Yii::t('hipanel:server', 'Turning power OFF...'),
-                                           'modalFooterClass' => 'btn btn-warning',
-                                       ],
+                                       'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
+                                       'modalHeaderOptions' => ['class' => 'label-warning'],
+                                       'modalFooterLabel' => Yii::t('hipanel:server', 'Power OFF'),
+                                       'modalFooterLoading' => Yii::t('hipanel:server', 'Turning power OFF...'),
+                                       'modalFooterClass' => 'btn btn-warning',
                                    ]) ?>
                                 </div>
                                 <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
                                     <?= SimpleOperation::widget([
                                         'model' => $model,
                                         'scenario' => 'reset',
-                                        'configOptions' => [
-                                            'buttonLabel' => Yii::t('hipanel:server', 'Reset'),
-                                            'body' => '<div class="callout callout-warning">
+                                        'buttonLabel' => Yii::t('hipanel:server', 'Reset'),
+                                        'body' => '<div class="callout callout-warning">
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Power reset will interrupt all processes on the server in a dangerous way. Always try to reboot it, before resetting. Are you sure you want to reset power of the server?') . '</p>',
-                                            'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server power reset'),
-                                            'modalHeaderOptions' => ['class' => 'label-warning'],
-                                            'modalFooterLabel' => Yii::t('hipanel:server', 'Reset power'),
-                                            'modalFooterLoading' => Yii::t('hipanel:server', 'Resetting power...'),
-                                            'modalFooterClass' => 'btn btn-warning',
-                                        ],
+                                        'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server power reset'),
+                                        'modalHeaderOptions' => ['class' => 'label-warning'],
+                                        'modalFooterLabel' => Yii::t('hipanel:server', 'Reset power'),
+                                        'modalFooterLoading' => Yii::t('hipanel:server', 'Resetting power...'),
+                                        'modalFooterClass' => 'btn btn-warning',
                                     ]) ?>
                                 </div>
                             </div>
@@ -267,24 +257,22 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             echo SimpleOperation::widget([
                                         'model' => $model,
                                         'scenario' => $model->autorenewal ? 'refuse' : 'enable-autorenewal',
-                                        'configOptions' => [
-                                            'buttonLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Refuse service') : Yii::t('hipanel:server', 'Renew service'),
-                                            'buttonClass' => 'btn btn-default',
-                                            'body' => function ($model) {
-                                                if (!$model->autorenewal) {
-                                                    return Yii::t('hipanel:server', 'Are you sure, you want to renew the service?');
-                                                }
+                                        'buttonLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Refuse service') : Yii::t('hipanel:server', 'Renew service'),
+                                        'buttonClass' => 'btn btn-default',
+                                        'body' => function ($model) {
+                                            if (!$model->autorenewal) {
+                                                return Yii::t('hipanel:server', 'Are you sure, you want to renew the service?');
+                                            }
 
-                                                return $model->canFullRefuse()
-                                                    ? Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!')
-                                                    : Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
-                                            },
-                                            'modalHeaderLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Confirm service refuse') : Yii::t('hipanel:server', 'Confirm service renewal'),
-                                            'modalHeaderOptions' => ['class' => $model->autorenewal ? 'label-danger' : 'label-info'],
-                                            'modalFooterLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Refuse') : Yii::t('hipanel:server', 'Renew'),
-                                            'modalFooterLoading' => $model->autorenewal ? Yii::t('hipanel:server', 'Refusing...') : Yii::t('hipanel:server', 'Renewing...'),
-                                            'modalFooterClass' => $model->autorenewal ? 'btn btn-warning': 'btn btn-info',
-                                        ],
+                                            return $model->canFullRefuse()
+                                                ? Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!')
+                                                : Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
+                                        },
+                                        'modalHeaderLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Confirm service refuse') : Yii::t('hipanel:server', 'Confirm service renewal'),
+                                        'modalHeaderOptions' => ['class' => $model->autorenewal ? 'label-danger' : 'label-info'],
+                                        'modalFooterLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Refuse') : Yii::t('hipanel:server', 'Renew'),
+                                        'modalFooterLoading' => $model->autorenewal ? Yii::t('hipanel:server', 'Refusing...') : Yii::t('hipanel:server', 'Renewing...'),
+                                        'modalFooterClass' => $model->autorenewal ? 'btn btn-warning': 'btn btn-info',
                                     ]);
                         }
                         if (Yii::$app->user->can('manage')) {
