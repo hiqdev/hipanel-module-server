@@ -100,10 +100,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query
-                        ->joinWith('uses')
-                        ->joinWith('ips')
-                        ->joinWith('switches');
+                    $dataProvider->query->joinWith(['uses', 'ips', 'switches']);
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
