@@ -19,13 +19,10 @@ if ($model->vnc['enabled'] === true) {
         Yii::t('hipanel:server', 'Password') => $model->vnc['vnc_password'],
     ]; ?>
     <dl class="dl-horizontal">
-        <?php foreach ($fields as $name => $value) {
-        ?>
+        <?php foreach ($fields as $name => $value) : ?>
             <dt><?= $name ?></dt>
             <dd><?= $value ?></dd>
-            <?php
-
-    } ?>
+        <?php endforeach ?>
     </dl>
     <?php if (!empty($model->vnc['endTime']) && $model->vnc['endTime'] > time()) {
         echo Yii::t('hipanel:server', 'VNC will be disabled {time}',
