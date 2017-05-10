@@ -84,7 +84,6 @@ class TrafficConsumption extends Widget
         ];
 
         $this->labels = array_values($this->labels);
-
     }
 
     public function run()
