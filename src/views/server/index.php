@@ -63,7 +63,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= AjaxModal::widget([
                 'id' => 'bulk-server-block-modal',
                 'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Block servers'), ['class' => 'modal-title']),
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Block servers'), ['class' => 'modal-title label-warning']),
+                'headerOptions' => ['class' => 'label-warning'],
                 'scenario' => 'enable-block',
                 'actionUrl' => ['bulk-enable-block-modal'],
                 'toggleButton' => false,
@@ -72,6 +73,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id' => 'bulk-server-unblock-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Unblock servers'), ['class' => 'modal-title']),
+                'headerOptions' => ['class' => 'label-warning'],
                 'scenario' => 'disable-block',
                 'actionUrl' => ['bulk-disable-block-modal'],
                 'toggleButton' => false,
@@ -79,7 +81,8 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= AjaxModal::widget([
                 'id' => 'bulk-server-delete-modal',
                 'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title']),
+                'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title label-danger']),
+                'headerOptions' => ['class' => 'label-danger'],
                 'scenario' => 'delete',
                 'actionUrl' => ['bulk-delete-modal'],
                 'toggleButton' => false,

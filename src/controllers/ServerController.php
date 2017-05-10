@@ -314,10 +314,26 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Server was deleted successfully'),
                 'error' => Yii::t('hipanel:server', 'Failed to delete server'),
             ],
+            'bulk-delete' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel:server', 'Server was deleted successfully'),
+                'error' => Yii::t('hipanel:server', 'Failed to delete server'),
+            ],
             'bulk-delete-modal' => [
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'delete',
-                'view' => '_bulkDelete',
+                'view' => '_bulk-operation',
+                'data' => function ($action, $data) {
+                    return [
+                        'bulkOp' => array_merge($data, [
+                            'scenario' => 'delete',
+                            'hiddenInputs' => ['id', 'name'],
+                            'bodyWarning' => Yii::t('hipanel:server', 'This action is irreversible and causes full data loss including backups!'),
+                                'submitButton' => Yii::t('hipanel', 'Delete'),
+                            'submitButtonOptions' => ['class' => 'btn btn-danger'],
+                        ]),
+                    ];
+                },
             ],
             'bulk-enable-block' => [
                 'class' => SmartUpdateAction::class,
@@ -348,11 +364,18 @@ class ServerController extends CrudController
             'bulk-enable-block-modal' => [
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'enable-block',
-                'view' => '_bulkEnableBlock',
+                'view' => '_bulk-operation',
                 'data' => function ($action, $data) {
-                    return array_merge($data, [
-                        'blockReasons' => $this->getBlockReasons(),
-                    ]);
+                    return [
+                        'bulkOp' => array_merge($data, [
+                            'scenario' => 'enable-block',
+                            'hiddenInputs' => ['id', 'name'],
+                            'dropDownInputs' => ['type' => $this->getBlockReasons()],
+                            'visibleInputs' => ['comment'],
+                            'submitButton' => Yii::t('hipanel', 'Enable block'),
+                            'submitButtonOptions' => ['class' => 'btn btn-danger'],
+                        ]),
+                    ];
                 },
             ],
             'bulk-disable-block' => [
@@ -369,10 +392,14 @@ class ServerController extends CrudController
                 'on beforeSave' => function (Event $event) {
                     /** @var \hipanel\actions\Action $action */
                     $action = $event->sender;
+                    $type = Yii::$app->request->post('type');
                     $comment = Yii::$app->request->post('comment');
                     if (!empty($type)) {
                         foreach ($action->collection->models as $model) {
-                            $model->setAttribute('comment', $comment);
+                            $model->setAttributes([
+                                'comment' => $comment,
+                                'type' => $type
+                            ]);
                         }
                     }
                 },
@@ -380,7 +407,19 @@ class ServerController extends CrudController
             'bulk-disable-block-modal' => [
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'disable-block',
-                'view' => '_bulkDisableBlock',
+                'view' => '_bulk-operation',
+                'data' => function ($action, $data) {
+                    return [
+                        'bulkOp' => array_merge($data, [
+                            'scenario' => 'disable-block',
+                            'hiddenInputs' => ['id', 'name'],
+                            'dropDownInputs' => ['type' => $this->getBlockReasons()],
+                            'visibleInputs' => ['comment'],
+                            'submitButton' => Yii::t('hipanel', 'Disable block'),
+                            'submitButtonOptions' => ['class' => 'btn btn-danger'],
+                       ]),
+                    ];
+                },
             ],
         ];
     }
