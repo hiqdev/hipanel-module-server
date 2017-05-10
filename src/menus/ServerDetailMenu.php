@@ -38,7 +38,20 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 ],
             ],
             [
-                'label' => $this->render('_reset-password', ['model' => $this->model]),
+                'label' => SimpleOperation::widget([
+                    'model' => $this->model,
+                    'scenario' => 'reset-password',
+                    'configOptions' => [
+                        'buttonLabel' => '<i class="fa fa-refresh"></i>' . Yii::t('hipanel:server', 'Reset root password'),
+                        'buttonClass' => '',
+                        'body' => Yii::t('hipanel:server', 'Are you sure you want to reset the root password on {name} server? You will get your new root password on the e-mail.'),
+                        'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm root password resetting'),
+                        'modalHeaderOptions' => ['class' => 'label-danger'],
+                        'modalFooterLabel' => Yii::t('hipanel:server', 'Reset root password'),
+                        'modalFooterLoading' => Yii::t('hipanel:server', 'Resetting...'),
+                        'modalFooterClass' => 'btn btn-danger',
+                    ],
+                ]),
                 'visible' => $this->model->isPwChangeSupported(),
                 'encode' => false,
             ],
