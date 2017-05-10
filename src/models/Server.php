@@ -26,7 +26,7 @@ class Server extends \hipanel\base\Model
     const STATE_BLOCKED = 'blocked';
     const STATE_DELETED = 'deleted';
 
-    const VIRTUAL_DEVICE = ['avds', 'svds', 'ovds'];
+    const VIRTUAL_DEVICES = ['avds', 'svds', 'ovds'];
 
     const SVDS_TYPES = ['avds', 'svds'];
 
@@ -165,7 +165,7 @@ class Server extends \hipanel\base\Model
      */
     public function isVirtualDevice()
     {
-        return in_array($this->type, static::VIRTUAL_DEVICE);
+        return in_array($this->type, static::VIRTUAL_DEVICES, true);
     }
 
     /**
