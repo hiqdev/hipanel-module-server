@@ -15,6 +15,7 @@ use yii\base\Widget;
 use yii\helpers\Html;
 use hipanel\widgets\ModalButton;
 use hipanel\helpers\ArrayHelper;
+use yii\bootstrap\Modal;
 
 class Wizzard extends Widget
 {
@@ -49,7 +50,7 @@ class Wizzard extends Widget
 
     protected function modalBegin()
     {
-        $config = [
+        $this->modal = Yii::createObject([
             'class' => ModalButton::class,
             'model' => $this->model,
             'scenario' => $this->wizzarded ? 'disable-wizzard' : 'enable-wizzard',
@@ -62,6 +63,7 @@ class Wizzard extends Widget
                 'enableAjaxValidation' => false,
             ],
             'modal' => [
+                'size' => Modal::SIZE_LARGE,
                 'header' => Html::tag('h4', $this->wizzarded ? Yii::t('hipanel:server', 'Confirm server unwizzard') : Yii::t('hipanel:server', 'Confirm server wizzard')),
                 'headerOptions' =>  ['class' => 'label-warning'],
                 'footer' => [
@@ -70,8 +72,7 @@ class Wizzard extends Widget
                     'class' => $this->wizzarded ? 'btn btn-warning' : 'btn btn-success',
                 ],
             ],
-        ];
-        $this->modal = call_user_func([ArrayHelper::remove($config, 'class'), 'begin'], $config);
+        ]);
     }
 
     protected function renderUnWizzardForm()
@@ -89,7 +90,7 @@ class Wizzard extends Widget
 
     protected function modalEnd()
     {
-        $this->modal->end();
+        $this->modal->run();
     }
 
 
