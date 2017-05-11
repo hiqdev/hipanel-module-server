@@ -8,6 +8,7 @@ use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\modules\server\widgets\SimpleOperation;
+use hipanel\modules\server\widgets\BootLive;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
@@ -110,7 +111,10 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                     <?php if ($model->isLiveCDSupported()) : ?>
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <?= $this->render('_boot-live', compact(['model', 'osimageslivecd'])) ?>
+                            <?= BootLive::widget([
+                                'model' => $model,
+                                'osimageslivecd' => $osimageslivecd,
+                            ]) ?>
                         </div>
                     <?php endif ?>
                     <?php if ($model->isVirtualDevice()) : ?>

@@ -49,8 +49,11 @@ class SimpleOperation extends Widget
      */
     public $buttonLabel;
     public $buttonClass;
+    public $buttonPosition;
+    public $buttonVisible;
     public $body;
     public $modalHeaderLabel;
+    public $modalFooter;
     public $modalFooterLabel;
     public $modalFooterLoading;
     public $modalFooterClass;
@@ -89,17 +92,19 @@ class SimpleOperation extends Widget
                 'label' => $this->buttonLabel,
                 'class' => $this->buttonClass,
                 'disabled' => !$this->model->isOperable() && !$this->skipCheckOperable,
+                'position' => $this->buttonPosition,
+                'visible' => $this->buttonVisible === null ? true : $this->buttonVisible,
             ],
             'body' => $this->body,
             'form' => $this->form ? : [],
             'modal' => [
                 'header' => Html::tag('h4', $this->modalHeaderLabel),
                 'headerOptions' =>  $this->modalHeaderOptions,
-                'footer' => [
+                'footer' => $this->modalFooter === null ? [
                     'label' => $this->modalFooterLabel,
                     'data-loading-text' => $this->modalFooterLoading,
                     'class' => $this->modalFooterClass,
-                ],
+                ] : $this->modalFooter,
             ],
         ], $this->modalOptions);
 
