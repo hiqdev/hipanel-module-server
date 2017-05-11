@@ -26,6 +26,10 @@ class Server extends \hipanel\base\Model
     const STATE_BLOCKED = 'blocked';
     const STATE_DELETED = 'deleted';
 
+    const VIRTUAL_DEVICES = ['avds', 'svds', 'ovds'];
+
+    const SVDS_TYPES = ['avds', 'svds'];
+
     public function rules()
     {
         return [
@@ -87,8 +91,7 @@ class Server extends \hipanel\base\Model
             ],
             [['id', 'osimage'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
-            [['type', 'comment'], 'required', 'on' => ['enable-block']],
-            [['comment'], 'safe', 'on' => ['disable-block']],
+            [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
         ];
     }
 
@@ -131,7 +134,7 @@ class Server extends \hipanel\base\Model
      */
     public function isVNCSupported()
     {
-        return $this->type !== 'ovds';
+        return in_array($this->type, static::SVDS_TYPES);
     }
 
     /**
@@ -151,7 +154,27 @@ class Server extends \hipanel\base\Model
      */
     public function isLiveCDSupported()
     {
-        return $this->type !== 'ovds';
+        return in_array($this->type, static::SVDS_TYPES);
+    }
+
+    /**
+     * Check whether server is virtual.
+     *
+     * @return bool
+     */
+    public function isVirtualDevice()
+    {
+        return in_array($this->type, static::VIRTUAL_DEVICES, true);
+    }
+
+    /**
+     * Check whether server is dedicated.
+     *
+     * @return bool
+     */
+    public function isDedicatedDevice()
+    {
+        return $this->type === 'dedicated';
     }
 
     public function getIsBlocked()
@@ -208,6 +231,11 @@ class Server extends \hipanel\base\Model
     public function getIps()
     {
         return $this->hasMany(Ip::class, ['device_id' => 'id'])->joinWith('links');
+    }
+
+    public function getSwitches()
+    {
+        return $this->hasMany(Server::class, ['obj_id' => 'id']);
     }
 
     /**

@@ -10,6 +10,8 @@
 
 namespace hipanel\modules\server\menus;
 
+use hipanel\modules\server\widgets\SimpleOperation;
+use hipanel\widgets\BlockModalButton;
 use Yii;
 
 class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
@@ -20,7 +22,12 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
 
     public function items()
     {
-        $actions = ServerActionsMenu::create(['model' => $this->model])->items();
+        $actions = ServerActionsMenu::create([
+            'model' => $this->model,
+        ])->items();
+
+        $user = Yii::$app->user;
+
         $items = array_merge($actions, [
             [
                 'label' => Yii::t('hipanel:server', 'Renew server'),
@@ -31,7 +38,18 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 ],
             ],
             [
-                'label' => $this->render('_reset-password', ['model' => $this->model]),
+                'label' => SimpleOperation::widget([
+                    'model' => $this->model,
+                    'scenario' => 'reset-password',
+                    'buttonLabel' => '<i class="fa fa-refresh"></i>' . Yii::t('hipanel:server', 'Reset root password'),
+                    'buttonClass' => '',
+                    'body' => Yii::t('hipanel:server', 'Are you sure you want to reset the root password on {name} server? You will get your new root password on the e-mail.'),
+                    'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm root password resetting'),
+                    'modalHeaderOptions' => ['class' => 'label-danger'],
+                    'modalFooterLabel' => Yii::t('hipanel:server', 'Reset root password'),
+                    'modalFooterLoading' => Yii::t('hipanel:server', 'Resetting...'),
+                    'modalFooterClass' => 'btn btn-danger',
+                ]),
                 'visible' => $this->model->isPwChangeSupported(),
                 'encode' => false,
             ],
@@ -46,12 +64,24 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'url' => ['@switch-graph/view', 'id' => $this->model->id],
             ],
             [
-                'label' => $this->render('_block', ['model' => $this->model, 'blockReasons' => $this->blockReasons]),
-                'visible' => Yii::$app->user->can('support') && Yii::$app->user->not($this->model->client_id),
+                'label' => BlockModalButton::widget(['model' => $this->model]),
+                'visible' => $user->can('support') && $user->not($this->model->client_id),
                 'encode' => false,
             ],
             [
-                'label' => $this->render('_delete', ['model' => $this->model]),
+                'label' => SimpleOperation::widget([
+                    'model' => $this->model,
+                    'scenario' => 'delete',
+                    'skipCheckOperable' => true,
+                    'buttonLabel' => '<i class="fa fa-fw fa-trash-o"></i>' . Yii::t('hipanel:server', 'Delete'),
+                    'buttonClass' => '',
+                    'body' => Yii::t('hipanel:server', 'Are you sure you want to delete server {name}? You will loose everything!', ['name' => $model->name]),
+                    'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server deleting'),
+                    'modalHeaderOptions' => ['class' => 'label-danger'],
+                    'modalFooterLabel' => Yii::t('hipanel:server', 'Delete server'),
+                    'modalFooterLoading' => Yii::t('hipanel:server', 'Deleting server'),
+                    'modalFooterClass' => 'btn btn-danger',
+                ]),
                 'encode' => false,
                 'visible' => Yii::$app->user->can('support'),
             ],
