@@ -17,6 +17,7 @@ use yii\helpers\Html;
 
 class ServerColumn extends DataColumn
 {
+    public $idAttribute = 'server_id';
     public $attribute = 'server_id';
     public $nameAttribute = 'server';
     public $format = 'html';
@@ -40,6 +41,6 @@ class ServerColumn extends DataColumn
 
     public function getDataCellValue($model, $key, $index)
     {
-        return Html::a($model->{$this->nameAttribute}, ['/server/server/view', 'id' => $model->{$this->attribute}]);
+        return Html::a($model->{$this->nameAttribute}, ['/server/server/view', 'id' => $model->{$this->idAttribute}]);
     }
 }
