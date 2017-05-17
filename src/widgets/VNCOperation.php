@@ -13,7 +13,7 @@ namespace hipanel\modules\server\widgets;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
-
+use yii\web\JsExpression;
 
 class VNCOperation extends Widget
 {
@@ -54,7 +54,7 @@ class VNCOperation extends Widget
             [
                 'class' => 'btn btn-success btn-block',
                 'data-loading-text' => Yii::t('hipanel:server', 'Enabling...'),
-                'onClick' => new \yii\web\JsExpression("$(this).closest('form').submit(); $(this).button('loading')"),
+                'onClick' => new JsExpression("$(this).closest('form').submit(); $(this).button('loading')"),
                 'disabled' => !$this->model->canEnableVnc(),
             ]
         );
@@ -67,7 +67,7 @@ class VNCOperation extends Widget
             Yii::t('hipanel', 'Show'),
             [
                 'class' => 'btn btn-success btn-block',
-                'onClick' => new \yii\web\JsExpression("
+                'onClick' => new JsExpression("
                     if ($('#vnc-access-data').hasClass('hidden')) {
                         $(this).text('".Yii::t('hipanel', 'Hide') ."');
                         $('#vnc-access-data').removeClass('hidden');
