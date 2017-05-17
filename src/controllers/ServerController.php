@@ -434,19 +434,27 @@ class ServerController extends CrudController
      */
     public function getVNCInfo($model, $enable = false)
     {
-        $vnc = ['endTime' => strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC']))];
-        if ($model->canEnableVnc() && $vnc['endTime'] > time() || $enable) {
+        if ($enable) {
             try {
-                $vnc = ArrayHelper::merge($vnc, Server::perform('enable-VNC', ['id' => $model->id]));
+                $vnc = Server::perform('enable-VNC', ['id' => $model->id]);
+                $vnc['endTime'] = time() + 28800;
+                Yii::$app->cache->set([__METHOD__, $model->id, $model], $vnc, 28800);
                 $vnc['enabled'] = true;
             } catch (ResponseErrorException $e) {
-                if ($e->getMessage() !== 'vds_has_tasks') { // expected error, that could be skipped
+                if ($e->getMessage() !== 'vds_has_tasks') {
                     throw $e;
                 }
-                $vnc['enabled'] = false;
             }
+        } else {
+            if ($model->statuses['serverEnableVNC'] !== null && strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC'])) > time()) {
+                $vnc = Yii::$app->cache->getOrSet([__METHOD__, $model->id, $model], function () use ($model) {
+                    return ArrayHelper::merge([
+                        'endTime' => strtotime($model->statuses['serverEnableVNC']) + 28800,
+                    ], Server::perform('enable-VNC', ['id' => $model->id]));
+                }, 28800);
+            }
+            $vnc['enabled'] = $model->statuses['serverEnableVNC'] === null ? false : strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC'])) > time();
         }
-
         return $vnc;
     }
 
