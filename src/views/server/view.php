@@ -1,19 +1,15 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\widgets\EventLog;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\ChartOptions;
-use hipanel\modules\server\widgets\SimpleOperation;
-use hipanel\modules\server\widgets\BootLive;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\SettingsModal;
-use hipanel\modules\server\widgets\Wizzard;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
@@ -30,13 +26,13 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
 ?>
 
-<div class="row server-view">
-    <div class="col-md-3">
-        <?php Box::begin([
-            'bodyOptions' => [
-                'class' => 'no-padding'
-            ]
-        ]) ?>
+    <div class="row server-view">
+        <div class="col-md-3">
+            <?php Box::begin([
+                'bodyOptions' => [
+                    'class' => 'no-padding'
+                ]
+            ]) ?>
             <div class="profile-user-img text-center">
                 <i class="fa fa-server fa-5x"></i>
             </div>
@@ -50,19 +46,34 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 <?= ServerDetailMenu::widget(['model' => $model, 'blockReasons' => $blockReasons]) ?>
             </div>
             <?php Pjax::end() ?>
-        <?php Box::end() ?>
+            <?php Box::end() ?>
 
+            <?php if ($model->isVNCSupported()) { ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        $box = Box::begin(['renderBody' => false]);
         <?php if ($model->isVNCSupported()) : ?>
             <div class="row">
                 <div class="col-md-12">
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel:server', 'VNC server'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'VNC server'));
                         $box->endHeader();
                         $box->beginBody();
-                            echo $this->render('_vnc', compact(['model']));
+                        echo $this->render('_vnc', compact(['model']));
                         $box->endBody();
+                        $box->end();
+                        ?>
+                    </div>
+                </div>
+            <?php } ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
                     $box->end();
                     ?>
                 </div>
@@ -206,6 +217,30 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         echo EventLog::widget([
                             'statuses' => $model->statuses,
                         ]);
+                    echo $this->render('_log', compact('model'));
+                    $box->endBody();
+                    $box->end();
+                    ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
+                    echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
+                    $box->endHeader();
+                    $box->beginBody();
+                    echo ServerGridView::detailView([
+                        'model' => $model,
+                        'boxed' => false,
+                        'columns' => [
+                            'net',
+                            'pdu',
+                            'rack',
+                            'ipmi',
+                        ]
+                    ]);
                     $box->endBody();
                 $box->end();
                 ?>
