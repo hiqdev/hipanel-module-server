@@ -238,6 +238,11 @@ class Server extends \hipanel\base\Model
         return $this->hasMany(Server::class, ['obj_id' => 'id']);
     }
 
+    public function getBindings()
+    {
+        return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -266,3 +271,4 @@ class Server extends \hipanel\base\Model
         ]);
     }
 }
+
