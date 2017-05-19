@@ -44,47 +44,50 @@ $this->params['breadcrumbs'][] = $this->title;
                     'items' => [
                         [
                             'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
-                            'url' => '#bulk-server-block-modal',
+                            'url' => '#bulk-enable-block-modal',
                             'linkOptions' => ['data-toggle' => 'modal']
                         ],
                         [
                             'label' => '<i class="fa fa-toggle-off"></i> ' . Yii::t('hipanel', 'Disable block'),
-                            'url' => '#bulk-server-unblock-modal',
+                            'url' => '#bulk-disable-block-modal',
                             'linkOptions' => ['data-toggle' => 'modal']
                         ],
                         [
                             'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
-                            'url' => '#bulk-server-delete-modal',
+                            'url' => '#bulk-delete-modal',
                             'linkOptions' => ['data-toggle' => 'modal']
                         ],
                     ],
                 ]); ?>
             </div>
             <?= AjaxModal::widget([
-                'id' => 'bulk-server-block-modal',
+                'id' => 'bulk-enable-block-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Block servers'), ['class' => 'modal-title label-warning']),
                 'headerOptions' => ['class' => 'label-warning'],
-                'scenario' => 'enable-block',
+                'scenario' => 'bulk-enable-block',
                 'actionUrl' => ['bulk-enable-block-modal'],
+                'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
             <?= AjaxModal::widget([
-                'id' => 'bulk-server-unblock-modal',
+                'id' => 'bulk-disable-block-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Unblock servers'), ['class' => 'modal-title']),
                 'headerOptions' => ['class' => 'label-warning'],
-                'scenario' => 'disable-block',
+                'scenario' => 'bulk-disable-block',
                 'actionUrl' => ['bulk-disable-block-modal'],
+                'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
             <?= AjaxModal::widget([
-                'id' => 'bulk-server-delete-modal',
+                'id' => 'bulk-delete-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title label-danger']),
                 'headerOptions' => ['class' => 'label-danger'],
                 'scenario' => 'delete',
                 'actionUrl' => ['bulk-delete-modal'],
+                'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
         <?php endif ?>
