@@ -232,28 +232,28 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return $model->switches['rack']['switch'];
+                    return $model->bindings['rack']->switch;
                 },
             ],
             'net' => [
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return static::renderSwitchPort($model->switches['net']);
+                    return static::renderSwitchPort($model->bindings['net']);
                 },
             ],
             'kvm' => [
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return static::renderSwitchPort($model->switches['kvm']);
+                    return static::renderSwitchPort($model->bindings['kvm']);
                 },
             ],
             'pdu' => [
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return static::renderSwitchPort($model->switches['pdu']);
+                    return static::renderSwitchPort($model->bindings['pdu']);
                 },
             ],
             'ipmi' => [
@@ -262,7 +262,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value'  => function ($model) {
                     $ipmi = $model->switches['ipmi']['device_ip'];
                     $link = $ipmi ? Html::a($ipmi, "http://$ipmi/", ['target' => '_blank']) . ' ' : '';
-                    return $link . static::renderSwitchPort($model->switches['ipmi']);
+                    return $link . static::renderSwitchPort($model->bindings['ipmi']);
                 },
             ],
             'nums' => [
