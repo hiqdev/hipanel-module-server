@@ -80,7 +80,7 @@ class ServerController extends CrudController
                         ->andWhere(['with_tariffs' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
-                        ->andWhere(['with_switches' => 1])
+                        ->andWhere(['with_bindings' => 1])
                         ->select(['*']);
                 },
                 'filterStorageMap' => [
@@ -109,7 +109,7 @@ class ServerController extends CrudController
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
                         ->andWhere(['with_ips' => 1])
-                        ->andWhere(['with_switches' => 1])
+                        ->andWhere(['with_bindings' => 1])
                         ->select(['*']);
                 },
                 'data' => function ($action) {
