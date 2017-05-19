@@ -73,14 +73,14 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query
-                        ->joinWith('ips');
+                    $dataProvider->query->joinWith(['ips', 'bindings']);
 
                     $dataProvider->query
                         ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_tariffs' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
+                        ->andWhere(['with_switches' => 1])
                         ->select(['*']);
                 },
                 'filterStorageMap' => [
@@ -100,7 +100,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['uses', 'ips', 'switches']);
+                    $dataProvider->query->joinWith(['uses', 'ips', 'switches', 'bindings']);
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
