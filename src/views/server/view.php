@@ -13,6 +13,7 @@ use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\SettingsModal;
 use hipanel\modules\server\widgets\Wizzard;
+use hipanel\modules\server\widgets\BootLive;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
