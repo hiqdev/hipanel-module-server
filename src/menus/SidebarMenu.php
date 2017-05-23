@@ -26,9 +26,14 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                         'label' => Yii::t('hipanel:server', 'Servers'),
                         'url'   => ['/server/server/index'],
                     ],
+                    'switch' => [
+                        'label'   => Yii::t('hipanel:server', 'Switches'),
+                        'url'     => ['/server/hub/index'],
+                        'visible' => Yii::$app->user->can('admin'),
+                    ],
                     'buy-server' => [
-                        'label' => Yii::t('hipanel:server:order', 'Order server'),
-                        'url'   => ['/server/order/index'],
+                        'label'   => Yii::t('hipanel:server:order', 'Order server'),
+                        'url'     => ['/server/order/index'],
                         'visible' => Yii::$app->user->can('deposit'),
                     ],
                     'pre-order' => [
