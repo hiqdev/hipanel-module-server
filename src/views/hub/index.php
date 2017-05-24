@@ -3,6 +3,7 @@
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
+use yii\helpers\Html;
 
 $this->title = Yii::t('hipanel:server', 'Switches');
 $this->params['breadcrumbs'][] = $this->title;
@@ -23,11 +24,21 @@ $this->registerCss("
 
         <?php $page->setSearchFormData([]) ?>
 
+        <?php $page->beginContent('main-actions') ?>
+            <?php if (Yii::$app->user->can('admin') or 1) : ?>
+                <?= Html::a(Yii::t('hipanel:server:hub', 'Create switch'), ['@hub/create'], ['class' => 'btn btn-sm btn-success']) ?>
+            <?php endif; ?>
+        <?php $page->endContent() ?>
+
         <?php $page->beginContent('show-actions') ?>
             <?= $page->renderLayoutSwitcher() ?>
             <?= $page->renderSorter(['attributes' => ['id']]) ?>
             <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
+
+        <?php $page->beginContent('bulk-actions') ?>
+            <?= $page->renderBulkButton('<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'), 'update')?>
+        <?php $page->endContent('bulk-actions') ?>
 
         <?php $page->beginContent('table') ?>
             <?php $page->beginBulkForm() ?>
