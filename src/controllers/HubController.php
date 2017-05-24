@@ -3,9 +3,13 @@
 namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\IndexAction;
+use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
+use Yii;
 
 class HubController extends CrudController
 {
@@ -14,20 +18,41 @@ class HubController extends CrudController
         return [
             'index' => [
                 'class' => IndexAction::class,
+            ],
+            'view' => [
+                'class' => ViewAction::class,
+            ],
+            'create' => [
+                'class' => SmartCreateAction::class,
+                'success' => Yii::t('hipanel:client', 'Switch was created'),
                 'data' => function () {
                     return [
                         'types' => $this->getTypes(),
                     ];
                 }
             ],
-            'view' => [
-                'class' => ViewAction::class,
+            'update' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel', 'Switch was updated'),
+                'data' => function () {
+                    return [
+                        'types' => $this->getTypes(),
+                    ];
+                }
             ],
         ];
     }
 
     protected function getTypes()
     {
-        return Ref::getList('type,device,switch', 'hipanel:server:hub');
+        $companies = Yii::$app->get('cache')->getOrSet([__METHOD__], function () {
+            $result = ArrayHelper::map(Ref::find()->where(['gtype' => 'type,device,switch', 'select' => 'full'])->all(), 'id', function ($model) {
+                return Yii::t('hipanel:server:hub', $model->label);
+            });
+
+            return $result;
+        }, 86400 * 24); // 24 days
+
+        return $companies;
     }
 }
