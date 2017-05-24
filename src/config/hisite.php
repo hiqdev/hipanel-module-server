@@ -14,6 +14,7 @@ return [
         '@rrd' => '/server/rrd',
         '@switch-graph' => '/server/switch-graph',
         '@pre-order' => '/server/pre-order',
+        '@hub' => '/server/hub',
     ],
     'modules' => [
         'server' => [

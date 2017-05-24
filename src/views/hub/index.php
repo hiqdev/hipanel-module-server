@@ -37,6 +37,10 @@ $this->registerCss("
                     'filterModel' => $model,
                     'columns' => [
                         'checkbox',
+                        'inn',
+                        'buyer',
+                        'model',
+                        'actions',
                         'switch',
                         'type',
                         'ip',
