@@ -27,7 +27,7 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
             [
                 'label' => Yii::t('hipanel:server:hub', 'Options'),
                 'icon' => 'fa-cogs',
-                'url' => ['@hub/update', 'id' => $this->model->id],
+                'url' => ['@hub/options', 'id' => $this->model->id],
             ]
         ];
     }
