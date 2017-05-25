@@ -18,13 +18,18 @@ class HubController extends CrudController
         return [
             'index' => [
                 'class' => IndexAction::class,
+                'data' => function () {
+                    return [
+                        'types' => $this->getTypes(),
+                    ];
+                }
             ],
             'view' => [
                 'class' => ViewAction::class,
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
-                'success' => Yii::t('hipanel:client', 'Switch was created'),
+                'success' => Yii::t('hipanel:server:hub', 'Switch was created'),
                 'data' => function () {
                     return [
                         'types' => $this->getTypes(),
@@ -33,12 +38,16 @@ class HubController extends CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel', 'Switch was updated'),
+                'success' => Yii::t('hipanel:server:hub', 'Switch was updated'),
                 'data' => function () {
                     return [
                         'types' => $this->getTypes(),
                     ];
                 }
+            ],
+            'options' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Options was updated'),
             ],
         ];
     }
