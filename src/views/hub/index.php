@@ -22,7 +22,7 @@ $this->registerCss("
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
     <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
 
-        <?php $page->setSearchFormData([]) ?>
+        <?php $page->setSearchFormData(['types' => $types]) ?>
 
         <?php $page->beginContent('main-actions') ?>
             <?php if (Yii::$app->user->can('admin') or 1) : ?>
@@ -50,8 +50,8 @@ $this->registerCss("
                         'checkbox',
                         'inn',
                         'buyer',
-                        'model',
                         'actions',
+                        'model',
                         'switch',
                         'type',
                         'ip',
