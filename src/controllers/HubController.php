@@ -61,29 +61,35 @@ class HubController extends CrudController
 
     protected function getTypes()
     {
-        $companies = Yii::$app->get('cache')->getOrSet([__METHOD__], function () {
-            $result = ArrayHelper::map(Ref::find()->where(['gtype' => 'type,device,switch', 'select' => 'full'])->all(), 'id', function ($model) {
+        return $this->getFullFromRef('type,device,switch');
+    }
+
+    protected function getSnmpOptions()
+    {
+        return $this->getFullFromRef('type,snmp_version');
+    }
+
+    protected function getDigitalCapacityOptions()
+    {
+        return $this->getFullFromRef('type,digit_capacity');
+    }
+
+    protected function getNicMediaOptions()
+    {
+        return $this->getFullFromRef('type,nic_media');
+    }
+
+    protected function getFullFromRef($gtype)
+    {
+        $callingMethod = debug_backtrace()[1]['function'];
+        $result = Yii::$app->get('cache')->getOrSet([$callingMethod], function () use ($gtype) {
+            $result = ArrayHelper::map(Ref::find()->where(['gtype' => $gtype, 'select' => 'full'])->all(), 'id', function ($model) {
                 return Yii::t('hipanel:server:hub', $model->label);
             });
 
             return $result;
         }, 86400 * 24); // 24 days
 
-        return $companies;
-    }
-
-    protected function getSnmpOptions()
-    {
-        return Ref::getList('type,snmp_version', 'hipanel:server:hub');
-    }
-
-    protected function getDigitalCapacityOptions()
-    {
-        return Ref::getList('type,digit_capacity', 'hipanel:server:hub');
-    }
-
-    protected function getNicMediaOptions()
-    {
-        return Ref::getList('type,nic_media', 'hipanel:server:hub');
+        return $result;
     }
 }
