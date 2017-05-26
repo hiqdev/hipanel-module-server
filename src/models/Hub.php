@@ -20,7 +20,17 @@ class Hub extends \hipanel\base\Model
             ], 'string'],
             [['virtual'], 'boolean'],
 
+            // Create and update
             [['type_id', 'name'], 'required', 'on' => ['create', 'update']],
+            [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => ['create', 'update']],
+
+            // set Options
+            [[
+                'inn', 'model', 'login', 'password', 'ports_num', 'community',
+                'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no', 'base_port_no',
+            ], 'safe', 'on' => 'options'],
+            [['traf_server_id', 'vlan_server_id'], 'integer', 'on' => 'options'],
+
         ]);
     }
 
