@@ -18,6 +18,7 @@ class HubDetailMenu extends \hipanel\menus\AbstractDetailMenu
     {
         $actions = HubActionsMenu::create(['model' => $this->model])->items();
         $items = array_merge($actions, []);
+        unset($items['view']);
 
         return $items;
     }
