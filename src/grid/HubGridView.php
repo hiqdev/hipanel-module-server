@@ -33,6 +33,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
             ],
             'switch' => [
                 'format' => 'html',
+                'label' => Yii::t('hipanel:server', 'Switch'),
                 'value' => function ($model) {
                     $name = Html::tag('span', $model->name, ['class' => 'text-bold text-info']);
                     $note = Html::tag('small', $model->note, ['class' => 'text-muted']);
