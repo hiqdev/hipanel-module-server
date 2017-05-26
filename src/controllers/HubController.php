@@ -48,6 +48,13 @@ class HubController extends CrudController
             'options' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Options was updated'),
+                'data' => function () {
+                    return [
+                        'snmpOptions' => $this->getSnmpOptions(),
+                        'digitalCapacityOptions' => $this->getDigitalCapacityOptions(),
+                        'nicMediaOptions' => $this->getNicMediaOptions(),
+                    ];
+                }
             ],
         ];
     }
@@ -63,5 +70,20 @@ class HubController extends CrudController
         }, 86400 * 24); // 24 days
 
         return $companies;
+    }
+
+    protected function getSnmpOptions()
+    {
+        return Ref::getList('type,snmp_version', 'hipanel:server:hub');
+    }
+
+    protected function getDigitalCapacityOptions()
+    {
+        return Ref::getList('type,digit_capacity', 'hipanel:server:hub');
+    }
+
+    protected function getNicMediaOptions()
+    {
+        return Ref::getList('type,nic_media', 'hipanel:server:hub');
     }
 }
