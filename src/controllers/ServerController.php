@@ -329,7 +329,7 @@ class ServerController extends CrudController
                             'scenario' => 'delete',
                             'hiddenInputs' => ['id', 'name'],
                             'bodyWarning' => Yii::t('hipanel:server', 'This action is irreversible and causes full data loss including backups!'),
-                                'submitButton' => Yii::t('hipanel', 'Delete'),
+                            'submitButton' => Yii::t('hipanel', 'Delete'),
                             'submitButtonOptions' => ['class' => 'btn btn-danger'],
                         ]),
                     ];
