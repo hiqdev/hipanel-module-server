@@ -77,10 +77,19 @@ class RefuseController extends CrudController
             'bulk-approve-modal' => [
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'approve',
-                'view' => '_bulkApprove',
+                'view' => '_bulk-operation',
                 'findOptions' => [
                     'state' => Change::STATE_NEW,
                 ],
+                'data' => function ($action, $data) {
+                    return [
+                        'bulkOp' => array_merge($data, [
+                            'scenario' => 'approve',
+                            'submitButton' => Yii::t('hipanel:finance:change', 'Approve'),
+                            'submitButtonOptions' => ['class' => 'btn btn-success'],
+                        ]),
+                    ];
+                },
             ],
             'bulk-reject' => [
                 'class' => SmartUpdateAction::class,
@@ -105,10 +114,20 @@ class RefuseController extends CrudController
             'bulk-reject-modal' => [
                 'class' => PrepareBulkAction::class,
                 'scenario' => 'reject',
-                'view' => '_bulkReject',
+                'view' => '_bulk-operation',
                 'findOptions' => [
                     'state' => Change::STATE_NEW,
                 ],
+                'data' => function ($action, $data) {
+                    return [
+                        'bulkOp' => array_merge($data, [
+                            'scenario' => 'reject',
+                            'submitButton' => Yii::t('hipanel:finance:change', 'Reject'),
+                            'submitButtonOptions' => ['class' => 'btn btn-danger'],
+                        ]),
+                    ];
+                },
+
             ],
         ];
     }
