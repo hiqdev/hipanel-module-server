@@ -42,6 +42,10 @@ class HubGridView extends \hipanel\grid\BoxedGridView
             ],
             'type' => [
                 'class' => RefColumn::class,
+                'findOptions' => [
+                    'select' => 'full',
+                    'mapOptions' => ['from' => 'id', 'to' => 'label'],
+                ],
                 'attribute' => 'type_id',
                 'i18nDictionary' => 'hipanel:server:hub',
                 'gtype' => 'type,device,switch',
