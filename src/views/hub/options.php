@@ -6,6 +6,7 @@
 
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\widgets\PasswordInput;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
@@ -34,8 +35,10 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
             <div class="col-md-4">
                 <?= $form->field($model, 'ports_num') ?>
-                <?= $form->field($model, 'traf_server_id') ?>
-                <?= $form->field($model, 'vlan_server_id') ?>
+                <?= $form->field($model, 'traf_server_id')->widget(ServerCombo::class, [
+                    'pluginOptions' => [],
+                ]) ?>
+                <?= $form->field($model, 'vlan_server_id')->widget(ServerCombo::class) ?>
                 <?= $form->field($model, 'community') ?>
             </div>
             <div class="col-md-4">
