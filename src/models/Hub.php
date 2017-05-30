@@ -8,6 +8,10 @@ class Hub extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+    const SCENARIO_OPTIONS = 'options';
+
     public function rules()
     {
         return array_merge(parent::rules(), [
@@ -21,15 +25,16 @@ class Hub extends \hipanel\base\Model
             [['virtual'], 'boolean'],
 
             // Create and update
-            [['type_id', 'name'], 'required', 'on' => ['create', 'update']],
-            [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => ['create', 'update']],
+            [['type_id', 'name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
+            [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
 
             // set Options
             [[
-                'inn', 'model', 'login', 'password', 'ports_num', 'community',
+                'id', 'inn', 'model', 'login', 'password', 'ports_num', 'community',
                 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no', 'base_port_no',
             ], 'safe', 'on' => 'options'],
-            [['traf_server_id', 'vlan_server_id'], 'integer', 'on' => 'options'],
+            [['traf_server_id', 'vlan_server_id'], 'integer', 'on' => self::SCENARIO_OPTIONS],
 
         ]);
     }
