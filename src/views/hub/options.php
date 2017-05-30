@@ -21,6 +21,8 @@ $this->params['breadcrumbs'][] = $this->title;
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
 ]); ?>
 
+<?= Html::activeHiddenInput($model, 'id') ?>
+
 <div class="box">
     <div class="box-body">
         <div class="row">
