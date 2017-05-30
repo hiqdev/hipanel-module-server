@@ -70,6 +70,15 @@ $this->registerCss("
                         'type',
                         'ip',
                         'mac',
+                        'login',
+                        'ports_num',
+                        'traf_server_id',
+                        'vlan_server_id',
+                        'community',
+                        'snmp_version_id',
+                        'digit_capacity_id',
+                        'nic_media',
+                        'base_port_no',
                     ],
                 ]);
                 $box->endBody();
