@@ -9,5 +9,5 @@ class MacValidator extends RegularExpressionValidator
     /**
      * @var string Regexp-pattern to validate MAC address
      */
-    public $pattern = '/^([0-9a-f]{1,2}[\.:-\s]){5}([0-9a-f]{1,2})$/i';
+    public $pattern = '/^([0-9A-Fa-f]{2}[\.\s:-]){5}([0-9A-Fa-f]{2})$/';
 }
