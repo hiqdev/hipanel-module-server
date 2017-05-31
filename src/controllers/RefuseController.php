@@ -127,7 +127,6 @@ class RefuseController extends CrudController
                         ]),
                     ];
                 },
-
             ],
         ];
     }
