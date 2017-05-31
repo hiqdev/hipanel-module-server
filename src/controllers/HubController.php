@@ -10,6 +10,7 @@ use hipanel\base\CrudController;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use Yii;
+use yii\base\Event;
 
 class HubController extends CrudController
 {
@@ -25,6 +26,13 @@ class HubController extends CrudController
                 }
             ],
             'view' => [
+                'on beforePerform' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith(['bindings']);
+                    $dataProvider->query->andWhere(['with_bindings' => 1]);
+                },
                 'class' => ViewAction::class,
             ],
             'create' => [
