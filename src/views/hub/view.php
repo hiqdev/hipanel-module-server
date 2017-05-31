@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\modules\server\grid\HubGridView;
+use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
@@ -34,16 +35,16 @@ $this->registerCss("
                 echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
                 $box->endHeader();
                 $box->beginBody();
-                //                echo ServerGridView::detailView([
-                //                    'model' => $model,
-                //                    'boxed' => false,
-                //                    'columns' => [
-                //                        'net',
-                //                        'pdu',
-                //                        'rack',
-                //                        'ipmi',
-                //                    ]
-                //                ]);
+                echo ServerGridView::detailView([
+                    'model' => $model,
+                    'boxed' => false,
+                    'columns' => [
+                        'net',
+                        'pdu',
+                        'rack',
+                        'ipmi',
+                    ]
+                ]);
                 $box->endBody();
                 $box->end();
                 ?>
