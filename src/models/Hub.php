@@ -2,6 +2,7 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\modules\server\validators\MacValidator;
 use Yii;
 
 class Hub extends \hipanel\base\Model
@@ -36,6 +37,8 @@ class Hub extends \hipanel\base\Model
             ], 'safe', 'on' => 'options'],
             [['traf_server_id', 'vlan_server_id'], 'integer', 'on' => self::SCENARIO_OPTIONS],
 
+            [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
+            [['mac'], MacValidator::class],
         ]);
     }
 
@@ -57,6 +60,7 @@ class Hub extends \hipanel\base\Model
             'nic_media' => Yii::t('hipanel:server:hub', 'NIC media'),
             'base_port_no' => Yii::t('hipanel:server:hub', 'Base port no'),
             'oob_key' => Yii::t('hipanel:server:hub', 'OOB license key'),
+            'mac' => Yii::t('hipanel:server:hub', 'MAC address')
         ]);
     }
 }
