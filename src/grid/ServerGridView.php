@@ -260,7 +260,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'raw',
                 'filter' => false,
                 'value'  => function ($model) {
-                    $ipmi = $model->switches['ipmi']['device_ip'];
+                    $ipmi = $model->bindings['ipmi']->device_ip;
                     $link = $ipmi ? Html::a($ipmi, "http://$ipmi/", ['target' => '_blank']) . ' ' : '';
                     return $link . static::renderSwitchPort($model->bindings['ipmi']);
                 },
