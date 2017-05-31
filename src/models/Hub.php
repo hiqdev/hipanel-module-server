@@ -63,4 +63,9 @@ class Hub extends \hipanel\base\Model
             'mac' => Yii::t('hipanel:server:hub', 'MAC address')
         ]);
     }
+
+    public function getBindings()
+    {
+        return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
+    }
 }
