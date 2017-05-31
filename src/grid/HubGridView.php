@@ -14,11 +14,6 @@ class HubGridView extends \hipanel\grid\BoxedGridView
     public static function defaultColumns()
     {
         return [
-            'model' => [
-                'contentOptions' => [
-                    'class' => 'text-right'
-                ]
-            ],
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => HubActionsMenu::class,
