@@ -1,50 +1,25 @@
 <?php
-use hipanel\helpers\Url;
-use hipanel\modules\server\models\Change;
-use yii\bootstrap\ActiveForm;
-use yii\helpers\Html;
 
-/**
- * @var Change[] $models
- */
-?>
-<?php $form = ActiveForm::begin([
-    'id' => 'bulk-approve-form',
-    'action' => Url::toRoute('bulk-approve'),
-    'enableAjaxValidation' => false,
-]) ?>
+use hipanel\widgets\BulkOperation;
+use \hipanel\modules\server\grid\PreOrderGridView;
+use yii\data\ArrayDataProvider;
 
-<div class="panel panel-default">
-    <div class="panel-heading"><?= Yii::t('hipanel:server', 'Affected VDS orders') ?></div>
-    <div class="panel-body">
-            <?= \hipanel\modules\server\grid\PreOrderGridView::widget([
-                'dataProvider' => new \yii\data\ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
-                'boxed' => false,
-                'columns' => [
-                    'client',
-                    'user_comment',
-                    'tech_details',
-                    'time',
-                ],
-                'layout' => '{items}',
-            ]) ?>
-    </div>
-</div>
+echo BulkOperation::widget([
+    'model' => $model,
+    'models' => $models,
+    'scenario' => 'approve',
+    'affectedObjects' => Yii::t('hipanel:server', 'Affected VDS orders'),
+    'panelBody' => PreOrderGridView::widget([
+        'dataProvider' => new ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
+        'boxed' => false,
+        'columns' => [
+            'client', 'user_comment', 'tech_details', 'time',
+        ],
+        'layout' => '{items}',
+    ]),
+    'hiddenInputs' => ['id'],
+    'visibleInputs' => ['comment'],
+    'submitButton' => Yii::t('hipanel:finance:change', 'Approve'),
+    'submitButtonOptions' => ['class' => 'btn btn-success'],
+]);
 
-<?php foreach ($models as $item) : ?>
-    <?= Html::activeHiddenInput($item, "[$item->id]id") ?>
-<?php endforeach; ?>
-
-<div class="row">
-    <div class="col-sm-6">
-        <?= $form->field($model, 'comment')->textInput([
-            'id' => 'change-approve-comment',
-            'name' => 'comment',
-        ]); ?>
-    </div>
-</div>
-
-<hr>
-<?= Html::submitButton(Yii::t('hipanel:finance:change', 'Approve'), ['class' => 'btn btn-success']) ?>
-
-<?php ActiveForm::end() ?>
