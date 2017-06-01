@@ -18,6 +18,7 @@ class HubSearch extends Hub
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
             'with_bindings',
+            'with_servers',
         ]);
     }
 }
