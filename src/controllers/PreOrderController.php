@@ -76,7 +76,7 @@ class PreOrderController extends CrudController
             ],
             'bulk-approve-modal' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_bulk-approve',
+                'view' => '_bulkApprove',
                 'findOptions' => [
                     'state' => Change::STATE_NEW,
                 ],
@@ -103,7 +103,7 @@ class PreOrderController extends CrudController
             ],
             'bulk-reject-modal' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_bulk-reject',
+                'view' => '_bulkReject',
                 'findOptions' => [
                     'state' => Change::STATE_NEW,
                 ],
