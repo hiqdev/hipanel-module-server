@@ -21,7 +21,7 @@ class Hub extends \hipanel\base\Model
                 'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'buyer', 'note', 'inn', 'model',
                 'community', 'login', 'traf_server_id', 'order_no', 'password', 'ports_num', 'traf_server_id',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
-                'oob_key',
+                'oob_key', 'traf_server_id_label', 'vlan_server_id_label',
             ], 'string'],
             [['virtual'], 'boolean'],
 
