@@ -31,7 +31,9 @@ class HubController extends CrudController
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
                     $dataProvider->query->joinWith(['bindings']);
-                    $dataProvider->query->andWhere(['with_bindings' => 1]);
+                    $dataProvider->query
+                        ->andWhere(['with_bindings' => 1])
+                        ->andWhere(['with_servers' => 1]);
                 },
                 'class' => ViewAction::class,
             ],
