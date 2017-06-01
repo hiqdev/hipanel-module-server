@@ -18,6 +18,18 @@ class HubGridView extends \hipanel\grid\BoxedGridView
                 'class' => MenuColumn::class,
                 'menuClass' => HubActionsMenu::class,
             ],
+            'traf_server_id' => [
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->traf_server_id_label, ['@server/view', 'id' => $model->traf_server_id]);
+                }
+            ],
+            'vlan_server_id' => [
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->vlan_server_id_label, ['@server/view', 'id' => $model->vlan_server_id]);
+                }
+            ],
             'buyer' => [
                 'class' => ClientColumn::class,
                 'idAttribute' => 'buyer_id',
