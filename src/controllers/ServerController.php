@@ -321,7 +321,6 @@ class ServerController extends CrudController
             ],
             'bulk-delete-modal' => [
                 'class' => PrepareBulkAction::class,
-                'scenario' => 'delete',
                 'view' => '_bulk-delete',
             ],
             'bulk-enable-block' => [
@@ -352,7 +351,6 @@ class ServerController extends CrudController
             ],
             'bulk-enable-block-modal' => [
                 'class' => PrepareBulkAction::class,
-                'scenario' => 'enable-block',
                 'view' => '_bulk-enable-block',
                 'data' => function ($action, $data) {
                     return array_merge($data, [
@@ -388,7 +386,6 @@ class ServerController extends CrudController
             ],
             'bulk-disable-block-modal' => [
                 'class' => PrepareBulkAction::class,
-                'scenario' => 'disable-block',
                 'view' => '_bulk-disable-block',
                 'data' => function ($action, $data) {
                     return array_merge($data, [
