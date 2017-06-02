@@ -46,6 +46,7 @@ class Hub extends \hipanel\base\Model
     {
         return array_merge(parent::attributeLabels(), [
             'type_id' => Yii::t('hipanel', 'Type'),
+            'buyer_id' => Yii::t('hipanel:server:hub', 'Buyer'),
             'inn' => Yii::t('hipanel:server:hub', 'INN'),
             'model' => Yii::t('hipanel:server:hub', 'Model'),
             'order_no' => Yii::t('hipanel:server:hub', 'Order No.'),
@@ -60,12 +61,28 @@ class Hub extends \hipanel\base\Model
             'nic_media' => Yii::t('hipanel:server:hub', 'NIC media'),
             'base_port_no' => Yii::t('hipanel:server:hub', 'Base port no'),
             'oob_key' => Yii::t('hipanel:server:hub', 'OOB license key'),
-            'mac' => Yii::t('hipanel:server:hub', 'MAC address')
+            'mac' => Yii::t('hipanel:server:hub', 'MAC address'),
+            'name' => Yii::t('hipanel:server:hub', 'Name'),
+            'note' => Yii::t('hipanel:server:hub', 'Note'),
+            'net' => Yii::t('hipanel:server', 'Switch'),
+            'kvm' => Yii::t('hipanel:server', 'KVM'),
+            'pdu' => Yii::t('hipanel:server', 'APC'),
+            'rack' => Yii::t('hipanel:server', 'Rack'),
+            'ipmi' => Yii::t('hipanel:server', 'IPMI'),
         ]);
     }
 
     public function getBindings()
     {
         return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
+    }
+
+    public function getBinding($type)
+    {
+        if (!isset($this->bindings[$type])) {
+            return null;
+        }
+
+        return $this->bindings[$type];
     }
 }
