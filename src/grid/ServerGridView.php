@@ -17,6 +17,7 @@ use hipanel\grid\XEditableColumn;
 use hipanel\helpers\Url;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
+use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
@@ -232,7 +233,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return $model->bindings['rack']->switch;
+                    if ($model->getBinding('rack')) {
+                        return $model->getBinding('rack')->switch;
+                    } else return null;
                 },
             ],
             'net' => [
@@ -260,9 +263,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'raw',
                 'filter' => false,
                 'value'  => function ($model) {
-                    $ipmi = $model->bindings['ipmi']->device_ip;
-                    $link = $ipmi ? Html::a($ipmi, "http://$ipmi/", ['target' => '_blank']) . ' ' : '';
-                    return $link . static::renderSwitchPort($model->bindings['ipmi']);
+                    if (($ipmi = $model->getBinding('ipmi')) !== null) {
+                        $link = Html::a($ipmi->device_ip, "http://$ipmi->device_ip/", ['target' => '_blank']) . ' ';
+                        return $link . static::renderSwitchPort($ipmi);
+                    }
                 },
             ],
             'nums' => [
@@ -293,18 +297,21 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         ];
     }
 
-    public static function renderSwitchPort($data)
+    /**
+     * @param Binding $binding
+     * @return string
+     */
+    public static function renderSwitchPort($binding)
     {
-        $label  = $data['switch_label'];
-        $inn    = $data['switch_inn'];
-        $name   = $data['switch'];
-        $port   = $data['port'];
+        if ($binding === null) {
+            return '';
+        }
 
-        $inn    = $inn ? "($inn)" : '';
-        $main   = $port ? "$name:$port" : $name;
-        $main   = $main ? "<b>$main</b>" : '';
+        $label  = $binding->switch_label;
+        $inn    = $binding->switch_inn;
+        $main   = $binding->switch . ':' . $binding->port;
 
-        return "$inn $main $label";
+        return "($inn) <b>$main</b> $label";
     }
 
     public static function defaultRepresentations()

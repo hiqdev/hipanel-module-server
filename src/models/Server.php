@@ -243,6 +243,15 @@ class Server extends \hipanel\base\Model
         return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
     }
 
+    public function getBinding($type)
+    {
+        if (!isset($this->bindings[$type])) {
+            return null;
+        }
+
+        return $this->bindings[$type];
+    }
+
     /**
      * {@inheritdoc}
      */
