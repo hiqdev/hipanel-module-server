@@ -1,5 +1,28 @@
 <?php
 
 return [
-
+    'INN' => 'ИНН',
+    'MAC address' => 'MAC-адрес',
+    'General information' => 'Общая информация',
+    'Model' => 'Модель',
+    'Name' => 'Название',
+    'Note' => 'Краткое описание',
+    'Options' => 'Опции',
+    'Login' => 'Логин',
+    'Password' => 'Пароль',
+    'Number of ports' => 'Количество портов',
+    'Server where traf is counted' => 'Сервер, на котором подсчитывается трафик',
+    'Server in same VLAN' => 'Сервер в том же VLAN',
+    'Community' => 'Сообщество',
+    'SNMP version' => 'Версия SNMP',
+    'Digit capacity' => 'Разрядность',
+    'NIC media' => 'Сетевые адаптеры',
+    'Base port no' => 'Номер начального порта',
+    'OOB license key' => '',
+    'Buyer' => 'Покупатель',
+    'Create switch' => 'Добавить свитч',
+    'Example: {0}' => 'Пример: {0}',
+    'Switch was created' => 'Свитч создан',
+    'Switch was updated' => 'Свитч изменен',
+    'Options was updated' => 'Опции били изменены',
 ];
