@@ -14,23 +14,38 @@ class HubGridView extends \hipanel\grid\BoxedGridView
     public static function defaultColumns()
     {
         return [
+            'inn' => [
+                'enableSorting' => false,
+            ],
+            'model' => [
+                'enableSorting' => false,
+            ],
+            'ip' => [
+                'enableSorting' => false,
+            ],
+            'mac' => [
+                'enableSorting' => false,
+            ],
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => HubActionsMenu::class,
             ],
             'traf_server_id' => [
                 'format' => 'html',
+                'enableSorting' => false,
                 'value' => function ($model) {
                     return Html::a($model->traf_server_id_label, ['@server/view', 'id' => $model->traf_server_id]);
                 }
             ],
             'vlan_server_id' => [
                 'format' => 'html',
+                'enableSorting' => false,
                 'value' => function ($model) {
                     return Html::a($model->vlan_server_id_label, ['@server/view', 'id' => $model->vlan_server_id]);
                 }
             ],
             'buyer' => [
+                'label' => Yii::t('hipanel:server:hub', 'Buyer'),
                 'class' => ClientColumn::class,
                 'idAttribute' => 'buyer_id',
                 'attribute' => 'buyer_id',
@@ -40,6 +55,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
             ],
             'switch' => [
                 'format' => 'html',
+                'enableSorting' => false,
                 'label' => Yii::t('hipanel:server', 'Switch'),
                 'value' => function ($model) {
                     $name = Html::tag('span', $model->name, ['class' => 'text-bold text-info']);
@@ -49,6 +65,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
             ],
             'type' => [
                 'class' => RefColumn::class,
+                'enableSorting' => false,
                 'findOptions' => [
                     'select' => 'full',
                     'mapOptions' => ['from' => 'id', 'to' => 'label'],
