@@ -57,7 +57,7 @@ $this->registerCss("
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
-                echo $box->renderTitle(Yii::t('hipanel:server:hub', 'General inforamtion'));
+                echo $box->renderTitle(Yii::t('hipanel:server:hub', 'General information'));
                 $box->endHeader();
                 $box->beginBody();
                 echo HubGridView::detailView([

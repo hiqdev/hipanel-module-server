@@ -2,7 +2,7 @@
 
 /* @var  array $types */
 
-$this->title = Yii::t('hipanel:server:hub', 'Create Switch');
+$this->title = Yii::t('hipanel:server:hub', 'Create switch');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
