@@ -7,7 +7,7 @@ use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\ChartOptions;
-use hipanel\modules\server\widgets\SimpleOperation;
+use hipanel\widgets\SimpleOperation;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\ClientSellerLink;

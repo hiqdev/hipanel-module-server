@@ -10,7 +10,7 @@
 
 namespace hipanel\modules\server\menus;
 
-use hipanel\modules\server\widgets\SimpleOperation;
+use hipanel\widgets\SimpleOperation;
 use hipanel\widgets\BlockModalButton;
 use Yii;
 
@@ -73,9 +73,9 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'model' => $this->model,
                     'scenario' => 'delete',
                     'skipCheckOperable' => true,
-                    'buttonLabel' => '<i class="fa fa-fw fa-trash-o"></i>' . Yii::t('hipanel:server', 'Delete'),
+                    'buttonLabel' => '<i class="fa fa-fw fa-trash-o"></i>' . Yii::t('hipanel', 'Delete'),
                     'buttonClass' => '',
-                    'body' => Yii::t('hipanel:server', 'Are you sure you want to delete server {name}? You will loose everything!', ['name' => $model->name]),
+                    'body' => Yii::t('hipanel:server', 'Are you sure you want to delete server {name}? You will loose everything!', ['name' => $this->model->name]),
                     'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server deleting'),
                     'modalHeaderOptions' => ['class' => 'label-danger'],
                     'modalFooterLabel' => Yii::t('hipanel:server', 'Delete server'),

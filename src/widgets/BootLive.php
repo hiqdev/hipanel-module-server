@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\widgets;
 
 use hipanel\widgets\ModalButton;
+use hipanel\widgets\SimpleOperation;
 use yii\helpers\Html;
 use Yii;
 
