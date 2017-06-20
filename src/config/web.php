@@ -67,7 +67,7 @@ return [
                     'server' => [
                         'menu' => \hipanel\modules\server\menus\SidebarMenu::class,
                         'where' => [
-                            'after' => ['domains', 'tickets', 'finance', 'clients', 'dashboard'],
+                            'after' => ['certificates', 'domains', 'finance', 'clients', 'dashboard'],
                             'before' => ['hosting'],
                         ],
                     ],
