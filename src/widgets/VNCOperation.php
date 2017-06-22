@@ -14,6 +14,7 @@ use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\JsExpression;
+use yii\base\InvalidConfigException;
 
 class VNCOperation extends Widget
 {

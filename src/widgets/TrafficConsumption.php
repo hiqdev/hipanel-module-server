@@ -13,6 +13,7 @@ namespace hipanel\modules\server\widgets;
 use yii\base\Widget;
 use yii\helpers\Html;
 use dosamigos\chartjs\ChartJs;
+use yii\base\InvalidConfigException;
 use Yii;
 
 class TrafficConsumption extends Widget
