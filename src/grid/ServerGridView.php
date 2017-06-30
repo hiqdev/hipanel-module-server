@@ -309,9 +309,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
         $label  = $binding->switch_label;
         $inn    = $binding->switch_inn;
+        $inn    = $inn ? "($inn) " : '';
         $main   = $binding->switch . ':' . $binding->port;
 
-        return "($inn) <b>$main</b> $label";
+        return "$inn<b>$main</b> $label";
     }
 
     public static function defaultRepresentations()
