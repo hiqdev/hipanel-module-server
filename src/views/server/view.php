@@ -7,6 +7,7 @@ use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\ChartOptions;
+use hipanel\modules\server\widgets\ServerSwitcher;
 use hipanel\widgets\SimpleOperation;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
@@ -33,6 +34,8 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
     <div class="row server-view">
         <div class="col-md-3">
+            <?= ServerSwitcher::widget(['model' => $model]) ?>
+
             <?php Box::begin([
                 'bodyOptions' => [
                     'class' => 'no-padding'
