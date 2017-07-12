@@ -330,7 +330,14 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <div class="col-md-12">
                         <?php $box = Box::begin(['renderBody' => false]) ?>
                         <?php $box->beginHeader() ?>
-                        <?= $box->renderTitle(Yii::t('hipanel:server', 'Configuration')) ?>
+                            <?= $box->renderTitle(Yii::t('hipanel:server', 'Configuration')) ?>
+                            <?php $box->beginTools() ?>
+                                <?= Html::a(
+                                    Yii::t('hipanel', 'Details'),
+                                    Url::toSearch('part', ['dst_name_like' => $model->name]),
+                                    ['class' => 'btn btn-default btn-xs']
+                                ) ?>
+                            <?php $box->endTools() ?>
                         <?php $box->endHeader() ?>
                         <?php $box->beginBody() ?>
                         <?php $url = Url::to(['@part/render-object-parts', 'id' => $model->id]) ?>
