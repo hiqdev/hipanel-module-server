@@ -233,9 +233,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    if ($model->getBinding('rack')) {
-                        return $model->getBinding('rack')->switch;
-                    } else return null;
+                    return static::renderSwitchPort($model->bindings['rack']);
                 },
             ],
             'net' => [
@@ -310,7 +308,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         $label  = $binding->switch_label;
         $inn    = $binding->switch_inn;
         $inn    = $inn ? "($inn) " : '';
-        $main   = $binding->switch . ':' . $binding->port;
+        $main   = $binding->switch . ($binding->port ? ':' . $binding->port : '');
 
         return "$inn<b>$main</b> $label";
     }
