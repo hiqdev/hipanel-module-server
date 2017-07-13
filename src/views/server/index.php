@@ -6,6 +6,7 @@ use hipanel\widgets\AjaxModal;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\bootstrap\Dropdown;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 /** @var OsimageSearch $osimages */
@@ -32,6 +33,17 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
+        <?php if (Yii::$app->user->can('server.sell') || true): ?>
+            <?= AjaxModal::widget([
+                'id' => 'bulk-sale-modal',
+                'bulkPage' => true,
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Sell servers'), ['class' => 'modal-title']),
+                'scenario' => 'sale',
+                'actionUrl' => ['bulk-sale'],
+                'size' => Modal::SIZE_LARGE,
+                'toggleButton' => ['label' => Yii::t('hipanel:server', 'Sell'), 'class' => 'btn btn-sm btn-default'],
+            ]) ?>
+        <?php endif ?>
         <?php if (Yii::$app->user->can('support')): ?>
             <div class="dropdown" style="display: inline-block">
                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

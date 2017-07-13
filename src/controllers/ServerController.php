@@ -201,15 +201,6 @@ class ServerController extends CrudController
             'sale' => [
                 'class' => SmartUpdateAction::class,
                 'view' => '_saleModal',
-                'POST' => [
-                    'save' => true,
-                    'success' => [
-                        'class' => RenderJsonAction::class,
-                        'return' => function ($action) {
-                            return ['success' => !$action->collection->hasErrors()];
-                        },
-                    ],
-                ],
             ],
             'enable-vnc' => [
                 'class' => ViewAction::class,
@@ -221,6 +212,36 @@ class ServerController extends CrudController
                     }
 
                     return [];
+                },
+            ],
+            'bulk-sale' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'sale',
+                'view' => '_bulkSale',
+                'success' => Yii::t('hipanel:server', 'Servers were sold'),
+                'POST pjax' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => ProxyAction::class,
+                        'action' => 'index',
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $request = Yii::$app->request;
+
+                    if ($client_id = $request->post('client_id')) {
+                        foreach ($action->collection->models as $model) {
+                            $model->client_id = $client_id;
+                            if ($tariff_id = $request->post('tariff_id')) {
+                                $model->tariff_id = $tariff_id;
+                            }
+                            if ($sale_time = $request->post('sale_time')) {
+                                $model->sale_time = $sale_time;
+                            }
+                        }
+                    }
                 },
             ],
             'reboot' => [

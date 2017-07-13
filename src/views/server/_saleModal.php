@@ -10,25 +10,30 @@ use yii\widgets\ActiveForm;
 ?>
 
 <?php $form = ActiveForm::begin([
-    'options' => [
-        'id' => $model->scenario . '-form',
-    ],
+    'options' => ['id' => $model->scenario . '-form'],
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
 ]) ?>
 
-    <?= $form->field($model, 'client')->widget(ClientCombo::class) ?>
-    <?= $form->field($model, 'tariff')->widget(TariffCombo::class, [
-        'tariffType' => 'server',
-    ]) ?>
-    <?= $form->field($model, 'sale_time')->widget(DateTimePicker::class, [
-        'pluginOptions' => [
-            'autoclose' => true,
-        ],
-    ]) ?>
+<?= Html::activeHiddenInput($model, 'id') ?>
+<?= $form->field($model, 'client_id')->widget(ClientCombo::class, ['formElementSelector' => '.form-group']) ?>
 
-    <hr>
+<?= $form->field($model, 'tariff_id')->widget(TariffCombo::class, [
+    'formElementSelector' => '.form-group',
+    'tariffType' => 'server',
+]) ?>
+<?= $form->field($model, 'sale_time')->widget(DateTimePicker::class, [
+    'pluginOptions' => [
+        'autoclose' => true,
+        'format' => 'yyyy-mm-dd hh:ii:ss',
+    ],
+    'options' => [
+        'value' => Yii::$app->formatter->asDatetime($model->sale_time, 'php:Y-m-d H:i:s'),
+    ],
+]) ?>
 
-    <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?> &nbsp;
-    <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
+<hr>
+
+<?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?> &nbsp;
+<?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']) ?>
 <?php $form::end() ?>

@@ -208,4 +208,8 @@ return [
 
     'Switches' => 'Свитчи',
     'Switch' => 'Свитч',
+    'Sell' => 'Продать',
+    'Sell servers' => 'Продать серверы',
+    'Servers were sold' => 'Серверы были проданы',
+    'Tariff' => 'Тариф',
 ];

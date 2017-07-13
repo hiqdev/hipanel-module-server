@@ -55,7 +55,8 @@ class Server extends \hipanel\base\Model
                 'safe',
             ],
             [['switches', 'rack', 'net', 'kvm', 'pdu', 'ipmi'], 'safe'],
-            [['last_expires', 'expires', 'status_time', 'sale_time'], 'date'],
+            [['last_expires', 'expires', 'status_time'], 'date'],
+            [['time'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [
                 ['state'],
                 'isOperable',
@@ -92,6 +93,8 @@ class Server extends \hipanel\base\Model
             [['id', 'osimage'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
+
+            [['client_id', 'tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
         ];
     }
 
@@ -277,6 +280,7 @@ class Server extends \hipanel\base\Model
             'hwsummary'           => Yii::t('hipanel:server', 'HW summary'),
             'sale_time'           => Yii::t('hipanel:server', 'Sale time'),
             'expires'             => Yii::t('hipanel:server', 'Expires'),
+            'tariff_id'           => Yii::t('hipanel:server', 'Tariff'),
         ]);
     }
 }
