@@ -308,7 +308,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             'modalFooterClass' => $model->autorenewal ? 'btn btn-warning': 'btn btn-info',
                         ]);
                     }
-                    if (Yii::$app->user->can('manage')) {
+                    if (Yii::$app->user->can('server.sell')) {
                         echo SettingsModal::widget([
                             'model'    => $model,
                             'title'    => Yii::t('hipanel:server', 'Change tariff'),

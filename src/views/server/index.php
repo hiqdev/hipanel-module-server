@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?php if (Yii::$app->user->can('server.sell') || true): ?>
+        <?php if (Yii::$app->user->can('server.sell')): ?>
             <?= AjaxModal::widget([
                 'id' => 'bulk-sale-modal',
                 'bulkPage' => true,
