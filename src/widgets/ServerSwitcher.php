@@ -12,13 +12,13 @@ class ServerSwitcher extends Widget
 
     public function run()
     {
-        if (Yii::$app->user->can('support')) {
-            $this->initClientScript();
-
-            return $this->render('ServerSwitcher', ['model' => $this->model]);
+        if (!Yii::$app->user->can('support')) {
+            return null;
         }
 
-        return null;
+        $this->initClientScript();
+
+        return $this->render('ServerSwitcher', ['model' => $this->model]);
     }
 
     protected function initClientScript()
