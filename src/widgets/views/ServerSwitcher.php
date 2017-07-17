@@ -4,13 +4,17 @@ use hipanel\modules\server\widgets\combo\ServerCombo;
 use yii\bootstrap\ActiveForm;
 
 ?>
-<?php $form = ActiveForm::begin() ?>
-<?= $form->field($model, 'name')->widget(ServerCombo::class, [
+<div class="server-switcher">
+<?= ServerCombo::widget([
+    'model' => new \yii\base\DynamicModel(['name']),
+    'attribute' => 'name',
     'hasId' => true,
-    'inputOptions' => [
-        'data' => [
-            'allow-clear' => 'false'
+    'formElementSelector' => '.server-switcher',
+    'pluginOptions' => [
+        'select2Options' => [
+            'placeholder' => Yii::t('hipanel:server', 'Fast navigation to another server'),
+            'allowClear' => false,
         ],
     ],
-])->label(false) ?>
-<?php ActiveForm::end() ?>
+]) ?>
+</div>

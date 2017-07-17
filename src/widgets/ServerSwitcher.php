@@ -25,7 +25,7 @@ class ServerSwitcher extends Widget
     {
         $url = Url::to(['@server/view', 'id' => '']);
         $this->view->registerJs("
-            $('#server-name').on('select2:select', function (e) {
+            $('.server-switcher select').on('select2:select', function (e) {
                 var selectedId = this.value;
                 window.location.href = '{$url}' + selectedId;
             });
