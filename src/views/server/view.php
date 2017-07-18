@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\widgets\TrafficConsumption;
 use hipanel\widgets\EventLog;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
 use hipanel\modules\server\grid\ServerGridView;
@@ -376,12 +377,11 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     $box->endTools();
                     $box->endHeader();
                     $box->beginBody();
-                    echo $this->render('_consumption', [
-                        'labels' => $chartsLabels,
-                        'data' => $chartsData,
-                        'consumptionBase' => 'server_traf',
-                        'isClientRegisterCss' => true,
-                    ]);
+                        echo TrafficConsumption::widget([
+                            'labels' => $chartsLabels,
+                            'data' => $chartsData,
+                            'consumptionBase' => 'server_traf',
+                        ]);
                     $box->endBody();
                     $box->end();
                     ?>
@@ -409,11 +409,11 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         $box->endTools();
                         $box->endHeader();
                         $box->beginBody();
-                        echo $this->render('_consumption', [
-                            'labels' => $chartsLabels,
-                            'data' => $chartsData,
-                            'consumptionBase' => 'server_traf95',
-                        ]);
+                            echo TrafficConsumption::widget([
+                                'labels' => $chartsLabels,
+                                'data' => $chartsData,
+                                'consumptionBase' => 'server_traf95',
+                            ]);
                         $box->endBody();
                         $box->end();
                         ?>
@@ -431,6 +431,7 @@ th {
 .btn-block {
     margin-bottom: .5em
 }');
+
 if ($model->running_task) {
     ServerTaskCheckerAsset::register($this);
     $checkerOptions = Json::encode([

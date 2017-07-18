@@ -20,12 +20,27 @@ class TrafficConsumption extends Widget
 {
 
     /**
-     * @var array. Chart labels
+     * @var array Lable for each [[data]] item. Will be rendered on chart axis.
+     * Example:
+     *
+     * ```php
+     *  ['June 2017', 'July 2017']
+     * ```
      */
     public $labels;
 
     /**
-     * @var array. Chart data
+     * @var array Array of arrays of the traffic data. Each data point will be rendered on chart
+     * Key - traffic type name, must be corresponding with [[consumptionBase]]
+     * Value - array of traffic amount values for each period according to the [[lables]]
+     *
+     * Example:
+     * ```php
+     * [
+     *    'server_traf_in' => [221.2, 312],
+     *    'server_traf' => [1232, 3411]
+     * ]
+     * ```
      */
     public $data = [];
 
@@ -34,31 +49,20 @@ class TrafficConsumption extends Widget
      */
     public $chartType = 'line';
 
-
     /**
-     * @var string
-     */
-    public $id;
-
-    /**
-     * @var string
+     * @var string name of consumption property
      */
     public $consumptionBase = 'server_traf';
 
     /**
-     * @var array. Messages which would be shown if data is empty
+     * @var array Messages which would be shown if data is empty
      */
     protected $emptyMessage;
 
     /**
-     * @var array. Legends for datasets
+     * @var array Legends for datasets
      */
     protected $legends;
-
-    /**
-     * @var boolean
-     */
-    public $isClientRegisterCss;
 
     public function init()
     {
@@ -89,18 +93,18 @@ class TrafficConsumption extends Widget
 
     public function run()
     {
-        if ($this->isClientRegisterCss === true) {
-            $this->clientRegisterCss();
-        }
+        $html = '';
+        $this->clientRegisterCss();
 
-        echo $this->renderBlockHeader();
-
+        $html .= $this->renderBlockHeader();
         if ($this->data === []) {
-            echo $this->emptyMessage[$this->consumptionBase];
+            $html .=  $this->emptyMessage[$this->consumptionBase];
         } else {
-            echo $this->renderCanvasData();
+            $html .=  $this->renderCanvasData();
         }
-        echo $this->renderBlockFooter();
+        $html .=  $this->renderBlockFooter();
+
+        return $html;
     }
 
     protected function renderBlockHeader()
@@ -122,7 +126,7 @@ class TrafficConsumption extends Widget
                         'borderColor' => 'rgba(139, 195, 74, 1)',
                         'pointBackgroundColor' => 'rgba(139, 195, 74, 1)',
                         'pointBorderColor' => '#fff',
-                        'data' => $this->data[$this->consumptionBase],
+                        'data' => (array) $this->data[$this->consumptionBase],
                     ],
                     [
                         'label' => $this->legends["{$this->consumptionBase}_in"],
@@ -130,7 +134,7 @@ class TrafficConsumption extends Widget
                         'borderColor' => 'rgba(151,187,205,1)',
                         'pointBackgroundColor' => 'rgba(151,187,205,1)',
                         'pointBorderColor' => '#fff',
-                        'data' => $this->data["{$this->consumptionBase}_in"],
+                        'data' => (array) $this->data["{$this->consumptionBase}_in"],
                     ],
                 ],
             ],
