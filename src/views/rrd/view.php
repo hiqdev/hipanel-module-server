@@ -33,7 +33,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'RRD');
             ],
             'action' => ['@rrd/view', 'id' => $model->id],
             'submitButtonWrapperOptions' => [
-                'class' => 'col-md-4 md-pt-20',
+                'class' => 'col-md-4',
             ],
         ]) ?>
         <?php $page->beginContent('table') ?>
