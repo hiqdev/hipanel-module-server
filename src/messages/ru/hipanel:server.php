@@ -205,6 +205,7 @@ return [
     'Deleted' => 'Удалён',
     'Setuping' => 'Устанавливается',
     'Failed' => 'Ошибка',
+    'Disabled' => 'Ок, без панели',
 
     'Switches' => 'Свитчи',
     'Switch' => 'Свитч',
