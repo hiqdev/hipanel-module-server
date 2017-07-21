@@ -54,7 +54,7 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'encode' => false,
             ],
             [
-                'label' => Yii::t('hipanel:server', 'Resources usage graphs'),
+                'label' => Yii::t('hipanel:server', 'Performance graphs'),
                 'icon' => 'fa-signal',
                 'url' => ['@rrd/view', 'id' => $this->model->id],
             ],

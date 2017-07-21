@@ -161,7 +161,7 @@ return [
     'Parts' => 'Детали',
     'Services' => 'Сервисы',
     'Manage IP addresses' => 'Управлять IP адресами',
-    'Resources usage graphs' => 'Графики потребления ресурсов',
+    'Performance graphs' => 'Графики производительности',
     'Renewal' => 'Продление',
     'Renew server' => 'Продлить сервер',
     '{n, plural, one{# month} other{# months}} till {date}' => '{n, plural, one{# месяц} few{# месяца} other{# месяцев}} до {date}',
