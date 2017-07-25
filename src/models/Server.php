@@ -95,6 +95,7 @@ class Server extends \hipanel\base\Model
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
 
             [['client_id', 'tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
+            [['id', 'type'], 'required', 'on' => ['set-type']],
         ];
     }
 

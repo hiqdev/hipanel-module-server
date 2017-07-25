@@ -9,11 +9,8 @@ use yii\helpers\Html;
 
 /**
  * @var \yii\web\View $this
+ * @var \hipanel\modules\server\models\Server $model
  */
-
-?>
-
-<?php
 
 $defaultDateTime = new DateTime('first day of this month 00:00');
 
@@ -22,10 +19,8 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
 <div>
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#bulk" aria-controls="home" role="tab"
-                                                  data-toggle="tab"><?= Yii::t('hipanel', 'Set for all') ?></a></li>
-        <li role="presentation"><a href="#by-one" aria-controls="profile" role="tab"
-                                   data-toggle="tab"><?= Yii::t('hipanel', 'Set by one') ?></a></li>
+        <li role="presentation" class="active"><a href="#bulk" aria-controls="home" role="tab" data-toggle="tab"><?= Yii::t('hipanel', 'Set for all') ?></a></li>
+        <li role="presentation"><a href="#by-one" aria-controls="profile" role="tab" data-toggle="tab"><?= Yii::t('hipanel', 'Set by one') ?></a></li>
     </ul>
 
     <!-- Tab panes -->
@@ -86,6 +81,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                     <?php ActiveForm::end() ?>
                 </div>
             </div>
+
             <div role="tabpanel" class="tab-pane" id="by-one">
                 <?php $form = ActiveForm::begin([
                     'id' => 'bulk-by-one-sale',
@@ -146,28 +142,6 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
     </div>
 </div>
 
-<?php $this->registerJs(<<<JS
-    $('select[ref=tariff-combo]').on('change', function (event) {
-        var similar = $(this).closest('form').find('[ref=tariff-combo]');
-        if (this !== similar[0]) {
-            return;
-        }
-        
-        var data = $(this).data('field').getData();
-        similar.slice(1).each(function() {
-            $(this).data('field').setData(data, true);
-        });
-    });
-
-    $('input[ref=sale-time-combo]').on('change', function (event) {
-        var similar = $(this).closest('form').find('[ref=sale-time-combo]');
-        if (this !== similar[0]) {
-            return;
-        }
-        var value = $(this).val();
-        similar.slice(1).each(function() {
-            $(this).val(value).trigger('change');
-        });
-    });
-JS
-) ?>
+<?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
+    'inputSelectors' => ['select[ref=tariff-combo]', 'input[ref=sale-time-combo]']
+]) ?>

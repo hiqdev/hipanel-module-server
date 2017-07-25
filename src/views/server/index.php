@@ -53,7 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Dropdown::widget([
                     'encodeLabels' => false,
                     'options' => ['class' => 'pull-right'],
-                    'items' => [
+                    'items' => array_filter([
+                        Yii::$app->user->can('manage') ? [
+                            'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Change type'),
+                            'url' => '#bulk-set-type-modal',
+                            'linkOptions' => ['data-toggle' => 'modal']
+                        ] : null,
                         [
                             'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
                             'url' => '#bulk-enable-block-modal',
@@ -69,7 +74,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'url' => '#bulk-delete-modal',
                             'linkOptions' => ['data-toggle' => 'modal']
                         ],
-                    ],
+                    ]),
                 ]); ?>
             </div>
             <?= AjaxModal::widget([
@@ -102,6 +107,16 @@ $this->params['breadcrumbs'][] = $this->title;
                 'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
+            <?php if (Yii::$app->user->can('manage')) : ?>
+                <?= AjaxModal::widget([
+                    'id' => 'bulk-set-type-modal',
+                    'bulkPage' => true,
+                    'header' => Html::tag('h4', Yii::t('hipanel:server', 'Change type'), ['class' => 'modal-title']),
+                    'scenario' => 'set-type',
+                    'actionUrl' => ['set-type'],
+                    'toggleButton' => false,
+                ]) ?>
+            <?php endif ?>
         <?php endif ?>
     <?php $page->endContent('bulk-actions') ?>
 

@@ -244,6 +244,12 @@ class ServerController extends CrudController
                     }
                 },
             ],
+            'set-type' => [
+                'class' => SmartUpdateAction::class,
+                'view' => '_bulkSetType',
+                'success' => Yii::t('hipanel:server', 'Type was changed'),
+                'error' => Yii::t('hipanel:server', 'Failed to change type'),
+            ],
             'reboot' => [
                 'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Reboot task has been successfully added to queue'),

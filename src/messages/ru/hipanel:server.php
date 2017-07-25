@@ -197,6 +197,9 @@ return [
     'Rack' => 'Стойка',
     'Sale time' => 'Время продажи',
     'Expires' => 'Оплачен до',
+    'Change type' => 'Сменить тип',
+    'Type was changed' => 'Тип был изменен',
+    'Failed to change type' => 'Не удалось изменить тип',
 
     /// Server states
     'On' => 'Ок, без панели',
