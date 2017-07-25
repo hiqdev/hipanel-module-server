@@ -168,11 +168,13 @@ class ServerController extends CrudController
             ],
             'set-note' => [
                 'class' => SmartUpdateAction::class,
+                'view' => '_bulkSetNote',
                 'success' => Yii::t('hipanel:server', 'Note changed'),
                 'error' => Yii::t('hipanel:server', 'Failed to change note'),
             ],
             'set-label' => [
                 'class' => SmartUpdateAction::class,
+                'view' => '_bulkSetLabel',
                 'success' => Yii::t('hipanel:server', 'Internal note changed'),
                 'error' => Yii::t('hipanel:server', 'Failed to change internal note'),
             ],

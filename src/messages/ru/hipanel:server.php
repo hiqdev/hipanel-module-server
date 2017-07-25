@@ -84,7 +84,7 @@ return [
     'Name' => 'Название',
     'Next discount' => 'Следующая скидка',
     'No events were recorded' => 'Никаких событий еще не было записано',
-    'Note changed' => 'Заметка изменеа',
+    'Note changed' => 'Заметка изменена',
     'OS' => 'ОС',
     'Panel and soft' => 'Панель и ПО',
     'Please, select the operating system you want to install' => 'Выберите ОС и панель, которую хотите установить',
@@ -200,6 +200,7 @@ return [
     'Change type' => 'Сменить тип',
     'Type was changed' => 'Тип был изменен',
     'Failed to change type' => 'Не удалось изменить тип',
+    'Set notes' => 'Установить заметки',
 
     /// Server states
     'On' => 'Ок, без панели',

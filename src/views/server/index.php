@@ -44,39 +44,44 @@ $this->params['breadcrumbs'][] = $this->title;
                 'toggleButton' => ['label' => Yii::t('hipanel:server', 'Sell'), 'class' => 'btn btn-sm btn-default'],
             ]) ?>
         <?php endif ?>
-        <?php if (Yii::$app->user->can('support')): ?>
-            <div class="dropdown" style="display: inline-block">
-                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    <?= Yii::t('hipanel', 'Basic actions') ?>
-                    <span class="caret"></span>
-                </button>
-                <?= Dropdown::widget([
-                    'encodeLabels' => false,
-                    'options' => ['class' => 'pull-right'],
-                    'items' => array_filter([
-                        Yii::$app->user->can('manage') ? [
-                            'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Change type'),
-                            'url' => '#bulk-set-type-modal',
-                            'linkOptions' => ['data-toggle' => 'modal']
-                        ] : null,
-                        [
-                            'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
-                            'url' => '#bulk-enable-block-modal',
-                            'linkOptions' => ['data-toggle' => 'modal']
-                        ],
-                        [
-                            'label' => '<i class="fa fa-toggle-off"></i> ' . Yii::t('hipanel', 'Disable block'),
-                            'url' => '#bulk-disable-block-modal',
-                            'linkOptions' => ['data-toggle' => 'modal']
-                        ],
-                        [
-                            'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
-                            'url' => '#bulk-delete-modal',
-                            'linkOptions' => ['data-toggle' => 'modal']
-                        ],
-                    ]),
-                ]); ?>
-            </div>
+        <div class="dropdown" style="display: inline-block">
+            <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <?= Yii::t('hipanel', 'Basic actions') ?>
+                <span class="caret"></span>
+            </button>
+            <?= Dropdown::widget([
+                'encodeLabels' => false,
+                'options' => ['class' => 'pull-right'],
+                'items' => array_filter([
+                    Yii::$app->user->can('manage') ? [
+                        'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Change type'),
+                        'url' => '#bulk-set-type-modal',
+                        'linkOptions' => ['data-toggle' => 'modal']
+                    ] : null,
+                    Yii::$app->user->can('support') ? [
+                        'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
+                        'url' => '#bulk-enable-block-modal',
+                        'linkOptions' => ['data-toggle' => 'modal']
+                    ] : null,
+                    Yii::$app->user->can('support') ? [
+                        'label' => '<i class="fa fa-toggle-off"></i> ' . Yii::t('hipanel', 'Disable block'),
+                        'url' => '#bulk-disable-block-modal',
+                        'linkOptions' => ['data-toggle' => 'modal']
+                    ] : null,
+                    [
+                        'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set notes'),
+                        'url' => '#bulk-set-notes-modal',
+                        'linkOptions' => ['data-toggle' => 'modal']
+                    ],
+                    Yii::$app->user->can('support') ? [
+                        'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
+                        'url' => '#bulk-delete-modal',
+                        'linkOptions' => ['data-toggle' => 'modal']
+                    ] : null,
+                ]),
+            ]); ?>
+        </div>
+        <?php if (Yii::$app->user->can('support')) : ?>
             <?= AjaxModal::widget([
                 'id' => 'bulk-enable-block-modal',
                 'bulkPage' => true,
@@ -107,18 +112,26 @@ $this->params['breadcrumbs'][] = $this->title;
                 'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
-            <?php if (Yii::$app->user->can('manage')) : ?>
-                <?= AjaxModal::widget([
-                    'id' => 'bulk-set-type-modal',
-                    'bulkPage' => true,
-                    'header' => Html::tag('h4', Yii::t('hipanel:server', 'Change type'), ['class' => 'modal-title']),
-                    'scenario' => 'set-type',
-                    'actionUrl' => ['set-type'],
-                    'toggleButton' => false,
-                ]) ?>
-            <?php endif ?>
         <?php endif ?>
-    <?php $page->endContent('bulk-actions') ?>
+        <?php if (Yii::$app->user->can('manage')) : ?>
+            <?= AjaxModal::widget([
+                'id' => 'bulk-set-type-modal',
+                'bulkPage' => true,
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Change type'), ['class' => 'modal-title']),
+                'scenario' => 'set-type',
+                'actionUrl' => ['set-type'],
+                'toggleButton' => false,
+            ]) ?>
+        <?php endif ?>
+        <?= AjaxModal::widget([
+            'id' => 'bulk-set-notes-modal',
+            'bulkPage' => true,
+            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Set notes'), ['class' => 'modal-title']),
+            'scenario' => Yii::$app->user->can('support') ? 'set-label' : 'set-note',
+            'actionUrl' => [Yii::$app->user->can('support') ? 'set-label' : 'set-note'],
+            'toggleButton' => false,
+        ]) ?>
+    <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>
         <?php $page->beginBulkForm(); ?>
