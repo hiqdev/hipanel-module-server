@@ -54,16 +54,6 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'encode' => false,
             ],
             [
-                'label' => Yii::t('hipanel:server', 'Performance graphs'),
-                'icon' => 'fa-signal',
-                'url' => ['@rrd/view', 'id' => $this->model->id],
-            ],
-            [
-                'label' => Yii::t('hipanel:server', 'Switch graphs'),
-                'icon' => 'fa-area-chart',
-                'url' => ['@switch-graph/view', 'id' => $this->model->id],
-            ],
-            [
                 'label' => BlockModalButton::widget(['model' => $this->model]),
                 'visible' => $user->can('support') && $user->not($this->model->client_id),
                 'encode' => false,
@@ -85,6 +75,7 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'visible' => Yii::$app->user->can('support'),
             ],
         ]);
+        unset($items['view']);
 
         return $items;
     }

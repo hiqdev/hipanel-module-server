@@ -10,13 +10,13 @@
 
 namespace hipanel\modules\server\grid;
 
-use hipanel\grid\ActionColumn;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\Url;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
+use hipanel\modules\server\menus\ServerActionsMenu;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
@@ -24,6 +24,7 @@ use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\State;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\Label;
+use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -280,17 +281,22 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return Html::tag('nobr', $ips) . ' ' . Html::tag('nobr', $acs);
                 },
             ],
+//            'actions' => [
+//                'class' => ActionColumn::class,
+//                'template' => '{view} {rrd} {switch-graph}',
+//                'buttons' => [
+//                    'switch-graph' => function ($url, $model) {
+//                        return Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel:server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]);
+//                    },
+//                    'rrd' => function ($url, $model) {
+//                        return Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel:server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]);
+//                    },
+//                ],
+//            ],
+
             'actions' => [
-                'class' => ActionColumn::class,
-                'template' => '{view} {rrd} {switch-graph}',
-                'buttons' => [
-                    'switch-graph' => function ($url, $model) {
-                        return Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel:server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]);
-                    },
-                    'rrd' => function ($url, $model) {
-                        return Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel:server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]);
-                    },
-                ],
+                'class' => MenuColumn::class,
+                'menuClass' => ServerActionsMenu::class,
             ],
         ];
     }
@@ -320,6 +326,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'label'   => Yii::t('hipanel', 'common'),
                 'columns' => [
                     'checkbox',
+                    'actions',
                     'server', 'client_like', 'seller_id',
                     'ips', 'state', 'expires',
                     'tariff_and_discount',
@@ -328,7 +335,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'manager' => Yii::$app->user->can('support') ? [
                 'label'   => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
-                    'checkbox', 'client_like',
+                    'checkbox',
+                    'actions',
+                    'client_like',
                     'rack', 'server', 'tariff',
                     'hwsummary', 'nums', 'actions',
                 ],
@@ -336,7 +345,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'admin' => Yii::$app->user->can('support') ? [
                 'label'   => Yii::t('hipanel:server', 'admin'),
                 'columns' => [
-                    'checkbox', 'dc', 'server', 'type',
+                    'checkbox',
+                    'actions',
+                    'dc', 'server', 'type',
                     'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac',
                 ],
             ] : null,
