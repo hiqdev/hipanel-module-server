@@ -50,7 +50,7 @@ class Server extends \hipanel\base\Model
                     'ip', 'ips_num', 'mac',
                     'acs_num', 'del_acs_num', 'wizzarded',
                     'vnc',
-                    'note', 'label', 'hwsummary',
+                    'note', 'label', 'hwsummary', 'order_no',
                 ],
                 'safe',
             ],
@@ -282,6 +282,7 @@ class Server extends \hipanel\base\Model
             'sale_time'           => Yii::t('hipanel:server', 'Sale time'),
             'expires'             => Yii::t('hipanel:server', 'Expires'),
             'tariff_id'           => Yii::t('hipanel:server', 'Tariff'),
+            'order_no'            => Yii::t('hipanel:server', 'Order'),
         ]);
     }
 }

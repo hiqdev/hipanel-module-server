@@ -281,19 +281,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return Html::tag('nobr', $ips) . ' ' . Html::tag('nobr', $acs);
                 },
             ],
-//            'actions' => [
-//                'class' => ActionColumn::class,
-//                'template' => '{view} {rrd} {switch-graph}',
-//                'buttons' => [
-//                    'switch-graph' => function ($url, $model) {
-//                        return Html::a('<i class="fa fa-fw fa-area-chart"></i>' . Yii::t('hipanel:server', 'Switch graphs'), ['@switch-graph/view', 'id' => $model->id]);
-//                    },
-//                    'rrd' => function ($url, $model) {
-//                        return Html::a('<i class="fa fa-fw fa-signal"></i>' . Yii::t('hipanel:server', 'Resources usage graphs'), ['@rrd/view', 'id' => $model->id]);
-//                    },
-//                ],
-//            ],
-
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => ServerActionsMenu::class,
@@ -332,6 +319,14 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     'tariff_and_discount',
                 ],
             ],
+            'short' => Yii::$app->user->can('support') ? [
+                'label'   => Yii::t('hipanel', 'short'),
+                'columns' => [
+                    'checkbox',
+                    'actions',
+                    'ips', 'client', 'dc', 'server', 'order_no',
+                ],
+            ] : null,
             'manager' => Yii::$app->user->can('support') ? [
                 'label'   => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
@@ -339,7 +334,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     'actions',
                     'client_like',
                     'rack', 'server', 'tariff',
-                    'hwsummary', 'nums', 'actions',
+                    'hwsummary', 'nums'
                 ],
             ] : null,
             'admin' => Yii::$app->user->can('support') ? [
