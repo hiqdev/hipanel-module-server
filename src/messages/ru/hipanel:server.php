@@ -224,4 +224,8 @@ return [
     'short' => 'краткий',
     'manager' => 'менеджер',
     'admin' => 'админ',
+
+    'Hardware properties' => 'Свойства железа',
+    'Software properties' => 'Свойства софта',
+    'Monitoring properties' => 'Свойства мониторинга',
 ];
