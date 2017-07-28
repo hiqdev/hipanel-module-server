@@ -320,7 +320,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 ],
             ],
             'short' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel', 'short'),
+                'label'   => Yii::t('hipanel:server', 'short'),
                 'columns' => [
                     'checkbox',
                     'actions',
@@ -328,7 +328,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 ],
             ] : null,
             'hardware' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel', 'hardware'),
+                'label'   => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',
                     'actions',

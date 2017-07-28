@@ -221,4 +221,7 @@ return [
     'Fast navigation to another server' => 'Быстрый переход к другому серверу',
 
     'Order' => 'Заказ',
+    'short' => 'краткий',
+    'manager' => 'менеджер',
+    'admin' => 'админ',
 ];
