@@ -201,6 +201,16 @@ return [
     'Type was changed' => 'Тип был изменен',
     'Failed to change type' => 'Не удалось изменить тип',
     'Set notes' => 'Установить заметки',
+    'This action clears resources usage history and is irreversible!' => 'Это действие очищает историю потребления ресурсов сервера и является необратимым!',
+    'Clear resources' => 'Очистка ресурсов',
+    'Server IPs' => 'IP адреса',
+    'Server Accounts' => 'Аккаунты',
+    'Switch graphs were flushed successfully' => 'Графики порта коммутатора были очищены',
+    'Error occurred during switch graphs flushing' => 'При очистке графиков коммутатора произошла ошибка',
+    'Servers resources were cleared successfully' => 'Ресурсы сервера были очищены',
+    'Error occurred during server resources flushing' => 'При очистке ресурсов сервера произошла обшибка',
+    'This action irreversibly clears network graphics collected from the network switch port, assigned to the server.' => 'Это действие безвозвратно очищает графики сетевой активности на порту коммутатора, к которому подключен сервер.',
+    'Flush switch graphs' => 'Очистить графики свитча',
 
     /// Server states
     'On' => 'Ок, без панели',

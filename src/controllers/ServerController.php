@@ -58,6 +58,7 @@ class ServerController extends CrudController
                     'enable-block' => ['post'],
                     'disable-block' => ['post'],
                     'refuse' => ['post'],
+                    'bulk-flush-switch-graphs' => ['post']
                 ],
             ],
         ]);
@@ -421,6 +422,28 @@ class ServerController extends CrudController
                         'blockReasons' => $this->getBlockReasons()
                     ]);
                 },
+            ],
+            'bulk-clear-resources' => [
+                'class' => SmartPerformAction::class,
+                'scenario' => 'clear-resources',
+                'view' => '_clearResources',
+                'success' => Yii::t('hipanel:server', 'Servers resources were cleared successfully'),
+                'error' => Yii::t('hipanel:server', 'Error occurred during server resources flushing'),
+            ],
+            'clear-resources-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkClearResources',
+            ],
+            'bulk-flush-switch-graphs' => [
+                'class' => SmartPerformAction::class,
+                'scenario' => 'flush-switch-graphs',
+                'view' => '_clearResources',
+                'success' => Yii::t('hipanel:server', 'Switch graphs were flushed successfully'),
+                'error' => Yii::t('hipanel:server', 'Error occurred during switch graphs flushing'),
+            ],
+            'flush-switch-graphs-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkFlushSwitchGraphs',
             ],
         ];
     }

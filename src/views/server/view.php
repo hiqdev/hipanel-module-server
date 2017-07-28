@@ -356,37 +356,37 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
         <div class="col-md-5">
             <?php echo $this->render('_ip', ['model' => $model]) ?>
             <?php if (isset($chartsData['server_traf'])) : ?>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php
-                    $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'Traffic consumption'));
-                    $box->beginTools();
-                    echo ChartOptions::widget([
-                        'id' => 'server_traf',
-                        'form' => [
-                            'action' => 'draw-chart'
-                        ],
-                        'hiddenInputs' => [
-                            'id' => ['value' => $model->id],
-                            'type' => ['value' => 'traffic'],
-                        ]
-                    ]);
-                    $box->endTools();
-                    $box->endHeader();
-                    $box->beginBody();
-                        echo $this->render('_consumption', [
-                            'labels' => $chartsLabels,
-                            'data' => $chartsData,
-                            'consumptionBase' => 'server_traf',
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Traffic consumption'));
+                        $box->beginTools();
+                        echo ChartOptions::widget([
+                            'id' => 'server_traf',
+                            'form' => [
+                                'action' => 'draw-chart'
+                            ],
+                            'hiddenInputs' => [
+                                'id' => ['value' => $model->id],
+                                'type' => ['value' => 'traffic'],
+                            ]
                         ]);
-                    $box->endBody();
-                    $box->end();
-                    ?>
+                        $box->endTools();
+                        $box->endHeader();
+                        $box->beginBody();
+                            echo $this->render('_consumption', [
+                                'labels' => $chartsLabels,
+                                'data' => $chartsData,
+                                'consumptionBase' => 'server_traf',
+                            ]);
+                        $box->endBody();
+                        $box->end();
+                        ?>
+                    </div>
                 </div>
-                <?php endif ?>
-            </div>
+            <?php endif ?>
             <?php if (isset($chartsData['server_traf95'])) : ?>
                 <div class="row">
                     <div class="col-md-12">

@@ -58,6 +58,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         'url' => '#bulk-set-type-modal',
                         'linkOptions' => ['data-toggle' => 'modal']
                     ] : null,
+                    Yii::$app->user->can('manage') ? [
+                        'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Clear resources'),
+                        'url' => '#clear-resources-modal',
+                        'linkOptions' => ['data-toggle' => 'modal']
+                    ] : null,
+                    Yii::$app->user->can('manage') ? [
+                        'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Flush switch graphs'),
+                        'url' => '#flush-modal',
+                        'linkOptions' => ['data-toggle' => 'modal']
+                    ] : null,
                     Yii::$app->user->can('support') ? [
                         'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
                         'url' => '#bulk-enable-block-modal',
@@ -120,6 +130,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Change type'), ['class' => 'modal-title']),
                 'scenario' => 'set-type',
                 'actionUrl' => ['set-type'],
+                'toggleButton' => false,
+            ]) ?>
+            <?= AjaxModal::widget([
+                'id' => 'clear-resources-modal',
+                'bulkPage' => true,
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Clear resources'), ['class' => 'modal-title']),
+                'scenario' => 'clear-resources',
+                'actionUrl' => ['clear-resources-modal'],
+                'toggleButton' => false,
+            ]) ?>
+            <?= AjaxModal::widget([
+                'id' => 'flush-modal',
+                'bulkPage' => true,
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Flush switch graphs'), ['class' => 'modal-title']),
+                'scenario' => 'flush-switch-graphs',
+                'actionUrl' => ['flush-switch-graphs-modal'],
                 'toggleButton' => false,
             ]) ?>
         <?php endif ?>
