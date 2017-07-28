@@ -327,6 +327,14 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     'ips', 'client', 'dc', 'server', 'order_no',
                 ],
             ] : null,
+            'hardware' => Yii::$app->user->can('support') ? [
+                'label'   => Yii::t('hipanel', 'hardware'),
+                'columns' => [
+                    'checkbox',
+                    'actions',
+                    'rack', 'client', 'dc', 'server', 'hwsummary',
+                ],
+            ] : null,
             'manager' => Yii::$app->user->can('support') ? [
                 'label'   => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
