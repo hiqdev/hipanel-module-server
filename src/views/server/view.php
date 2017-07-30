@@ -287,37 +287,49 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     ]);
                     $box->endBody();
                     $box->beginFooter();
-                    if ($model->autorenewal || in_array($model->state, $model->goodStates(), true)) {
-                        echo SimpleOperation::widget([
-                            'model' => $model,
-                            'scenario' => $model->autorenewal ? 'refuse' : 'enable-autorenewal',
-                            'buttonLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Refuse service') : Yii::t('hipanel:server', 'Renew service'),
-                            'buttonClass' => 'btn btn-default',
-                            'body' => function ($model) {
-                                if (!$model->autorenewal) {
+                        if ($model->autorenewal) {
+                            echo SimpleOperation::widget([
+                                'model' => $model,
+                                'scenario' => 'refuse',
+                                'buttonLabel' => Yii::t('hipanel:server', 'Refuse service'),
+                                'buttonClass' => 'btn btn-default',
+                                'body' => function ($model) {
+                                    return $model->canFullRefuse()
+                                        ? Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!')
+                                        : Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
+                                },
+                                'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm service refuse'),
+                                'modalHeaderOptions' => ['class' => 'label-danger'],
+                                'modalFooterLabel' => Yii::t('hipanel:server', 'Refuse'),
+                                'modalFooterLoading' => Yii::t('hipanel:server', 'Refusing...'),
+                                'modalFooterClass' => 'btn btn-warning',
+                            ]);
+                        } else if (in_array($model->state, $model->goodStates(), true)) {
+                            echo SimpleOperation::widget([
+                                'model' => $model,
+                                'scenario' => 'enable-autorenewal',
+                                'buttonLabel' => Yii::t('hipanel:server', 'Renew service'),
+                                'buttonClass' => 'btn btn-default',
+                                'body' => function ($model) {
                                     return Yii::t('hipanel:server', 'Are you sure, you want to renew the service?');
-                                }
-                                return $model->canFullRefuse()
-                                    ? Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!')
-                                    : Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
-                            },
-                            'modalHeaderLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Confirm service refuse') : Yii::t('hipanel:server', 'Confirm service renewal'),
-                            'modalHeaderOptions' => ['class' => $model->autorenewal ? 'label-danger' : 'label-info'],
-                            'modalFooterLabel' => $model->autorenewal ? Yii::t('hipanel:server', 'Refuse') : Yii::t('hipanel:server', 'Renew'),
-                            'modalFooterLoading' => $model->autorenewal ? Yii::t('hipanel:server', 'Refusing...') : Yii::t('hipanel:server', 'Renewing...'),
-                            'modalFooterClass' => $model->autorenewal ? 'btn btn-warning': 'btn btn-info',
-                        ]);
-                    }
-                    if (Yii::$app->user->can('server.sell')) {
-                        echo SettingsModal::widget([
-                            'model'    => $model,
-                            'title'    => Yii::t('hipanel:server', 'Change tariff'),
-                            'scenario' => 'sale',
-                            'toggleButton' => [
-                                'class' => 'btn btn-default',
-                            ],
-                        ]);
-                    }
+                                },
+                                'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm service renewal'),
+                                'modalHeaderOptions' => ['class' => 'label-info'],
+                                'modalFooterLabel' => Yii::t('hipanel:server', 'Renew'),
+                                'modalFooterLoading' => Yii::t('hipanel:server', 'Renewing...'),
+                                'modalFooterClass' => 'btn btn-info',
+                            ]);
+                        }
+                        if (Yii::$app->user->can('server.sell')) {
+                            echo SettingsModal::widget([
+                                'model'    => $model,
+                                'title'    => Yii::t('hipanel:server', 'Change tariff'),
+                                'scenario' => 'sale',
+                                'toggleButton' => [
+                                    'class' => 'btn btn-default',
+                                ],
+                            ]);
+                        }
                     $box->endFooter();
                     $box->end();
                     ?>
