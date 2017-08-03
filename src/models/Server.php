@@ -97,6 +97,15 @@ class Server extends \hipanel\base\Model
 
             [['client_id', 'tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
             [['id', 'type'], 'required', 'on' => ['set-type']],
+
+            // HW
+            [['summary', 'order_no', 'brand', 'box', 'cpu', 'ram', 'motherboard', 'hdd', 'hotswap', 'raid', 'units', 'note'], 'safe', 'on' => ['hw']],
+
+            // SW
+            [['os', 'version', 'virtual_switch', 'ignore_ip_mon', 'ip_mon_comment', 'bw_limit', 'bw_group', 'failure_contacts', 'info'], 'safe', 'on' => ['sw']],
+
+            // MON
+            [['emails', 'minutes', 'nic_media', 'channel_load', 'watch_trafdown', 'vcdn_only', 'comment'], 'safe', 'on' => ['mon']],
         ];
     }
 
@@ -263,27 +272,27 @@ class Server extends \hipanel\base\Model
     public function attributeLabels()
     {
         return $this->mergeAttributeLabels([
-            'remoteid'            => Yii::t('hipanel:server', 'Remote ID'),
-            'name'                => Yii::t('hipanel:server', 'Name'),
-            'dc'                  => Yii::t('hipanel:server', 'DC'),
-            'net'                 => Yii::t('hipanel:server', 'Switch'),
-            'kvm'                 => Yii::t('hipanel:server', 'KVM'),
-            'pdu'                 => Yii::t('hipanel:server', 'APC'),
-            'rack'                => Yii::t('hipanel:server', 'Rack'),
-            'ipmi'                => Yii::t('hipanel:server', 'IPMI'),
-            'status_time'         => Yii::t('hipanel:server', 'Status update time'),
-            'block_reason_label'  => Yii::t('hipanel:server', 'Block reason label'),
+            'remoteid' => Yii::t('hipanel:server', 'Remote ID'),
+            'name' => Yii::t('hipanel:server', 'Name'),
+            'dc' => Yii::t('hipanel:server', 'DC'),
+            'net' => Yii::t('hipanel:server', 'Switch'),
+            'kvm' => Yii::t('hipanel:server', 'KVM'),
+            'pdu' => Yii::t('hipanel:server', 'APC'),
+            'rack' => Yii::t('hipanel:server', 'Rack'),
+            'ipmi' => Yii::t('hipanel:server', 'IPMI'),
+            'status_time' => Yii::t('hipanel:server', 'Status update time'),
+            'block_reason_label' => Yii::t('hipanel:server', 'Block reason label'),
             'request_state_label' => Yii::t('hipanel:server', 'Request state label'),
-            'mac'                 => Yii::t('hipanel:server', 'MAC'),
-            'ips'                 => Yii::t('hipanel:server', 'IPs'),
-            'label'               => Yii::t('hipanel:server', 'Internal note'),
-            'os'                  => Yii::t('hipanel:server', 'OS'),
-            'comment'             => Yii::t('hipanel:server', 'Comment'),
-            'hwsummary'           => Yii::t('hipanel:server', 'HW summary'),
-            'sale_time'           => Yii::t('hipanel:server', 'Sale time'),
-            'expires'             => Yii::t('hipanel:server', 'Expires'),
-            'tariff_id'           => Yii::t('hipanel:server', 'Tariff'),
-            'order_no'            => Yii::t('hipanel:server', 'Order'),
+            'mac' => Yii::t('hipanel:server', 'MAC'),
+            'ips' => Yii::t('hipanel:server', 'IPs'),
+            'label' => Yii::t('hipanel:server', 'Internal note'),
+            'os' => Yii::t('hipanel:server', 'OS'),
+            'comment' => Yii::t('hipanel:server', 'Comment'),
+            'hwsummary' => Yii::t('hipanel:server', 'HW summary'),
+            'sale_time' => Yii::t('hipanel:server', 'Sale time'),
+            'expires' => Yii::t('hipanel:server', 'Expires'),
+            'tariff_id' => Yii::t('hipanel:server', 'Tariff'),
+            'order_no' => Yii::t('hipanel:server', 'Order'),
         ]);
     }
 }
