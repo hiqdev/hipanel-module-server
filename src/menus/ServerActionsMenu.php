@@ -52,6 +52,30 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                     'data-pjax' => 0,
                 ],
             ],
+            'hw' => [
+                'label' => Yii::t('hipanel:server', 'Hardware properties'),
+                'icon' => 'fa-cogs',
+                'url' => ['@server/hw', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+            ],
+            'sw' => [
+                'label' => Yii::t('hipanel:server', 'Software properties'),
+                'icon' => 'fa-cogs',
+                'url' => ['@server/sw', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+            ],
+            'mon' => [
+                'label' => Yii::t('hipanel:server', 'Monitoring properties'),
+                'icon' => 'fa-cogs',
+                'url' => ['@server/mon', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+            ],
             [
                 'label' => Yii::t('hipanel:server', 'Server IPs'),
                 'icon' => 'fa-user',

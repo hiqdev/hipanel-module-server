@@ -95,6 +95,18 @@ class ServerController extends CrudController
             'search' => [
                 'class' => ComboSearchAction::class,
             ],
+            'hw' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Hardware properties was changed'),
+            ],
+            'sw' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Software properties was changed'),
+            ],
+            'mon' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Monitoring properties was changed'),
+            ],
             'view' => [
                 'class' => ViewAction::class,
                 'on beforePerform' => function (Event $event) {
