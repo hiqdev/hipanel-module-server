@@ -2,6 +2,8 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\grid\ServerGridView;
+use hipanel\widgets\Box;
+use hipanel\widgets\Pjax;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -47,30 +49,30 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $form->end() ?>
     </div>
     <div class="col-md-4">
-        <div class="box box-widget">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <?= Yii::t('hipanel:server', 'Server HW') ?>
-                </h3>
+
+        <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
+            <div class="row">
+                <?php Pjax::begin(['enablePushState' => false]) ?>
+                <div class="col-md-12">
+                    <?php $box = Box::begin(['renderBody' => false]) ?>
+                    <?php $box->beginHeader() ?>
+                    <?= $box->renderTitle(Yii::t('hipanel:server', 'Configuration')) ?>
+                    <?php $box->beginTools() ?>
+                    <?= Html::a(Yii::t('hipanel', 'Details'), Url::toSearch('part', ['dst_name_like' => $model->name]), ['class' => 'btn btn-default btn-xs']) ?>
+                    <?php $box->endTools() ?>
+                    <?php $box->endHeader() ?>
+                    <?php $box->beginBody() ?>
+                    <?php $url = Url::to(['@part/render-object-parts', 'id' => $model->id]) ?>
+                    <?= Html::tag('div', '', ['class' => 'server-parts']) ?>
+                    <?php $this->registerJs("$('.server-parts').load('$url', function () {
+                                $(this).closest('.box').find('.overlay').remove();
+                            });") ?>
+                    <?php $box->endBody() ?>
+                    <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
+                    <?php $box->end() ?>
+                </div>
+                <?php Pjax::end() ?>
             </div>
-            <div class="box-body">
-                <?= ServerGridView::detailView([
-                    'model' => $model,
-                    'boxed' => false,
-                    'columns' => [
-                        'server'
-                    ]
-                ]); ?>
-            </div>
-        </div>
-        <div class="box box-widget">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <?= Yii::t('hipanel:server', 'History of changes') ?>
-                </h3>
-            </div>
-            <div class="box-body">
-            </div>
-        </div>
+        <?php endif ?>
     </div>
 </div>
