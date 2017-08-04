@@ -36,18 +36,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
             </div>
         </div>
-
         <?php $form->end() ?>
-    </div>
-    <div class="col-md-6">
-        <div class="box box-widget">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <?= Yii::t('hipanel:server', 'History of changes') ?>
-                </h3>
-            </div>
-            <div class="box-body">
-            </div>
-        </div>
     </div>
 </div>
