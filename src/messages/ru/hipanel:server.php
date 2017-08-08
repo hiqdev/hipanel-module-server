@@ -238,4 +238,9 @@ return [
     'Hardware properties' => 'Свойства железа',
     'Software properties' => 'Свойства софта',
     'Monitoring properties' => 'Свойства мониторинга',
+
+    'Change hardware properties' => 'Изменить свойства железа',
+    'Change software properties' => 'Изменить свойства софта',
+    'Change monitoring properties' => 'Изменить свойства мониторинга',
+    'History of changes' => 'История изменений',
 ];

@@ -1,9 +1,11 @@
 <?php
 
 use hipanel\models\IndexPageUiOptions;
+use hipanel\modules\server\grid\ServerGridLegend;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OsimageSearch;
 use hipanel\widgets\AjaxModal;
+use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\bootstrap\Dropdown;
@@ -25,6 +27,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+
+    <?php $page->beginContent('legend') ?>
+        <?= GridLegend::widget(['legendItem' => new ServerGridLegend($model)]) ?>
+    <?php $page->endContent() ?>
+
     <?php $page->beginContent('show-actions') ?>
         <?= $page->renderLayoutSwitcher() ?>
         <?= $page->renderSorter([
@@ -173,6 +180,10 @@ $this->params['breadcrumbs'][] = $this->title;
                 'filterModel' => $model,
                 'osImages' => $osimages,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns()
+                'representation' => $uiModel->representation,
+                'rowOptions' => function ($model) {
+                    return GridLegend::create(new ServerGridLegend($model))->gridRowOptions();
+                },
             ]) ?>
         <?php $page->endBulkForm(); ?>
     <?php $page->endContent() ?>
