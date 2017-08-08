@@ -1,6 +1,8 @@
 <?php
 
+use hipanel\modules\server\grid\HubGridLegend;
 use hipanel\modules\server\grid\HubGridView;
+use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
@@ -30,6 +32,10 @@ $this->registerCss("
             <?php endif; ?>
         <?php $page->endContent() ?>
 
+        <?php $page->beginContent('legend') ?>
+            <?= GridLegend::widget(['legendItem' => new HubGridLegend($model)]) ?>
+        <?php $page->endContent() ?>
+
         <?php $page->beginContent('show-actions') ?>
             <?= $page->renderLayoutSwitcher() ?>
             <?= $page->renderSorter(['attributes' => ['id']]) ?>
@@ -46,6 +52,9 @@ $this->registerCss("
                     'boxed' => false,
                     'dataProvider' => $dataProvider,
                     'filterModel' => $model,
+                    'rowOptions' => function ($model) {
+                        return GridLegend::create(new HubGridLegend($model))->gridRowOptions();
+                    },
                     'columns' => [
                         'checkbox',
                         'inn',
