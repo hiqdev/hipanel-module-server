@@ -36,14 +36,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
     /**
      * @var array
      */
-    public static $osImages;
+    public $osImages;
 
-    public static function setOsImages($osImages)
-    {
-        static::$osImages = $osImages;
-    }
-
-    public static function formatTariff($model)
+    protected function formatTariff($model)
     {
         if (Yii::$app->user->can('manage')) {
             if ($model->parent_tariff) {
@@ -60,11 +55,11 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
     }
 
-    public static function defaultColumns()
+    public function columns()
     {
-        $osImages = self::$osImages;
+        $osImages = $this->osImages;
 
-        return [
+        return array_merge(parent::columns(), [
             'server' => [
                 'class' => MainColumn::class,
                 'attribute' => 'name',
@@ -79,9 +74,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         if ($model->wizzarded) {
                             $badges .= Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']);
                         }
-                        /*if ($model->state === 'disabled') {
-                            $badges .= ' ' . Label::widget(['label' => 'Panel OFF', 'tag' => 'sup', 'color' => 'danger', 'type' => 'text']);
-                        }*/
                     }
 
                     return $badges;
@@ -163,7 +155,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
                 'value' => function ($model) {
-                    return self::formatTariff($model);
+                    return $this->formatTariff($model);
                 },
             ],
             'tariff_and_discount' => [
@@ -171,7 +163,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'filterAttribute' => 'tariff_like',
                 'format' => 'raw',
                 'value' => function ($model) {
-                    return self::formatTariff($model) . ' ' . DiscountFormatter::widget([
+                    return $this->formatTariff($model) . ' ' . DiscountFormatter::widget([
                         'current' => $model->discounts['fee']['current'],
                         'next' => $model->discounts['fee']['next'],
                     ]);
@@ -234,28 +226,28 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return static::renderSwitchPort($model->bindings['rack']);
+                    return $this->renderSwitchPort($model->bindings['rack']);
                 },
             ],
             'net' => [
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return static::renderSwitchPort($model->bindings['net']);
+                    return $this->renderSwitchPort($model->bindings['net']);
                 },
             ],
             'kvm' => [
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return static::renderSwitchPort($model->bindings['kvm']);
+                    return $this->renderSwitchPort($model->bindings['kvm']);
                 },
             ],
             'pdu' => [
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return static::renderSwitchPort($model->bindings['pdu']);
+                    return $this->renderSwitchPort($model->bindings['pdu']);
                 },
             ],
             'ipmi' => [
@@ -264,7 +256,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value'  => function ($model) {
                     if (($ipmi = $model->getBinding('ipmi')) !== null) {
                         $link = Html::a($ipmi->device_ip, "http://$ipmi->device_ip/", ['target' => '_blank']) . ' ';
-                        return $link . static::renderSwitchPort($ipmi);
+                        return $link . $this->renderSwitchPort($ipmi);
                     }
                 },
             ],
@@ -285,14 +277,14 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'class' => MenuColumn::class,
                 'menuClass' => ServerActionsMenu::class,
             ],
-        ];
+        ]);
     }
 
     /**
      * @param Binding $binding
      * @return string
      */
-    public static function renderSwitchPort($binding)
+    protected function renderSwitchPort($binding)
     {
         if ($binding === null) {
             return '';
@@ -304,56 +296,5 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         $main   = $binding->switch . ($binding->port ? ':' . $binding->port : '');
 
         return "$inn<b>$main</b> $label";
-    }
-
-    public static function defaultRepresentations()
-    {
-        return [
-            'common' => [
-                'label'   => Yii::t('hipanel', 'common'),
-                'columns' => [
-                    'checkbox',
-                    'actions',
-                    'server', 'client_like', 'seller_id',
-                    'ips', 'state', 'expires',
-                    'tariff_and_discount',
-                ],
-            ],
-            'short' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel:server', 'short'),
-                'columns' => [
-                    'checkbox',
-                    'actions',
-                    'ips', 'client', 'dc', 'server', 'order_no',
-                ],
-            ] : null,
-            'hardware' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel:server', 'hardware'),
-                'columns' => [
-                    'checkbox',
-                    'actions',
-                    'rack', 'client', 'dc', 'server', 'hwsummary',
-                ],
-            ] : null,
-            'manager' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel:server', 'manager'),
-                'columns' => [
-                    'checkbox',
-                    'actions',
-                    'client_like',
-                    'rack', 'server', 'tariff',
-                    'hwsummary', 'nums'
-                ],
-            ] : null,
-            'admin' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel:server', 'admin'),
-                'columns' => [
-                    'checkbox',
-                    'actions',
-                    'dc', 'server', 'type',
-                    'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac',
-                ],
-            ] : null,
-        ];
     }
 }

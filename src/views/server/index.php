@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OsimageSearch;
 use hipanel\widgets\AjaxModal;
@@ -9,8 +10,13 @@ use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
-/** @var OsimageSearch $osimages */
-/** @var yii\web\View $this */
+/**
+ * @var OsimageSearch $osimages
+ * @var yii\web\View $this
+ * @var IndexPageUiOptions $uiModel
+ * @var \hiqdev\higrid\representations\RepresentationCollection $representationCollection
+ */
+
 $this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
@@ -29,7 +35,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
         ]) ?>
         <?= $page->renderPerPage() ?>
-        <?= $page->renderRepresentations(ServerGridView::class) ?>
+        <?= $page->renderRepresentations($representationCollection) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
@@ -166,7 +172,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'boxed' => false,
                 'filterModel' => $model,
                 'osImages' => $osimages,
-                'representation' => $uiModel->representation,
+                'columns' => $representationCollection->getByName($uiModel->representation)->getColumns()
             ]) ?>
         <?php $page->endBulkForm(); ?>
     <?php $page->endContent() ?>

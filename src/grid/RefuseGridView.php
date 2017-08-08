@@ -14,9 +14,9 @@ use Yii;
 
 class RefuseGridView extends \hipanel\grid\BoxedGridView
 {
-    public static function defaultColumns()
+    protected function columns()
     {
-        return array_merge(parent::defaultColumns(), [
+        return array_merge(parent::columns(), [
             'user_comment' => [
                 'filterAttribute' => 'user_comment_like',
                 'value' => function ($model) {
