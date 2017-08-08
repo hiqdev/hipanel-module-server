@@ -11,9 +11,9 @@ use yii\helpers\Html;
 
 class HubGridView extends \hipanel\grid\BoxedGridView
 {
-    public static function defaultColumns()
+    public function columns()
     {
-        return [
+        return array_merge(parent::columns(), [
             'inn' => [
                 'enableSorting' => false,
             ],
@@ -77,6 +77,6 @@ class HubGridView extends \hipanel\grid\BoxedGridView
                     return Yii::t('hipanel:server:hub', $model->type_label);
                 },
             ],
-        ];
+        ]);
     }
 }
