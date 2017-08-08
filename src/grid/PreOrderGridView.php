@@ -17,7 +17,7 @@ use Yii;
 
 class PreOrderGridView extends \hipanel\grid\BoxedGridView
 {
-    protected function columns()
+    public function columns()
     {
         return array_merge(parent::columns(), [
             'tech_details' => [
