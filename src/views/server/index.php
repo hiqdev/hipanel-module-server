@@ -179,8 +179,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'boxed' => false,
                 'filterModel' => $model,
                 'osImages' => $osimages,
-                'columns' => $representationCollection->getByName($uiModel->representation)->getColumns()
-                'representation' => $uiModel->representation,
+                'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
                 'rowOptions' => function ($model) {
                     return GridLegend::create(new ServerGridLegend($model))->gridRowOptions();
                 },
