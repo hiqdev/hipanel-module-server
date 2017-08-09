@@ -78,7 +78,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             [
                 'label' => Yii::t('hipanel:server', 'Server IPs'),
-                'icon' => 'fa-user',
+                'icon' => 'fa-location-arrow',
                 'visible' => Yii::getAlias('@ip', false),
                 'url' => ['@ip/index', 'IpSearch' => ['server_in' => $this->model->name]],
                 'linkOptions' => [
@@ -87,7 +87,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             [
                 'label' => Yii::t('hipanel:server', 'Server Accounts'),
-                'icon' => 'fa-location-arrow',
+                'icon' => 'fa-user',
                 'visible' => Yii::getAlias('@account', false),
                 'url' => ['@account/index', 'AccountSearch' => ['server' => $this->model->name]],
                 'linkOptions' => [
