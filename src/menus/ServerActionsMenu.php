@@ -68,10 +68,10 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                     'data-pjax' => 0,
                 ],
             ],
-            'mon' => [
+            'monitoring-settings' => [
                 'label' => Yii::t('hipanel:server', 'Monitoring properties'),
                 'icon' => 'fa-cogs',
-                'url' => ['@server/mon', 'id' => $this->model->id],
+                'url' => ['@server/monitoring-settings', 'id' => $this->model->id],
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
