@@ -97,15 +97,6 @@ class Server extends \hipanel\base\Model
 
             [['client_id', 'tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
             [['id', 'type'], 'required', 'on' => ['set-type']],
-
-            // HW
-            [['summary', 'order_no', 'brand', 'box', 'cpu', 'ram', 'motherboard', 'hdd', 'hotswap', 'raid', 'units', 'note'], 'safe', 'on' => ['hw']],
-
-            // SW
-            [['os', 'version', 'virtual_switch', 'ignore_ip_mon', 'ip_mon_comment', 'bw_limit', 'bw_group', 'failure_contacts', 'info'], 'safe', 'on' => ['sw']],
-
-            // MON
-            [['emails', 'minutes', 'nic_media', 'channel_load', 'watch_trafdown', 'vcdn_only', 'comment'], 'safe', 'on' => ['mon']],
         ];
     }
 
