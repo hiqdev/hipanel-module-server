@@ -248,6 +248,21 @@ class Server extends \hipanel\base\Model
         return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
     }
 
+    public function getMonitoringSettings()
+    {
+        return $this->hasOne(MonitoringSettings::class, ['id' => 'id']);
+    }
+
+    public function getHardwareSettings()
+    {
+        return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
+    }
+
+    public function getSoftwareSettings()
+    {
+        return $this->hasOne(SoftwareSettings::class, ['id' => 'id']);
+    }
+
     public function getBinding($type)
     {
         if (!isset($this->bindings[$type])) {
