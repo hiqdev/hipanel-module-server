@@ -26,6 +26,7 @@ use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\helpers\ServerHelper;
@@ -38,6 +39,7 @@ use Yii;
 use yii\base\Event;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
+use yii\rest\UpdateAction;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -95,17 +97,34 @@ class ServerController extends CrudController
             'search' => [
                 'class' => ComboSearchAction::class,
             ],
-            'hw' => [
+            'hardware-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Hardware properties was changed'),
+                'view' => 'hardwareSettings',
             ],
-            'sw' => [
+            'software-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Software properties was changed'),
+                'view' => 'softwareSettings',
             ],
-            'mon' => [
+            'monitoring-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Monitoring properties was changed'),
+                'view' => 'monitoringSettings',
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith(['monitoringSettings']);
+                    $dataProvider->query
+                        ->andWhere(['with_monitoringSettings' => 1])
+                        ->select(['*']);
+                },
+                'data' => function ($action) {
+                    return [
+                        'nicMediaOptions' => $action->controller->getFullFromRef('type,nic_media'),
+                    ];
+                }
             ],
             'view' => [
                 'class' => ViewAction::class,
@@ -371,7 +390,7 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Servers were blocked successfully'),
                 'error' => Yii::t('hipanel:server', 'Error during the servers blocking'),
                 'POST html' => [
-                    'save'    => true,
+                    'save' => true,
                     'success' => [
                         'class' => RedirectAction::class,
                     ],
@@ -406,7 +425,7 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Servers were unblocked successfully'),
                 'error' => Yii::t('hipanel:server', 'Error during the servers unblocking'),
                 'POST html' => [
-                    'save'    => true,
+                    'save' => true,
                     'success' => [
                         'class' => RedirectAction::class,
                     ],
@@ -568,6 +587,20 @@ class ServerController extends CrudController
         if ($server = Server::find()->where(['id' => $id])->one()) {
             $result['result'] = $server->isOperable();
         }
+
+        return $result;
+    }
+
+    protected function getFullFromRef($gtype)
+    {
+        $callingMethod = debug_backtrace()[1]['function'];
+        $result = Yii::$app->get('cache')->getOrSet([$callingMethod], function () use ($gtype) {
+            $result = ArrayHelper::map(Ref::find()->where(['gtype' => $gtype, 'select' => 'full'])->all(), 'id', function ($model) {
+                return Yii::t('hipanel:server:hub', $model->label);
+            });
+
+            return $result;
+        }, 86400 * 24); // 24 days
 
         return $result;
     }
