@@ -13,7 +13,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $model->monitoringSettings->emails = $model->monitoringSettings->emails ?: $model->monitoringSettings->emailsDefault;
 $model->monitoringSettings->nic_media = $model->monitoringSettings->nic_media ?: $model->monitoringSettings->nicMediaDefault;
 $model->monitoringSettings->channel_load = $model->monitoringSettings->channel_load ?: $model->monitoringSettings->chanelLoadDefault;
-$model->monitoringSettings->watch_trafdown = $model->monitoringSettings->watch_trafdown ?: true;
+$model->monitoringSettings->watch_trafdown = $model->monitoringSettings->watch_trafdown ?: $model->monitoringSettings->watchTrafdownDefault;
 
 ?>
 <div class="row">
