@@ -58,7 +58,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'id' => 'bulk-reject-modal',
                     'bulkPage' => true,
                     'header'=> Html::tag('h4', Yii::t('hipanel:finance:change', 'Reject'), ['class' => 'modal-title ']),
-                    'scenario' => 'bulk-reject',
+                    'scenario' => 'reject',
                     'actionUrl' => ['bulk-reject-modal'],
                     'size' => AjaxModal::SIZE_LARGE,
                     'handleSubmit' => false,
