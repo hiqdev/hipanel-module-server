@@ -27,4 +27,9 @@ class MonitoringSettings extends \hipanel\base\Model
     {
         return 90;
     }
+
+    public function getWatchTrafdownDefault()
+    {
+        return true;
+    }
 }
