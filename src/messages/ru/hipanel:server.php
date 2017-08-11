@@ -235,12 +235,12 @@ return [
     'manager' => 'менеджер',
     'admin' => 'админ',
 
-    'Hardware properties' => 'Свойства железа',
-    'Software properties' => 'Свойства софта',
-    'Monitoring properties' => 'Свойства мониторинга',
+    'Hardware properties' => 'Настройки железа',
+    'Software properties' => 'Настройки софта',
+    'Monitoring properties' => 'Настройки мониторинга',
 
-    'Change hardware properties' => 'Изменить свойства железа',
-    'Change software properties' => 'Изменить свойства софта',
-    'Change monitoring properties' => 'Изменить свойства мониторинга',
+    'Change hardware properties' => 'Изменить настройки железа',
+    'Change software properties' => 'Изменить настройки софта',
+    'Change monitoring properties' => 'Изменить настройки мониторинга',
     'History of changes' => 'История изменений',
 ];
