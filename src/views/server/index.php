@@ -51,8 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id' => 'bulk-sale-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Sell servers'), ['class' => 'modal-title']),
-                'scenario' => 'sale',
-                'actionUrl' => ['bulk-sale'],
+                'scenario' => 'bulk-sale',
                 'size' => Modal::SIZE_LARGE,
                 'toggleButton' => ['label' => Yii::t('hipanel:server', 'Sell'), 'class' => 'btn btn-sm btn-default'],
             ]) ?>
@@ -110,8 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Block servers'), ['class' => 'modal-title label-warning']),
                 'headerOptions' => ['class' => 'label-warning'],
-                'scenario' => 'bulk-enable-block',
-                'actionUrl' => ['bulk-enable-block-modal'],
+                'scenario' => 'bulk-enable-block-modal',
                 'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
@@ -120,8 +118,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Unblock servers'), ['class' => 'modal-title']),
                 'headerOptions' => ['class' => 'label-warning'],
-                'scenario' => 'bulk-disable-block',
-                'actionUrl' => ['bulk-disable-block-modal'],
+                'scenario' => 'bulk-disable-block-modal',
                 'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
@@ -130,8 +127,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title label-danger']),
                 'headerOptions' => ['class' => 'label-danger'],
-                'scenario' => 'delete',
-                'actionUrl' => ['bulk-delete-modal'],
+                'scenario' => 'bulk-delete-modal',
                 'handleSubmit' => false,
                 'toggleButton' => false,
             ]) ?>
@@ -142,23 +138,20 @@ $this->params['breadcrumbs'][] = $this->title;
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Change type'), ['class' => 'modal-title']),
                 'scenario' => 'set-type',
-                'actionUrl' => ['set-type'],
                 'toggleButton' => false,
             ]) ?>
             <?= AjaxModal::widget([
                 'id' => 'clear-resources-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Clear resources'), ['class' => 'modal-title']),
-                'scenario' => 'clear-resources',
-                'actionUrl' => ['bulk-clear-resources-modal'],
+                'scenario' => 'bulk-clear-resources-modal',
                 'toggleButton' => false,
             ]) ?>
             <?= AjaxModal::widget([
                 'id' => 'flush-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Flush switch graphs'), ['class' => 'modal-title']),
-                'scenario' => 'flush-switch-graphs',
-                'actionUrl' => ['bulk-flush-switch-graphs-modal'],
+                'scenario' => 'bulk-flush-switch-graphs-modal',
                 'toggleButton' => false,
             ]) ?>
         <?php endif ?>
@@ -167,7 +160,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'bulkPage' => true,
             'header' => Html::tag('h4', Yii::t('hipanel:server', 'Set notes'), ['class' => 'modal-title']),
             'scenario' => Yii::$app->user->can('support') ? 'set-label' : 'set-note',
-            'actionUrl' => [Yii::$app->user->can('support') ? 'set-label' : 'set-note'],
             'toggleButton' => false,
         ]) ?>
     <?php $page->endContent() ?>
