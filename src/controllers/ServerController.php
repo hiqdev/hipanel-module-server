@@ -60,7 +60,7 @@ class ServerController extends CrudController
                     'enable-block' => ['post'],
                     'disable-block' => ['post'],
                     'refuse' => ['post'],
-                    'bulk-flush-switch-graphs' => ['post']
+                    'flush-switch-graphs' => ['post']
                 ],
             ],
         ]);
@@ -318,11 +318,69 @@ class ServerController extends CrudController
                 'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Server was blocked successfully'),
                 'error' => Yii::t('hipanel:server', 'Error during the server blocking'),
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $type = Yii::$app->request->post('type');
+                    $comment = Yii::$app->request->post('comment');
+                    if (!empty($type)) {
+                        foreach ($action->collection->models as $model) {
+                            $model->setAttributes([
+                                'type' => $type,
+                                'comment' => $comment,
+                            ]);
+                        }
+                    }
+                },
+            ],
+            'bulk-enable-block-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkEnableBlock',
+                'data' => function ($action, $data) {
+                    return array_merge($data, [
+                        'blockReasons' => $this->getBlockReasons(),
+                    ]);
+                },
             ],
             'disable-block' => [
                 'class' => SmartPerformAction::class,
                 'success' => Yii::t('hipanel:server', 'Server was unblocked successfully'),
                 'error' => Yii::t('hipanel:server', 'Error during the server unblocking'),
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                    ],
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $type = Yii::$app->request->post('type');
+                    $comment = Yii::$app->request->post('comment');
+                    if (!empty($type)) {
+                        foreach ($action->collection->models as $model) {
+                            $model->setAttributes([
+                                'comment' => $comment,
+                                'type' => $type
+                            ]);
+                        }
+                    }
+                },
+            ],
+            'bulk-disable-block-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => '_bulkDisableBlock',
+                'data' => function ($action, $data) {
+                    return array_merge($data, [
+                        'blockReasons' => $this->getBlockReasons()
+                    ]);
+                },
             ],
             'refuse' => [
                 'class' => SmartPerformAction::class,
@@ -375,104 +433,27 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Server was deleted successfully'),
                 'error' => Yii::t('hipanel:server', 'Failed to delete server'),
             ],
-            'bulk-delete' => [
-                'class' => SmartDeleteAction::class,
-                'success' => Yii::t('hipanel:server', 'Server was deleted successfully'),
-                'error' => Yii::t('hipanel:server', 'Failed to delete server'),
-            ],
             'bulk-delete-modal' => [
                 'class' => PrepareBulkAction::class,
                 'view' => '_bulkDelete',
             ],
-            'bulk-enable-block' => [
-                'class' => SmartUpdateAction::class,
-                'scenario' => 'enable-block',
-                'success' => Yii::t('hipanel:server', 'Servers were blocked successfully'),
-                'error' => Yii::t('hipanel:server', 'Error during the servers blocking'),
-                'POST html' => [
-                    'save' => true,
-                    'success' => [
-                        'class' => RedirectAction::class,
-                    ],
-                ],
-                'on beforeSave' => function (Event $event) {
-                    /** @var \hipanel\actions\Action $action */
-                    $action = $event->sender;
-                    $type = Yii::$app->request->post('type');
-                    $comment = Yii::$app->request->post('comment');
-                    if (!empty($type)) {
-                        foreach ($action->collection->models as $model) {
-                            $model->setAttributes([
-                                'type' => $type,
-                                'comment' => $comment,
-                            ]);
-                        }
-                    }
-                },
-            ],
-            'bulk-enable-block-modal' => [
-                'class' => PrepareBulkAction::class,
-                'view' => '_bulkEnableBlock',
-                'data' => function ($action, $data) {
-                    return array_merge($data, [
-                        'blockReasons' => $this->getBlockReasons(),
-                    ]);
-                },
-            ],
-            'bulk-disable-block' => [
-                'class' => SmartUpdateAction::class,
-                'scenario' => 'disable-block',
-                'success' => Yii::t('hipanel:server', 'Servers were unblocked successfully'),
-                'error' => Yii::t('hipanel:server', 'Error during the servers unblocking'),
-                'POST html' => [
-                    'save' => true,
-                    'success' => [
-                        'class' => RedirectAction::class,
-                    ],
-                ],
-                'on beforeSave' => function (Event $event) {
-                    /** @var \hipanel\actions\Action $action */
-                    $action = $event->sender;
-                    $type = Yii::$app->request->post('type');
-                    $comment = Yii::$app->request->post('comment');
-                    if (!empty($type)) {
-                        foreach ($action->collection->models as $model) {
-                            $model->setAttributes([
-                                'comment' => $comment,
-                                'type' => $type
-                            ]);
-                        }
-                    }
-                },
-            ],
-            'bulk-disable-block-modal' => [
-                'class' => PrepareBulkAction::class,
-                'view' => '_bulkDisableBlock',
-                'data' => function ($action, $data) {
-                    return array_merge($data, [
-                        'blockReasons' => $this->getBlockReasons()
-                    ]);
-                },
-            ],
-            'bulk-clear-resources' => [
+            'clear-resources' => [
                 'class' => SmartPerformAction::class,
-                'scenario' => 'clear-resources',
                 'view' => '_clearResources',
                 'success' => Yii::t('hipanel:server', 'Servers resources were cleared successfully'),
                 'error' => Yii::t('hipanel:server', 'Error occurred during server resources flushing'),
             ],
-            'clear-resources-modal' => [
+            'bulk-clear-resources-modal' => [
                 'class' => PrepareBulkAction::class,
                 'view' => '_bulkClearResources',
             ],
-            'bulk-flush-switch-graphs' => [
+            'flush-switch-graphs' => [
                 'class' => SmartPerformAction::class,
-                'scenario' => 'flush-switch-graphs',
                 'view' => '_clearResources',
                 'success' => Yii::t('hipanel:server', 'Switch graphs were flushed successfully'),
                 'error' => Yii::t('hipanel:server', 'Error occurred during switch graphs flushing'),
             ],
-            'flush-switch-graphs-modal' => [
+            'bulk-flush-switch-graphs-modal' => [
                 'class' => PrepareBulkAction::class,
                 'view' => '_bulkFlushSwitchGraphs',
             ],
