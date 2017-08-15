@@ -262,6 +262,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             ],
                             'ip', 'note', 'label',
                             'state', 'os', 'panel',
+                            'blocking'
                         ],
                     ]);
                     $box->endBody();

@@ -101,11 +101,33 @@ class ServerController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Hardware properties was changed'),
                 'view' => 'hardwareSettings',
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith(['hardwareSettings']);
+                    $dataProvider->query->andWhere(['with_hardwareSettings' => 1])->select(['*']);
+                },
+                'data' => function ($action) {
+                    return [
+                    ];
+                }
             ],
             'software-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Software properties was changed'),
                 'view' => 'softwareSettings',
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith(['softwareSettings']);
+                    $dataProvider->query->andWhere(['with_softwareSettings' => 1])->select(['*']);
+                },
+                'data' => function ($action) {
+                    return [
+                    ];
+                }
             ],
             'monitoring-settings' => [
                 'class' => SmartUpdateAction::class,
@@ -117,8 +139,7 @@ class ServerController extends CrudController
                     $dataProvider = $action->getDataProvider();
                     $dataProvider->query->joinWith(['monitoringSettings']);
                     $dataProvider->query
-                        ->andWhere(['with_monitoringSettings' => 1])
-                        ->select(['*']);
+                        ->andWhere(['with_monitoringSettings' => 1])->select(['*']);
                 },
                 'data' => function ($action) {
                     return [
@@ -132,7 +153,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['uses', 'ips', 'switches', 'bindings']);
+                    $dataProvider->query->joinWith(['uses', 'ips', 'switches', 'bindings', 'blocking']);
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
@@ -142,6 +163,7 @@ class ServerController extends CrudController
                         ->andWhere(['with_uses' => 1])
                         ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_bindings' => 1])
+                        ->andWhere(['with_blocking' => 1])
                         ->select(['*']);
                 },
                 'data' => function ($action) {
