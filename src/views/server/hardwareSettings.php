@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <?php $form = ActiveForm::begin([
             'id' => 'hw-form',
             'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
@@ -28,18 +28,29 @@ $this->params['breadcrumbs'][] = $this->title;
                 </h3>
             </div>
             <div class="box-body">
-                <?= $form->field($model, 'summary') ?>
-                <?= $form->field($model, 'order_no') ?>
-                <?= $form->field($model, 'brand') ?>
-                <?= $form->field($model, 'box') ?>
-                <?= $form->field($model, 'cpu') ?>
-                <?= $form->field($model, 'ram') ?>
-                <?= $form->field($model, 'motherboard') ?>
-                <?= $form->field($model, 'hdd') ?>
-                <?= $form->field($model, 'hotswap') ?>
-                <?= $form->field($model, 'raid') ?>
-                <?= $form->field($model, 'units') ?>
-                <?= $form->field($model, 'note') ?>
+                <div class="row">
+                    <div class="col-md-4">
+                        <?= $form->field($model->hardwareSettings, 'summary') ?>
+                        <?= $form->field($model->hardwareSettings, 'order_no') ?>
+                        <?= $form->field($model->hardwareSettings, 'brand') ?>
+                        <?= $form->field($model->hardwareSettings, 'box') ?>
+                        <?= $form->field($model->hardwareSettings, 'cpu') ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($model->hardwareSettings, 'ram') ?>
+                        <?= $form->field($model->hardwareSettings, 'motherboard') ?>
+                        <?= $form->field($model->hardwareSettings, 'hdd') ?>
+                        <?= $form->field($model->hardwareSettings, 'hotswap') ?>
+                        <?= $form->field($model->hardwareSettings, 'raid') ?>
+                    </div>
+                    <div class="col-md-4">
+                        <?= $form->field($model->hardwareSettings, 'units') ?>
+                        <?= $form->field($model->hardwareSettings, 'rack_no') ?>
+                        <?= $form->field($model->hardwareSettings, 'cage_no') ?>
+                        <?= $form->field($model->hardwareSettings, 'datacenter') ?>
+                        <?= $form->field($model->hardwareSettings, 'note') ?>
+                    </div>
+                </div>
             </div>
             <div class="box-footer">
                 <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
@@ -49,12 +60,11 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $form->end() ?>
     </div>
     <div class="col-md-4">
-
         <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
             <div class="row">
                 <?php Pjax::begin(['enablePushState' => false]) ?>
                 <div class="col-md-12">
-                    <?php $box = Box::begin(['renderBody' => false]) ?>
+                    <?php $box = Box::begin(['renderBody' => false, 'bodyOptions' => ['class' => 'no-padding']]) ?>
                     <?php $box->beginHeader() ?>
                     <?= $box->renderTitle(Yii::t('hipanel:server', 'Configuration')) ?>
                     <?php $box->beginTools() ?>
