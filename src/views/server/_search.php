@@ -4,6 +4,7 @@
  * @var array
  * @var \hipanel\widgets\AdvancedSearch $search
  */
+
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\client\widgets\combo\SellerCombo;
 use hipanel\widgets\RefCombo;
@@ -17,6 +18,12 @@ use hipanel\widgets\RefCombo;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field(Yii::$app->user->can('support') ? 'label_like' : 'note_like') ?>
 </div>
+
+<?php if (Yii::$app->user->can('manage')) : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('order_no') ?>
+    </div>
+<?php endif; ?>
 
 <?php if (Yii::$app->user->can('support')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
