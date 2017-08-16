@@ -1,7 +1,6 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\modules\server\grid\ServerGridView;
 use hipanel\widgets\Box;
 use hipanel\widgets\Pjax;
 use yii\bootstrap\ActiveForm;
@@ -20,6 +19,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'id' => 'hw-form',
             'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
         ]); ?>
+
+        <?= Html::activeHiddenInput($model->hardwareSettings, 'id') ?>
 
         <div class="box box-widget">
             <div class="box-header with-border">

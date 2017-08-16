@@ -13,7 +13,6 @@ namespace hipanel\modules\server\controllers;
 use hipanel\actions\Action;
 use hipanel\actions\ComboSearchAction;
 use hipanel\actions\IndexAction;
-use hipanel\actions\OrientationAction;
 use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\ProxyAction;
 use hipanel\actions\RedirectAction;
@@ -30,6 +29,7 @@ use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\helpers\ServerHelper;
+use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
@@ -41,7 +41,6 @@ use Yii;
 use yii\base\Event;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
-use yii\rest\UpdateAction;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
@@ -103,6 +102,7 @@ class ServerController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Hardware properties was changed'),
                 'view' => 'hardwareSettings',
+                'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
@@ -110,10 +110,23 @@ class ServerController extends CrudController
                     $dataProvider->query->joinWith(['hardwareSettings']);
                     $dataProvider->query->andWhere(['with_hardwareSettings' => 1])->select(['*']);
                 },
-                'data' => function ($action) {
-                    return [
-                    ];
-                }
+                'on beforeLoad' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+
+                    $action->collection->setModel(HardwareSettings::class);
+                },
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $server = Yii::$app->request->post('HardwareSettings');
+
+                            return ['@server/view', 'id' => $server['id']];
+                        }
+                    ]
+                ],
             ],
             'software-settings' => [
                 'class' => SmartUpdateAction::class,

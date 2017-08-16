@@ -16,6 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'id' => 'mon-form',
             'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
         ]); ?>
+
         <?= Html::activeHiddenInput($model->monitoringSettings, 'id') ?>
 
         <div class="box box-widget">
