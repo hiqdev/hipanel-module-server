@@ -30,6 +30,7 @@ use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\helpers\ServerHelper;
+use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
@@ -133,6 +134,7 @@ class ServerController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Monitoring properties was changed'),
                 'view' => 'monitoringSettings',
+                'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
@@ -141,11 +143,28 @@ class ServerController extends CrudController
                     $dataProvider->query
                         ->andWhere(['with_monitoringSettings' => 1])->select(['*']);
                 },
+                'on beforeLoad' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+
+                    $action->collection->setModel(MonitoringSettings::class);
+                },
                 'data' => function ($action) {
                     return [
                         'nicMediaOptions' => $action->controller->getFullFromRef('type,nic_media'),
                     ];
-                }
+                },
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $server = Yii::$app->request->post('MonitoringSettings');
+
+                            return ['@server/view', 'id' => $server['id']];
+                        }
+                    ]
+                ],
             ],
             'view' => [
                 'class' => ViewAction::class,

@@ -4,6 +4,13 @@ namespace hipanel\modules\server\models;
 
 class MonitoringSettings extends \hipanel\base\Model
 {
+    const SCENARIO_DEFAULT = 'dumb';
+
+    public static function tableName()
+    {
+        return 'server';
+    }
+
     public function rules()
     {
         return [
@@ -13,23 +20,15 @@ class MonitoringSettings extends \hipanel\base\Model
         ];
     }
 
-    public function getEmailsDefault()
+    public static function primaryKey()
     {
-        return 'notify@advancedhosters.com';
+        return ['id'];
     }
 
-    public function getNicMediaDefault()
+    public function scenarioActions()
     {
-        return 40696899;
-    }
-
-    public function getChanelLoadDefault()
-    {
-        return 90;
-    }
-
-    public function getWatchTrafdownDefault()
-    {
-        return true;
+        return [
+            'default' => 'set-monitoring-settings'
+        ];
     }
 }

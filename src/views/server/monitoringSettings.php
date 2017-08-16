@@ -9,12 +9,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers')
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
-// Set defaults
-$model->monitoringSettings->emails = $model->monitoringSettings->emails ?: $model->monitoringSettings->emailsDefault;
-$model->monitoringSettings->nic_media = $model->monitoringSettings->nic_media ?: $model->monitoringSettings->nicMediaDefault;
-$model->monitoringSettings->channel_load = $model->monitoringSettings->channel_load ?: $model->monitoringSettings->chanelLoadDefault;
-$model->monitoringSettings->watch_trafdown = $model->monitoringSettings->watch_trafdown ?: $model->monitoringSettings->watchTrafdownDefault;
-
 ?>
 <div class="row">
     <div class="col-md-4">
@@ -22,6 +16,7 @@ $model->monitoringSettings->watch_trafdown = $model->monitoringSettings->watch_t
             'id' => 'mon-form',
             'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
         ]); ?>
+        <?= Html::activeHiddenInput($model->monitoringSettings, 'id') ?>
 
         <div class="box box-widget">
             <div class="box-header with-border">
