@@ -4,21 +4,31 @@ namespace hipanel\modules\server\models;
 
 class SoftwareSettings extends \hipanel\base\Model
 {
-    public function rules()
+    const SCENARIO_DEFAULT = 'dumb';
+
+    public static function tableName()
+    {
+        return 'server';
+    }
+
+    public static function primaryKey()
+    {
+        return ['id'];
+    }
+
+    public function scenarioActions()
     {
         return [
-            [['virtual_switch', 'ignore_ip_mon'], 'boolean'],
-            [['os', 'version', 'ip_mon_comment', 'bw_limit', 'bw_group', 'failure_contacts', 'info'], 'string'],
+            'default' => 'set-software-settings'
         ];
     }
 
-    public function getOsDefault()
+    public function rules()
     {
-        return 'FreeBSD';
-    }
-
-    public function getBwLimitDefault()
-    {
-        return '95%';
+        return [
+            [['id'], 'integer'],
+            [['virtual_switch', 'ignore_ip_mon'], 'boolean'],
+            [['os', 'version', 'ip_mon_comment', 'bw_limit', 'bw_group', 'failure_contacts', 'info'], 'string'],
+        ];
     }
 }

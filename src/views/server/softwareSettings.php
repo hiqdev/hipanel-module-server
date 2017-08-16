@@ -9,11 +9,6 @@ $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers')
 $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = $this->title;
 
-// Set defaults
-$model->softwareSettings->os = $model->softwareSettings->os ?: $model->softwareSettings->osDefault;
-$model->softwareSettings->bw_limit = $model->softwareSettings->bw_limit ?: $model->softwareSettings->bwLimitDefault;
-
-
 ?>
 <div class="row">
     <div class="col-md-4">
@@ -21,6 +16,8 @@ $model->softwareSettings->bw_limit = $model->softwareSettings->bw_limit ?: $mode
             'id' => 'sw-form',
             'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
         ]); ?>
+
+        <?= Html::activeHiddenInput($model->softwareSettings, 'id') ?>
 
         <div class="box box-widget">
             <div class="box-header with-border">

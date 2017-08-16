@@ -34,6 +34,7 @@ use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
+use hipanel\modules\server\models\SoftwareSettings;
 use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
@@ -118,6 +119,7 @@ class ServerController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Software properties was changed'),
                 'view' => 'softwareSettings',
+                'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
@@ -125,10 +127,23 @@ class ServerController extends CrudController
                     $dataProvider->query->joinWith(['softwareSettings']);
                     $dataProvider->query->andWhere(['with_softwareSettings' => 1])->select(['*']);
                 },
-                'data' => function ($action) {
-                    return [
-                    ];
-                }
+                'on beforeLoad' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+
+                    $action->collection->setModel(SoftwareSettings::class);
+                },
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $server = Yii::$app->request->post('SoftwareSettings');
+
+                            return ['@server/view', 'id' => $server['id']];
+                        }
+                    ]
+                ],
             ],
             'monitoring-settings' => [
                 'class' => SmartUpdateAction::class,
