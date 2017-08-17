@@ -81,7 +81,6 @@ class ServerController extends CrudController
 
                     $dataProvider->query
                         ->andWhere(['with_ips' => 1])
-                        ->andWhere(['with_tariffs' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_bindings' => 1])
