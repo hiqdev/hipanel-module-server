@@ -19,7 +19,7 @@ class HardwareSettings extends \hipanel\base\Model
     public function scenarioActions()
     {
         return [
-            'default' => 'set-software-settings'
+            'default' => 'set-hardware-settings'
         ];
     }
 
