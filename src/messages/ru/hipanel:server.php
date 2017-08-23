@@ -243,4 +243,7 @@ return [
     'Change software properties' => 'Изменить настройки софта',
     'Change monitoring properties' => 'Изменить настройки мониторинга',
     'History of changes' => 'История изменений',
+    'Monitoring properties was changed' => 'Настройки мониторинга успешно изменены',
+    'Software properties was changed' => 'Настройки софта успешно изменены',
+    'Hardware properties was changed' => 'Настройки железа успешно изменены',
 ];
