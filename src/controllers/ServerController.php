@@ -99,7 +99,7 @@ class ServerController extends CrudController
             ],
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Hardware properties was changed'),
+                'success' => Yii::t('hipanel:server', 'Hardware properties was changed'),
                 'view' => 'hardwareSettings',
                 'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
@@ -129,7 +129,7 @@ class ServerController extends CrudController
             ],
             'software-settings' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Software properties was changed'),
+                'success' => Yii::t('hipanel:server', 'Software properties was changed'),
                 'view' => 'softwareSettings',
                 'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
@@ -159,7 +159,7 @@ class ServerController extends CrudController
             ],
             'monitoring-settings' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Monitoring properties was changed'),
+                'success' => Yii::t('hipanel:server', 'Monitoring properties was changed'),
                 'view' => 'monitoringSettings',
                 'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
