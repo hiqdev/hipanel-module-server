@@ -97,6 +97,7 @@ class Server extends \hipanel\base\Model
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
 
             [['client_id', 'tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
+            [['move_accounts'], 'safe', 'on' => ['sale']],
             [['id', 'type'], 'required', 'on' => ['set-type']],
         ];
     }
@@ -300,6 +301,7 @@ class Server extends \hipanel\base\Model
             'expires' => Yii::t('hipanel:server', 'Expires'),
             'tariff_id' => Yii::t('hipanel:server', 'Tariff'),
             'order_no' => Yii::t('hipanel:server', 'Order'),
+            'move_accounts' => Yii::t('hipanel:server', 'Move accounts to new client'),
         ]);
     }
 }

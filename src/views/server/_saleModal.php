@@ -31,6 +31,7 @@ use yii\widgets\ActiveForm;
         'value' => Yii::$app->formatter->asDatetime($model->sale_time, 'php:Y-m-d H:i:s'),
     ],
 ]) ?>
+<?= $form->field($model, 'move_accounts')->checkbox() ?>
 
 <hr>
 
