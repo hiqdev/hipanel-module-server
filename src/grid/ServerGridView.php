@@ -42,14 +42,12 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
     {
         if (Yii::$app->user->can('manage')) {
             if ($model->parent_tariff) {
-                $html[] = Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
+                $title = Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
             } else {
-                $html[] = $model->tariff;
+                $title = $model->tariff;
             }
 
-            $html[] = Html::a('<i class="fa fa-external-link"></i>', ['@tariff/view', 'id' => $model->tariff_id]);
-
-            return implode(' ', $html);
+            return Html::a($title, ['@tariff/view', 'id' => $model->tariff_id]);
         }
 
         return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
