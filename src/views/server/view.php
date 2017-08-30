@@ -215,29 +215,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     ?>
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php
-                    $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
-                    $box->endHeader();
-                    $box->beginBody();
-                    echo ServerGridView::detailView([
-                        'model' => $model,
-                        'boxed' => false,
-                        'columns' => [
-                            'net',
-                            'pdu',
-                            'rack',
-                            'ipmi',
-                        ]
-                    ]);
-                    $box->endBody();
-                    $box->end();
-                    ?>
-                </div>
-            </div>
         </div>
         <div class="col-md-4">
             <div class="row">
@@ -336,6 +313,31 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     ?>
                 </div>
                 <?php Pjax::end() ?>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
+                    echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
+                    $box->endHeader();
+                    $box->beginBody();
+                    echo '<div class="table-responsive">';
+                    echo ServerGridView::detailView([
+                        'model' => $model,
+                        'boxed' => false,
+                        'columns' => [
+                            'net',
+                            'pdu',
+                            'rack',
+                            'ipmi',
+                        ]
+                    ]);
+                    $box->endBody();
+                    echo '</div>';
+                    $box->end();
+                    ?>
+                </div>
             </div>
             <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
                 <div class="row">
