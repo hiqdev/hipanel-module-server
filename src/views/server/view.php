@@ -238,8 +238,8 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 'contentOptions' => ['class' => 'text-bold'],
                             ],
                             'ip', 'note', 'label',
-                            'state', 'os', 'panel',
-                            'blocking'
+                            'state', 'blocking',
+                            'os', 'panel',
                         ],
                     ]);
                     $box->endBody();
