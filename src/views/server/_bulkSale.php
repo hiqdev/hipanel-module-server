@@ -76,6 +76,9 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                             'name' => 'sale_time'
                         ],
                     ]) ?>
+
+                    <?= $form->field($model, 'move_accounts')->checkbox(['name' => 'move_accounts']) ?>
+
                     <hr>
                     <?= Html::submitButton(Yii::t('hipanel:server', 'Sell'), ['class' => 'btn btn-success', 'id' => 'save-button']) ?>
                     <?php ActiveForm::end() ?>
@@ -102,11 +105,11 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                     ]) ?>
 
                     <?php foreach ($models as $model) : ?>
-                        <div class="col-md-2 text-right" style="line-height: 34px;">
+                        <div class="col-md-3 text-right" style="line-height: 34px;">
                             <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
                             <strong><?= $model->name ?></strong>
                         </div>
-                        <div class="col-md-10">
+                        <div class="col-md-9">
                             <div class="row">
                                 <div class="col-md-6">
                                     <?= $form->field($model, "[$model->id]tariff_id")
@@ -132,6 +135,8 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                             </div>
                         </div>
                     <?php endforeach; ?>
+
+                    <?= $form->field($model, 'move_accounts')->checkbox(['name' => 'move_accounts']) ?>
 
                     <hr>
                     <?= Html::submitButton(Yii::t('hipanel:server', 'Sell'), ['class' => 'btn btn-success', 'id' => 'save-button']) ?>

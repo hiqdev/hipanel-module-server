@@ -334,13 +334,19 @@ class ServerController extends CrudController
                     $request = Yii::$app->request;
 
                     if ($client_id = $request->post('client_id')) {
+                        $tariff_id = $request->post('tariff_id');
+                        $sale_time = $request->post('sale_time');
+                        $move_accounts = $request->post('move_accounts');
                         foreach ($action->collection->models as $model) {
                             $model->client_id = $client_id;
-                            if ($tariff_id = $request->post('tariff_id')) {
+                            if ($tariff_id) {
                                 $model->tariff_id = $tariff_id;
                             }
-                            if ($sale_time = $request->post('sale_time')) {
+                            if ($sale_time) {
                                 $model->sale_time = $sale_time;
+                            }
+                            if ($move_accounts) {
+                                $model->move_accounts = $move_accounts;
                             }
                         }
                     }
