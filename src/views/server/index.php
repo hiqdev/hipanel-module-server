@@ -28,9 +28,11 @@ $this->params['breadcrumbs'][] = $this->title;
 <?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
 <?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
 
-    <?php $page->beginContent('legend') ?>
-        <?= GridLegend::widget(['legendItem' => new ServerGridLegend($model)]) ?>
-    <?php $page->endContent() ?>
+    <?php if (Yii::$app->user->can('support')) : ?>
+        <?php $page->beginContent('legend') ?>
+            <?= GridLegend::widget(['legendItem' => new ServerGridLegend($model)]) ?>
+        <?php $page->endContent() ?>
+    <?php endif ?>
 
     <?php $page->beginContent('show-actions') ?>
         <?= $page->renderLayoutSwitcher() ?>
