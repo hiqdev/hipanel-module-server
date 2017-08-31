@@ -24,6 +24,7 @@ use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\State;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\gridLegend\ColorizeGrid;
+use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\Label;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
@@ -220,7 +221,17 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
-                    return $model->type_label;
+                    return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
+                },
+            ],
+            'detailed_type' => [
+                'format' => 'html',
+                'filter' => false,
+                'value'  => function ($model) {
+                    return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
+                },
+                'contentOptions' => function ($model) {
+                    return GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions('actions');
                 },
             ],
             'rack' => [

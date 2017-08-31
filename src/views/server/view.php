@@ -236,7 +236,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             [
                                 'attribute' => 'name',
                                 'contentOptions' => ['class' => 'text-bold'],
-                            ],
+                            ], 'detailed_type',
                             'ip', 'note', 'label',
                             'state', 'blocking',
                             'os', 'panel',
