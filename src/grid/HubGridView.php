@@ -57,6 +57,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
 
             ],
             'switch' => [
+                'attribute' => 'name',
                 'format' => 'html',
                 'enableSorting' => false,
                 'label' => Yii::t('hipanel:server', 'Switch'),
