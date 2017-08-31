@@ -17,19 +17,19 @@ class HubGridLegend extends BaseGridLegend implements GridLegendInterface
             ],
             [
                 'label' => Yii::t('hipanel:server:hub', 'KVM'),
-                'color' => '#FFFF99',
+                'color' => '#fcf8e3',
                 'rule' => $this->model->type === 'kvm',
                 'columns' => ['actions'],
             ],
             [
                 'label' => Yii::t('hipanel:server:hub', 'APC'),
-                'color' => '#AAFFAA',
+                'color' => '#dff0d8',
                 'rule' => $this->model->type === 'pdu',
                 'columns' => ['actions'],
             ],
             [
                 'label' => Yii::t('hipanel:server:hub', 'IPMI'),
-                'color' => '#AAFFFF',
+                'color' => '#d9edf7',
                 'rule' => $this->model->type === 'ipmi',
                 'columns' => ['actions'],
             ],
