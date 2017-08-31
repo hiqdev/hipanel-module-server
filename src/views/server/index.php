@@ -171,6 +171,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?= ServerGridView::widget([
                 'dataProvider' => $dataProvider,
                 'boxed' => false,
+                'colorize' => true,
                 'filterModel' => $model,
                 'osImages' => $osimages,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
