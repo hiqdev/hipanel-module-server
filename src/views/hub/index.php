@@ -50,6 +50,7 @@ $this->registerCss("
             <?php $page->beginBulkForm() ?>
                 <?= HubGridView::widget([
                     'boxed' => false,
+                    'colorize' => true,
                     'dataProvider' => $dataProvider,
                     'filterModel' => $model,
                     'rowOptions' => function ($model) {
@@ -57,11 +58,10 @@ $this->registerCss("
                     },
                     'columns' => [
                         'checkbox',
-                        'inn',
-                        'buyer',
                         'actions',
-                        'model',
                         'switch',
+                        'inn',
+                        'model',
                         'type',
                         'ip',
                         'mac',

@@ -5,12 +5,15 @@ namespace hipanel\modules\server\grid;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\server\menus\HubActionsMenu;
+use hipanel\widgets\gridLegend\ColorizeGrid;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
 use yii\helpers\Html;
 
 class HubGridView extends \hipanel\grid\BoxedGridView
 {
+    use ColorizeGrid;
+
     public function columns()
     {
         return array_merge(parent::columns(), [
