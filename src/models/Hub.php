@@ -29,7 +29,6 @@ class Hub extends \hipanel\base\Model
             [['type_id', 'name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
             [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
-            ['name_like', 'string'],
 
             // set Options
             [[
@@ -70,7 +69,7 @@ class Hub extends \hipanel\base\Model
             'pdu' => Yii::t('hipanel:server', 'APC'),
             'rack' => Yii::t('hipanel:server', 'Rack'),
             'ipmi' => Yii::t('hipanel:server', 'IPMI'),
-            'name_like' => Yii::t('hipanel:server:hub', 'Switch name')
+            'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
         ]);
     }
 
