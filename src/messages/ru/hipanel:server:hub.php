@@ -25,4 +25,5 @@ return [
     'Switch was created' => 'Свитч создан',
     'Switch was updated' => 'Свитч изменен',
     'Options was updated' => 'Опции били изменены',
+    'Switch name' => 'Свитч',
 ];
