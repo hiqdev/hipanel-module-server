@@ -225,6 +225,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 },
             ],
             'detailed_type' => [
+                'label' => Yii::t('hipanel', 'Type'),
                 'format' => 'html',
                 'filter' => false,
                 'value'  => function ($model) {
