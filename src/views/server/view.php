@@ -385,7 +385,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             ],
                             'hiddenInputs' => [
                                 'id' => ['value' => $model->id],
-                                'type' => ['value' => 'traffic'],
+                                'type' => ['value' => 'server_traf'],
                             ]
                         ]);
                         $box->endTools();
@@ -417,7 +417,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             ],
                             'hiddenInputs' => [
                                 'id' => ['value' => $model->id],
-                                'type' => ['value' => 'bandwidth'],
+                                'type' => ['value' => 'server_traf95'],
                             ]
                         ]);
                         $box->endTools();

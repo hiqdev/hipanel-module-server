@@ -246,4 +246,14 @@ return [
     'Monitoring properties was changed' => 'Настройки мониторинга успешно изменены',
     'Software properties was changed' => 'Настройки софта успешно изменены',
     'Hardware properties was changed' => 'Настройки железа успешно изменены',
+
+    // Resources
+    'Resources' => 'Ресурсы',
+    'Number of IP addresses' => 'Количество IP-адресов',
+    'CDN disk usage' => 'Использование CDN-диска',
+    'CDN files count' => 'Количество CDN-файлов',
+    'Backup disk usage' => 'Использование бекапа диска',
+    'Backup traffic' => 'Трафик бекапа',
+    'CDN cache SATA' => 'CDN кеш SATA',
+    'CDN cache SSD' => 'CDN кеш SSD',
 ];

@@ -35,6 +35,8 @@ use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
+use hipanel\modules\server\widgets\ResourceConsumption;
+use hipanel\modules\server\widgets\TrafficConsumption;
 use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
@@ -571,7 +573,8 @@ class ServerController extends CrudController
     public function actionDrawChart()
     {
         $post = Yii::$app->request->post();
-        if (!in_array($post['type'], ['traffic', 'bandwidth'], true)) {
+        $types = array_merge(['server_traf', 'server_traf95'], array_keys(ResourceConsumption::types()));
+        if (!in_array($post['type'], $types, true)) {
             throw new NotFoundHttpException();
         }
 
@@ -587,7 +590,7 @@ class ServerController extends CrudController
         return $this->renderAjax('_consumption', [
             'labels' => $labels,
             'data' => $data,
-            'consumptionBase' => $post['type'] === 'traffic' ? 'server_traf' : 'server_traf95',
+            'consumptionBase' => $post['type'],
         ]);
     }
 
@@ -658,5 +661,13 @@ class ServerController extends CrudController
         }, 86400 * 24); // 24 days
 
         return $result;
+    }
+
+    public function actionResources($id)
+    {
+        $model = Server::find()->joinWith(['uses'])->andWhere(['id' => $id])->andWhere(['with_uses' => 1])->one();
+        list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
+
+        return $this->render('resources', compact('model', 'chartsData', 'chartsLabels'));
     }
 }

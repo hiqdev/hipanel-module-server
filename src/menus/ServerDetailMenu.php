@@ -30,6 +30,14 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
 
         $items = array_merge($actions, [
             [
+                'label' => Yii::t('hipanel:server', 'Resources'),
+                'icon' => 'fa-area-chart',
+                'url' => ['resources', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+            ],
+            [
                 'label' => Yii::t('hipanel:server', 'Renew server'),
                 'icon' => 'fa-forward',
                 'url' => ['add-to-cart-renewal', 'model_id' => $this->model->id],
