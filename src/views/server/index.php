@@ -43,8 +43,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'state', 'status_time', 'expires',
             ],
         ]) ?>
-        <?= $page->renderPerPage() ?>
         <?= $page->renderRepresentations($representationCollection) ?>
+        <?= $page->renderPerPage() ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
