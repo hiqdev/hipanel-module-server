@@ -36,10 +36,8 @@ $this->registerCss("
             <?= GridLegend::widget(['legendItem' => new HubGridLegend($model)]) ?>
         <?php $page->endContent() ?>
 
-        <?php $page->beginContent('show-actions') ?>
-            <?= $page->renderLayoutSwitcher() ?>
+        <?php $page->beginContent('sorter-actions') ?>
             <?= $page->renderSorter(['attributes' => ['id']]) ?>
-            <?= $page->renderPerPage() ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>

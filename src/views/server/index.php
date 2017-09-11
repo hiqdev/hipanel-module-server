@@ -34,8 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endContent() ?>
     <?php endif ?>
 
-    <?php $page->beginContent('show-actions') ?>
-        <?= $page->renderLayoutSwitcher() ?>
+    <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter([
             'attributes' => [
                 'name', 'id',
@@ -43,8 +42,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'state', 'status_time', 'expires',
             ],
         ]) ?>
+    <?php $page->endContent() ?>
+    <?php $page->beginContent('representation-actions') ?>
         <?= $page->renderRepresentations($representationCollection) ?>
-        <?= $page->renderPerPage() ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
