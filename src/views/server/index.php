@@ -146,14 +146,14 @@ $this->params['breadcrumbs'][] = $this->title;
                 'id' => 'clear-resources-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Clear resources'), ['class' => 'modal-title']),
-                'scenario' => 'bulk-clear-resources-modal',
+                'scenario' => 'clear-resources-modal',
                 'toggleButton' => false,
             ]) ?>
             <?= AjaxModal::widget([
                 'id' => 'flush-modal',
                 'bulkPage' => true,
                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Flush switch graphs'), ['class' => 'modal-title']),
-                'scenario' => 'bulk-flush-switch-graphs-modal',
+                'scenario' => 'flush-switch-graphs-modal',
                 'toggleButton' => false,
             ]) ?>
         <?php endif ?>

@@ -519,9 +519,9 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Servers resources were cleared successfully'),
                 'error' => Yii::t('hipanel:server', 'Error occurred during server resources flushing'),
             ],
-            'bulk-clear-resources-modal' => [
+            'clear-resources-modal' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_bulkClearResources',
+                'view' => '_clearResources',
             ],
             'flush-switch-graphs' => [
                 'class' => SmartPerformAction::class,
@@ -529,9 +529,9 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Switch graphs were flushed successfully'),
                 'error' => Yii::t('hipanel:server', 'Error occurred during switch graphs flushing'),
             ],
-            'bulk-flush-switch-graphs-modal' => [
+            'flush-switch-graphs-modal' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_bulkFlushSwitchGraphs',
+                'view' => '_flushSwitchGraphs',
             ],
         ];
     }
