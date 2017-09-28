@@ -46,4 +46,14 @@ abstract class AbstractServerProduct extends AbstractCartPosition
 
         return $result;
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function serializationMap()
+    {
+        $parent = parent::serializationMap();
+        $parent['_model'] = $this->_model;
+        return $parent;
+    }
 }

@@ -181,4 +181,17 @@ class ServerOrderProduct extends AbstractServerProduct
     {
         return $this->_image;
     }
+
+    protected function serializationMap()
+    {
+        $parent = parent::serializationMap();
+        $parent['cluster_id'] = $this->cluster_id;
+        $parent['osimage'] = $this->osimage;
+        $parent['panel_soft'] = $this->panel_soft;
+        $parent['purpose'] = $this->purpose;
+        $parent['social'] = $this->social;
+        $parent['tariff_id'] = $this->tariff_id;
+        $parent['_image'] = $this->_image;
+        return $parent;
+    }
 }
