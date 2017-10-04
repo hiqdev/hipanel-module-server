@@ -13,7 +13,7 @@ return [
     'Number of ports' => 'Количество портов',
     'Server where traf is counted' => 'Сервер, на котором подсчитывается трафик',
     'Server in same VLAN' => 'Сервер в том же VLAN',
-    'Community' => 'Сообщество',
+    'Community' => 'Community',
     'SNMP version' => 'Версия SNMP',
     'Digit capacity' => 'Разрядность',
     'NIC media' => 'Сетевые адаптеры',

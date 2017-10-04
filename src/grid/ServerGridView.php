@@ -85,6 +85,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'state' => [
                 'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'i18nDictionary' => 'hipanel:server',
                 'format' => 'raw',
                 'gtype' => 'state,device',

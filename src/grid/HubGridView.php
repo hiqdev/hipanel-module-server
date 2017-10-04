@@ -3,6 +3,7 @@
 namespace hipanel\modules\server\grid;
 
 use hipanel\grid\RefColumn;
+use hipanel\grid\MainColumn;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\server\menus\HubActionsMenu;
 use hipanel\widgets\gridLegend\ColorizeGrid;
@@ -19,15 +20,19 @@ class HubGridView extends \hipanel\grid\BoxedGridView
         return array_merge(parent::columns(), [
             'inn' => [
                 'enableSorting' => false,
+                'filterOptions' => ['class' => 'narrow-filter'],
             ],
             'model' => [
                 'enableSorting' => false,
+                'filterOptions' => ['class' => 'narrow-filter'],
             ],
             'ip' => [
                 'enableSorting' => false,
+                'filterOptions' => ['class' => 'narrow-filter'],
             ],
             'mac' => [
                 'enableSorting' => false,
+                'filterOptions' => ['class' => 'narrow-filter'],
             ],
             'actions' => [
                 'class' => MenuColumn::class,
@@ -57,19 +62,14 @@ class HubGridView extends \hipanel\grid\BoxedGridView
 
             ],
             'switch' => [
+                'class' => MainColumn::class,
                 'attribute' => 'name',
                 'filterAttribute' => 'name_ilike',
-                'format' => 'html',
-                'enableSorting' => false,
-                'label' => Yii::t('hipanel:server', 'Switch'),
-                'value' => function ($model) {
-                    $name = Html::tag('span', $model->name, ['class' => 'text-bold text-info']);
-                    $note = Html::tag('small', $model->note, ['class' => 'text-muted']);
-                    return sprintf('%s %s %s', $name, '', $note);
-                }
+                'note' => 'note',
             ],
             'type' => [
                 'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'enableSorting' => false,
                 'findOptions' => [
                     'select' => 'full',
