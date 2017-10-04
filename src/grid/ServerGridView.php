@@ -59,8 +59,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
     public function columns()
     {
-        $osImages = $this->osImages;
-
         return array_merge(parent::columns(), [
             'server' => [
                 'class' => MainColumn::class,
@@ -114,9 +112,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'os' => [
                 'attribute' => 'os',
                 'format' => 'raw',
-                'value' => function ($model) use ($osImages) {
+                'value' => function ($model) {
                     return OSFormatter::widget([
-                        'osimages' => $osImages,
+                        'osimages' => $this->osImages,
                         'imageName' => $model->osimage,
                     ]);
                 },
@@ -124,9 +122,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'os_and_panel' => [
                 'attribute' => 'os',
                 'format' => 'raw',
-                'value' => function ($model) use ($osImages) {
+                'value' => function ($model) {
                     $html = OSFormatter::widget([
-                        'osimages' => $osImages,
+                        'osimages' => $this->osImages,
                         'imageName' => $model->osimage,
                     ]);
                     $html .= ' ' . $model->panel ?: '';
