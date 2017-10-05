@@ -34,7 +34,8 @@ class OpenvzPackage extends Package
     public function getLocations()
     {
         return [
-            3 => Yii::t('hipanel:server', 'Netherlands, Amsterdam'),
+            // RED ask
+//            3 => Yii::t('hipanel:server', 'Netherlands, Amsterdam'),
             2 => Yii::t('hipanel:server', 'USA, Ashburn'),
         ];
     }
