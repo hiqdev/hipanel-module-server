@@ -11,7 +11,7 @@
 
 [![Logo](https://raw.githubusercontent.com/hiqdev/hipanel-core/master/docs/logo.png)](https://hipanel.com/)
 
-[HiPanel](http://hipanel.com) is the next generation control panel for hosting, domains and more.
+[HiPanel](http://hipanel.com) is the next generation billing and control panel for hosting, domains and more.
 
 This package provides server management for HiPanel:
 
