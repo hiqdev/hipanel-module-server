@@ -498,7 +498,7 @@ class ServerController extends CrudController
             ],
             'buy' => [
                 'class' => RedirectAction::class,
-                'url' => Yii::$app->params['orgUrl'],
+                'url' => Yii::$app->params['organization.url'],
             ],
             'add-to-cart-renewal' => [
                 'class' => AddToCartAction::class,
