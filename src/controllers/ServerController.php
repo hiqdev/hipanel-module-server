@@ -63,7 +63,7 @@ class ServerController extends CrudController
                     'enable-block' => ['post'],
                     'disable-block' => ['post'],
                     'refuse' => ['post'],
-                    'flush-switch-graphs' => ['post']
+                    'flush-switch-graphs' => ['post'],
                 ],
             ],
         ]);
@@ -71,7 +71,7 @@ class ServerController extends CrudController
 
     public function actions()
     {
-        return [
+        return array_merge(parent::actions(), [
             'index' => [
                 'class' => IndexAction::class,
                 'findOptions' => ['with_requests' => true, 'with_discounts' => true],
@@ -125,8 +125,8 @@ class ServerController extends CrudController
                             $server = Yii::$app->request->post('HardwareSettings');
 
                             return ['@server/view', 'id' => $server['id']];
-                        }
-                    ]
+                        },
+                    ],
                 ],
             ],
             'software-settings' => [
@@ -155,8 +155,8 @@ class ServerController extends CrudController
                             $server = Yii::$app->request->post('SoftwareSettings');
 
                             return ['@server/view', 'id' => $server['id']];
-                        }
-                    ]
+                        },
+                    ],
                 ],
             ],
             'monitoring-settings' => [
@@ -191,8 +191,8 @@ class ServerController extends CrudController
                             $server = Yii::$app->request->post('MonitoringSettings');
 
                             return ['@server/view', 'id' => $server['id']];
-                        }
-                    ]
+                        },
+                    ],
                 ],
             ],
             'view' => [
@@ -443,7 +443,7 @@ class ServerController extends CrudController
                         foreach ($action->collection->models as $model) {
                             $model->setAttributes([
                                 'comment' => $comment,
-                                'type' => $type
+                                'type' => $type,
                             ]);
                         }
                     }
@@ -454,7 +454,7 @@ class ServerController extends CrudController
                 'view' => '_bulkDisableBlock',
                 'data' => function ($action, $data) {
                     return array_merge($data, [
-                        'blockReasons' => $this->getBlockReasons()
+                        'blockReasons' => $this->getBlockReasons(),
                     ]);
                 },
             ],
@@ -533,7 +533,7 @@ class ServerController extends CrudController
                 'class' => PrepareBulkAction::class,
                 'view' => '_flushSwitchGraphs',
             ],
-        ];
+        ]);
     }
 
     /**
@@ -567,6 +567,7 @@ class ServerController extends CrudController
             }
             $vnc['enabled'] = $model->statuses['serverEnableVNC'] === null ? false : strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC'])) > time();
         }
+
         return $vnc;
     }
 
@@ -653,7 +654,10 @@ class ServerController extends CrudController
     {
         $callingMethod = debug_backtrace()[1]['function'];
         $result = Yii::$app->get('cache')->getOrSet([$callingMethod], function () use ($gtype) {
-            $result = ArrayHelper::map(Ref::find()->where(['gtype' => $gtype, 'select' => 'full'])->all(), 'id', function ($model) {
+            $result = ArrayHelper::map(Ref::find()->where([
+                'gtype' => $gtype,
+                'select' => 'full',
+            ])->all(), 'id', function ($model) {
                 return Yii::t('hipanel:server:hub', $model->label);
             });
 

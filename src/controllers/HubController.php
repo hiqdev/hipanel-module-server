@@ -16,14 +16,14 @@ class HubController extends CrudController
 {
     public function actions()
     {
-        return [
+        return array_merge(parent::actions(), [
             'index' => [
                 'class' => IndexAction::class,
                 'data' => function () {
                     return [
                         'types' => $this->getTypes(),
                     ];
-                }
+                },
             ],
             'view' => [
                 'on beforePerform' => function (Event $event) {
@@ -44,7 +44,7 @@ class HubController extends CrudController
                     return [
                         'types' => $this->getTypes(),
                     ];
-                }
+                },
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
@@ -53,7 +53,7 @@ class HubController extends CrudController
                     return [
                         'types' => $this->getTypes(),
                     ];
-                }
+                },
             ],
             'options' => [
                 'class' => SmartUpdateAction::class,
@@ -64,9 +64,9 @@ class HubController extends CrudController
                         'digitalCapacityOptions' => $this->getDigitalCapacityOptions(),
                         'nicMediaOptions' => $this->getNicMediaOptions(),
                     ];
-                }
+                },
             ],
-        ];
+        ]);
     }
 
     protected function getTypes()
@@ -93,7 +93,10 @@ class HubController extends CrudController
     {
         $callingMethod = debug_backtrace()[1]['function'];
         $result = Yii::$app->get('cache')->getOrSet([$callingMethod], function () use ($gtype) {
-            $result = ArrayHelper::map(Ref::find()->where(['gtype' => $gtype, 'select' => 'full'])->all(), 'id', function ($model) {
+            $result = ArrayHelper::map(Ref::find()->where([
+                'gtype' => $gtype,
+                'select' => 'full',
+            ])->all(), 'id', function ($model) {
                 return Yii::t('hipanel:server:hub', $model->label);
             });
 
