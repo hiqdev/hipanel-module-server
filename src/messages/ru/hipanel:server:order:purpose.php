@@ -20,4 +20,10 @@ return [
     'For most online stores, websites with interactive features' => 'Для большинства интернет-магазинов, сайтов с интерактивной направленностью.',
     'For resource-intensive projects, websites with multimedia features' => 'Для ресурсоемких проектов, сайтов мультимедийной направленности.',
     'For large and high-load online projects' => 'Для крупных и высоконагруженных интернет-проектов.',
+
+    'The optimal solution for small projects, personal blogs, online business cards.' => 'Оптимальное решение для небольших проектов, персональных блогов, сайтов-визиток.',
+    'The most popular and universal rate which is suitable for most online stores and websites.' => 'Наиболее популярный и универсальный тариф для большинства веб-сайтов и интернет-магазинов.',
+    'Intended for complex projects that require significant resources and administration.' => 'Подходит для более сложных проектов, которые требуют значительных ресурсов и администрирования.',
+    'This VDS is advanced solution for demanding websites and scripts that require higher performance.' => 'Этот тариф VDS – решение для ресурсоемких веб-сайтов и скриптов, требующих большей производительности.',
+    'It\'s a great alternative to dedicated server by performance and reliability. Includes administration and 24 * 7 monitoring.' => 'Отличная альтернатива выделенному серверу по производительности и надежности. Включает круглосуточное администрирование и мониторинг.',
 ];
