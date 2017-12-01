@@ -41,6 +41,7 @@ use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\base\Event;
+use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
@@ -65,6 +66,16 @@ class ServerController extends CrudController
                     'refuse' => ['post'],
                     'flush-switch-graphs' => ['post'],
                 ],
+            ],
+            'access' => [
+                'class' => AccessControl::class,
+                'only' => ['monitoring-settings', 'software-settings', 'hardware-settings', 'delete'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['support']
+                    ]
+                ]
             ],
         ]);
     }

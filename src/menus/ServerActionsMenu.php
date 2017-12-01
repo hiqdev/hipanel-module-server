@@ -18,6 +18,8 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
 
     public function items()
     {
+        $user = Yii::$app->user;
+
         return [
             'view' => [
                 'label' => Yii::t('hipanel', 'View'),
@@ -54,6 +56,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             'hardware-settings' => [
                 'label' => Yii::t('hipanel:server', 'Hardware properties'),
+                'visible' => $user->can('support'),
                 'icon' => 'fa-cogs',
                 'url' => ['@server/hardware-settings', 'id' => $this->model->id],
                 'linkOptions' => [
@@ -62,6 +65,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             'software-settings' => [
                 'label' => Yii::t('hipanel:server', 'Software properties'),
+                'visible' => $user->can('support'),
                 'icon' => 'fa-cogs',
                 'url' => ['@server/software-settings', 'id' => $this->model->id],
                 'linkOptions' => [
@@ -70,6 +74,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             'monitoring-settings' => [
                 'label' => Yii::t('hipanel:server', 'Monitoring properties'),
+                'visible' => $user->can('support'),
                 'icon' => 'fa-cogs',
                 'url' => ['@server/monitoring-settings', 'id' => $this->model->id],
                 'linkOptions' => [
