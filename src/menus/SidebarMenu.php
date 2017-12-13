@@ -18,9 +18,10 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
     {
         return [
             'servers' => [
-                'label' => Yii::t('hipanel:server', 'Servers'),
-                'url'   => ['/server/server/index'],
-                'icon'  => 'fa-server',
+                'label'     => Yii::t('hipanel:server', 'Servers'),
+                'url'       => ['/server/server/index'],
+                'icon'      => 'fa-server',
+                'visible'   => Yii::$app->user->can('server.read'),
                 'items' => [
                     'servers' => [
                         'label' => Yii::t('hipanel:server', 'Servers'),
