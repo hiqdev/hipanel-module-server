@@ -265,7 +265,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     ]);
                     $box->endBody();
                     $box->beginFooter();
-                        if ($model->autorenewal) {
+                        if ($model->autorenewal && $model->expires) {
                             echo SimpleOperation::widget([
                                 'model' => $model,
                                 'scenario' => 'refuse',
@@ -282,7 +282,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 'modalFooterLoading' => Yii::t('hipanel:server', 'Refusing...'),
                                 'modalFooterClass' => 'btn btn-warning',
                             ]);
-                        } else if (in_array($model->state, $model->goodStates(), true)) {
+                        } else if (in_array($model->state, $model->goodStates(), true) && $model->expires) {
                             echo SimpleOperation::widget([
                                 'model' => $model,
                                 'scenario' => 'enable-autorenewal',
@@ -302,7 +302,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             echo SettingsModal::widget([
                                 'model'    => $model,
                                 'title'    => Yii::t('hipanel:server', 'Change tariff'),
-                                'scenario' => 'sale',
+                                'scenario' => 'bulk-sale',
                                 'toggleButton' => [
                                     'class' => 'btn btn-default',
                                 ],

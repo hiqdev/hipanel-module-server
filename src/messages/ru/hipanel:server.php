@@ -212,6 +212,9 @@ return [
     'Error occurred during server resources flushing' => 'При очистке ресурсов сервера произошла обшибка',
     'This action irreversibly clears network graphics collected from the network switch port, assigned to the server.' => 'Это действие безвозвратно очищает графики сетевой активности на порту коммутатора, к которому подключен сервер.',
     'Flush switch graphs' => 'Очистить графики свитча',
+    'Clear this input to unsale the servers' => 'Очистите это поле, чтоб распродать серверы',
+    'Move accounts to new client' => 'Переместить аккаунты на нового клиента',
+    '(not sold)' => '(не продан)',
 
     /// Server states
     'On' => 'Ок, без панели',

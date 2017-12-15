@@ -63,7 +63,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                         'inputOptions' => [
                             'name' => 'client_id'
                         ]
-                    ]) ?>
+                    ])->hint(Yii::t('hipanel:server', 'Clear this input to unsale the servers')) ?>
                     <?= $form->field($model, 'tariff_id')->widget(TariffCombo::class, [
                         'tariffType' => 'server',
                         'inputOptions' => [
@@ -109,7 +109,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                                         'name' => 'client_id'
                                     ],
                                     'formElementSelector' => '.form-group',
-                                ]) ?>
+                                ])->hint(Yii::t('hipanel:server', 'Clear this input to unsale the servers')) ?>
                             </div>
 
                             <?php foreach ($models as $model) : ?>
@@ -160,6 +160,11 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
         </div>
     </div>
 </div>
+
+<?= $this->registerJs(<<<JS
+
+JS
+); ?>
 
 <?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
     'inputSelectors' => ['select[ref=tariff-combo]', 'input[ref=sale-time-combo]']

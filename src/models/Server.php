@@ -96,7 +96,7 @@ class Server extends \hipanel\base\Model
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
 
-            [['client_id', 'tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
+            [['tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
             [['move_accounts'], 'safe', 'on' => ['sale']],
             [['id', 'type'], 'required', 'on' => ['set-type']],
         ];
@@ -222,6 +222,9 @@ class Server extends \hipanel\base\Model
      */
     public function canFullRefuse()
     {
+        if (!is_numeric($this->last_expires)) {
+            return null; // In case server is not sold
+        }
         return (time() - Yii::$app->formatter->asTimestamp($this->last_expires)) / 3600 / 24 < 5;
     }
 

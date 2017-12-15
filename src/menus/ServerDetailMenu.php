@@ -44,6 +44,7 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
+                'visible' => !empty($this->expires)
             ],
             [
                 'label' => SimpleOperation::widget([

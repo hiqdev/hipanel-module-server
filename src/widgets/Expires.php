@@ -29,19 +29,23 @@ class Expires extends \hipanel\widgets\Label
     public function init()
     {
         $expires = $this->model->expires;
+        $this->label = Yii::t('hipanel:server', '(not sold)');
 
-        if (strtotime($expires) < time()) {
-            $class = 'danger';
-        } elseif (strtotime($expires) < strtotime('+5 days', time())) {
-            $class = 'warning';
-        } elseif (strtotime($expires) < strtotime('+30 days', time())) {
-            $class = 'info';
-        } else {
-            $class = 'default';
+        if (!empty($expires)) {
+            if (strtotime($expires) < time()) {
+                $class = 'danger';
+            } elseif (strtotime($expires) < strtotime('+5 days', time())) {
+                $class = 'warning';
+            } elseif (strtotime($expires) < strtotime('+30 days', time())) {
+                $class = 'info';
+            } else {
+                $class = 'default';
+            }
+
+            $this->color = $class;
+            $this->label = Yii::$app->formatter->asDate($expires);
         }
 
-        $this->color = $class;
-        $this->label = Yii::$app->formatter->asDate($expires);
         parent::init();
     }
 }

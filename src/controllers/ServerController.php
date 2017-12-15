@@ -313,10 +313,6 @@ class ServerController extends CrudController
                     ],
                 ],
             ],
-            'sale' => [
-                'class' => SmartUpdateAction::class,
-                'view' => '_saleModal',
-            ],
             'enable-vnc' => [
                 'class' => ViewAction::class,
                 'view' => '_vnc',
@@ -346,20 +342,10 @@ class ServerController extends CrudController
                     $action = $event->sender;
                     $request = Yii::$app->request;
 
-                    if ($client_id = $request->post('client_id')) {
-                        $tariff_id = $request->post('tariff_id');
-                        $sale_time = $request->post('sale_time');
-                        $move_accounts = $request->post('move_accounts');
+                    if ($request->post('tariff_id')) {
                         foreach ($action->collection->models as $model) {
-                            $model->client_id = $client_id;
-                            if ($tariff_id) {
-                                $model->tariff_id = $tariff_id;
-                            }
-                            if ($sale_time) {
-                                $model->sale_time = $sale_time;
-                            }
-                            if ($move_accounts) {
-                                $model->move_accounts = $move_accounts;
+                            foreach (['client_id', 'tariff_id', 'sale_time', 'move_accounts'] as $attribute) {
+                                $model->setAttribute($attribute, $request->post($attribute));
                             }
                         }
                     }
