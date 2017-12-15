@@ -34,6 +34,12 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php $page->endContent() ?>
     <?php endif ?>
 
+    <?php $page->beginContent('main-actions') ?>
+        <?php if (Yii::$app->user->can('deposit')) : ?>
+            <?= Html::a(Yii::t('hipanel:server:order', 'Buy server'), ['/server/order/index'], ['class' => 'btn btn-sm btn-success']) ?>
+        <?php endif ?>
+    <?php $page->endContent() ?>
+
     <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter([
             'attributes' => [
