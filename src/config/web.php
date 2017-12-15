@@ -62,6 +62,19 @@ return [
     ],
     'container' => [
         'definitions' => [
+            \hipanel\modules\dashboard\menus\DashboardMenu::class => [
+                'add' => [
+                    'server' => [
+                        'menu' => [
+                            'class' => \hipanel\modules\server\menus\DashboardItem::class,
+                        ],
+                        'where' => [
+                            'after' => ['certificates', 'domains', 'finance', 'clients', 'dashboard'],
+                            'before' => ['hosting'],
+                        ],
+                    ],
+                ],
+            ],
             \hiqdev\thememanager\menus\AbstractSidebarMenu::class => [
                 'add' => [
                     'server' => [
