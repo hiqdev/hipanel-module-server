@@ -126,12 +126,11 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
                             </div>
                         <?php endif ?>
-                        <?php /** if ($model->isDedicatedDevice()) : **/ ?>
+                        <?php if (Yii::$app->user->can('support')) : ?>
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <?= Wizzard::widget(compact(['model'])) ?>
-
                         </div>
-                        <?php /** endif **/ ?>
+                        <?php endif ?>
                     </div>
                     <?php
                     $box->endBody();
@@ -314,31 +313,33 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 </div>
                 <?php Pjax::end() ?>
             </div>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php
-                    $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
-                    $box->endHeader();
-                    $box->beginBody();
-                    echo '<div class="table-responsive">';
-                    echo ServerGridView::detailView([
-                        'model' => $model,
-                        'boxed' => false,
-                        'columns' => [
-                            'net',
-                            'pdu',
-                            'rack',
-                            'ipmi',
-                        ]
-                    ]);
-                    $box->endBody();
-                    echo '</div>';
-                    $box->end();
-                    ?>
+            <?php if (Yii::$app->user->can('support')) : ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
+                        $box->endHeader();
+                        $box->beginBody();
+                            echo '<div class="table-responsive">';
+                            echo ServerGridView::detailView([
+                                'model' => $model,
+                                'boxed' => false,
+                                'columns' => [
+                                    'net',
+                                    'pdu',
+                                    'rack',
+                                    'ipmi',
+                                ]
+                            ]);
+                            echo '</div>';
+                        $box->endBody();
+                        $box->end();
+                        ?>
+                    </div>
                 </div>
-            </div>
+            <?php endif ?>
             <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
                 <div class="row">
                     <?php Pjax::begin(['enablePushState' => false]) ?>

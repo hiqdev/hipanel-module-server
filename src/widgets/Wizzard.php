@@ -10,17 +10,17 @@
 
 namespace hipanel\modules\server\widgets;
 
+use hipanel\modules\server\models\Server;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Html;
 use hipanel\widgets\ModalButton;
-use hipanel\helpers\ArrayHelper;
 use yii\bootstrap\Modal;
 
 class Wizzard extends Widget
 {
     /**
-     * @var ActiveRecord
+     * @var Server
      */
     public $model;
 
