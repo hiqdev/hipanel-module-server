@@ -342,10 +342,17 @@ class ServerController extends CrudController
                     $action = $event->sender;
                     $request = Yii::$app->request;
 
-                    if ($request->post('tariff_id')) {
+                    if ($request->isPost) {
+                        $values = [];
+                        foreach (['client_id', 'tariff_id', 'sale_time', 'move_accounts'] as $attribute) {
+                            $value = $request->post($attribute);
+                            if (!empty($value)) {
+                                $values[$attribute] = $value;
+                            }
+                        }
                         foreach ($action->collection->models as $model) {
-                            foreach (['client_id', 'tariff_id', 'sale_time', 'move_accounts'] as $attribute) {
-                                $model->setAttribute($attribute, $request->post($attribute));
+                            foreach ($values as $attr => $value) {
+                                $model->setAttribute($attr, $value);
                             }
                         }
                     }
