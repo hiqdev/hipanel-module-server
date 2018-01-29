@@ -54,16 +54,7 @@ $this->registerCss("
                     'rowOptions' => function ($model) {
                         return GridLegend::create(new HubGridLegend($model))->gridRowOptions();
                     },
-                    'columns' => [
-                        'checkbox',
-                        'actions',
-                        'switch',
-                        'inn',
-                        'model',
-                        'type',
-                        'ip',
-                        'mac',
-                    ],
+                    'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
                 ]) ?>
             <?php $page->endBulkForm() ?>
         <?php $page->endContent() ?>
