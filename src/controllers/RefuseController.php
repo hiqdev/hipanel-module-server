@@ -15,10 +15,10 @@ use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\base\CrudController;
+use hipanel\filters\EasyAccessControl;
 use hipanel\modules\server\models\Change;
 use Yii;
 use yii\base\Event;
-use yii\filters\AccessControl;
 
 class RefuseController extends CrudController
 {
@@ -30,13 +30,10 @@ class RefuseController extends CrudController
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
-            'access' => [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow'   => true,
-                        'roles'   => ['manage'],
-                    ],
+            [
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    '*' => 'manage',
                 ],
             ],
         ]);
