@@ -25,6 +25,7 @@ use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
@@ -67,15 +68,15 @@ class ServerController extends CrudController
                     'flush-switch-graphs' => ['post'],
                 ],
             ],
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['monitoring-settings', 'software-settings', 'hardware-settings', 'delete'],
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'roles' => ['support']
-                    ]
-                ]
+            [
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    'monitoring-settings' => 'support',
+                    'software-settings' => 'support',
+                    'hardware-settings' => 'support',
+                    'delete' => 'server.delete',
+                    '*' => 'server.read',
+                ],
             ],
         ]);
     }
