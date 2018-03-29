@@ -38,15 +38,6 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 ],
             ],
             [
-                'label' => Yii::t('hipanel:server', 'Renew server'),
-                'icon' => 'fa-forward',
-                'url' => ['add-to-cart-renewal', 'model_id' => $this->model->id],
-                'linkOptions' => [
-                    'data-pjax' => 0,
-                ],
-                'visible' => !empty($this->model->expires)
-            ],
-            [
                 'label' => SimpleOperation::widget([
                     'model' => $this->model,
                     'scenario' => 'reset-password',
