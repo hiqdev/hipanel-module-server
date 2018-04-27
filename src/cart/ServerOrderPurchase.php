@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\cart;
 
+use hipanel\widgets\Box;
 use hipanel\base\ModelTrait;
 use hipanel\modules\finance\cart\PendingPurchaseException;
 use Yii;
@@ -47,7 +48,12 @@ class ServerOrderPurchase extends AbstractServerPurchase
     public function execute()
     {
         if (parent::execute()) {
-            Yii::$app->getView()->params['remarks'][] = Yii::t('hipanel:server:order', 'You will receive an email with server access information right after setup');
+            $remark = Box::widget([
+                'options' => ['class' => 'box-solid box-warning'],
+                'body' => Yii::t('hipanel:server:order', 'You will receive an email with server access information right after setup'),
+            ]);
+
+            Yii::$app->getView()->params['remarks'][__CLASS__] = $remark;
 
             if (is_array($this->_result) && isset($this->_result['_action_pending'])) {
                 throw new PendingPurchaseException(Yii::t('hipanel:server:order', 'Server setup will be performed as soon as manager confirms your account verification. Pleas wait.'), $this);
