@@ -14,11 +14,25 @@ use hipanel\base\CrudController;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\helpers\ServerHelper;
+use hipanel\filters\EasyAccessControl;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 
 class OrderController extends CrudController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    'add-to-cart' => 'server.pay',
+                    '*' => 'server.read',
+                ],
+            ],
+        ]);
+    }
+
     public function actions()
     {
         return [

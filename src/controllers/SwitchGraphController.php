@@ -12,10 +12,23 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\base\CrudController;
+use hipanel\filters\EasyAccessControl;
 use yii\base\Event;
 
 class SwitchGraphController extends CrudController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    '*' => 'server.read',
+                ],
+            ],
+        ]);
+    }
+
     public function actions()
     {
         return [
