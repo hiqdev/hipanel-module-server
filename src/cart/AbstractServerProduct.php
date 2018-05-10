@@ -13,12 +13,13 @@ namespace hipanel\modules\server\cart;
 use DateTime;
 use hipanel\modules\finance\cart\AbstractCartPosition;
 use hipanel\modules\server\models\Server;
+use hiqdev\yii2\cart\DontIncrementQuantityWhenAlreadyInCart;
 use Yii;
 
 /**
  * Class AbstractServerProduct is an abstract cart position for server produce.
  */
-abstract class AbstractServerProduct extends AbstractCartPosition
+abstract class AbstractServerProduct extends AbstractCartPosition implements DontIncrementQuantityWhenAlreadyInCart
 {
     /**
      * @var Server
