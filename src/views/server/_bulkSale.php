@@ -76,6 +76,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                             'format' => 'yyyy-mm-dd hh:ii:ss',
                             'pickerPosition' => 'top-right'
                         ],
+                        'language' => Yii::$app->language,
                         'options' => [
                             'value' => Yii::$app->formatter->asDatetime($defaultDateTime, 'php:Y-m-d H:i:s'),
                             'name' => 'sale_time'
