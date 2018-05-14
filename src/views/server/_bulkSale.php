@@ -71,7 +71,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                         ]
                     ]) ?>
                     <?= $form->field($model, 'sale_time')->widget(DateTimePicker::class, [
-                        'pluginOptions' => [
+                        'clientOptions' => [
                             'autoclose' => true,
                             'format' => 'yyyy-mm-dd hh:ii:ss',
                             'pickerPosition' => 'top-right'
@@ -131,7 +131,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                                         </div>
                                         <div class="col-md-6">
                                             <?= $form->field($model, "[$model->id]sale_time")->widget(DateTimePicker::class, [
-                                                'pluginOptions' => [
+                                                'clientOptions' => [
                                                     'autoclose' => true,
                                                     'format' => 'yyyy-mm-dd hh:ii:ss',
                                                     'pickerPosition' => 'top-right'
