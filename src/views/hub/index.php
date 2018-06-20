@@ -41,7 +41,7 @@ $this->registerCss("
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
-            <?= $page->renderBulkButton('<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'), 'update')?>
+            <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
         <?php $page->endContent('bulk-actions') ?>
 
         <?php $page->beginContent('table') ?>

@@ -67,7 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
             </div>
         <?php endif ?>
         <?php if (Yii::$app->user->can('delete-bills')) : ?>
-            <?= $page->renderBulkButton(Yii::t('hipanel', 'Delete'), 'delete', 'danger') ?>
+            <?= $page->renderBulkDeleteButton('delete') ?>
         <?php endif ?>
     <?php $page->endContent() ?>
 
