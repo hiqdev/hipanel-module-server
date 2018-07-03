@@ -1,11 +1,11 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
@@ -94,6 +94,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     if ($model->status_time) {
                         $html .= ' ' . Html::tag('nobr', Yii::t('hipanel:server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
                     }
+
                     return $html;
                 },
             ],
@@ -129,6 +130,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'imageName' => $model->osimage,
                     ]);
                     $html .= ' ' . $model->panel ?: '';
+
                     return $html;
                 },
             ],
@@ -268,6 +270,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value'  => function ($model) {
                     if (($ipmi = $model->getBinding('ipmi')) !== null) {
                         $link = Html::a($ipmi->device_ip, "http://$ipmi->device_ip/", ['target' => '_blank']) . ' ';
+
                         return $link . $this->renderSwitchPort($ipmi);
                     }
                 },
@@ -282,6 +285,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     $del_acs_num = $model->del_acs_num;
                     $acs_num = $act_acs_num . ($del_acs_num ? "+$del_acs_num" : '');
                     $acs = $acs_num ? Html::a("$acs_num acc", AccountController::getSearchUrl(['server' => $model->name])) : 'no acc';
+
                     return Html::tag('nobr', $ips) . ' ' . Html::tag('nobr', $acs);
                 },
             ],

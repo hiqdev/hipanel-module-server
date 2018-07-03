@@ -1,27 +1,26 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\widgets\EventLog;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\widgets\BootLive;
 use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\modules\server\widgets\ServerSwitcher;
-use hipanel\widgets\SimpleOperation;
-use hipanel\widgets\Box;
-use hipanel\widgets\Pjax;
-use hipanel\widgets\ClientSellerLink;
-use hipanel\widgets\SettingsModal;
 use hipanel\modules\server\widgets\Wizzard;
-use hipanel\modules\server\widgets\BootLive;
+use hipanel\widgets\Box;
+use hipanel\widgets\ClientSellerLink;
+use hipanel\widgets\EventLog;
+use hipanel\widgets\Pjax;
+use hipanel\widgets\SettingsModal;
+use hipanel\widgets\SimpleOperation;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
 /**
- * @var $model Server
+ * @var Server
  */
-
 $this->title = $model->name;
 $this->params['subtitle'] = Yii::t('hipanel:server', 'Server detailed information') . ' #' . $model->id;
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
@@ -38,8 +37,8 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
             <?php Box::begin([
                 'bodyOptions' => [
-                    'class' => 'no-padding'
-                ]
+                    'class' => 'no-padding',
+                ],
             ]) ?>
             <div class="profile-user-img text-center">
                 <i class="fa fa-server fa-5x"></i>
@@ -281,7 +280,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 'modalFooterLoading' => Yii::t('hipanel:server', 'Refusing...'),
                                 'modalFooterClass' => 'btn btn-warning',
                             ]);
-                        } else if (in_array($model->state, $model->goodStates(), true) && $model->expires) {
+                        } elseif (in_array($model->state, $model->goodStates(), true) && $model->expires) {
                             echo SimpleOperation::widget([
                                 'model' => $model,
                                 'scenario' => 'enable-autorenewal',
@@ -331,7 +330,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                     'pdu',
                                     'rack',
                                     'ipmi',
-                                ]
+                                ],
                             ]);
                             echo '</div>';
                         $box->endBody();
@@ -382,12 +381,12 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         echo ChartOptions::widget([
                             'id' => 'server_traf',
                             'form' => [
-                                'action' => 'draw-chart'
+                                'action' => 'draw-chart',
                             ],
                             'hiddenInputs' => [
                                 'id' => ['value' => $model->id],
                                 'type' => ['value' => 'server_traf'],
-                            ]
+                            ],
                         ]);
                         $box->endTools();
                         $box->endHeader();
@@ -414,12 +413,12 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         echo ChartOptions::widget([
                             'id' => 'server_traf95',
                             'form' => [
-                                'action' => 'draw-chart'
+                                'action' => 'draw-chart',
                             ],
                             'hiddenInputs' => [
                                 'id' => ['value' => $model->id],
                                 'type' => ['value' => 'server_traf95'],
-                            ]
+                            ],
                         ]);
                         $box->endTools();
                         $box->endHeader();
@@ -451,7 +450,7 @@ if ($model->running_task) {
     $checkerOptions = Json::encode([
         'id' => $model->id,
         'ajax' => ['url' => Url::to('@server/is-operable')],
-        'pjaxSelector' => '#' . Yii::$app->params['pjax']['id']
+        'pjaxSelector' => '#' . Yii::$app->params['pjax']['id'],
     ]);
     $this->registerJs("$('.server-view').serverTaskChecker($checkerOptions);");
 }

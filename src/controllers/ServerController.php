@@ -1,11 +1,11 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\controllers;
@@ -37,12 +37,10 @@ use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
 use hipanel\modules\server\widgets\ResourceConsumption;
-use hipanel\modules\server\widgets\TrafficConsumption;
 use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\base\Event;
-use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
@@ -228,7 +226,7 @@ class ServerController extends CrudController
                 },
                 'data' => function ($action) {
                     /**
-                     * @var Action $action
+                     * @var Action
                      * @var self $controller
                      * @var Server $model
                      */

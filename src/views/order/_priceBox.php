@@ -2,7 +2,7 @@
 use yii\helpers\Html;
 
 /**
- * @var \hipanel\modules\server\models\Package[] $packages
+ * @var \hipanel\modules\server\models\Package[]
  */
 $info = '<i class="fa fa-info-circle" aria-hidden="true" style="color: #3E65BF;"></i>';
 $this->registerJs("

@@ -1,20 +1,20 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\controllers;
 
 use hipanel\base\CrudController;
+use hipanel\filters\EasyAccessControl;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\helpers\ServerHelper;
-use hipanel\filters\EasyAccessControl;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 

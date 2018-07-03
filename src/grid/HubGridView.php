@@ -1,9 +1,17 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\grid;
 
-use hipanel\grid\RefColumn;
 use hipanel\grid\MainColumn;
+use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\server\menus\HubActionsMenu;
 use hipanel\widgets\gridLegend\ColorizeGrid;
@@ -43,14 +51,14 @@ class HubGridView extends \hipanel\grid\BoxedGridView
                 'enableSorting' => false,
                 'value' => function ($model) {
                     return Html::a($model->traf_server_id_label, ['@server/view', 'id' => $model->traf_server_id]);
-                }
+                },
             ],
             'vlan_server_id' => [
                 'format' => 'html',
                 'enableSorting' => false,
                 'value' => function ($model) {
                     return Html::a($model->vlan_server_id_label, ['@server/view', 'id' => $model->vlan_server_id]);
-                }
+                },
             ],
             'buyer' => [
                 'label' => Yii::t('hipanel:server:hub', 'Buyer'),
@@ -59,7 +67,6 @@ class HubGridView extends \hipanel\grid\BoxedGridView
                 'attribute' => 'buyer_id',
                 'nameAttribute' => 'buyer',
                 'enableSorting' => false,
-
             ],
             'switch' => [
                 'class' => MainColumn::class,

@@ -1,11 +1,11 @@
 <?php
 /**
- * Domain plugin for HiPanel
+ * Server module for HiPanel
  *
- * @link      https://github.com/hiqdev/hipanel-module-domain
- * @package   hipanel-module-domain
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\menus;
