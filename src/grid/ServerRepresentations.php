@@ -1,15 +1,14 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
-
 
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
@@ -52,7 +51,7 @@ class ServerRepresentations extends RepresentationCollection
                     'actions',
                     'client_like',
                     'rack', 'server', 'tariff',
-                    'hwsummary', 'nums'
+                    'hwsummary', 'nums',
                 ],
             ] : null,
             'admin' => Yii::$app->user->can('support') ? [

@@ -1,9 +1,9 @@
 <?php
 
+use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\modules\server\widgets\ResourceConsumption;
 use hipanel\widgets\Box;
 use yii\helpers\Html;
-use hipanel\modules\server\widgets\ChartOptions;
 
 $this->title = Yii::t('hipanel:server', 'Resources');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
@@ -26,12 +26,12 @@ $iteration = 1;
                         echo ChartOptions::widget([
                             'id' => $type,
                             'form' => [
-                                'action' => 'draw-chart'
+                                'action' => 'draw-chart',
                             ],
                             'hiddenInputs' => [
                                 'id' => ['value' => $model->id],
                                 'type' => ['value' => $type],
-                            ]
+                            ],
                         ]);
                         $box->endTools();
                         $box->endHeader();
@@ -48,9 +48,9 @@ $iteration = 1;
                 </div>
             </div>
         <?php endif ?>
-        <?php if ($iteration % 3 == 0) : ?>
+        <?php if ($iteration % 3 === 0) : ?>
             <?= Html::tag('div', '', ['class' => 'clearfix']) ?>
-            <?php $iteration++; ?>
+            <?php ++$iteration; ?>
         <?php endif; ?>
     <?php endforeach; ?>
 </div>

@@ -8,7 +8,7 @@ use hipanel\widgets\Pjax;
 use yii\helpers\Html;
 
 /**
- * @var OsimageSearch $osimages
+ * @var OsimageSearch
  * @var yii\web\View $this
  * @var array $states
  * @var \hipanel\modules\server\models\Change $model

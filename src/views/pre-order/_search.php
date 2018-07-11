@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var array $states
+ * @var array
  * @var \hipanel\widgets\AdvancedSearch $search
  */
 use hipanel\modules\client\widgets\combo\ClientCombo;

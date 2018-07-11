@@ -41,12 +41,12 @@ ModalButton::begin([
 
                             <div class="list-group-item-text os-list">
                                 <?php foreach ($vendor['oses'] as $system => $os) {
-                            echo Html::tag('div', Html::radio('os', false, [
+    echo Html::tag('div', Html::radio('os', false, [
                                         'label' => $os,
                                         'value' => $system,
                                         'class' => 'radio',
                                     ]), ['class' => 'radio']);
-                        } ?>
+} ?>
                             </div>
                         </div>
                     <?php endforeach ?>
@@ -59,8 +59,8 @@ ModalButton::begin([
                 <div class="list-group">
                     <?php foreach ($panels as $panel => $panel_name) : ?>
                         <?php if (empty($groupedOsimages['softpacks'][$panel])) {
-                            continue;
-                        } ?>
+    continue;
+} ?>
                         <div class="list-group-item soft-list" data-panel="<?= $panel ?>">
                             <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:panel', $panel_name) ?></h4>
 

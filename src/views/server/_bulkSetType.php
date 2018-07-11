@@ -6,7 +6,7 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 /**
- * @var \yii\web\View $this
+ * @var \yii\web\View
  * @var \hipanel\modules\server\models\Server $model
  */
 ?>
@@ -33,8 +33,8 @@ use yii\helpers\Html;
                         'i18nDictionary' => 'hipanel:server',
                         'inputOptions' => [
                             'id' => 'server-type-' . $model->id,
-                            'ref' => 'type-combo'
-                        ]
+                            'ref' => 'type-combo',
+                        ],
                     ])->label(false) ?>
                 </div>
             </div>
@@ -47,5 +47,5 @@ use yii\helpers\Html;
 </div>
 
 <?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
-    'inputSelectors' => ['select[ref=type-combo]']
+    'inputSelectors' => ['select[ref=type-combo]'],
 ]) ?>

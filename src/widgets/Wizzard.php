@@ -1,21 +1,21 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\widgets;
 
 use hipanel\modules\server\models\Server;
+use hipanel\widgets\ModalButton;
 use Yii;
 use yii\base\Widget;
-use yii\helpers\Html;
-use hipanel\widgets\ModalButton;
 use yii\bootstrap\Modal;
+use yii\helpers\Html;
 
 class Wizzard extends Widget
 {
@@ -29,7 +29,7 @@ class Wizzard extends Widget
 
     /**
      * @var array|Modal stores options for [[ModalButton]]
-     * After Modal creating, stores the object.
+     * After Modal creating, stores the object
      */
     protected $modal;
 
@@ -92,6 +92,4 @@ class Wizzard extends Widget
     {
         $this->modal->run();
     }
-
-
 }
