@@ -1,24 +1,23 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\widgets;
 
+use dosamigos\chartjs\ChartJs;
+use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
-use dosamigos\chartjs\ChartJs;
-use yii\base\InvalidConfigException;
-use Yii;
 
 class TrafficConsumption extends Widget
 {
-
     /**
      * @var array Lable for each [[data]] item. Will be rendered on chart axis.
      * Example:
@@ -73,7 +72,7 @@ class TrafficConsumption extends Widget
         }
 
         if ($this->id === null) {
-            $this->id = $this->consumptionBase . "_consumption_chart";
+            $this->id = $this->consumptionBase . '_consumption_chart';
         }
 
         $this->emptyMessage = [

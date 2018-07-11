@@ -1,20 +1,20 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\widgets;
 
 use hipanel\widgets\ModalButton;
 use hipanel\widgets\SimpleOperation;
-use yii\helpers\Html;
-use yii\base\InvalidConfigException;
 use Yii;
+use yii\base\InvalidConfigException;
+use yii\helpers\Html;
 
 class BootLive extends SimpleOperation
 {
@@ -29,7 +29,6 @@ class BootLive extends SimpleOperation
 
     public function init()
     {
-
         $this->scenario = 'boot-live';
 
         parent::init();

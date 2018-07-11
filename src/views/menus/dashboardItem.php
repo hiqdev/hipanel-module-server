@@ -1,8 +1,8 @@
 <?php
 
 use hipanel\modules\dashboard\widgets\ObjectsCountWidget;
-use hipanel\modules\dashboard\widgets\SmallBox;
 use hipanel\modules\dashboard\widgets\SearchForm;
+use hipanel\modules\dashboard\widgets\SmallBox;
 use hipanel\modules\server\models\ServerSearch;
 use yii\helpers\Html;
 use yii\helpers\Url;

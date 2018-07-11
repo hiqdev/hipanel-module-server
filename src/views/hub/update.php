@@ -2,7 +2,7 @@
 
 $this->title = Yii::t('hipanel', 'Update');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
-if (count($models) == 1) {
+if (count($models) === 1) {
     $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];
 }
 $this->params['breadcrumbs'][] = $this->title;

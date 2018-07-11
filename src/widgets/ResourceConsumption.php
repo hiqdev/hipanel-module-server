@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\widgets;
 
@@ -24,9 +32,9 @@ class ResourceConsumption extends TrafficConsumption
     public function init()
     {
         foreach ($this->data as $k => $item) {
-            if (in_array($k, ['server_du', 'server_files', 'backup_du', 'backup_traf', 'server_sata', 'server_ssd'])) {
+            if (in_array($k, ['server_du', 'server_files', 'backup_du', 'backup_traf', 'server_sata', 'server_ssd'], true)) {
                 $this->data[$k] = array_map(function ($n) {
-                    return (int)Yii::$app->formatter->asShortSize($n, 2);
+                    return (int) Yii::$app->formatter->asShortSize($n, 2);
                 }, $item);
             }
         }
@@ -68,7 +76,7 @@ class ResourceConsumption extends TrafficConsumption
                         'borderColor' => 'rgba(139, 195, 74, 1)',
                         'pointBackgroundColor' => 'rgba(139, 195, 74, 1)',
                         'pointBorderColor' => '#fff',
-                        'data' => (array)$this->data[$this->consumptionBase],
+                        'data' => (array) $this->data[$this->consumptionBase],
                     ],
                 ],
             ],

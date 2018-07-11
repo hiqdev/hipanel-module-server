@@ -1,12 +1,11 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\widgets\RefCombo;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 /**
- * @var \yii\web\View $this
+ * @var \yii\web\View
  * @var \hipanel\modules\server\models\Server $model
  */
 ?>
@@ -29,7 +28,7 @@ use yii\helpers\Html;
                 </div>
                 <div class="col-md-7">
                     <?= $form->field($model, "[$model->id]note")->textInput([
-                        'ref' => 'note-input'
+                        'ref' => 'note-input',
                     ])->label(false) ?>
                 </div>
             </div>
@@ -42,5 +41,5 @@ use yii\helpers\Html;
 </div>
 
 <?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
-    'inputSelectors' => ['input[ref=note-input]']
+    'inputSelectors' => ['input[ref=note-input]'],
 ]) ?>

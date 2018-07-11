@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @var \hipanel\widgets\AdvancedSearch $search
+ * @var \hipanel\widgets\AdvancedSearch
  */
 ?>
 <?= $search->field('id')->hiddenInput()->label(false) ?>
