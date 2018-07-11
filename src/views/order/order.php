@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 
 /**
- * @var Package $package
+ * @var Package
  * @var \hipanel\modules\server\cart\ServerOrderProduct $product
  * @var array $groupedOsimages
  * @var array $panels
@@ -115,8 +115,8 @@ $this->registerCss('
                                         </div>
                                         <?php foreach ($panels as $panel => $panel_name) : ?>
                                             <?php if (empty($groupedOsimages['softpacks'][$panel])) {
-                                                continue;
-                                            } ?>
+                                                                continue;
+                                                            } ?>
 
                                             <div class="list-group-item soft-list" data-panel="<?= $panel ?>">
                                                 <h4 class="list-group-item-heading"><?= Yii::t('hipanel:server:panel', $panel_name) ?></h4>

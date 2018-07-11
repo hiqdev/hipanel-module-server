@@ -8,10 +8,9 @@ use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
 /**
- * @var \yii\web\View $this
+ * @var \yii\web\View
  * @var \hipanel\modules\server\models\Server $model
  */
-
 $defaultDateTime = new DateTime('first day of this month 00:00');
 
 ?>
@@ -61,24 +60,24 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
 
                     <?= $form->field($model, 'client_id')->widget(ClientCombo::class, [
                         'inputOptions' => [
-                            'name' => 'client_id'
-                        ]
+                            'name' => 'client_id',
+                        ],
                     ])->hint(Yii::t('hipanel:server', 'Clear this input to unsale the servers')) ?>
                     <?= $form->field($model, 'tariff_id')->widget(TariffCombo::class, [
                         'tariffType' => 'server',
                         'inputOptions' => [
-                            'name' => 'tariff_id'
-                        ]
+                            'name' => 'tariff_id',
+                        ],
                     ]) ?>
                     <?= $form->field($model, 'sale_time')->widget(DateTimePicker::class, [
                         'clientOptions' => [
                             'autoclose' => true,
                             'format' => 'yyyy-mm-dd hh:ii:ss',
-                            'pickerPosition' => 'top-right'
+                            'pickerPosition' => 'top-right',
                         ],
                         'options' => [
                             'value' => Yii::$app->formatter->asDatetime($defaultDateTime, 'php:Y-m-d H:i:s'),
-                            'name' => 'sale_time'
+                            'name' => 'sale_time',
                         ],
                     ]) ?>
 
@@ -107,7 +106,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                                     'options' => ['id' => 'bulk-by-one-sale-client'],
                                     'inputOptions' => [
                                         'id' => 'bulk-by-one-sale-client',
-                                        'name' => 'client_id'
+                                        'name' => 'client_id',
                                     ],
                                     'formElementSelector' => '.form-group',
                                 ])->hint(Yii::t('hipanel:server', 'Clear this input to unsale the servers')) ?>
@@ -124,7 +123,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                                             <?= $form->field($model, "[$model->id]tariff_id")
                                                 ->widget(TariffCombo::class, [
                                                     'tariffType' => 'server',
-                                                    'inputOptions' => ['ref' => 'tariff-combo']
+                                                    'inputOptions' => ['ref' => 'tariff-combo'],
                                                 ])
                                                 ->label(false)
                                             ?>
@@ -134,11 +133,11 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                                                 'clientOptions' => [
                                                     'autoclose' => true,
                                                     'format' => 'yyyy-mm-dd hh:ii:ss',
-                                                    'pickerPosition' => 'top-right'
+                                                    'pickerPosition' => 'top-right',
                                                 ],
                                                 'options' => [
                                                     'value' => Yii::$app->formatter->asDatetime($defaultDateTime, 'php:Y-m-d H:i:s'),
-                                                    'ref' => 'sale-time-combo'
+                                                    'ref' => 'sale-time-combo',
                                                 ],
                                             ])->label(false) ?>
                                         </div>
@@ -169,5 +168,5 @@ JS
 ); ?>
 
 <?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
-    'inputSelectors' => ['select[ref=tariff-combo]', 'input[ref=sale-time-combo]']
+    'inputSelectors' => ['select[ref=tariff-combo]', 'input[ref=sale-time-combo]'],
 ]) ?>

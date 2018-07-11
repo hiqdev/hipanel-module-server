@@ -4,6 +4,7 @@ namespace hipanel\server\widgets;
 
 use hipanel\widgets\Box;
 use Yii;
+
 ?>
 
 <div class="col-md-3">

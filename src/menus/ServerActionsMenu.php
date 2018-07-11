@@ -1,11 +1,11 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\menus;
@@ -30,13 +30,22 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 ],
             ],
             [
+                'label' => Yii::t('hipanel', 'Update'),
+                'icon' => 'fa-pencil',
+                'url' => ['@server/update', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+                'visible' => Yii::$app->user->can('server.update'),
+            ],
+            [
                 'label' => Yii::t('hipanel:server', 'Renew server'),
                 'icon' => 'fa-forward',
                 'url' => ['add-to-cart-renewal', 'model_id' => $this->model->id],
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
-                'visible' => !empty($this->model->expires)
+                'visible' => !empty($this->model->expires),
             ],
             'update' => [
                 'label' => Yii::t('hipanel', 'Update'),

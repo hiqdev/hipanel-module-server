@@ -3,8 +3,6 @@
 /** @var array $snmpOptions */
 /** @var array $digitalCapacityOptions */
 /** @var array $nicMediaOptions */
-
-
 use hipanel\helpers\Url;
 use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\widgets\PasswordInput;

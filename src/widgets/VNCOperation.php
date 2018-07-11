@@ -1,24 +1,23 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\widgets;
 
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\base\Widget;
 use yii\helpers\Html;
 use yii\web\JsExpression;
-use yii\base\InvalidConfigException;
 
 class VNCOperation extends Widget
 {
-
     protected $vncEnd;
     protected $vncEnabled;
     public $model;
@@ -33,7 +32,7 @@ class VNCOperation extends Widget
         $this->vncEnabled = $this->model->vnc['enabled'];
 
         $this->vncEnd = $this->model->statuses['serverEnableVNC'] === null ? 0 : strtotime('+8 hours', strtotime($this->model->statuses['serverEnableVNC']));
-        $this->vncEnd = $this->vncEnd < time() ? ($this->model->vnc['endTime'] > time() ? $this->model->vnc['endTime'] :  $this->vncEnd) :  $this->vncEnd;
+        $this->vncEnd = $this->vncEnd < time() ? ($this->model->vnc['endTime'] > time() ? $this->model->vnc['endTime'] : $this->vncEnd) : $this->vncEnd;
     }
 
     public function run()
@@ -59,6 +58,7 @@ class VNCOperation extends Widget
                 'disabled' => !$this->model->canEnableVnc(),
             ]
         );
+
         return $form . Html::endForm();
     }
 
@@ -70,10 +70,10 @@ class VNCOperation extends Widget
                 'class' => 'btn btn-success btn-block',
                 'onClick' => new JsExpression("
                     if ($('#vnc-access-data').hasClass('hidden')) {
-                        $(this).text('".Yii::t('hipanel', 'Hide') ."');
+                        $(this).text('" . Yii::t('hipanel', 'Hide') . "');
                         $('#vnc-access-data').removeClass('hidden');
                     } else {
-                        $(this).text('".Yii::t('hipanel', 'Show') ."');
+                        $(this).text('" . Yii::t('hipanel', 'Show') . "');
                         $('#vnc-access-data').addClass('hidden');
                     }
                 "),
@@ -92,6 +92,7 @@ class VNCOperation extends Widget
         $data .= Html::endTag('dl');
         $data .= Yii::t('hipanel:server', 'VNC will be disabled {time}',
                 ['time' => Yii::$app->formatter->asRelativeTime($this->model->vnc['endTime'])]);
+
         return $data;
     }
 }

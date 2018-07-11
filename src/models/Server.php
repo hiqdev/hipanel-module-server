@@ -1,15 +1,16 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
 
+use hipanel\models\Ref;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\validators\EidValidator;
@@ -80,7 +81,7 @@ class Server extends \hipanel\base\Model
                     'refuse', 'delete', 'enable-autorenewal',
                     'enable-vnc', 'set-note', 'set-label',
                     'enable-block', 'disable-block', 'clear-resources',
-                    'flush-switch-graphs'
+                    'flush-switch-graphs',
                 ],
             ],
             [
@@ -141,7 +142,7 @@ class Server extends \hipanel\base\Model
      */
     public function isVNCSupported()
     {
-        return in_array($this->type, static::SVDS_TYPES);
+        return in_array($this->type, static::SVDS_TYPES, true);
     }
 
     /**
@@ -161,7 +162,7 @@ class Server extends \hipanel\base\Model
      */
     public function isLiveCDSupported()
     {
-        return in_array($this->type, static::SVDS_TYPES);
+        return in_array($this->type, static::SVDS_TYPES, true);
     }
 
     /**
@@ -201,6 +202,7 @@ class Server extends \hipanel\base\Model
         if (!$this->isOperable()) {
             throw new NotSupportedException(Yii::t('hipanel:server', 'Server already has a running task. Can not start new.'));
         }
+
         return true;
     }
 
@@ -225,6 +227,7 @@ class Server extends \hipanel\base\Model
         if (!is_numeric($this->last_expires)) {
             return null; // In case server is not sold
         }
+
         return (time() - Yii::$app->formatter->asTimestamp($this->last_expires)) / 3600 / 24 < 5;
     }
 
@@ -305,7 +308,12 @@ class Server extends \hipanel\base\Model
             'tariff_id' => Yii::t('hipanel:server', 'Tariff'),
             'order_no' => Yii::t('hipanel:server', 'Order'),
             'move_accounts' => Yii::t('hipanel:server', 'Move accounts to new client'),
+            'server' => Yii::t('hipanel:server', 'Server name'),
         ]);
     }
-}
 
+    public function getTypeOptions(): array
+    {
+        return Ref::getList('type,device,server', 'hipanel:server');
+    }
+}

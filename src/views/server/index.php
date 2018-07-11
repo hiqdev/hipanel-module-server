@@ -13,12 +13,11 @@ use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
 /**
- * @var OsimageSearch $osimages
+ * @var OsimageSearch
  * @var yii\web\View $this
  * @var IndexPageUiOptions $uiModel
  * @var \hiqdev\higrid\representations\RepresentationCollection $representationCollection
  */
-
 $this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
@@ -35,8 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php endif ?>
 
     <?php $page->beginContent('main-actions') ?>
+        <?php if (Yii::$app->user->can('server.create')) : ?>
+            <?= Html::a(Yii::t('hipanel:server', 'Create server'), ['@server/create'], ['class' => 'btn btn-sm btn-success']) ?>
+        <?php endif ?>
         <?php if (Yii::$app->user->can('deposit')) : ?>
-            <?= Html::a(Yii::t('hipanel:server:order', 'Buy server'), ['/server/order/index'], ['class' => 'btn btn-sm btn-success']) ?>
+            <?= Html::a(Yii::t('hipanel:server:order', 'Buy server'), ['/server/order/index'], ['class' => 'btn btn-sm btn-primary']) ?>
         <?php endif ?>
     <?php $page->endContent() ?>
 
@@ -76,37 +78,37 @@ $this->params['breadcrumbs'][] = $this->title;
                     Yii::$app->user->can('manage') ? [
                         'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Change type'),
                         'url' => '#bulk-set-type-modal',
-                        'linkOptions' => ['data-toggle' => 'modal']
+                        'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
                     Yii::$app->user->can('manage') ? [
                         'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Clear resources'),
                         'url' => '#clear-resources-modal',
-                        'linkOptions' => ['data-toggle' => 'modal']
+                        'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
                     Yii::$app->user->can('manage') ? [
                         'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Flush switch graphs'),
                         'url' => '#flush-modal',
-                        'linkOptions' => ['data-toggle' => 'modal']
+                        'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
                     Yii::$app->user->can('support') ? [
                         'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
                         'url' => '#bulk-enable-block-modal',
-                        'linkOptions' => ['data-toggle' => 'modal']
+                        'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
                     Yii::$app->user->can('support') ? [
                         'label' => '<i class="fa fa-toggle-off"></i> ' . Yii::t('hipanel', 'Disable block'),
                         'url' => '#bulk-disable-block-modal',
-                        'linkOptions' => ['data-toggle' => 'modal']
+                        'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
                     [
                         'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set notes'),
                         'url' => '#bulk-set-notes-modal',
-                        'linkOptions' => ['data-toggle' => 'modal']
+                        'linkOptions' => ['data-toggle' => 'modal'],
                     ],
                     Yii::$app->user->can('support') ? [
                         'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
                         'url' => '#bulk-delete-modal',
-                        'linkOptions' => ['data-toggle' => 'modal']
+                        'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
                 ]),
             ]); ?>

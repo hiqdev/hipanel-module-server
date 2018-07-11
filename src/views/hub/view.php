@@ -11,11 +11,11 @@ $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-$this->registerCss("
+$this->registerCss('
     .profile-block {
         text-align: center;
     }
-");
+');
 ?>
 <div class="row">
     <div class="col-md-3">
@@ -43,7 +43,7 @@ $this->registerCss("
                         'pdu',
                         'rack',
                         'ipmi',
-                    ]
+                    ],
                 ]);
                 $box->endBody();
                 $box->end();

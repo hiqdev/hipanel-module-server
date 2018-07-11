@@ -1,11 +1,11 @@
 <?php
 /**
- * Server module for HiPanel.
+ * Server module for HiPanel
  *
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2017, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
  */
 
 /**
@@ -215,6 +215,8 @@ return [
     'Clear this input to unsale the servers' => 'Очистите это поле, чтоб распродать серверы',
     'Move accounts to new client' => 'Переместить аккаунты на нового клиента',
     '(not sold)' => '(не продан)',
+    'Create server' => 'Создать сервер',
+    'Server name' => 'Название сервера',
 
     /// Server states
     'On' => 'Ок, без панели',
