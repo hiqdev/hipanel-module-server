@@ -118,21 +118,13 @@ class ServerController extends CrudController
                 'class' => SmartCreateAction::class,
                 'collection' => [
                     'class' => Collection::class,
-                    'model' => new ServerForm(),
+                    'model' => new ServerForm(['scenario' => 'create']),
                     'scenario' => 'create',
                 ],
-                'data' => function (Action $action, array $data) {
-                    $model = new ServerForm(['scenario' => 'create']);
-                    return [
-                        'model'  => $model,
-                        'models' => [$model],
-                    ];
-                },
                 'success' => Yii::t('hipanel:stock', 'Server has been created'),
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'scenario' => 'update',
                 'collection' => [
                     'class' => Collection::class,
                     'model' => new ServerForm(),
@@ -159,7 +151,6 @@ class ServerController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server', 'Hardware properties was changed'),
                 'view' => 'hardwareSettings',
-                'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
@@ -546,7 +537,7 @@ class ServerController extends CrudController
                 'class' => ValidateFormAction::class,
                 'collection' => [
                     'class' => Collection::class,
-                    'model' => Yii::createObject(['class' => ServerForm::class]),
+                    'model' => new ServerForm(),
                 ],
             ],
             'validate-form' => [

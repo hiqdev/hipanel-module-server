@@ -310,7 +310,7 @@ class Server extends \hipanel\base\Model
         ]);
     }
 
-    public function getTypeOptions()
+    public function getTypeOptions(): array
     {
         return Ref::getList('type,device,server', 'hipanel:server');
     }

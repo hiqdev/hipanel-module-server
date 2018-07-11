@@ -7,17 +7,27 @@ use hipanel\modules\server\models\Server;
 use hipanel\modules\server\validators\MacValidator;
 use yii\helpers\ArrayHelper;
 
+/**
+ * Class ServerForm represent create/update form
+ */
 class ServerForm extends Server
 {
     use \hipanel\base\ModelTrait;
 
-    public $server;
-
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'server';
     }
 
+    /**
+     * Create ServerForm model from Server model
+     *
+     * @param Server $server
+     * @return ServerForm
+     */
     public static function fromServer(Server $server): ServerForm
     {
         return new self(array_merge($server->getAttributes(), ['server' => $server->name, 'scenario' => 'update'], [
@@ -25,6 +35,9 @@ class ServerForm extends Server
         ]));
     }
 
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return array_merge(parent::rules(), [

@@ -5,7 +5,11 @@ use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
+/** @var \hipanel\modules\server\forms\ServerForm $model */
+/** @var \hipanel\modules\server\forms\ServerForm[] $models */
+
 ?>
+
 <?php $form = ActiveForm::begin([
     'id' => 'server-dynamic-form',
     'enableClientValidation' => true,
