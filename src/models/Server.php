@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\models\Ref;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\validators\EidValidator;
@@ -307,6 +308,12 @@ class Server extends \hipanel\base\Model
             'tariff_id' => Yii::t('hipanel:server', 'Tariff'),
             'order_no' => Yii::t('hipanel:server', 'Order'),
             'move_accounts' => Yii::t('hipanel:server', 'Move accounts to new client'),
+            'server' => Yii::t('hipanel:server', 'Server name'),
         ]);
+    }
+
+    public function getTypeOptions(): array
+    {
+        return Ref::getList('type,device,server', 'hipanel:server');
     }
 }

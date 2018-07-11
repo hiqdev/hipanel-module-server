@@ -58,6 +58,7 @@ class BootLive extends SimpleOperation
 
     protected function generatOSItemList()
     {
+        $osItems = [];
         foreach ($this->osimageslivecd as $item) {
             $js = "$(this).closest('form').find('.livecd-osimage').val('{$item['osimage']}').end().submit(); $(this).closest('button').button('loading');";
             $osItems[] = [

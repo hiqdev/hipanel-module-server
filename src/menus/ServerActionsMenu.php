@@ -30,6 +30,15 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 ],
             ],
             [
+                'label' => Yii::t('hipanel', 'Update'),
+                'icon' => 'fa-pencil',
+                'url' => ['@server/update', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+                'visible' => Yii::$app->user->can('server.update'),
+            ],
+            [
                 'label' => Yii::t('hipanel:server', 'Renew server'),
                 'icon' => 'fa-forward',
                 'url' => ['add-to-cart-renewal', 'model_id' => $this->model->id],

@@ -19,6 +19,7 @@ use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\RequestStateAction;
+use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
@@ -29,6 +30,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
+use hipanel\modules\server\forms\ServerForm;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\MonitoringSettings;
@@ -37,6 +39,7 @@ use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
 use hipanel\modules\server\widgets\ResourceConsumption;
+use hiqdev\hiart\Collection;
 use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
@@ -72,6 +75,8 @@ class ServerController extends CrudController
                     'monitoring-settings' => 'support',
                     'software-settings' => 'support',
                     'hardware-settings' => 'support',
+                    'create' => 'server.create',
+                    'update' => 'server.update',
                     'delete' => 'server.delete',
                     '*' => 'server.read',
                 ],
@@ -109,11 +114,43 @@ class ServerController extends CrudController
             'search' => [
                 'class' => ComboSearchAction::class,
             ],
+            'create' => [
+                'class' => SmartCreateAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new ServerForm(['scenario' => 'create']),
+                    'scenario' => 'create',
+                ],
+                'success' => Yii::t('hipanel:stock', 'Server has been created'),
+            ],
+            'update' => [
+                'class' => SmartUpdateAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new ServerForm(),
+                    'scenario' => 'update',
+                ],
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith('ips');
+                },
+                'data' => function (Action $action, array $data) {
+                    $result = [];
+                    foreach ($data['models'] as $model) {
+                        $result['models'][] = ServerForm::fromServer($model);
+                    }
+                    $result['model'] = reset($result['models']);
+
+                    return $result;
+                },
+                'success' => Yii::t('hipanel:stock', 'Server has been updated'),
+            ],
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server', 'Hardware properties was changed'),
                 'view' => 'hardwareSettings',
-                'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
@@ -495,6 +532,13 @@ class ServerController extends CrudController
                 },
                 'success' => Yii::t('hipanel:server', 'Live CD booting task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the booting live CD'),
+            ],
+            'validate-crud-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new ServerForm(),
+                ],
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
