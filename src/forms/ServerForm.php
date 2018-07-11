@@ -15,6 +15,11 @@ class ServerForm extends Server
     use \hipanel\base\ModelTrait;
 
     /**
+     * @var string Server name
+     */
+    public $server;
+
+    /**
      * @inheritdoc
      */
     public static function tableName()
