@@ -215,6 +215,8 @@ return [
     'Clear this input to unsale the servers' => 'Очистите это поле, чтоб распродать серверы',
     'Move accounts to new client' => 'Переместить аккаунты на нового клиента',
     '(not sold)' => '(не продан)',
+    'Create server' => 'Создать сервер',
+    'Server name' => 'Название сервера',
 
     /// Server states
     'On' => 'Ок, без панели',
