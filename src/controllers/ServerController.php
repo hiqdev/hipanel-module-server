@@ -76,6 +76,7 @@ class ServerController extends CrudController
                     'software-settings' => 'support',
                     'hardware-settings' => 'support',
                     'create' => 'server.create',
+                    'update' => 'server.update',
                     'delete' => 'server.delete',
                     '*' => 'server.read',
                 ],
