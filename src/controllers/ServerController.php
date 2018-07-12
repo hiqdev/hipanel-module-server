@@ -394,6 +394,24 @@ class ServerController extends CrudController
                     }
                 },
             ],
+            'set-one-type' => [
+                'class' => SmartUpdateAction::class,
+                'view' => 'setOneType',
+                'success' => Yii::t('hipanel:server', 'Type was changed'),
+                'error' => Yii::t('hipanel:server', 'Failed to change type'),
+                'scenario' => 'set-type',
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $servers = Yii::$app->request->post('Server');
+                    $type = ArrayHelper::remove($servers, 'type');
+                    foreach ($servers as $id => $server) {
+                        $servers[$id]['type'] = $type;
+                    }
+                    $action->collection->setModel($this->newModel(['scenario' => 'set-type']));
+                    $action->collection->load($servers);
+                },
+            ],
             'set-type' => [
                 'class' => SmartUpdateAction::class,
                 'view' => '_bulkSetType',
