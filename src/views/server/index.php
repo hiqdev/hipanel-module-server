@@ -81,6 +81,11 @@ $this->params['breadcrumbs'][] = $this->title;
                         'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
                     Yii::$app->user->can('manage') ? [
+                        'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set one type to many servers'),
+                        'url' => '#',
+                        'linkOptions' => ['data-action' => 'set-one-type'],
+                    ] : null,
+                    Yii::$app->user->can('manage') ? [
                         'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Clear resources'),
                         'url' => '#clear-resources-modal',
                         'linkOptions' => ['data-toggle' => 'modal'],

@@ -262,4 +262,6 @@ return [
     'Backup traffic' => 'Трафик бекапа',
     'CDN cache SATA' => 'CDN кеш SATA',
     'CDN cache SSD' => 'CDN кеш SSD',
+
+    'Set one type to many servers' => 'Установить один тип для выбраных серверов',
 ];
