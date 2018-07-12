@@ -15,11 +15,6 @@ class ServerForm extends Server
     use \hipanel\base\ModelTrait;
 
     /**
-     * @var string Server name
-     */
-    public $server;
-
-    /**
      * @inheritdoc
      */
     public static function tableName()
@@ -53,7 +48,7 @@ class ServerForm extends Server
             [
                 ['server'], 'unique', 'on' => ['update'], 'when' => function ($model) {
                 if ($model->isAttributeChanged('server')) {
-                    return Server::findOne($model->id)->server !== $model->server;
+                    return self::findOne($model->id)->server !== $model->server;
                 }
 
                 return false;
@@ -62,7 +57,7 @@ class ServerForm extends Server
             [
                 ['dc'], 'unique', 'on' => ['update'], 'when' => function ($model) {
                 if ($model->isAttributeChanged('dc')) {
-                    return Server::findOne($model->id)->dc !== $model->dc;
+                    return self::findOne($model->id)->dc !== $model->dc;
                 }
 
                 return false;
