@@ -316,4 +316,13 @@ class Server extends \hipanel\base\Model
     {
         return Ref::getList('type,device,server', 'hipanel:server');
     }
+
+    /**
+     * Check if you can assign hubs
+     * @return bool
+     */
+    public function canAssignHubs(): bool
+    {
+        return $this->type !== 'nic'; // XXX todo: need to add more types
+    }
 }

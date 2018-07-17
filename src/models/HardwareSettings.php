@@ -28,6 +28,8 @@ class HardwareSettings extends \hipanel\base\Model
     {
         return [
             'default' => 'set-hardware-settings',
+            'set-units' => 'set-hardware-settings',
+            'set-rack-no' => 'set-hardware-settings',
         ];
     }
 
@@ -35,7 +37,14 @@ class HardwareSettings extends \hipanel\base\Model
     {
         return [
             [['id'], 'integer'],
-            [['summary', 'order_no', 'brand', 'box', 'cpu', 'ram', 'motherboard', 'hdd', 'hotswap', 'raid', 'units', 'note', 'cage_no', 'rack_no', 'datacenter'], 'string'],
+            [
+                [
+                    'summary', 'order_no', 'brand', 'box', 'cpu', 'ram', 'motherboard', 'hdd', 'hotswap', 'raid',
+                    'units', 'note', 'cage_no', 'rack_no', 'datacenter',
+                ], 'string',
+            ],
+            [['id', 'units'], 'required', 'on' => 'set-units'],
+            [['id', 'rack_no'], 'required', 'on' => 'set-rack-no'],
         ];
     }
 }
