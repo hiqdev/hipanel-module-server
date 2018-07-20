@@ -15,11 +15,30 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\helpers\ServerHelper;
+use hipanel\modules\server\Module;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
+use yii\web\ForbiddenHttpException;
 
 class OrderController extends CrudController
 {
+    /**
+     * OrderController constructor.
+     *
+     * @param string $id
+     * @param Module $module
+     * @param array $config
+     * @throws ForbiddenHttpException
+     */
+    public function __construct(string $id, Module $module, array $config = [])
+    {
+        parent::__construct($id, $module, $config);
+
+        if (!$module->orderIsAllowed) {
+            throw new ForbiddenHttpException('Server order is not allowed');
+        }
+    }
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [

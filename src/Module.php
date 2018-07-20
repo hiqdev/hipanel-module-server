@@ -12,4 +12,8 @@ namespace hipanel\modules\server;
 
 class Module extends \hipanel\base\Module
 {
+    /**
+     * @var bool Whether server order is allowed
+     */
+    public $orderIsAllowed = true;
 }
