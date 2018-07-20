@@ -94,10 +94,15 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['ips', 'bindings']);
+                    $dataProvider->query->joinWith(['bindings']);
+
+                    if (Yii::getAlias('@ip', false)) {
+                        $dataProvider->query
+                            ->joinWith(['ips'])
+                            ->andWhere(['with_ips' => 1]);
+                    }
 
                     $dataProvider->query
-                        ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_bindings' => 1])
@@ -134,7 +139,9 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith('ips');
+                    if (Yii::getAlias('@ip', false)) {
+                        $dataProvider->query->joinWith('ips');
+                    }
                 },
                 'data' => function (Action $action, array $data) {
                     $result = [];
@@ -248,7 +255,13 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['uses', 'ips', 'switches', 'bindings', 'blocking']);
+                    $dataProvider->query->joinWith(['uses', 'switches', 'bindings', 'blocking']);
+
+                    if (Yii::getAlias('@ip', false)) {
+                        $dataProvider->query
+                            ->joinWith(['ips'])
+                            ->andWhere(['with_ips' => 1]);
+                    }
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
@@ -256,7 +269,6 @@ class ServerController extends CrudController
                         ->andWhere(['show_deleted' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
-                        ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_bindings' => 1])
                         ->andWhere(['with_blocking' => 1])
                         ->select(['*']);

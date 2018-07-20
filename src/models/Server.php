@@ -243,7 +243,11 @@ class Server extends \hipanel\base\Model
 
     public function getIps()
     {
-        return $this->hasMany(Ip::class, ['device_id' => 'id'])->joinWith('links');
+        if (Yii::getAlias('@ip', false)) {
+            return $this->hasMany(Ip::class, ['device_id' => 'id'])->joinWith('links');
+        }
+
+        return [];
     }
 
     public function getSwitches()
