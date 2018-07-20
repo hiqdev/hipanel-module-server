@@ -121,7 +121,7 @@ class ServerController extends CrudController
                     'model' => new ServerForm(['scenario' => 'create']),
                     'scenario' => 'create',
                 ],
-                'success' => Yii::t('hipanel:stock', 'Server has been created'),
+                'success' => Yii::t('hipanel:server', 'Server has been created'),
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
@@ -145,7 +145,7 @@ class ServerController extends CrudController
 
                     return $result;
                 },
-                'success' => Yii::t('hipanel:stock', 'Server has been updated'),
+                'success' => Yii::t('hipanel:server', 'Server has been updated'),
             ],
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,
