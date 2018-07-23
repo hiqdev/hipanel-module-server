@@ -30,6 +30,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
+use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\ServerForm;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\HardwareSettings;
@@ -78,6 +79,9 @@ class ServerController extends CrudController
                     'create' => 'server.create',
                     'update' => 'server.update',
                     'delete' => 'server.delete',
+                    'assign-hubs' => 'server.update',
+                    'set-units' => 'server.update',
+                    'set-rack-no' => 'server.update',
                     '*' => 'server.read',
                 ],
             ],
@@ -94,7 +98,8 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['bindings']);
+
+                    $dataProvider->query->withBindings();
 
                     if (Yii::getAlias('@ip', false)) {
                         $dataProvider->query
@@ -105,7 +110,6 @@ class ServerController extends CrudController
                     $dataProvider->query
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
-                        ->andWhere(['with_bindings' => 1])
                         ->select(['*']);
                 },
                 'filterStorageMap' => [
@@ -153,6 +157,106 @@ class ServerController extends CrudController
                     return $result;
                 },
                 'success' => Yii::t('hipanel:server', 'Server has been updated'),
+            ],
+            'assign-hubs' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server', 'Hubs were assigned'),
+                'view' => 'assignHubs',
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->withBindings()->select(['*']);
+                },
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new AssignHubsForm(),
+                    'scenario' => 'default',
+                ],
+                'data' => function (Action $action, array $data) {
+                    $result = [];
+                    foreach ($data['models'] as $model) {
+                        if ($model->canAssignHubs()) {
+                            $result['models'][] = AssignHubsForm::fromServer($model);
+                        }
+                    }
+                    if (!$result['models']) {
+                        throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
+                    }
+                    $result['model'] = reset($result['models']);
+
+                    return $result;
+                },
+            ],
+            'set-units' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server', 'Units property was changed'),
+                'view' => 'setUnits',
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $servers = Yii::$app->request->post('HardwareSettings');
+                    $units = ArrayHelper::remove($servers, 'units');
+                    foreach ($servers as $id => $server) {
+                        $servers[$id]['units'] = $units;
+                    }
+                    $action->collection->load($servers);
+                },
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->joinWith(['hardwareSettings']);
+                    $dataProvider->query->andWhere(['with_hardwareSettings' => 1])->select(['*']);
+                },
+                'on beforeLoad' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+
+                    $action->collection->setModel((new HardwareSettings(['scenario' => 'set-units'])));
+                },
+            ],
+            'set-rack-no' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server', 'Rack No. was assigned'),
+                'view' => 'setRackNo',
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new AssignHubsForm(),
+                    'scenario' => 'default',
+                ],
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $servers = Yii::$app->request->post('AssignHubsForm');
+                    $rackId = ArrayHelper::remove($servers, 'rack_id');
+                    $rackPort = ArrayHelper::remove($servers, 'rack_port');
+                    foreach ($servers as $id => $server) {
+                        $servers[$id]['rack_id'] = $rackId;
+                        $servers[$id]['rack_port'] = $rackPort;
+                    }
+                    $action->collection->load($servers);
+                },
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->withBindings()->select(['*']);
+                },
+                'data' => function (Action $action, array $data) {
+                    $result = [];
+                    foreach ($data['models'] as $model) {
+                        if ($model->canAssignHubs()) {
+                            $result['models'][] = AssignHubsForm::fromServer($model);
+                        }
+                    }
+                    if (!$result['models']) {
+                        throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
+                    }
+                    $result['model'] = reset($result['models']);
+
+                    return $result;
+                },
             ],
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,
@@ -255,7 +359,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['uses', 'switches', 'bindings', 'blocking']);
+                    $dataProvider->query->withBindings()->joinWith(['uses', 'switches', 'blocking']);
 
                     if (Yii::getAlias('@ip', false)) {
                         $dataProvider->query
@@ -269,7 +373,6 @@ class ServerController extends CrudController
                         ->andWhere(['show_deleted' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
-                        ->andWhere(['with_bindings' => 1])
                         ->andWhere(['with_blocking' => 1])
                         ->select(['*']);
                 },
@@ -562,6 +665,13 @@ class ServerController extends CrudController
                 },
                 'success' => Yii::t('hipanel:server', 'Live CD booting task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the booting live CD'),
+            ],
+            'validate-hw-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new HardwareSettings(),
+                ],
             ],
             'validate-crud-form' => [
                 'class' => ValidateFormAction::class,

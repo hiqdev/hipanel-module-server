@@ -229,6 +229,10 @@ return [
 
     'Switches' => 'Свитчи',
     'Switch' => 'Свитч',
+    'Switch 2' => 'Свитч 2',
+    'Assign hubs' => 'Назначить свитчи',
+    'Set units' => 'Установить юниты',
+    'Set Rack No.' => 'Установить стойку',
     'Sell' => 'Продать',
     'Sell servers' => 'Продать серверы',
     'Servers were sold' => 'Серверы были проданы',

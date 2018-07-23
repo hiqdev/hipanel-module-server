@@ -56,6 +56,15 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                     'data-pjax' => 0,
                 ],
             ],
+            'assign-hubs' => [
+                'label' => Yii::t('hipanel:server', 'Assign hubs'),
+                'icon' => 'fa-exchange',
+                'url' => ['@server/assign-hubs', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('server.update') && $this->model->canAssignHubs(),
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+            ],
             [
                 'label' => Yii::t('hipanel:server', 'Performance graphs'),
                 'icon' => 'fa-signal',

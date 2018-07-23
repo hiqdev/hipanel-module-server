@@ -75,15 +75,30 @@ $this->params['breadcrumbs'][] = $this->title;
                 'encodeLabels' => false,
                 'options' => ['class' => 'pull-right'],
                 'items' => array_filter([
-                    Yii::$app->user->can('manage') ? [
+                    Yii::$app->user->can('server.update') ? [
+                        'label' => '<i class="fa fa-exchange"></i> ' . Yii::t('hipanel:server', 'Assign hubs'),
+                        'url' => '#',
+                        'linkOptions' => ['data-action' => 'assign-hubs'],
+                    ] : null,
+                    Yii::$app->user->can('server.update') ? [
                         'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Change type'),
                         'url' => '#bulk-set-type-modal',
                         'linkOptions' => ['data-toggle' => 'modal'],
                     ] : null,
-                    Yii::$app->user->can('manage') ? [
+                    Yii::$app->user->can('server.update') ? [
                         'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set one type to many servers'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-one-type'],
+                    ] : null,
+                    Yii::$app->user->can('server.update') ? [
+                        'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set units'),
+                        'url' => '#',
+                        'linkOptions' => ['data-action' => 'set-units'],
+                    ] : null,
+                    Yii::$app->user->can('server.update') ? [
+                        'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set Rack No.'),
+                        'url' => '#',
+                        'linkOptions' => ['data-action' => 'set-rack-no'],
                     ] : null,
                     Yii::$app->user->can('manage') ? [
                         'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Clear resources'),

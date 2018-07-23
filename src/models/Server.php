@@ -13,6 +13,7 @@ namespace hipanel\modules\server\models;
 use hipanel\models\Ref;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
+use hipanel\modules\server\models\query\ServerQuery;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use Yii;
@@ -319,5 +320,25 @@ class Server extends \hipanel\base\Model
     public function getTypeOptions(): array
     {
         return Ref::getList('type,device,server', 'hipanel:server');
+    }
+
+    /**
+     * Check if you can assign hubs
+     * @return bool
+     */
+    public function canAssignHubs(): bool
+    {
+        return $this->type !== 'nic'; // XXX todo: need to add more types
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return ServerQuery
+     */
+    public static function find($options = [])
+    {
+        return new ServerQuery(get_called_class(), [
+            'options' => $options,
+        ]);
     }
 }
