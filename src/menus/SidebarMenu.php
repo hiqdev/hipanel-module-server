@@ -10,18 +10,23 @@
 
 namespace hipanel\modules\server\menus;
 
+use hipanel\modules\server\Module;
 use Yii;
 
 class SidebarMenu extends \hiqdev\yii2\menus\Menu
 {
     public function items()
     {
+        $app = Yii::$app;
+        /** @var Module $module */
+        $module = $app->getModule('server');
+
         return [
             'servers' => [
                 'label'     => Yii::t('hipanel:server', 'Servers'),
                 'url'       => ['/server/server/index'],
                 'icon'      => 'fa-server',
-                'visible'   => Yii::$app->user->can('server.read'),
+                'visible'   => $app->user->can('server.read'),
                 'items' => [
                     'servers' => [
                         'label' => Yii::t('hipanel:server', 'Servers'),
@@ -30,22 +35,22 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                     'switch' => [
                         'label'   => Yii::t('hipanel:server', 'Switches'),
                         'url'     => ['/server/hub/index'],
-                        'visible' => Yii::$app->user->can('admin'),
+                        'visible' => $app->user->can('admin'),
                     ],
                     'buy-server' => [
                         'label'   => Yii::t('hipanel:server:order', 'Order server'),
                         'url'     => ['/server/order/index'],
-                        'visible' => Yii::$app->user->can('deposit'),
+                        'visible' => $app->user->can('deposit') && $module->orderIsAllowed,
                     ],
                     'pre-order' => [
                         'label'   => Yii::t('hipanel:server', 'Pre-orders'),
                         'url'     => ['/server/pre-order/index'],
-                        'visible' => Yii::$app->user->can('resell'),
+                        'visible' => $app->user->can('resell') && $module->orderIsAllowed,
                     ],
                     'refuse' => [
                         'label'   => Yii::t('hipanel:server', 'Refuses'),
                         'url'     => ['/server/refuse/index'],
-                        'visible' => Yii::$app->user->can('resell'),
+                        'visible' => $app->user->can('resell') && $module->orderIsAllowed,
                     ],
                 ],
             ],

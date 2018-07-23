@@ -268,4 +268,7 @@ return [
     'CDN cache SSD' => 'CDN кеш SSD',
 
     'Set one type to many servers' => 'Установить один тип для выбраных серверов',
+
+    'Server has been created' => 'Сервер был создан',
+    'Server has been updated' => 'Сервер был изменён',
 ];

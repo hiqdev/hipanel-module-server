@@ -98,10 +98,16 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->joinWith(['ips']);
+
+                    $dataProvider->query->withBindings();
+
+                    if (Yii::getAlias('@ip', false)) {
+                        $dataProvider->query
+                            ->joinWith(['ips'])
+                            ->andWhere(['with_ips' => 1]);
+                    }
 
                     $dataProvider->query
-                        ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->select(['*']);
@@ -124,7 +130,7 @@ class ServerController extends CrudController
                     'model' => new ServerForm(['scenario' => 'create']),
                     'scenario' => 'create',
                 ],
-                'success' => Yii::t('hipanel:stock', 'Server has been created'),
+                'success' => Yii::t('hipanel:server', 'Server has been created'),
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
@@ -137,7 +143,9 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith('ips');
+                    if (Yii::getAlias('@ip', false)) {
+                        $dataProvider->query->joinWith('ips');
+                    }
                 },
                 'data' => function (Action $action, array $data) {
                     $result = [];
@@ -148,7 +156,7 @@ class ServerController extends CrudController
 
                     return $result;
                 },
-                'success' => Yii::t('hipanel:stock', 'Server has been updated'),
+                'success' => Yii::t('hipanel:server', 'Server has been updated'),
             ],
             'assign-hubs' => [
                 'class' => SmartUpdateAction::class,
@@ -351,7 +359,13 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->joinWith(['uses', 'ips', 'switches', 'blocking']);
+                    $dataProvider->query->withBindings()->joinWith(['uses', 'switches', 'blocking']);
+
+                    if (Yii::getAlias('@ip', false)) {
+                        $dataProvider->query
+                            ->joinWith(['ips'])
+                            ->andWhere(['with_ips' => 1]);
+                    }
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
@@ -359,7 +373,6 @@ class ServerController extends CrudController
                         ->andWhere(['show_deleted' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
-                        ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_blocking' => 1])
                         ->select(['*']);
                 },
