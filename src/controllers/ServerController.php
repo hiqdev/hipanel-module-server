@@ -98,13 +98,12 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['ips', 'bindings']);
+                    $dataProvider->query->withBindings()->joinWith(['ips']);
 
                     $dataProvider->query
                         ->andWhere(['with_ips' => 1])
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
-                        ->andWhere(['with_bindings' => 1])
                         ->select(['*']);
                 },
                 'filterStorageMap' => [
@@ -153,13 +152,13 @@ class ServerController extends CrudController
             ],
             'assign-hubs' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server', ''),
+                'success' => Yii::t('hipanel:server', 'Hubs were assigned'),
                 'view' => 'assignHubs',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['bindings'])->andWhere(['with_bindings' => 1])->select(['*']);
+                    $dataProvider->query->withBindings()->select(['*']);
                 },
                 'collection' => [
                     'class' => Collection::class,
@@ -234,7 +233,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['bindings'])->andWhere(['with_bindings' => 1])->select(['*']);
+                    $dataProvider->query->withBindings()->select(['*']);
                 },
                 'data' => function (Action $action, array $data) {
                     $result = [];
@@ -352,7 +351,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['uses', 'ips', 'switches', 'bindings', 'blocking']);
+                    $dataProvider->query->withBindings()->joinWith(['uses', 'ips', 'switches', 'blocking']);
 
                     // TODO: ipModule is not wise yet. Redo
                     $dataProvider->query
@@ -361,7 +360,6 @@ class ServerController extends CrudController
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
                         ->andWhere(['with_ips' => 1])
-                        ->andWhere(['with_bindings' => 1])
                         ->andWhere(['with_blocking' => 1])
                         ->select(['*']);
                 },
