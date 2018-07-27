@@ -8,6 +8,16 @@ use hipanel\tests\_support\Step\Acceptance\Client;
 
 class ServerCest
 {
+    /**
+     * @var IndexPage
+     */
+    private $index;
+
+    public function _before(Client $I)
+    {
+        $this->index = new IndexPage($I);
+    }
+
     public function ensureIndexPageWorks(Client $I)
     {
         $I->login();
@@ -22,8 +32,7 @@ class ServerCest
         $I->seeLink('Buy server', Url::to('/server/order/index'));
         $I->see('Advanced search', 'h3');
 
-        $index = new IndexPage($I);
-        $index->containsFilters('form-advancedsearch-server-search', [
+        $this->index->containsFilters('form-advancedsearch-server-search', [
             ['input' => [
                 'id' => 'serversearch-name_like',
                 'placeholder' => 'Name',
@@ -43,11 +52,10 @@ class ServerCest
 
     private function ensureICanSeeBulkServerSearchBox(Client $I)
     {
-        $index = new IndexPage($I);
-        $index->containsBulkButtons([
+        $this->index->containsBulkButtons([
             ["//button[@type='button']" => 'Basic actions'],
         ]);
-        $index->containsColumns('bulk-server-search', [
+        $this->index->containsColumns('bulk-server-search', [
             'Name',
             'IPs',
             'Status',
