@@ -11,6 +11,7 @@ use hipanel\widgets\Pjax;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
+use hipanel\widgets\AjaxModalDecorator;
 
 /**
  * @var OsimageSearch
@@ -75,123 +76,128 @@ $this->params['breadcrumbs'][] = $this->title;
                 'encodeLabels' => false,
                 'options' => ['class' => 'pull-right'],
                 'items' => array_filter([
-                    Yii::$app->user->can('server.update') ? [
+                    [
                         'label' => '<i class="fa fa-exchange"></i> ' . Yii::t('hipanel:server', 'Assign hubs'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'assign-hubs'],
-                    ] : null,
-                    Yii::$app->user->can('server.update') ? [
-                        'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Change type'),
-                        'url' => '#bulk-set-type-modal',
-                        'linkOptions' => ['data-toggle' => 'modal'],
-                    ] : null,
-                    Yii::$app->user->can('server.update') ? [
+                        'visible' => Yii::$app->user->can('server.update'),
+                    ],
+                    Yii::$app->user->can('server.update') ? AjaxModalDecorator::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'bulk-set-type-modal',
+                            'bulkPage' => true,
+                            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Change type'), ['class' => 'modal-title']),
+                            'scenario' => 'set-type',
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Change type'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+
+                    ]) : null,
+                    [
                         'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set one type to many servers'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-one-type'],
-                    ] : null,
-                    Yii::$app->user->can('server.update') ? [
+                        'visible' => Yii::$app->user->can('server.update'),
+                    ],
+                    [
                         'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set units'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-units'],
-                    ] : null,
-                    Yii::$app->user->can('server.update') ? [
+                        'visible' => Yii::$app->user->can('server.update'),
+                    ],
+                    [
                         'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set Rack No.'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-rack-no'],
-                    ] : null,
-                    Yii::$app->user->can('manage') ? [
-                        'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Clear resources'),
-                        'url' => '#clear-resources-modal',
-                        'linkOptions' => ['data-toggle' => 'modal'],
-                    ] : null,
-                    Yii::$app->user->can('manage') ? [
-                        'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Flush switch graphs'),
-                        'url' => '#flush-modal',
-                        'linkOptions' => ['data-toggle' => 'modal'],
-                    ] : null,
-                    Yii::$app->user->can('support') ? [
-                        'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
-                        'url' => '#bulk-enable-block-modal',
-                        'linkOptions' => ['data-toggle' => 'modal'],
-                    ] : null,
-                    Yii::$app->user->can('support') ? [
-                        'label' => '<i class="fa fa-toggle-off"></i> ' . Yii::t('hipanel', 'Disable block'),
-                        'url' => '#bulk-disable-block-modal',
-                        'linkOptions' => ['data-toggle' => 'modal'],
-                    ] : null,
-                    [
-                        'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set notes'),
-                        'url' => '#bulk-set-notes-modal',
-                        'linkOptions' => ['data-toggle' => 'modal'],
                     ],
-                    Yii::$app->user->can('support') ? [
-                        'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
-                        'url' => '#bulk-delete-modal',
-                        'linkOptions' => ['data-toggle' => 'modal'],
-                    ] : null,
+                    Yii::$app->user->can('manage') ? AjaxModalDecorator::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'clear-resources-modal',
+                            'bulkPage' => true,
+                            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Clear resources'), ['class' => 'modal-title']),
+                            'scenario' => 'clear-resources-modal',
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Clear resources'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
+                    Yii::$app->user->can('manage') ? AjaxModalDecorator::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'flush-modal',
+                            'bulkPage' => true,
+                            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Flush switch graphs'), ['class' => 'modal-title']),
+                            'scenario' => 'flush-switch-graphs-modal',
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server', 'Flush switch graphs'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
+                    Yii::$app->user->can('support') ? AjaxModalDecorator::widget([
+                        'ajaxModalOptions' => [
+                            'bulkPage' => true,
+                            'id' => 'bulk-enable-block-modal',
+                            'scenario' => 'bulk-enable-block-modal',
+                            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Block servers'), ['class' => 'modal-title label-warning']),
+                            'headerOptions' => ['class' => 'label-warning'],
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-toggle-on"></i> ' . Yii::t('hipanel', 'Enable block'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
+                    Yii::$app->user->can('support') ? AjaxModalDecorator::widget([
+                        'ajaxModalOptions' => [
+                            'bulkPage' => true,
+                            'id' => 'bulk-disable-block-modal',
+                            'scenario' => 'bulk-disable-block-modal',
+                            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Unblock servers'), ['class' => 'modal-title']),
+                            'headerOptions' => ['class' => 'label-warning'],
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-toggle-off"></i> ' . Yii::t('hipanel', 'Disable block'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
+                    AjaxModalDecorator::widget([
+                        'ajaxModalOptions' => [
+                            'bulkPage' => true,
+                            'id' => 'servers-set-note',
+                            'scenario' => Yii::$app->user->can('support') ? 'set-label' : 'set-note',
+                            'size' => Modal::SIZE_LARGE,
+                            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Set notes'), ['class' => 'modal-title']),
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set notes'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]),
+                    Yii::$app->user->can('support') ? AjaxModalDecorator::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'bulk-delete-modal',
+                            'bulkPage' => true,
+                            'scenario' => 'bulk-delete-modal',
+                            'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title label-danger']),
+                            'headerOptions' => ['class' => 'label-danger'],
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
                 ]),
             ]); ?>
         </div>
-        <?php if (Yii::$app->user->can('support')) : ?>
-            <?= AjaxModal::widget([
-                'id' => 'bulk-enable-block-modal',
-                'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Block servers'), ['class' => 'modal-title label-warning']),
-                'headerOptions' => ['class' => 'label-warning'],
-                'scenario' => 'bulk-enable-block-modal',
-                'handleSubmit' => false,
-                'toggleButton' => false,
-            ]) ?>
-            <?= AjaxModal::widget([
-                'id' => 'bulk-disable-block-modal',
-                'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Unblock servers'), ['class' => 'modal-title']),
-                'headerOptions' => ['class' => 'label-warning'],
-                'scenario' => 'bulk-disable-block-modal',
-                'handleSubmit' => false,
-                'toggleButton' => false,
-            ]) ?>
-            <?= AjaxModal::widget([
-                'id' => 'bulk-delete-modal',
-                'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title label-danger']),
-                'headerOptions' => ['class' => 'label-danger'],
-                'scenario' => 'bulk-delete-modal',
-                'handleSubmit' => false,
-                'toggleButton' => false,
-            ]) ?>
-        <?php endif ?>
-        <?php if (Yii::$app->user->can('manage')) : ?>
-            <?= AjaxModal::widget([
-                'id' => 'bulk-set-type-modal',
-                'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Change type'), ['class' => 'modal-title']),
-                'scenario' => 'set-type',
-                'toggleButton' => false,
-            ]) ?>
-            <?= AjaxModal::widget([
-                'id' => 'clear-resources-modal',
-                'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Clear resources'), ['class' => 'modal-title']),
-                'scenario' => 'clear-resources-modal',
-                'toggleButton' => false,
-            ]) ?>
-            <?= AjaxModal::widget([
-                'id' => 'flush-modal',
-                'bulkPage' => true,
-                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Flush switch graphs'), ['class' => 'modal-title']),
-                'scenario' => 'flush-switch-graphs-modal',
-                'toggleButton' => false,
-            ]) ?>
-        <?php endif ?>
-        <?= AjaxModal::widget([
-            'id' => 'bulk-set-notes-modal',
-            'bulkPage' => true,
-            'header' => Html::tag('h4', Yii::t('hipanel:server', 'Set notes'), ['class' => 'modal-title']),
-            'scenario' => Yii::$app->user->can('support') ? 'set-label' : 'set-note',
-            'toggleButton' => false,
-        ]) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>

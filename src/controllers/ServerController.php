@@ -432,13 +432,13 @@ class ServerController extends CrudController
             ],
             'set-note' => [
                 'class' => SmartUpdateAction::class,
-                'view' => '_bulkSetNote',
+                'view' => 'modal/_bulkSetNote',
                 'success' => Yii::t('hipanel:server', 'Note changed'),
                 'error' => Yii::t('hipanel:server', 'Failed to change note'),
             ],
             'set-label' => [
                 'class' => SmartUpdateAction::class,
-                'view' => '_bulkSetLabel',
+                'view' => 'modal/_bulkSetLabel',
                 'success' => Yii::t('hipanel:server', 'Internal note changed'),
                 'error' => Yii::t('hipanel:server', 'Failed to change internal note'),
             ],
@@ -479,7 +479,7 @@ class ServerController extends CrudController
             'bulk-sale' => [
                 'class' => SmartUpdateAction::class,
                 'scenario' => 'sale',
-                'view' => '_bulkSale',
+                'view' => 'modal/_bulkSale',
                 'success' => Yii::t('hipanel:server', 'Servers were sold'),
                 'POST pjax' => [
                     'save' => true,
@@ -590,7 +590,7 @@ class ServerController extends CrudController
             ],
             'bulk-enable-block-modal' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_bulkEnableBlock',
+                'view' => 'modal/_bulkEnableBlock',
                 'data' => function ($action, $data) {
                     return array_merge($data, [
                         'blockReasons' => $this->getBlockReasons(),
@@ -624,7 +624,7 @@ class ServerController extends CrudController
             ],
             'bulk-disable-block-modal' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_bulkDisableBlock',
+                'view' => 'modal/_bulkDisableBlock',
                 'data' => function ($action, $data) {
                     return array_merge($data, [
                         'blockReasons' => $this->getBlockReasons(),
@@ -698,7 +698,7 @@ class ServerController extends CrudController
             ],
             'bulk-delete-modal' => [
                 'class' => PrepareBulkAction::class,
-                'view' => '_bulkDelete',
+                'view' => 'modal/_bulkDelete',
             ],
             'clear-resources' => [
                 'class' => SmartPerformAction::class,
