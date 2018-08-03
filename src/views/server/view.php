@@ -17,6 +17,7 @@ use hipanel\widgets\SettingsModal;
 use hipanel\widgets\SimpleOperation;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\widgets\DetailView;
 
 /**
  * @var Server
@@ -240,6 +241,11 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             'os', 'panel',
                         ],
                     ]);
+                    echo '<hr>';
+                    echo DetailView::widget([
+                        'model' => $model->softwareSettings,
+                        'attributes' => ['failure_contacts'],
+                    ]);
                     $box->endBody();
                     $box->end();
                     ?>
@@ -355,11 +361,16 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             <?php $box->endTools() ?>
                         <?php $box->endHeader() ?>
                         <?php $box->beginBody() ?>
-                        <?php $url = Url::to(['@part/render-object-parts', 'id' => $model->id]) ?>
-                        <?= Html::tag('div', '', ['class'  => 'server-parts']) ?>
-                        <?php $this->registerJs("$('.server-parts').load('$url', function () {
-                                $(this).closest('.box').find('.overlay').remove();
-                            });") ?>
+                            <?= DetailView::widget([
+                                'model' => $model->hardwareSettings,
+                                'attributes' => ['summary', 'order_no', 'units'],
+                            ]) ?>
+                            <hr>
+                            <?php $url = Url::to(['@part/render-object-parts', 'id' => $model->id]) ?>
+                            <?= Html::tag('div', '', ['class'  => 'server-parts']) ?>
+                            <?php $this->registerJs("$('.server-parts').load('$url', function () {
+                                    $(this).closest('.box').find('.overlay').remove();
+                                });") ?>
                         <?php $box->endBody() ?>
                         <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
                         <?php $box->end() ?>

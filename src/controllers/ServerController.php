@@ -359,7 +359,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->joinWith(['uses', 'switches', 'blocking']);
+                    $dataProvider->query->withBindings()->joinWith(['uses', 'switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
 
                     if (Yii::getAlias('@ip', false)) {
                         $dataProvider->query
@@ -374,6 +374,9 @@ class ServerController extends CrudController
                         ->andWhere(['with_discounts' => 1])
                         ->andWhere(['with_uses' => 1])
                         ->andWhere(['with_blocking' => 1])
+                        ->andWhere(['with_blocking' => 1])
+                        ->andWhere(['with_hardwareSettings' => 1])
+                        ->andWhere(['with_softwareSettings' => 1])
                         ->select(['*']);
                 },
                 'data' => function ($action) {
