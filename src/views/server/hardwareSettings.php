@@ -14,53 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <div class="row">
-    <div class="col-md-8">
-        <?php $form = ActiveForm::begin([
-            'id' => 'hw-form',
-            'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
-        ]); ?>
-
-        <?= Html::activeHiddenInput($model->hardwareSettings, 'id') ?>
-
-        <div class="box box-widget">
-            <div class="box-header with-border">
-                <h3 class="box-title">
-                    <?= Yii::t('hipanel:server', 'Change hardware properties') ?>
-                </h3>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-4">
-                        <?= $form->field($model->hardwareSettings, 'summary') ?>
-                        <?= $form->field($model->hardwareSettings, 'order_no') ?>
-                        <?= $form->field($model->hardwareSettings, 'brand') ?>
-                        <?= $form->field($model->hardwareSettings, 'box') ?>
-                        <?= $form->field($model->hardwareSettings, 'cpu') ?>
-                    </div>
-                    <div class="col-md-4">
-                        <?= $form->field($model->hardwareSettings, 'ram') ?>
-                        <?= $form->field($model->hardwareSettings, 'motherboard') ?>
-                        <?= $form->field($model->hardwareSettings, 'hdd') ?>
-                        <?= $form->field($model->hardwareSettings, 'hotswap') ?>
-                        <?= $form->field($model->hardwareSettings, 'raid') ?>
-                    </div>
-                    <div class="col-md-4">
-                        <?= $form->field($model->hardwareSettings, 'units') ?>
-                        <?= $form->field($model->hardwareSettings, 'rack_no') ?>
-                        <?= $form->field($model->hardwareSettings, 'cage_no') ?>
-                        <?= $form->field($model->hardwareSettings, 'datacenter') ?>
-                        <?= $form->field($model->hardwareSettings, 'note') ?>
-                    </div>
-                </div>
-            </div>
-            <div class="box-footer">
-                <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
-            </div>
-        </div>
-
-        <?php $form->end() ?>
-    </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
             <div class="row">
                 <?php Pjax::begin(['enablePushState' => false]) ?>
