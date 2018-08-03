@@ -11,7 +11,7 @@ use hipanel\widgets\Pjax;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
-use hipanel\widgets\AjaxModalDecorator;
+use hipanel\widgets\AjaxModalWithTemplatedButton;
 
 /**
  * @var OsimageSearch
@@ -82,7 +82,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'linkOptions' => ['data-action' => 'assign-hubs'],
                         'visible' => Yii::$app->user->can('server.update'),
                     ],
-                    Yii::$app->user->can('server.update') ? AjaxModalDecorator::widget([
+                    Yii::$app->user->can('server.update') ? AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'id' => 'bulk-set-type-modal',
                             'bulkPage' => true,
@@ -113,7 +113,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-rack-no'],
                     ],
-                    Yii::$app->user->can('manage') ? AjaxModalDecorator::widget([
+                    Yii::$app->user->can('manage') ? AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'id' => 'clear-resources-modal',
                             'bulkPage' => true,
@@ -126,7 +126,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                     ]) : null,
-                    Yii::$app->user->can('manage') ? AjaxModalDecorator::widget([
+                    Yii::$app->user->can('manage') ? AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'id' => 'flush-modal',
                             'bulkPage' => true,
@@ -139,7 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                     ]) : null,
-                    Yii::$app->user->can('support') ? AjaxModalDecorator::widget([
+                    Yii::$app->user->can('support') ? AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'bulkPage' => true,
                             'id' => 'bulk-enable-block-modal',
@@ -153,7 +153,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                     ]) : null,
-                    Yii::$app->user->can('support') ? AjaxModalDecorator::widget([
+                    Yii::$app->user->can('support') ? AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'bulkPage' => true,
                             'id' => 'bulk-disable-block-modal',
@@ -167,7 +167,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                     ]) : null,
-                    AjaxModalDecorator::widget([
+                    AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'bulkPage' => true,
                             'id' => 'servers-set-note',
@@ -181,7 +181,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                     ]),
-                    Yii::$app->user->can('support') ? AjaxModalDecorator::widget([
+                    Yii::$app->user->can('support') ? AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'id' => 'bulk-delete-modal',
                             'bulkPage' => true,
