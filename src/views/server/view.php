@@ -369,8 +369,8 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             <?php $url = Url::to(['@part/render-object-parts', 'id' => $model->id]) ?>
                             <?= Html::tag('div', '', ['class'  => 'server-parts']) ?>
                             <?php $this->registerJs("$('.server-parts').load('$url', function () {
-                                    $(this).closest('.box').find('.overlay').remove();
-                                });") ?>
+                                $(this).closest('.box').find('.overlay').remove();
+                            });") ?>
                         <?php $box->endBody() ?>
                         <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
                         <?php $box->end() ?>
