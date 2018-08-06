@@ -359,7 +359,7 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->joinWith(['uses', 'switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
+                    $dataProvider->query->withBindings()->withUses()->joinWith(['switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
 
                     if (Yii::getAlias('@ip', false)) {
                         $dataProvider->query
@@ -372,7 +372,6 @@ class ServerController extends CrudController
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['show_deleted' => 1])
                         ->andWhere(['with_discounts' => 1])
-                        ->andWhere(['with_uses' => 1])
                         ->andWhere(['with_blocking' => 1])
                         ->andWhere(['with_blocking' => 1])
                         ->andWhere(['with_hardwareSettings' => 1])
@@ -428,6 +427,22 @@ class ServerController extends CrudController
                         'blockReasons',
                     ]);
                 },
+            ],
+            'resources' => [
+                'class' => ViewAction::class,
+                'view' => 'resources',
+                'on beforePerform' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->withUses()->select(['*']);
+                },
+                'data' => function ($action) {
+                    $model = $action->getModel();
+                    list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
+
+                    return compact('model', 'chartsData', 'chartsLabels');
+                }
             ],
             'requests-state' => [
                 'class' => RequestStateAction::class,
@@ -855,13 +870,5 @@ class ServerController extends CrudController
         }, 86400 * 24); // 24 days
 
         return $result;
-    }
-
-    public function actionResources($id)
-    {
-        $model = Server::find()->joinWith(['uses'])->andWhere(['id' => $id])->andWhere(['with_uses' => 1])->one();
-        list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
-
-        return $this->render('resources', compact('model', 'chartsData', 'chartsLabels'));
     }
 }
