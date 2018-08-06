@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\helpers\ServerSort;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -8,6 +9,7 @@ use yii\helpers\Html;
  * @var \yii\web\View
  * @var \hipanel\modules\server\models\Server $model
  */
+$models = ServerSort::byServerName()->values($models);
 ?>
 
 <div class="row">
