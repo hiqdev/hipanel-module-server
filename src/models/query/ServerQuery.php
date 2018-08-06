@@ -21,4 +21,12 @@ class ServerQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function withUses()
+    {
+        $this->joinWith('uses');
+        $this->andWhere(['with_uses' => true]);
+
+        return $this;
+    }
 }

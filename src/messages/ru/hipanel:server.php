@@ -271,4 +271,5 @@ return [
 
     'Server has been created' => 'Сервер был создан',
     'Server has been updated' => 'Сервер был изменён',
+    'No resources found' => 'Ресурсы не найдены',
 ];
