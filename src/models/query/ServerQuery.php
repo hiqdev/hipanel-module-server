@@ -29,4 +29,12 @@ class ServerQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function withConsumption()
+    {
+        $this->joinWith('consumption');
+        $this->andWhere(['with_consumption' => true]);
+
+        return $this;
+    }
 }

@@ -359,7 +359,11 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->withUses()->joinWith(['switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
+                    $dataProvider->query
+                        ->withBindings()
+                        ->withUses()
+                        ->withConsumption()
+                        ->joinWith(['switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
 
                     if (Yii::getAlias('@ip', false)) {
                         $dataProvider->query
@@ -853,6 +857,13 @@ class ServerController extends CrudController
         }
 
         return $result;
+    }
+
+    public function actionGetResourceConsumptionTableData($serverId)
+    {
+        $consumptions = Server::perform('get-resource-consumption-table-data', ['id' => $serverId]);
+
+        return ;
     }
 
     protected function getFullFromRef($gtype)

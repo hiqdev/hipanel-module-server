@@ -9,6 +9,7 @@ use hipanel\modules\server\widgets\BootLive;
 use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\modules\server\widgets\ServerSwitcher;
 use hipanel\modules\server\widgets\Wizzard;
+use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\widgets\Box;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\EventLog;
@@ -315,6 +316,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     $box->endFooter();
                     $box->end();
                     ?>
+
                 </div>
                 <?php Pjax::end() ?>
             </div>
@@ -378,6 +380,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php Pjax::end() ?>
                 </div>
             <?php endif ?>
+
         </div>
         <div class="col-md-5">
             <?php echo $this->render('_ip', ['model' => $model]) ?>
@@ -446,6 +449,12 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 </div>
             <?php endif ?>
         </div>
+        <div class="clearfix"></div>
+        <?php if ($model->consumption) : ?>
+            <div class="col-md-7">
+                <?= ResourceConsumptionTable::widget(['model' => $model]) ?>
+            </div>
+        <?php endif; ?>
     </div>
 
 <?php
