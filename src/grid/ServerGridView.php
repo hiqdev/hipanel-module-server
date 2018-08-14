@@ -129,7 +129,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'osimages' => $this->osImages,
                         'imageName' => $model->osimage,
                     ]);
-                    $html .= ' ' . $model->panel ?: '';
+                    $html .= ' ' . ($model->panel ?: '');
 
                     return $html;
                 },
