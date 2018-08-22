@@ -859,13 +859,6 @@ class ServerController extends CrudController
         return $result;
     }
 
-    public function actionGetResourceConsumptionTableData($serverId)
-    {
-        $consumptions = Server::perform('get-resource-consumption-table-data', ['id' => $serverId]);
-
-        return ;
-    }
-
     protected function getFullFromRef($gtype)
     {
         $callingMethod = debug_backtrace()[1]['function'];
