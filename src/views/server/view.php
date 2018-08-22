@@ -450,7 +450,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <?php endif ?>
         </div>
         <div class="clearfix"></div>
-        <?php if (Yii::$app->user->can('support') && $model->consumption) : ?>
+        <?php if (Yii::$app->user->can('support') && $model->consumptions) : ?>
             <div class="col-md-7">
                 <?= ResourceConsumptionTable::widget(['model' => $model]) ?>
             </div>

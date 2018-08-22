@@ -362,7 +362,7 @@ class ServerController extends CrudController
                     $dataProvider->query
                         ->withBindings()
                         ->withUses()
-                        ->withConsumption()
+                        ->withConsumptions()
                         ->joinWith(['switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
 
                     if (Yii::getAlias('@ip', false)) {

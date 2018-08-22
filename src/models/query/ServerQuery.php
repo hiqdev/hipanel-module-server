@@ -30,10 +30,10 @@ class ServerQuery extends ActiveQuery
         return $this;
     }
 
-    public function withConsumption()
+    public function withConsumptions()
     {
-        $this->joinWith('consumption');
-        $this->andWhere(['with_consumption' => true]);
+        $this->joinWith('consumptions');
+        $this->andWhere(['with_consumptions' => true]);
 
         return $this;
     }

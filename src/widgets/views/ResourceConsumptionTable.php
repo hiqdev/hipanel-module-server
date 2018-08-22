@@ -47,15 +47,15 @@ use yii\helpers\Html;
 
                 <tbody>
 
-                <?php foreach (ServerSort::byConsumptionType()->values($model->consumption) as $item) : ?>
+                <?php foreach (ServerSort::byConsumptionType()->values($model->consumptions) as $consumption) : ?>
                     <tr>
-                        <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $item->type) ?></th>
-                        <td><?= $this->context->getFormatted($item, $item->limit) ?></td>
-                        <td><?= Yii::$app->formatter->asCurrency($item->price, $item->currency) ?></td>
-                        <td><?= $this->context->getFormatted($item, $item->currentValue) ?></td>
-                        <td><?= $this->context->getFormatted($item, $item->currentOveruse) ?></td>
-                        <td><?= $this->context->getFormatted($item, $item->previousValue) ?></td>
-                        <td><?= $this->context->getFormatted($item, $item->previousOveruse) ?></td>
+                        <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $consumption->type) ?></th>
+                        <td><?= $this->context->getFormatted($consumption, $consumption->limit) ?></td>
+                        <td><?= Yii::$app->formatter->asCurrency($consumption->price, $consumption->currency) ?></td>
+                        <td><?= $this->context->getFormatted($consumption, $consumption->currentValue) ?></td>
+                        <td><?= $this->context->getFormatted($consumption, $consumption->currentOveruse) ?></td>
+                        <td><?= $this->context->getFormatted($consumption, $consumption->previousValue) ?></td>
+                        <td><?= $this->context->getFormatted($consumption, $consumption->previousOveruse) ?></td>
                     </tr>
                 <?php endforeach; ?>
 
