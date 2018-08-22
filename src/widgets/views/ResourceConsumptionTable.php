@@ -27,10 +27,10 @@ use yii\helpers\Html;
                     <th rowspan="2"></th>
                     <th colspan="2" class="text-center"><?= Yii::t('hipanel:server', 'Tariff') ?></th>
                     <th colspan="2" class="text-center">
-                        <?= Yii::t('hipanel', 'This month {month_year,date,MMMM yyyy}', ['month_year' => time()]) ?>
+                        <?= Yii::t('hipanel:server', 'This month {month_year,date,MMMM yyyy}', ['month_year' => time()]) ?>
                     </th>
                     <th colspan="2" class="text-center">
-                        <?= Yii::t('hipanel', 'Previous month {month_year,date,MMMM yyyy}', ['month_year' => strtotime('-1month')]) ?>
+                        <?= Yii::t('hipanel:server', 'Previous month {month_year,date,MMMM yyyy}', ['month_year' => strtotime('-1month')]) ?>
                     </th>
                 </tr>
 
@@ -47,15 +47,15 @@ use yii\helpers\Html;
 
                 <tbody>
 
-                <?php foreach (ServerSort::byConsumptionType()->values($model->consumption) as $row) : ?>
+                <?php foreach (ServerSort::byConsumptionType()->values($model->consumption) as $item) : ?>
                     <tr>
-                        <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $row->type) ?></th>
-                        <td><?= $row->limitText ?></td>
-                        <td><?= $row->priceWithCurrency ?></td>
-                        <td><?= $row->currentValue ?></td>
-                        <td><?= $row->currentOveruse ?></td>
-                        <td><?= $row->previousValue ?></td>
-                        <td><?= $row->previousOveruse ?></td>
+                        <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $item->type) ?></th>
+                        <td><?= $this->context->getFormatted($item, $item->limit) ?></td>
+                        <td><?= Yii::$app->formatter->asCurrency($item->price, $item->currency) ?></td>
+                        <td><?= $this->context->getFormatted($item, $item->currentValue) ?></td>
+                        <td><?= $this->context->getFormatted($item, $item->currentOveruse) ?></td>
+                        <td><?= $this->context->getFormatted($item, $item->previousValue) ?></td>
+                        <td><?= $this->context->getFormatted($item, $item->previousOveruse) ?></td>
                     </tr>
                 <?php endforeach; ?>
 
