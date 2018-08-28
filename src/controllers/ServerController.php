@@ -359,7 +359,11 @@ class ServerController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->withUses()->joinWith(['switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
+                    $dataProvider->query
+                        ->withBindings()
+                        ->withUses()
+                        ->withConsumptions()
+                        ->joinWith(['switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
 
                     if (Yii::getAlias('@ip', false)) {
                         $dataProvider->query

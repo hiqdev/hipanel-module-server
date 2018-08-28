@@ -272,4 +272,13 @@ return [
     'Server has been created' => 'Сервер был создан',
     'Server has been updated' => 'Сервер был изменён',
     'No resources found' => 'Ресурсы не найдены',
+
+    'limit' => 'лимит',
+    'overuse' => 'перебор',
+    'price' => 'цена',
+    'value' => 'значение',
+    'Resource consumption' => 'Потребление ресурсов',
+    'This month {month_year,date,MMMM yyyy}' => 'Этот месяц {month_year,date,LLL yyyy}',
+    'Previous month {month_year,date,MMMM yyyy}' => 'Предыдущий месяц {month_year,date,LLL yyyy}',
+    'See chart' => 'Смотреть график',
 ];
