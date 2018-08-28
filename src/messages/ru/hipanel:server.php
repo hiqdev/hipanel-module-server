@@ -176,7 +176,7 @@ return [
     '60 min/px' => '60 мин/пиксель',
     '720 min/px' => '720 мин/пиксель',
     'Server ordering' => 'Покупка сервера',
-    'This action is irreversible and causes full data loss including backups!' => 'Это действие неоратимо и приводит к полной потере данных, включая резервные копии!',
+    'This action is irreversible and causes full data loss including backups!' => 'Это действие необратимо и приводит к полной потере данных, включая резервные копии!',
     'Affected servers' => 'Серверы',
     'Servers were unblocked successfully' => 'Серверы были успешно разблокированы',
     'Error during the servers unblocking' => 'Ошибка при разблокировании серверов',
