@@ -10,6 +10,12 @@
 
 namespace hipanel\modules\server\models;
 
+/**
+ * Class Binding
+ *
+ * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
+ *
+ */
 class Binding extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;

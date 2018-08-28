@@ -18,10 +18,12 @@ use hipanel\widgets\SettingsModal;
 use hipanel\widgets\SimpleOperation;
 use yii\helpers\Html;
 use yii\helpers\Json;
+use yii\web\View;
 use yii\widgets\DetailView;
 
 /**
- * @var Server
+ * @var View $this
+ * @var Server $model
  */
 $this->title = $model->name;
 $this->params['subtitle'] = Yii::t('hipanel:server', 'Server detailed information') . ' #' . $model->id;
@@ -63,10 +65,10 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         <?php
                         $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel:server', 'VNC server'));
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'VNC server'));
                         $box->endHeader();
                         $box->beginBody();
-                        echo $this->render('_vnc', compact(['model']));
+                            echo $this->render('_vnc', compact(['model']));
                         $box->endBody();
                         $box->end();
                         ?>
@@ -78,7 +80,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'System management'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'System management'));
                     $box->endHeader();
                     $box->beginBody() ?>
                     <div class="row">
@@ -127,7 +129,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
                             </div>
                         <?php endif ?>
-                        <?php if (Yii::$app->user->can('support')) : ?>
+                        <?php if (Yii::$app->user->can('admin')) : ?>
                         <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                             <?= Wizzard::widget(compact(['model'])) ?>
                         </div>
@@ -204,12 +206,12 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'Event log'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Event log'));
                     $box->endHeader();
                     $box->beginBody();
-                    echo EventLog::widget([
-                        'statuses' => $model->statuses,
-                    ]);
+                        echo EventLog::widget([
+                            'statuses' => $model->statuses,
+                        ]);
                     $box->endBody();
                     $box->end();
                     ?>
@@ -222,31 +224,33 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'Server information'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Server information'));
                     $box->endHeader();
                     $box->beginBody();
-                    echo ServerGridView::detailView([
-                        'boxed'   => false,
-                        'model'   => $model,
-                        'gridOptions' => [
-                            'osImages' => $osimages,
-                        ],
-                        'columns' => [
-                            'client_id', 'seller_id',
-                            [
-                                'attribute' => 'name',
-                                'contentOptions' => ['class' => 'text-bold'],
-                            ], 'detailed_type',
-                            'ip', 'note', 'label',
-                            'state', 'blocking',
-                            'os', 'panel',
-                        ],
-                    ]);
-                    echo '<hr>';
-                    echo DetailView::widget([
-                        'model' => $model->softwareSettings,
-                        'attributes' => ['failure_contacts'],
-                    ]);
+                        echo ServerGridView::detailView([
+                            'boxed'   => false,
+                            'model'   => $model,
+                            'gridOptions' => [
+                                'osImages' => $osimages,
+                            ],
+                            'columns' => [
+                                'client_id', 'seller_id',
+                                [
+                                    'attribute' => 'name',
+                                    'contentOptions' => ['class' => 'text-bold'],
+                                ], 'detailed_type',
+                                'ip', 'note', 'label',
+                                'state', 'blocking',
+                                'os', 'panel',
+                            ],
+                        ]);
+                        if (!empty($model->softwareSettings->failure_contacts)) {
+                            echo '<hr>';
+                            echo DetailView::widget([
+                                'model' => $model->softwareSettings,
+                                'attributes' => ['failure_contacts'],
+                            ]);
+                        }
                     $box->endBody();
                     $box->end();
                     ?>
@@ -258,16 +262,16 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     <?php
                     $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
                     $box->endHeader();
                     $box->beginBody();
-                    echo ServerGridView::detailView([
-                        'boxed'   => false,
-                        'model'   => $model,
-                        'columns' => [
-                            'tariff', 'sale_time', 'discount', 'expires',
-                        ],
-                    ]);
+                        echo ServerGridView::detailView([
+                            'boxed'   => false,
+                            'model'   => $model,
+                            'columns' => [
+                                'tariff', 'sale_time', 'discount', 'expires',
+                            ],
+                        ]);
                     $box->endBody();
                     $box->beginFooter();
                         if ($model->autorenewal && $model->expires) {
@@ -320,7 +324,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 </div>
                 <?php Pjax::end() ?>
             </div>
-            <?php if (Yii::$app->user->can('support')) : ?>
+            <?php if (Yii::$app->user->can('admin')) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -347,7 +351,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
+            <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('admin')) : ?>
                 <div class="row">
                     <?php Pjax::begin(['enablePushState' => false]) ?>
                     <div class="col-md-12">

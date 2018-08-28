@@ -59,18 +59,21 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
     public function columns()
     {
+        $canAdmin = Yii::$app->user->can('admin');
+        $canSupport = Yii::$app->user->can('support');
+
         return array_merge(parent::columns(), [
             'server' => [
                 'class' => MainColumn::class,
                 'attribute' => 'name',
                 'filterAttribute' => 'name_like',
-                'note' => Yii::$app->user->can('support') ? 'label' : 'note',
+                'note' => $canSupport ? 'label' : 'note',
                 'noteOptions' => [
-                    'url' => Yii::$app->user->can('support') ? Url::to('set-label') : Url::to('set-note'),
+                    'url' => $canSupport ? Url::to('set-label') : Url::to('set-note'),
                 ],
-                'badges' => function ($model) {
+                'badges' => function ($model) use ($canSupport) {
                     $badges = '';
-                    if (Yii::$app->user->can('support')) {
+                    if ($canSupport) {
                         if ($model->wizzarded) {
                             $badges .= Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']);
                         }
@@ -102,9 +105,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'attribute' => 'panel',
                 'format' => 'html',
                 'contentOptions' => ['class' => 'text-uppercase'],
-                'value' => function ($model) {
+                'value' => function ($model) use ($canSupport) {
                     $value = $model->panel ? Yii::t('hipanel:server:panel', $model->panel) : Yii::t('hipanel:server:panel', 'No control panel');
-                    if (Yii::$app->user->can('support')) {
+                    if ($canSupport) {
                         $value .= $model->wizzarded ? Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']) : '';
                     }
 
@@ -208,7 +211,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             ],
             'label' => [
                 'class' => XEditableColumn::class,
-                'visible' => Yii::$app->user->can('support'),
+                'visible' => $canSupport,
                 'pluginOptions' => [
                     'url'       => Url::to('set-label'),
                 ],
@@ -239,6 +242,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'rack' => [
                 'format' => 'html',
                 'filter' => false,
+                'visible' => $canAdmin,
                 'value'  => function ($model) {
                     return $this->renderSwitchPort($model->bindings['rack']);
                 },
@@ -246,6 +250,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'net' => [
                 'format' => 'html',
                 'filter' => false,
+                'visible' => $canAdmin,
                 'value'  => function ($model) {
                     return $this->renderSwitchPort($model->bindings['net']);
                 },
@@ -253,6 +258,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'kvm' => [
                 'format' => 'html',
                 'filter' => false,
+                'visible' => $canAdmin,
                 'value'  => function ($model) {
                     return $this->renderSwitchPort($model->bindings['kvm']);
                 },
@@ -260,6 +266,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'pdu' => [
                 'format' => 'html',
                 'filter' => false,
+                'visible' => $canAdmin,
                 'value'  => function ($model) {
                     return $this->renderSwitchPort($model->bindings['pdu']);
                 },
@@ -267,6 +274,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'ipmi' => [
                 'format' => 'raw',
                 'filter' => false,
+                'visible' => $canAdmin,
                 'value'  => function ($model) {
                     if (($ipmi = $model->getBinding('ipmi')) !== null) {
                         $link = Html::a($ipmi->device_ip, "http://$ipmi->device_ip/", ['target' => '_blank']) . ' ';
@@ -297,10 +305,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
     }
 
     /**
-     * @param Binding $binding
+     * @param Binding|null $binding
      * @return string
      */
-    protected function renderSwitchPort($binding)
+    protected function renderSwitchPort(?Binding $binding)
     {
         if ($binding === null) {
             return '';

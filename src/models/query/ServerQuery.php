@@ -11,21 +11,52 @@
 namespace hipanel\modules\server\models\query;
 
 use hiqdev\hiart\ActiveQuery;
+use Yii;
 
 class ServerQuery extends ActiveQuery
 {
-    public function withBindings()
+    public function withBindings(): self
     {
-        $this->joinWith('bindings');
-        $this->andWhere(['with_bindings' => true]);
+        if (Yii::$app->user->can('admin')) {
+            $this->joinWith('bindings');
+            $this->andWhere(['with_bindings' => true]);
+        }
 
         return $this;
     }
 
-    public function withUses()
+    public function withUses(): self
     {
         $this->joinWith('uses');
         $this->andWhere(['with_uses' => true]);
+
+        return $this;
+    }
+
+    public function withBlocking(): self
+    {
+        $this->joinWith('blocking');
+        $this->andWhere(['with_blocking' => true]);
+
+        return $this;
+    }
+
+    public function withHardwareSettings(): self
+    {
+        if (Yii::$app->user->can('admin')) {
+            $this->joinWith(['hardwareSettings']);
+            $this->andWhere(['with_hardwareSettings' => 1]);
+        }
+
+        return $this;
+    }
+
+    public function withSoftwareSettings(): self
+    {
+        if (Yii::$app->user->can('admin')) {
+            $this->joinWith(['softwareSettings']);
+            $this->andWhere(['with_softwareSettings' => 1]);
+        }
 
         return $this;
     }

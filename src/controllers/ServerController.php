@@ -36,6 +36,7 @@ use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
+use hipanel\modules\server\models\query\ServerQuery;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
@@ -205,9 +206,9 @@ class ServerController extends CrudController
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['hardwareSettings']);
-                    $dataProvider->query->andWhere(['with_hardwareSettings' => 1])->select(['*']);
+                    /** @var ServerQuery $query */
+                    $query = $action->getDataProvider()->query;
+                    $query->withHardwareSettings();
                 },
                 'on beforeLoad' => function (Event $event) {
                     /** @var Action $action */
@@ -265,9 +266,9 @@ class ServerController extends CrudController
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['hardwareSettings']);
-                    $dataProvider->query->andWhere(['with_hardwareSettings' => 1])->select(['*']);
+                    /** @var ServerQuery $query */
+                    $query = $action->getDataProvider()->query;
+                    $query->withHardwareSettings();
                 },
                 'on beforeLoad' => function (Event $event) {
                     /** @var Action $action */
@@ -295,9 +296,9 @@ class ServerController extends CrudController
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['softwareSettings']);
-                    $dataProvider->query->andWhere(['with_softwareSettings' => 1])->select(['*']);
+                    /** @var ServerQuery $query */
+                    $query = $action->getDataProvider()->query;
+                    $query->withSoftwareSettings();
                 },
                 'on beforeLoad' => function (Event $event) {
                     /** @var Action $action */
@@ -358,28 +359,28 @@ class ServerController extends CrudController
                 'on beforePerform' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query
+                    /** @var ServerQuery $query */
+                    $query = $action->getDataProvider()->query;
+                    $query
+                        ->withSoftwareSettings()
+                        ->withHardwareSettings()
                         ->withBindings()
+                        ->withBlocking()
                         ->withUses()
                         ->withConsumptions()
-                        ->joinWith(['switches', 'blocking', 'hardwareSettings', 'softwareSettings']);
+                        ->joinWith(['switches']);
 
                     if (Yii::getAlias('@ip', false)) {
-                        $dataProvider->query
+                        $query
                             ->joinWith(['ips'])
                             ->andWhere(['with_ips' => 1]);
                     }
 
                     // TODO: ipModule is not wise yet. Redo
-                    $dataProvider->query
+                    $query
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['show_deleted' => 1])
                         ->andWhere(['with_discounts' => 1])
-                        ->andWhere(['with_blocking' => 1])
-                        ->andWhere(['with_blocking' => 1])
-                        ->andWhere(['with_hardwareSettings' => 1])
-                        ->andWhere(['with_softwareSettings' => 1])
                         ->select(['*']);
                 },
                 'data' => function ($action) {
