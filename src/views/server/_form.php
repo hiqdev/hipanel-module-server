@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\widgets\DynamicFormWidget;
+use hipanel\widgets\DynamicFormCopyButton;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
@@ -56,6 +57,7 @@ use yii\bootstrap\Html;
                             <div class="btn-group">
                                 <button type="button" class="add-item btn btn-success btn-sm"><i
                                             class="glyphicon glyphicon-plus"></i></button>
+                                <?= DynamicFormCopyButton::widget() ?>
                                 <button type="button" class="remove-item btn btn-danger btn-sm"><i
                                             class="glyphicon glyphicon-minus"></i></button>
                             </div>
