@@ -9,8 +9,8 @@ use yii\bootstrap\Html;
 /** @var \hipanel\modules\server\forms\ServerForm $model */
 /** @var \hipanel\modules\server\forms\ServerForm[] $models */
 
+$model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
 ?>
-
 <?php $form = ActiveForm::begin([
     'id' => 'server-dynamic-form',
     'enableClientValidation' => true,
