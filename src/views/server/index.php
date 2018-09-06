@@ -96,23 +96,23 @@ $this->params['breadcrumbs'][] = $this->title;
                         'toggleButtonTemplate' => '<li>{toggleButton}</li>',
 
                     ]) : null,
-                    [
+                    Yii::$app->user->can('admin') ? [
                         'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel:server', 'Set one type to many servers'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-one-type'],
                         'visible' => Yii::$app->user->can('server.update'),
-                    ],
-                    [
+                    ] : null,
+                    Yii::$app->user->can('admin') ? [
                         'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set units'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-units'],
                         'visible' => Yii::$app->user->can('server.update'),
-                    ],
-                    [
+                    ] : null,
+                    Yii::$app->user->can('admin') ? [
                         'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set Rack No.'),
                         'url' => '#',
                         'linkOptions' => ['data-action' => 'set-rack-no'],
-                    ],
+                    ] : null,
                     Yii::$app->user->can('manage') ? AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'id' => 'clear-resources-modal',
