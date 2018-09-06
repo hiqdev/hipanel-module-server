@@ -23,33 +23,38 @@ $this->params['breadcrumbs'][] = $this->title;
     'validationUrl' => Url::toRoute(['validate-hw-form', 'scenario' => $model->scenario]),
 ]) ?>
 
-<div class="container-items">
-    <div class="item">
-        <div class="box">
-            <div class="box-header with-border">
-                <?= ArraySpoiler::widget([
-                    'data' => $models,
-                    'visibleCount' => count($models),
-                    'formatter' => function ($model) {
-                        return Html::tag('span', $model->name, ['class' => 'label label-default']);
-                    },
-                    'delimiter' => ',&nbsp; ',
-                ]) ?>
-            </div>
-            <div class="box-body">
-                <div class="row">
-                    <div class="col-md-2">
-                        <?php $model->hardwareSettings->units = null; echo $form->field($model->hardwareSettings, "units") ?>
+<div class="row">
+    <div class="col-md-6">
+        <div class="container-items">
+            <div class="item">
+                <div class="box box-widget">
+                    <div class="box-body no-padding">
+                        <div class="panel panel-default" style="box-shadow: none; border-radius: 0;">
+                            <div class="panel-heading"><?= Yii::t('hipanel:server', 'Selected servers') ?></div>
+                            <div class="panel-body">
+                                <?= ArraySpoiler::widget([
+                                    'data' => $models,
+                                    'visibleCount' => count($models),
+                                    'formatter' => function ($model) {
+                                        return Html::tag('span', $model->name, ['class' => 'label label-default']);
+                                    },
+                                    'delimiter' => ',&nbsp; ',
+                                ]) ?>
+                            </div>
+                        </div>
+                        <div style="padding: 0 1rem;">
+                            <?php $model->hardwareSettings->units = null;
+                            echo $form->field($model->hardwareSettings, "units") ?>
+                        </div>
+                        <?php foreach ($models as $model) : ?>
+                            <?= Html::activeHiddenInput($model->hardwareSettings, "[{$model->hardwareSettings->id}]id") ?>
+                        <?php endforeach ?>
                     </div>
                 </div>
-                <?php foreach ($models as $model) : ?>
-                    <?= Html::activeHiddenInput($model->hardwareSettings, "[{$model->hardwareSettings->id}]id") ?>
-                <?php endforeach ?>
             </div>
         </div>
     </div>
 </div>
-
 <div class="row">
     <div class="col-md-12">
         <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
