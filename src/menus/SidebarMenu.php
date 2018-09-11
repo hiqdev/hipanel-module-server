@@ -35,7 +35,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                     'switch' => [
                         'label'   => Yii::t('hipanel:server', 'Switches'),
                         'url'     => ['/server/hub/index'],
-                        'visible' => $app->user->can('admin'),
+                        'visible' => ($app->user->can('admin') || $app->user->can('hub.read')),
                     ],
                     'buy-server' => [
                         'label'   => Yii::t('hipanel:server:order', 'Order server'),

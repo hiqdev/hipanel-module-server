@@ -15,6 +15,7 @@ use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use Yii;
@@ -22,6 +23,20 @@ use yii\base\Event;
 
 class HubController extends CrudController
 {
+    public function behaviors()
+    {
+        return array_merge(parent::behaviors(), [
+            [
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    'create' => 'hub.create',
+                    'update,options' => 'hub.update',
+                    '*' => 'hub.read',
+                ],
+            ],
+        ]);
+    }
+
     public function actions()
     {
         return array_merge(parent::actions(), [
