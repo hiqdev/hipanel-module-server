@@ -26,30 +26,30 @@ class ServerCest
         $I->needPage(Url::to('@server'));
         $I->see('Servers', 'h1');
         $I->seeLink('Buy server', Url::to('/server/order/index'));
-        $this->ensureICanSeeAdvancedSearchBox();
+        $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
         $this->ensureICanSeeBulkServerSearchBox();
     }
 
-    private function ensureICanSeeAdvancedSearchBox()
+    private function ensureICanSeeAdvancedSearchBox(Seller $I)
     {
         $this->index->containsFilters([
-            new Input('Name'),
-            new Input('Internal note'),
-            new Input('Order'),
-            new Input('DC'),
-            new Input('IP'),
-            new Select2('Client'),
-            new Select2('Reseller'),
-            new Input('HW summary'),
-            new Input('Type'),
-            new Input('Status'),
-            new Input('Switch'),
-            new Input('KVM'),
-            new Input('APC'),
-            new Input('Rack'),
-            new Input('MAC'),
-            new Input('Tariff'),
+            Input::asAdvancedSearch($I, 'Name'),
+            Input::asAdvancedSearch($I, 'Internal note'),
+            Input::asAdvancedSearch($I, 'Order'),
+            Input::asAdvancedSearch($I, 'DC'),
+            Input::asAdvancedSearch($I, 'IP'),
+            Select2::asAdvancedSearch($I, 'Client'),
+            Select2::asAdvancedSearch($I, 'Reseller'),
+            Input::asAdvancedSearch($I, 'HW summary'),
+            Select2::asAdvancedSearch($I, 'Type'),
+            Select2::asAdvancedSearch($I, 'Status'),
+            Input::asAdvancedSearch($I, 'Switch'),
+            Input::asAdvancedSearch($I, 'KVM'),
+            Input::asAdvancedSearch($I, 'APC'),
+            Input::asAdvancedSearch($I, 'Rack'),
+            Input::asAdvancedSearch($I, 'MAC'),
+            Input::asAdvancedSearch($I, 'Tariff'),
         ]);
     }
 

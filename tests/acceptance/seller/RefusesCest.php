@@ -25,15 +25,15 @@ class RefusesCest
         $I->login();
         $I->needPage(Url::to('/server/refuse'));
         $I->see('Refuses', 'h1');
-        $this->ensureICanSeeAdvancedSearchBox();
+        $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeBulkServerSearchBox();
     }
 
-    private function ensureICanSeeAdvancedSearchBox()
+    private function ensureICanSeeAdvancedSearchBox(Seller $I)
     {
         $this->index->containsFilters([
-            new Select2('Client'),
-            (new Dropdown('changesearch-state'))->withItems([
+            Select2::asAdvancedSearch($I, 'Client'),
+            (Dropdown::asAdvancedSearch($I, 'State'))->withItems([
                 'New',
                 'Approved',
                 'Rejected',
