@@ -26,21 +26,21 @@ class SwitchesCest
         $I->needPage(Url::to('@hub'));
         $I->see('Switches', 'h1');
         $I->seeLink('Create switch', Url::to('@hub/create'));
-        $this->ensureICanSeeAdvancedSearchBox();
+        $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
         $this->ensureICanSeeBulkServerSearchBox();
     }
 
-    private function ensureICanSeeAdvancedSearchBox()
+    private function ensureICanSeeAdvancedSearchBox(Admin $I)
     {
         $this->index->containsFilters([
-            new Input('Switch'),
-            new Input('INN'),
-            new Input('IP'),
-            new Input('MAC address'),
-            new Input('Model'),
-            new Input('Order No.'),
-            (new Dropdown('hubsearch-type_id'))->withItems([
+            Input::asAdvancedSearch($I, 'Switch'),
+            Input::asAdvancedSearch($I, 'INN'),
+            Input::asAdvancedSearch($I, 'IP'),
+            Input::asAdvancedSearch($I, 'MAC address'),
+            Input::asAdvancedSearch($I, 'Model'),
+            Input::asAdvancedSearch($I, 'Order No.'),
+            (Dropdown::asAdvancedSearch($I, 'Type'))->withItems([
                 'Switch',
                 'KVM',
                 'APC',
