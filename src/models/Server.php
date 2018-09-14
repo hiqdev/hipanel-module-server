@@ -32,6 +32,8 @@ class Server extends \hipanel\base\Model
 
     const SVDS_TYPES = ['avds', 'svds'];
 
+    const DEFAULT_PANEL = 'rcp';
+
     public function rules()
     {
         return [
@@ -288,6 +290,19 @@ class Server extends \hipanel\base\Model
         }
 
         return $this->bindings[$type];
+    }
+
+    public function getPanel()
+    {
+        if ($this->state === self::STATE_DISABLED) {
+            return null;
+        }
+
+        if ($this->panel || $this->isVirtualDevice()) {
+            return $this->panel;
+        }
+
+        return self::DEFAULT_PANEL;
     }
 
     /**

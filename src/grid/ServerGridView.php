@@ -106,7 +106,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'html',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) use ($canSupport) {
-                    $value = $model->panel ? Yii::t('hipanel:server:panel', $model->panel) : Yii::t('hipanel:server:panel', 'No control panel');
+                    $value = $model->getPanel() ? Yii::t('hipanel:server:panel', $model->getPanel()) : Yii::t('hipanel:server:panel', 'No control panel');
                     if ($canSupport) {
                         $value .= $model->wizzarded ? Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']) : '';
                     }
