@@ -112,7 +112,6 @@ class ServerCest
             'Order',
         ], 'short');
         $this->index->containsColumns([
-            'Rack',
             'Client',
             'DC',
             'Name',
@@ -120,7 +119,6 @@ class ServerCest
         ], 'hardware');
         $this->index->containsColumns([
             'Client',
-            'Rack',
             'Name',
             'Tariff',
             'HW summary',
@@ -129,10 +127,6 @@ class ServerCest
             'DC',
             'Name',
             'Type',
-            'Switch',
-            'KVM',
-            'IPMI',
-            'APC',
             'IP',
             'MAC',
         ], 'admin');
