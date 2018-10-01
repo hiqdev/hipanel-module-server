@@ -44,7 +44,7 @@ class ServerRepresentations extends RepresentationCollection
                     'rack', 'client', 'dc', 'server', 'hwsummary',
                 ],
             ] : null,
-            'manager' => Yii::$app->user->can('support') ? [
+            'manager' => Yii::$app->user->can('manage') ? [
                 'label'   => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
                     'checkbox',
