@@ -29,12 +29,16 @@ class AssignHubsForm extends Server
     public static function fromServer(Server $server): AssignHubsForm
     {
         $attributes = array_merge($server->getAttributes(), []);
+        $model = new self(['scenario' => 'default']);
         foreach ($server->bindings as $binding) {
-            $attributes[$binding->type . '_id'] = $binding->switch_id;
-            $attributes[$binding->type . '_port'] = $binding->port;
+            if ($model->hasAttribute($binding->typeWithNo . '_id')) {
+                $attributes[$binding->typeWithNo . '_id'] = $binding->switch_id;
+                $attributes[$binding->typeWithNo . '_port'] = $binding->port;
+            }
         }
+        $model->setAttributes($attributes);
 
-        return new self(array_merge($attributes, ['scenario' => 'default']));
+        return $model;
     }
 
     /**

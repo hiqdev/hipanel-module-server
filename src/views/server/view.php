@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
+use hipanel\modules\server\grid\BindingColumn;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
@@ -337,12 +338,13 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             echo ServerGridView::detailView([
                                 'model' => $model,
                                 'boxed' => false,
-                                'columns' => [
-                                    'net',
-                                    'pdu',
-                                    'rack',
-                                    'ipmi',
-                                ],
+                                'columns' => array_map(function ($binding) {
+                                    /** @var \hipanel\modules\server\models\Binding $binding */
+                                    return [
+                                        'class' => BindingColumn::class,
+                                        'attribute' => $binding->typeWithNo,
+                                    ];
+                                }, $model->bindings),
                             ]);
                             echo '</div>';
                         $box->endBody();
