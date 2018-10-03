@@ -2,8 +2,10 @@
 
 namespace hipanel\modules\server\forms;
 
+use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Server;
 use Yii;
+use yii\db\Query;
 
 /**
  * Class AssignHubsForm
@@ -50,7 +52,7 @@ class AssignHubsForm extends Server
             [['id'], 'required'],
             [['net_id', 'kvm_id', 'pdu_id', 'rack_id', 'pdu2_id', 'nic2_id', 'ipmi_id'], 'integer'],
             [['net_port', 'kvm_port', 'pdu_port', 'rack_port', 'pdu2_port', 'nic2_port', 'ipmi_port'], 'string'],
-        ]);
+        ], $this->generateUniqueValidators());
     }
 
     public function attributeLabels()
@@ -77,6 +79,27 @@ class AssignHubsForm extends Server
         $scenario = isset($map[$defaultScenario]) ? $map[$defaultScenario] : $defaultScenario;
 
         return (new Server)->batchQuery($scenario, $data, $options);
+    }
+
+    private function generateUniqueValidators(): array
+    {
+        $rules = [];
+        foreach (['net', 'kmv', 'pdu', 'rack', 'pdu2', 'nic2', 'ipmi'] as $variant) {
+            $rules[] = [
+                [$variant . '_id', $variant . '_port'],
+                'unique', 'targetClass' => Binding::class,
+                'targetAttribute' => [
+                    $variant . '_port' => 'port', $variant . '_id' => 'switch_id',
+                ],
+                'filter' => function ($query) {
+                    /** @var Query $query */
+                    $query->andWhere(['check_only' => true]);
+                    $query->andWhere(['ne', 'device_id', $this->id]);
+                },
+            ];
+        }
+
+        return $rules;
     }
 }
 

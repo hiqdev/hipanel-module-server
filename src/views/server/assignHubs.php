@@ -21,7 +21,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'default']),
+    'validationUrl' => Url::toRoute(['validate-assign-hubs-form', 'scenario' => 'default']),
 ]) ?>
 
 <?php DynamicFormWidget::begin([
