@@ -101,7 +101,7 @@ class AssignHubsForm extends Server
                 'filter' => function ($query) {
                     /** @var Query $query */
                     $query->andWhere(['check_only' => true]);
-                    $query->andWhere(['ne', 'device_id', $this->id]);
+                    $query->andWhere(['ne', 'base_device_id', $this->id]);
                 },
             ];
         }
