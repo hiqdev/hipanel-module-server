@@ -60,6 +60,13 @@ class AssignHubsForm extends Server
         return array_merge(parent::attributeLabels(), [
             'pdu2' => Yii::t('hipanel:server', 'APC 2'),
             'nic2' => Yii::t('hipanel:server', 'Switch 2'),
+            'net_port' => Yii::t('hipanel:server', 'Port'),
+            'kvm_port' => Yii::t('hipanel:server', 'Port'),
+            'pdu_port' => Yii::t('hipanel:server', 'Port'),
+            'rack_port' => Yii::t('hipanel:server', 'Port'),
+            'pdu2_port' => Yii::t('hipanel:server', 'Port'),
+            'nic2_port' => Yii::t('hipanel:server', 'Port'),
+            'impi_port' => Yii::t('hipanel:server', 'Port'),
         ]);
     }
 
