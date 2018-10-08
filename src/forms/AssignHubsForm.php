@@ -5,7 +5,6 @@ namespace hipanel\modules\server\forms;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Server;
 use Yii;
-use yii\db\Query;
 
 /**
  * Class AssignHubsForm
@@ -60,13 +59,6 @@ class AssignHubsForm extends Server
         return array_merge(parent::attributeLabels(), [
             'pdu2' => Yii::t('hipanel:server', 'APC 2'),
             'nic2' => Yii::t('hipanel:server', 'Switch 2'),
-            'net_port' => Yii::t('hipanel:server', 'Port'),
-            'kvm_port' => Yii::t('hipanel:server', 'Port'),
-            'pdu_port' => Yii::t('hipanel:server', 'Port'),
-            'rack_port' => Yii::t('hipanel:server', 'Port'),
-            'pdu2_port' => Yii::t('hipanel:server', 'Port'),
-            'nic2_port' => Yii::t('hipanel:server', 'Port'),
-            'impi_port' => Yii::t('hipanel:server', 'Port'),
         ]);
     }
 
@@ -91,17 +83,25 @@ class AssignHubsForm extends Server
     private function generateUniqueValidators(): array
     {
         $rules = [];
+
         foreach (['net', 'kmv', 'pdu', 'rack', 'pdu2', 'nic2', 'ipmi'] as $variant) {
             $rules[] = [
-                [$variant . '_id', $variant . '_port'],
-                'unique', 'targetClass' => Binding::class,
-                'targetAttribute' => [
-                    $variant . '_port' => 'port', $variant . '_id' => 'switch_id',
-                ],
-                'filter' => function ($query) {
-                    /** @var Query $query */
-                    $query->andWhere(['check_only' => true]);
-                    $query->andWhere(['ne', 'device_id', $this->id]);
+                [$variant . '_port'],
+                function ($attribute, $params, $validator) use ($variant) {
+                    $query = Binding::find();
+                    $query->andWhere(['port' => $this->{$attribute}]);
+                    $query->andWhere(['switch_id' => $this->{$variant . '_id'}]);
+                    $query->andWhere(['ne', 'base_device_id', $this->id]);
+                    /** @var Binding[] $bindings */
+                    $bindings = $query->all();
+                    if (!empty($bindings)) {
+                        $binding = reset($bindings);
+                        $this->addError($attribute, Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
+                            'switch' => $binding->switch_name,
+                            'port' => $binding->port,
+                            'device' => $binding->device_name,
+                        ]));
+                    }
                 },
             ];
         }
