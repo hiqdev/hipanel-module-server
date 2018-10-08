@@ -331,8 +331,15 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         <?php
                         $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
-                        $box->endHeader();
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'Switches')) ?>
+                            <?php if (Yii::$app->user->can('support')) : ?>
+                                <?php $box->beginTools(['class' => 'box-tools pull-right']) ?>
+                                <?= Html::a(Yii::t('hipanel:server', 'Assign hubs'),
+                                ['@server/assign-hubs', 'id' => $model->id],
+                                ['class' => 'btn btn-box-tool']) ?>
+                                <?php $box->endTools() ?>
+                            <?php endif ?>
+                        <?php $box->endHeader();
                         $box->beginBody();
                             echo '<div class="table-responsive">';
                             echo ServerGridView::detailView([

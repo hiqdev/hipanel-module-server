@@ -281,5 +281,6 @@ return [
     'This month {month_year,date,MMMM yyyy}' => 'Этот месяц {month_year,date,LLL yyyy}',
     'Previous month {month_year,date,MMMM yyyy}' => 'Предыдущий месяц {month_year,date,LLL yyyy}',
     'See chart' => 'Смотреть график',
-    'Selected servers' => 'Выбранные серверы'
+    'Selected servers' => 'Выбранные серверы',
+    '{switch}::{port} already taken by {device}' => '{switch}::{port} уже занят {device}',
 ];

@@ -68,29 +68,34 @@ $variantMap = [
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <?php foreach (['rack', 'net', 'pdu', 'ipmi', 'kvm', 'nic2', 'pdu2'] as $variant) : ?>
-                            <div class="col-md-3">
-                                <table class="table table-condensed" style="table-layout: fixed;">
-                                    <thead>
-                                    <tr>
-                                        <th><?= Html::label($model->getAttributeLabel($variant)) ?></th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    <tr>
-                                        <td>
-                                            <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, [
-                                                'name' => $variant,
-                                                'hubType' => $variantMap[$variant] ?? $variant,
-                                            ])->label(false) ?>
-                                        </td>
-                                        <td>
-                                            <?= $form->field($model, "[$i]{$variant}_port")->label(false) ?>
-                                        </td>
-                                    </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+                        <?php foreach (array_chunk([
+                            'rack', 'net', 'pdu', 'ipmi', 'kvm', 'nic2', 'pdu2',
+                        ], 4) as $rows) : ?>
+                            <?php foreach ($rows as $variant) : ?>
+                                <div class="col-md-3">
+                                    <table class="table table-condensed" style="table-layout: fixed;">
+                                        <thead>
+                                        <tr>
+                                            <th><?= Html::label($model->getAttributeLabel($variant)) ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, [
+                                                    'name' => $variant,
+                                                    'hubType' => $variantMap[$variant] ?? $variant,
+                                                ])->label(false) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($model, "[$i]{$variant}_port")->label(false) ?>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="clearfix"></div>
                         <?php endforeach; ?>
                     </div>
                 </div>
