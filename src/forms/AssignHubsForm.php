@@ -88,19 +88,21 @@ class AssignHubsForm extends Server
             $rules[] = [
                 [$variant . '_port'],
                 function ($attribute, $params, $validator) use ($variant) {
-                    $query = Binding::find();
-                    $query->andWhere(['port' => $this->{$attribute}]);
-                    $query->andWhere(['switch_id' => $this->{$variant . '_id'}]);
-                    $query->andWhere(['ne', 'base_device_id', $this->id]);
-                    /** @var Binding[] $bindings */
-                    $bindings = $query->all();
-                    if (!empty($bindings)) {
-                        $binding = reset($bindings);
-                        $this->addError($attribute, Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
-                            'switch' => $binding->switch_name,
-                            'port' => $binding->port,
-                            'device' => $binding->device_name,
-                        ]));
+                    if ($this->{$attribute} && $this->{$variant . '_id'}) {
+                        $query = Binding::find();
+                        $query->andWhere(['port' => $this->{$attribute}]);
+                        $query->andWhere(['switch_id' => $this->{$variant . '_id'}]);
+                        $query->andWhere(['ne', 'base_device_id', $this->id]);
+                        /** @var Binding[] $bindings */
+                        $bindings = $query->all();
+                        if (!empty($bindings)) {
+                            $binding = reset($bindings);
+                            $this->addError($attribute, Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
+                                'switch' => $binding->switch_name,
+                                'port' => $binding->port,
+                                'device' => $binding->device_name,
+                            ]));
+                        }
                     }
                 },
             ];
