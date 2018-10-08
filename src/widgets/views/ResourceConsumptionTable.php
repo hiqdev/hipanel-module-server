@@ -49,7 +49,7 @@ use yii\helpers\Html;
 
                 <?php foreach (ServerSort::byConsumptionType()->values($model->consumptions) as $consumption) : ?>
                     <tr>
-                        <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $consumption->type) ?></th>
+                        <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $consumption->typeLabel) ?></th>
                         <td><?= $this->context->getFormatted($consumption, $consumption->limit) ?></td>
                         <td><?= Yii::$app->formatter->asCurrency($consumption->price, $consumption->currency) ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->currentValue) ?></td>
