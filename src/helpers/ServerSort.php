@@ -20,10 +20,18 @@ class ServerSort
     {
         $order = [
             'monthly,monthly',
+            'monthly,rack_unit',
+            'monthly,hardware',
+            'monthly,server_traf_max',
+            'monthly,server_traf95_max',
             'overuse,server_traf_max',
-            'overuse,ip_num',
-            'overuse,backup_du',
+            'overuse,server_traf95_max',
+            'monthly,support_time',
             'overuse,support_time',
+            'monthly,backup_du',
+            'overuse,backup_du',
+            'monthly,ip_num',
+            'overuse,ip_num',
         ];
 
         return Sort::chain()->asc(function (Consumption $consumption) use ($order) {
