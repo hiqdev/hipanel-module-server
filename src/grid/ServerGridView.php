@@ -50,7 +50,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 $title = $model->tariff;
             }
 
-            return Html::a($title, ['@tariff/view', 'id' => $model->tariff_id]);
+            return Html::a($title, ['@plan/view', 'id' => $model->tariff_id]);
         }
 
         return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
