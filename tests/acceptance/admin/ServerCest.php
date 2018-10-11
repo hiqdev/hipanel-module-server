@@ -117,13 +117,6 @@ class ServerCest
             'HW summary',
         ], 'hardware');
         $this->index->containsColumns([
-            'Client',
-            'Rack',
-            'Name',
-            'Tariff',
-            'HW summary',
-        ], 'manager');
-        $this->index->containsColumns([
             'DC',
             'Name',
             'Type',
