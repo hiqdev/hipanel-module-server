@@ -13,7 +13,7 @@ use yii\helpers\Html;
     <div class="box-header with-border">
         <h3 class="box-title"><?= Yii::t('hipanel:server', 'Resource consumption') ?></h3>
         <div class="box-tools pull-right">
-            <?= Html::a(Yii::t('hipanel:server', 'See chart'), [
+            <?= Html::a(Yii::t('hipanel:server', 'See charts'), [
                 '@server/resources', 'id' => $model->id,
             ], ['class' => 'btn btn-box-tool']) ?>
         </div>
@@ -35,7 +35,7 @@ use yii\helpers\Html;
                 </tr>
 
                 <tr>
-                    <th><?= Yii::t('hipanel:server', 'limit') ?></th>
+                    <th><?= Yii::t('hipanel:server', 'included') ?></th>
                     <th><?= Yii::t('hipanel:server', 'price') ?></th>
                     <th><?= Yii::t('hipanel:server', 'value') ?></th>
                     <th><?= Yii::t('hipanel:server', 'overuse') ?></th>
@@ -51,7 +51,7 @@ use yii\helpers\Html;
                     <tr>
                         <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $consumption->typeLabel) ?></th>
                         <td><?= $this->context->getFormatted($consumption, $consumption->limit) ?></td>
-                        <td><?= Yii::$app->formatter->asCurrency($consumption->price, $consumption->currency) ?></td>
+                        <td align=right><?= Yii::$app->formatter->asCurrency($consumption->price, $consumption->currency) ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->currentValue) ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->currentOveruse) ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->previousValue) ?></td>

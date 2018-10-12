@@ -36,6 +36,10 @@ class ResourceConsumptionTable extends Widget
 
     public function getFormatted(Consumption $model, ?string $currentQuantity): string
     {
+        if (strpos($model->type, 'monthly,') === 0) {
+            return '';
+        }
+
         if ($currentQuantity === null) {
             return '';
         }
