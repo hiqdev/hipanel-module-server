@@ -43,7 +43,7 @@ class ServerForm extends Server
         return array_merge(parent::rules(), [
 
             // Create/update servers
-            [['server', 'type'], 'required', 'on' => ['create', 'update']],
+            [['server', 'type', 'state'], 'required', 'on' => ['create', 'update']],
             [['server', 'dc'], 'unique', 'on' => ['create']],
             [
                 ['server'], 'unique', 'on' => ['update'], 'when' => function ($model) {

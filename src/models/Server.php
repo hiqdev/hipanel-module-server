@@ -344,6 +344,15 @@ class Server extends \hipanel\base\Model
         return Ref::getList('type,device,server', 'hipanel:server');
     }
 
+    public function getStateOptions(): array
+    {
+        return [
+            self::STATE_DISABLED    => Yii::t('hipanel:server', 'Disabled'),
+            self::STATE_OK          => Yii::t('hipanel:server', 'Ok'),
+            self::STATE_BLOCKED     => Yii::t('hipanel:server', 'Blocked'),
+        ];
+    }
+
     /**
      * Check if you can assign hubs
      * @return bool
