@@ -323,7 +323,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 </div>
                 <?php Pjax::end() ?>
             </div>
-            <?php if (Yii::$app->user->can('admin')) : ?>
+            <?php if (Yii::$app->user->can('admin') && !empty($model->bindings)) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php $box = Box::begin(['renderBody' => false]) ?>
