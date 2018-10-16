@@ -326,10 +326,9 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <?php if (Yii::$app->user->can('admin')) : ?>
                 <div class="row">
                     <div class="col-md-12">
-                        <?php
-                        $box = Box::begin(['renderBody' => false]);
-                        $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel:server', 'Switches')) ?>
+                        <?php $box = Box::begin(['renderBody' => false]) ?>
+                        <?php $box->beginHeader() ?>
+                            <?= $box->renderTitle(Yii::t('hipanel:server', 'Switches')) ?>
                             <?php if (Yii::$app->user->can('support')) : ?>
                                 <?php $box->beginTools(['class' => 'box-tools pull-right']) ?>
                                     <?= Html::a(
@@ -339,10 +338,10 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                     ) ?>
                                 <?php $box->endTools() ?>
                             <?php endif ?>
-                        <?php $box->endHeader();
-                        $box->beginBody();
-                            echo '<div class="table-responsive">';
-                            echo ServerGridView::detailView([
+                        <?php $box->endHeader() ?>
+                        <?php $box->beginBody() ?>
+                            <div class="table-responsive">
+                            <?= ServerGridView::detailView([
                                 'model' => $model,
                                 'boxed' => false,
                                 'columns' => array_map(function ($binding) {
@@ -352,11 +351,10 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                         'attribute' => $binding->typeWithNo,
                                     ];
                                 }, $model->bindings),
-                            ]);
-                            echo '</div>';
-                        $box->endBody();
-                        $box->end();
-                        ?>
+                            ]) ?>
+                            </div>
+                        <?php $box->endBody() ?>
+                        <?php $box->end() ?>
                     </div>
                 </div>
             <?php endif ?>
