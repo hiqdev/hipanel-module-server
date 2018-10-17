@@ -347,7 +347,7 @@ class Server extends \hipanel\base\Model
     public function getStateOptions(): array
     {
         return [
-            self::STATE_DISABLED    => Yii::t('hipanel:server', 'Disabled'),
+            self::STATE_DISABLED    => Yii::t('hipanel:server', 'Ok, panel OFF'),
             self::STATE_OK          => Yii::t('hipanel:server', 'Ok'),
             self::STATE_BLOCKED     => Yii::t('hipanel:server', 'Blocked'),
         ];

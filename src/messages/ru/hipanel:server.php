@@ -226,6 +226,7 @@ return [
     'Setuping' => 'Устанавливается',
     'Failed' => 'Ошибка',
     'Disabled' => 'Ок, без панели',
+    'Ok, panel OFF' => 'Ок, без панели',
 
     'Switches' => 'Свитчи',
     'Switch' => 'Свитч',
