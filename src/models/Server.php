@@ -19,6 +19,12 @@ use hipanel\validators\RefValidator;
 use Yii;
 use yii\base\NotSupportedException;
 
+/**
+ * Class Server
+ *
+ * @property int $id
+ * @property string $name
+ */
 class Server extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;

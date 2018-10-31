@@ -3,6 +3,8 @@
 use hipanel\helpers\Url;
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\TariffCombo;
+use hipanel\modules\server\helpers\ServerSort;
+use hipanel\modules\server\widgets\ServerNameBadge;
 use hipanel\widgets\DateTimePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -10,9 +12,10 @@ use yii\helpers\Html;
 /**
  * @var \yii\web\View
  * @var \hipanel\modules\server\models\Server $model
+ * @var \hipanel\modules\server\models\Server[] $models
  */
 $defaultDateTime = new DateTime('first day of this month 00:00');
-
+$model = ServerSort::byServerName()->values($models);
 ?>
 
 <div>
@@ -51,9 +54,9 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                                 'data' => $models,
                                 'visibleCount' => count($models),
                                 'formatter' => function ($model) {
-                                    return $model->name;
+                                    return ServerNameBadge::widget(['model' => $model]);
                                 },
-                                'delimiter' => ',&nbsp; ',
+                                'delimiter' => '&nbsp;',
                             ]); ?>
                         </div>
                     </div>
@@ -115,7 +118,7 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
                             <?php foreach ($models as $model) : ?>
                                 <div class="col-md-3 text-right" style="line-height: 34px;">
                                     <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
-                                    <strong><?= $model->name ?></strong>
+                                    <?= ServerNameBadge::widget(['model' => $model]) ?>
                                 </div>
                                 <div class="col-md-9">
                                     <div class="row">
@@ -161,11 +164,6 @@ $defaultDateTime = new DateTime('first day of this month 00:00');
         </div>
     </div>
 </div>
-
-<?= $this->registerJs(<<<JS
-
-JS
-); ?>
 
 <?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
     'inputSelectors' => ['select[ref=tariff-combo]', 'input[ref=sale-time-combo]'],
