@@ -36,7 +36,7 @@ use yii\helpers\Html;
 
     <div class="container-items">
         <?php foreach ($models as $i => $model) : ?>
-            <div class="item col-md-4">
+            <div class="item col-md-6">
                 <?php if (!$model->isNewRecord) : ?>
                     <?= Html::activeHiddenInput($model, "[$i]id") ?>
                 <?php endif; ?>
