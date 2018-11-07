@@ -286,4 +286,9 @@ return [
     'See charts' => 'Смотреть графики',
     'Selected servers' => 'Выбранные серверы',
     '{switch}::{port} already taken by {device}' => '{switch}::{port} уже занят {device}',
+
+    'All' => 'Все',
+    'Wizzarded' => 'С панелью',
+    'Not wizzarded' => 'Без панели',
+    'Is wizzarded' => 'Наличие панели',
 ];
