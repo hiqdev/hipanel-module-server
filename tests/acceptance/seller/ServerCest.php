@@ -4,6 +4,7 @@ namespace hipanel\modules\server\tests\acceptance\seller;
 
 use hipanel\helpers\Url;
 use hipanel\tests\_support\Page\IndexPage;
+use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Seller;
@@ -50,6 +51,7 @@ class ServerCest
             Input::asAdvancedSearch($I, 'Rack'),
             Input::asAdvancedSearch($I, 'MAC'),
             Input::asAdvancedSearch($I, 'Tariff'),
+            Dropdown::asAdvancedSearch($I, 'Is wizzarded'),
         ]);
     }
 
