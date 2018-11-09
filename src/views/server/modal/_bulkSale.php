@@ -15,7 +15,7 @@ use yii\helpers\Html;
  * @var \hipanel\modules\server\models\Server[] $models
  */
 $defaultDateTime = new DateTime('first day of this month 00:00');
-$model = ServerSort::byServerName()->values($models);
+$models = ServerSort::byServerName()->values($models);
 ?>
 
 <div>
