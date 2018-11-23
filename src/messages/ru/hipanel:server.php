@@ -291,4 +291,6 @@ return [
     'Wizzarded' => 'С панелью',
     'Not wizzarded' => 'Без панели',
     'Is wizzarded' => 'Наличие панели',
+
+    'Affected items' => 'Затронутые элементы',
 ];

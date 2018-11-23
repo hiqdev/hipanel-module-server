@@ -7,6 +7,6 @@ use yii\helpers\Url;
 
 <?= SellForm::widget([
     'models' => $models,
-    'actionUrl' => Url::toRoute('@server/bulk-sale'),
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'sale']),
+    'actionUrl' => Url::toRoute('@hub/sell'),
+    'validationUrl' => Url::toRoute(['validate-sell-form', 'scenario' => 'sell']),
 ]) ?>

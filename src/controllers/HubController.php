@@ -10,14 +10,18 @@
 
 namespace hipanel\modules\server\controllers;
 
+use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
+use hipanel\modules\server\forms\HubSellForm;
+use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\Event;
 
@@ -88,6 +92,52 @@ class HubController extends CrudController
                         'nicMediaOptions' => $this->getNicMediaOptions(),
                     ];
                 },
+            ],
+            'sell' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Switches were sold'),
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new HubSellForm(),
+                    'scenario' => 'sell',
+                ],
+                'data' => function (Action $action, array $data) {
+                    $result = [];
+                    foreach ($data['models'] as $model) {
+                        $result['models'][] = HubSellForm::fromHub($model);
+                    }
+                    $result['model'] = reset($result['models']);
+
+                    return $result;
+                },
+                'on beforeSave' => function (Event $event) {
+                    /** @var \hipanel\actions\Action $action */
+                    $action = $event->sender;
+                    $request = Yii::$app->request;
+
+                    if ($request->isPost) {
+                        $values = [];
+                        foreach (['client_id', 'tariff_id', 'sale_time'] as $attribute) {
+                            $value = $request->post($attribute);
+                            if (!empty($value)) {
+                                $values[$attribute] = $value;
+                            }
+                        }
+                        foreach ($action->collection->models as $model) {
+                            foreach ($values as $attr => $value) {
+                                $model->setAttribute($attr, $value);
+                            }
+                        }
+                    }
+                },
+                'view' => 'modals/sell',
+            ],
+            'validate-sell-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new HubSellForm(),
+                ],
             ],
         ]);
     }
