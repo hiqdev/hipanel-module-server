@@ -59,7 +59,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <?php Pjax::end() ?>
             <?php Box::end() ?>
 
-            <?php if ($model->isVNCSupported()) : ?>
+            <?php if ($model->isVNCSupported() && Yii::$app->user->can('server.system-management')) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -75,73 +75,78 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <div class="row">
-                <div class="col-md-12">
-                    <?php
-                    $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel:server', 'System management'));
-                    $box->endHeader();
-                    $box->beginBody() ?>
-                    <div class="row">
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <?= SimpleOperation::widget([
-                                'model' => $model,
-                                'scenario' => 'reboot',
-                                'buttonLabel' => Yii::t('hipanel:server', 'Reboot'),
-                                'body' => '<div class="callout callout-warning">
+            <?php if (Yii::$app->user->can('server.system-management') || Yii::$app->user->can('server.power-management')) : ?>
+                <div class="row">
+                    <div class="col-md-12">
+                        <?php
+                        $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'System management'));
+                        $box->endHeader();
+                        $box->beginBody() ?>
+                        <div class="row">
+                            <?php if (Yii::$app->user->can('server.power-management')) : ?>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <?= SimpleOperation::widget([
+                                        'model' => $model,
+                                        'scenario' => 'reboot',
+                                        'buttonLabel' => Yii::t('hipanel:server', 'Reboot'),
+                                        'body' => '<div class="callout callout-warning">
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Reboot will interrupt all processes on the server. Are you sure you want to reset the server?') . '</p>',
-                                'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server reboot'),
-                                'modalHeaderOptions' => ['class' => 'label-warning'],
-                                'modalFooterLabel' => Yii::t('hipanel:server', 'Reboot'),
-                                'modalFooterLoading' => Yii::t('hipanel:server', 'Rebooting...'),
-                                'modalFooterClass' => 'btn btn-warning',
-                            ]) ?>
-                        </div>
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <?= SimpleOperation::widget([
-                                'model' => $model,
-                                'scenario' => 'shutdown',
-                                'buttonLabel' => Yii::t('hipanel:server', 'Shutdown'),
-                                'body' => '<div class="callout callout-warning">
+                                        'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server reboot'),
+                                        'modalHeaderOptions' => ['class' => 'label-warning'],
+                                        'modalFooterLabel' => Yii::t('hipanel:server', 'Reboot'),
+                                        'modalFooterLoading' => Yii::t('hipanel:server', 'Rebooting...'),
+                                        'modalFooterClass' => 'btn btn-warning',
+                                    ]) ?>
+                                </div>
+
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <?= SimpleOperation::widget([
+                                        'model' => $model,
+                                        'scenario' => 'shutdown',
+                                        'buttonLabel' => Yii::t('hipanel:server', 'Shutdown'),
+                                        'body' => '<div class="callout callout-warning">
     <h4>' . Yii::t('hipanel:server', 'This may cause data loose!') . '</h4>
 </div>
 <p>' . Yii::t('hipanel:server', 'Shutdown will interrupt all processes on the server. Are you sure you want to shutdown the server?') . '</p>',
-                                'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
-                                'modalHeaderOptions' => ['class' => 'label-warning'],
-                                'modalFooterLabel' => Yii::t('hipanel:server', 'Shutdown'),
-                                'modalFooterLoading' => Yii::t('hipanel:server', 'Shutting down...'),
-                                'modalFooterClass' => 'btn btn-warning',
-                            ]) ?>
+                                        'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm server shutdown'),
+                                        'modalHeaderOptions' => ['class' => 'label-warning'],
+                                        'modalFooterLabel' => Yii::t('hipanel:server', 'Shutdown'),
+                                        'modalFooterLoading' => Yii::t('hipanel:server', 'Shutting down...'),
+                                        'modalFooterClass' => 'btn btn-warning',
+                                    ]) ?>
+                                </div>
+                            <?php endif ?>
+                            <?php if ($model->isLiveCDSupported() && Yii::$app->user->can('server.system-management')) : ?>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <?= BootLive::widget([
+                                        'model' => $model,
+                                        'osimageslivecd' => $osimageslivecd,
+                                    ]) ?>
+                                </div>
+                            <?php endif ?>
+                            <?php if ($model->isVirtualDevice() && Yii::$app->user->can('server.system-management')) : ?>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
+                                </div>
+                            <?php endif ?>
+                            <?php if (Yii::$app->user->can('server.wizzard')) : ?>
+                                <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                                    <?= Wizzard::widget(compact(['model'])) ?>
+                                </div>
+                            <?php endif ?>
                         </div>
-                        <?php if ($model->isLiveCDSupported()) : ?>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <?= BootLive::widget([
-                                    'model' => $model,
-                                    'osimageslivecd' => $osimageslivecd,
-                                ]) ?>
-                            </div>
-                        <?php endif ?>
-                        <?php if ($model->isVirtualDevice()) : ?>
-                            <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                                <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
-                            </div>
-                        <?php endif ?>
-                        <?php if (Yii::$app->user->can('admin')) : ?>
-                        <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
-                            <?= Wizzard::widget(compact(['model'])) ?>
-                        </div>
-                        <?php endif ?>
+                        <?php
+                        $box->endBody();
+                        $box->end();
+                        ?>
                     </div>
-                    <?php
-                    $box->endBody();
-                    $box->end();
-                    ?>
                 </div>
-            </div>
-            <?php if ($model->isVirtualDevice()) : ?>
+            <?php endif ?>
+            <?php if ($model->isVirtualDevice() && Yii::$app->user->can('server.power-management')) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -274,7 +279,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         ]);
                     $box->endBody();
                     $box->beginFooter();
-                        if ($model->autorenewal && $model->expires) {
+                        if ($model->autorenewal && $model->expires && Yii::$app->user->can('server.pay')) {
                             echo SimpleOperation::widget([
                                 'model' => $model,
                                 'scenario' => 'refuse',
@@ -291,7 +296,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 'modalFooterLoading' => Yii::t('hipanel:server', 'Refusing...'),
                                 'modalFooterClass' => 'btn btn-warning',
                             ]);
-                        } elseif (in_array($model->state, $model->goodStates(), true) && $model->expires) {
+                        } elseif (in_array($model->state, $model->goodStates(), true) && $model->expires && Yii::$app->user->can('server.pay')) {
                             echo SimpleOperation::widget([
                                 'model' => $model,
                                 'scenario' => 'enable-autorenewal',

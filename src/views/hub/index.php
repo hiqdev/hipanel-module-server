@@ -27,7 +27,7 @@ $this->registerCss('
         <?php $page->setSearchFormData(['types' => $types]) ?>
 
         <?php $page->beginContent('main-actions') ?>
-            <?php if (Yii::$app->user->can('admin') or 1) : ?>
+            <?php if (Yii::$app->user->can('hub.create')) : ?>
                 <?= Html::a(Yii::t('hipanel:server:hub', 'Create switch'), ['@hub/create'], ['class' => 'btn btn-sm btn-success']) ?>
             <?php endif; ?>
         <?php $page->endContent() ?>
@@ -41,7 +41,9 @@ $this->registerCss('
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
-            <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
+            <?php if (Yii::$app->user->can('hub.update')) : ?>
+                <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
+            <?php endif ?>
         <?php $page->endContent('bulk-actions') ?>
 
         <?php $page->beginContent('table') ?>

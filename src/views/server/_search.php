@@ -15,7 +15,7 @@ use hipanel\widgets\RefCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field(Yii::$app->user->can('support') ? 'label_like' : 'note_like') ?>
+    <?= $search->field(Yii::$app->user->can('server.set-label') ? 'label_like' : 'note_like') ?>
 </div>
 
 <?php if (Yii::$app->user->can('manage')) : ?>
@@ -24,7 +24,7 @@ use hipanel\widgets\RefCombo;
     </div>
 <?php endif; ?>
 
-<?php if (Yii::$app->user->can('support')) : ?>
+<?php if (Yii::$app->user->can('hub.read')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('dc_like') ?>
     </div>
@@ -34,7 +34,7 @@ use hipanel\widgets\RefCombo;
     <?= $search->field('ip_like') ?>
 </div>
 
-<?php if (Yii::$app->user->can('support')) : ?>
+<?php if (Yii::$app->user->can('access-subclients')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('client_id')->widget(ClientCombo::class) ?>
     </div>
@@ -64,7 +64,7 @@ use hipanel\widgets\RefCombo;
     ]) ?>
 </div>
 
-<?php if (Yii::$app->user->can('support')) : ?>
+<?php if (Yii::$app->user->can('hub.read')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('net_like') ?>
     </div>
@@ -84,7 +84,9 @@ use hipanel\widgets\RefCombo;
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('mac_like') ?>
     </div>
+<?php endif ?>
 
+<?php if (Yii::$app->user->can('plan.read')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('tariff_like') ?>
     </div>

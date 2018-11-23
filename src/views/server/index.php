@@ -38,7 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (Yii::$app->user->can('server.create')) : ?>
             <?= Html::a(Yii::t('hipanel:server', 'Create server'), ['@server/create'], ['class' => 'btn btn-sm btn-success']) ?>
         <?php endif ?>
-        <?php if (Yii::$app->user->can('deposit')) : ?>
+        <?php if (Yii::$app->user->can('server.pay')) : ?>
             <?= Html::a(Yii::t('hipanel:server:order', 'Buy server'), ['/server/order/index'], ['class' => 'btn btn-sm btn-primary']) ?>
         <?php endif ?>
     <?php $page->endContent() ?>
