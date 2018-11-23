@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
+use hipanel\modules\server\grid\BindingColumn;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
@@ -33,8 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
 list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
 
 ?>
-
-
     <div class="row server-view">
         <div class="col-md-3">
             <?= ServerSwitcher::widget(['model' => $model]) ?>
@@ -329,30 +328,38 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 </div>
                 <?php Pjax::end() ?>
             </div>
-            <?php if (Yii::$app->user->can('admin')) : ?>
+            <?php if (Yii::$app->user->can('admin') && !empty($model->bindings)) : ?>
                 <div class="row">
                     <div class="col-md-12">
-                        <?php
-                        $box = Box::begin(['renderBody' => false]);
-                        $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
-                        $box->endHeader();
-                        $box->beginBody();
-                            echo '<div class="table-responsive">';
-                            echo ServerGridView::detailView([
+                        <?php $box = Box::begin(['renderBody' => false]) ?>
+                        <?php $box->beginHeader() ?>
+                            <?= $box->renderTitle(Yii::t('hipanel:server', 'Switches')) ?>
+                            <?php if (Yii::$app->user->can('support')) : ?>
+                                <?php $box->beginTools(['class' => 'box-tools pull-right']) ?>
+                                    <?= Html::a(
+                                        Yii::t('hipanel:server', 'Assign hubs'),
+                                        ['@server/assign-hubs', 'id' => $model->id],
+                                        ['class' => 'btn btn-box-tool']
+                                    ) ?>
+                                <?php $box->endTools() ?>
+                            <?php endif ?>
+                        <?php $box->endHeader() ?>
+                        <?php $box->beginBody() ?>
+                            <div class="table-responsive">
+                            <?= ServerGridView::detailView([
                                 'model' => $model,
                                 'boxed' => false,
-                                'columns' => [
-                                    'net',
-                                    'pdu',
-                                    'rack',
-                                    'ipmi',
-                                ],
-                            ]);
-                            echo '</div>';
-                        $box->endBody();
-                        $box->end();
-                        ?>
+                                'columns' => array_map(function ($binding) {
+                                    /** @var \hipanel\modules\server\models\Binding $binding */
+                                    return [
+                                        'class' => BindingColumn::class,
+                                        'attribute' => $binding->typeWithNo,
+                                    ];
+                                }, $model->bindings),
+                            ]) ?>
+                            </div>
+                        <?php $box->endBody() ?>
+                        <?php $box->end() ?>
                     </div>
                 </div>
             <?php endif ?>
@@ -363,11 +370,11 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         <?php $box = Box::begin(['renderBody' => false]) ?>
                         <?php $box->beginHeader() ?>
                             <?= $box->renderTitle(Yii::t('hipanel:server', 'Configuration')) ?>
-                            <?php $box->beginTools() ?>
+                            <?php $box->beginTools(['class' => 'box-tools pull-right']) ?>
                                 <?= Html::a(
                                     Yii::t('hipanel', 'Details'),
                                     Url::toSearch('part', ['dst_name_like' => $model->name]),
-                                    ['class' => 'btn btn-default btn-xs']
+                                    ['class' => 'btn btn-box-tool']
                                 ) ?>
                             <?php $box->endTools() ?>
                         <?php $box->endHeader() ?>
@@ -467,6 +474,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
     </div>
 
 <?php
+
 $this->registerCss('
 th {
     white-space: nowrap;
@@ -474,6 +482,7 @@ th {
 .btn-block {
     margin-bottom: .5em
 }');
+
 if ($model->running_task) {
     ServerTaskCheckerAsset::register($this);
     $checkerOptions = Json::encode([
@@ -482,4 +491,4 @@ if ($model->running_task) {
         'pjaxSelector' => '#' . Yii::$app->params['pjax']['id'],
     ]);
     $this->registerJs("$('.server-view').serverTaskChecker($checkerOptions);");
-}
+};

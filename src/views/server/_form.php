@@ -34,6 +34,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
         'server',
         'dc',
         'type',
+        'state',
         'ips',
         'mac',
         'order_no',
@@ -93,7 +94,10 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                 <div class="col-md-3">
                                     <?= $form->field($model, "[$i]label") ?>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-1">
+                                    <?= $form->field($model, "[$i]state")->dropDownList($model->getStateOptions()) ?>
+                                </div>
+                                <div class="col-md-5">
                                     <?= $form->field($model, "[$i]hwsummary") ?>
                                 </div>
                             </div>

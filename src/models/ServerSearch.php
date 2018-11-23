@@ -28,6 +28,14 @@ class ServerSearch extends Server
             'with_requests',
             'show_deleted',
             'with_discounts',
+            'wizzarded_eq'
+        ]);
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'wizzarded_eq' => \Yii::t('hipanel:server', 'Is wizzarded')
         ]);
     }
 }

@@ -17,7 +17,6 @@ use hipanel\helpers\Url;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
 use hipanel\modules\server\menus\ServerActionsMenu;
-use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
@@ -51,7 +50,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 $title = $model->tariff;
             }
 
-            return Html::a($title, ['@tariff/view', 'id' => $model->tariff_id]);
+            return Html::a($title, ['@plan/view', 'id' => $model->tariff_id]);
         }
 
         return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
@@ -241,48 +240,19 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 },
             ],
             'rack' => [
-                'format' => 'html',
-                'filter' => false,
-                'visible' => $canAdmin,
-                'value'  => function ($model) {
-                    return $this->renderSwitchPort($model->bindings['rack']);
-                },
+                'class' => BindingColumn::class,
             ],
             'net' => [
-                'format' => 'html',
-                'filter' => false,
-                'visible' => $canAdmin,
-                'value'  => function ($model) {
-                    return $this->renderSwitchPort($model->bindings['net']);
-                },
+                'class' => BindingColumn::class,
             ],
             'kvm' => [
-                'format' => 'html',
-                'filter' => false,
-                'visible' => $canAdmin,
-                'value'  => function ($model) {
-                    return $this->renderSwitchPort($model->bindings['kvm']);
-                },
+                'class' => BindingColumn::class,
             ],
             'pdu' => [
-                'format' => 'html',
-                'filter' => false,
-                'visible' => $canAdmin,
-                'value'  => function ($model) {
-                    return $this->renderSwitchPort($model->bindings['pdu']);
-                },
+                'class' => BindingColumn::class,
             ],
             'ipmi' => [
-                'format' => 'raw',
-                'filter' => false,
-                'visible' => $canAdmin,
-                'value'  => function ($model) {
-                    if (($ipmi = $model->getBinding('ipmi')) !== null) {
-                        $link = Html::a($ipmi->device_ip, "http://$ipmi->device_ip/", ['target' => '_blank']) . ' ';
-
-                        return $link . $this->renderSwitchPort($ipmi);
-                    }
-                },
+                'class' => BindingColumn::class,
             ],
             'nums' => [
                 'label' => '',
@@ -303,23 +273,5 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'menuClass' => ServerActionsMenu::class,
             ],
         ]);
-    }
-
-    /**
-     * @param Binding|null $binding
-     * @return string
-     */
-    protected function renderSwitchPort(?Binding $binding)
-    {
-        if ($binding === null) {
-            return '';
-        }
-
-        $label  = $binding->switch_label;
-        $inn    = $binding->switch_inn;
-        $inn    = $inn ? "($inn) " : '';
-        $main   = $binding->switch . ($binding->port ? ':' . $binding->port : '');
-
-        return "$inn<b>$main</b> $label";
     }
 }

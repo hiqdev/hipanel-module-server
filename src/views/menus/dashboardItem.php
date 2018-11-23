@@ -32,8 +32,11 @@ use yii\helpers\Url;
     ]) ?>
     <?php $box->endBody() ?>
     <?php $box->beginFooter() ?>
-    <?php if ($model->count['servers'] || Yii::$app->user->can('support')) : ?>
+    <?php if ($model->count['servers'] || Yii::$app->user->can('server.read')) : ?>
         <?= Html::a(Yii::t('hipanel', 'View') . $box->icon(), '@server/index', ['class' => 'small-box-footer']) ?>
+    <?php endif ?>
+    <?php if (Yii::$app->user->can('server.create')) : ?>
+        <?= Html::a(Yii::t('hipanel', 'Create') . $box->icon('fa-plus'), '@server/create', ['class' => 'small-box-footer']) ?>
     <?php endif ?>
     <?php if (Yii::$app->user->can('deposit')) : ?>
         <?= Html::a(Yii::t('hipanel', 'Buy') . $box->icon('fa-shopping-cart'), '@server/buy', ['class' => 'small-box-footer']) ?>

@@ -23,8 +23,19 @@ class Binding extends \hipanel\base\Model
     public function rules()
     {
         return [
-            [['device_id', 'switch_id'], 'integer'],
-            [['port', 'type', 'switch', 'switch_label', 'switch_inn', 'device_ip', 'switch_ip', 'web_iface_only'], 'string'],
+            [['device_id', 'switch_id', 'no', 'base_device_id'], 'integer'],
+            [
+                [
+                    'switch_name', 'device_name', 'base_device_name', 'port', 'type', 'switch', 'switch_label',
+                    'switch_inn', 'device_ip', 'switch_ip', 'web_iface_only',
+                ],
+                'string',
+            ],
         ];
+    }
+
+    public function getTypeWithNo()
+    {
+        return $this->type . $this->no;
     }
 }

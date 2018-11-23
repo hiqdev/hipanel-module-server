@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\helpers\ServerSort;
+use hipanel\modules\server\widgets\ServerNameBadge;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -26,7 +27,7 @@ $models = ServerSort::byServerName()->values($models);
             <div class="row">
                 <div class="col-md-5 text-right" style="line-height: 34px;">
                     <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
-                    <strong><?= $model->name ?></strong>
+                    <?= ServerNameBadge::widget(['model' => $model]) ?>
                 </div>
                 <div class="col-md-7">
                     <?= $form->field($model, "[$model->id]label")->textInput([

@@ -19,6 +19,12 @@ use hipanel\validators\RefValidator;
 use Yii;
 use yii\base\NotSupportedException;
 
+/**
+ * Class Server
+ *
+ * @property int $id
+ * @property string $name
+ */
 class Server extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;
@@ -265,7 +271,9 @@ class Server extends \hipanel\base\Model
 
     public function getBindings()
     {
-        return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
+        return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy(function ($binding) {
+            return $binding->typeWithNo;
+        });
     }
 
     public function getMonitoringSettings()
@@ -340,6 +348,15 @@ class Server extends \hipanel\base\Model
     public function getTypeOptions(): array
     {
         return Ref::getList('type,device,server', 'hipanel:server');
+    }
+
+    public function getStateOptions(): array
+    {
+        return [
+            self::STATE_DISABLED    => Yii::t('hipanel:server', 'Ok, panel OFF'),
+            self::STATE_OK          => Yii::t('hipanel:server', 'Ok'),
+            self::STATE_BLOCKED     => Yii::t('hipanel:server', 'Blocked'),
+        ];
     }
 
     /**

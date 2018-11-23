@@ -226,6 +226,7 @@ return [
     'Setuping' => 'Устанавливается',
     'Failed' => 'Ошибка',
     'Disabled' => 'Ок, без панели',
+    'Ok, panel OFF' => 'Ок, без панели',
 
     'Switches' => 'Свитчи',
     'Switch' => 'Свитч',
@@ -273,6 +274,7 @@ return [
     'Server has been updated' => 'Сервер был изменён',
     'No resources found' => 'Ресурсы не найдены',
 
+    'included' => 'включено',
     'limit' => 'лимит',
     'overuse' => 'перебор',
     'price' => 'цена',
@@ -281,5 +283,12 @@ return [
     'This month {month_year,date,MMMM yyyy}' => 'Этот месяц {month_year,date,LLL yyyy}',
     'Previous month {month_year,date,MMMM yyyy}' => 'Предыдущий месяц {month_year,date,LLL yyyy}',
     'See chart' => 'Смотреть график',
-    'Selected servers' => 'Выбранные серверы'
+    'See charts' => 'Смотреть графики',
+    'Selected servers' => 'Выбранные серверы',
+    '{switch}::{port} already taken by {device}' => '{switch}::{port} уже занят {device}',
+
+    'All' => 'Все',
+    'Wizzarded' => 'С панелью',
+    'Not wizzarded' => 'Без панели',
+    'Is wizzarded' => 'Наличие панели',
 ];

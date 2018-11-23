@@ -90,4 +90,12 @@ use hipanel\widgets\RefCombo;
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('tariff_like') ?>
     </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('wizzarded_eq')->dropDownList([
+            null    => Yii::t('hipanel:server', 'All'),
+            0       => Yii::t('hipanel:server', 'Not wizzarded'),
+            1       => Yii::t('hipanel:server', 'Wizzarded'),
+        ]) ?>
+    </div>
 <?php endif ?>

@@ -2,6 +2,10 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\helpers\ArrayHelper;
+use hipanel\modules\finance\providers\BillTypesProvider;
+use Yii;
+
 /**
  * Class Consumption
  *
@@ -21,6 +25,22 @@ class Consumption extends \hipanel\base\Model
             [['type', 'limit', 'time', 'unit', 'action_unit', 'currency'], 'string'],
             [['price'], 'number'],
         ];
+    }
+
+    /**
+     * Get type label
+     * @return string
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getTypeLabel(): string
+    {
+        $provider = Yii::createObject(BillTypesProvider::class);
+        $types = ArrayHelper::index($provider->getTypes(), 'name');
+        if (!isset($types[$this->type])) {
+            return '--';
+        }
+
+        return $types[$this->type]->label;
     }
 
     public function getCurrentValue(): ?string

@@ -11,17 +11,23 @@ use yii\bootstrap\Html;
 
 $this->title = Yii::t('hipanel:server', 'Assign hubs');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
+if (count($models) === 1) {
+    $this->params['breadcrumbs'][] = ['label' => reset($models)->name, 'url' => ['view', 'id' => reset($models)->id]];
+}
 $this->params['breadcrumbs'][] = $this->title;
-
+$variantMap = [
+    'pdu2' => 'pdu',
+    'ipmi' => 'net',
+    'nic2' => 'net',
+];
 ?>
 
 <?php $form = ActiveForm::begin([
     'id' => 'assign-hubs-form',
-    'layout' => 'inline',
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => 'default']),
+    'validationUrl' => Url::toRoute(['validate-assign-hubs-form', 'scenario' => 'default']),
 ]) ?>
 
 <?php DynamicFormWidget::begin([
@@ -62,50 +68,35 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <div class="col-xs-3">
-                            <?= Html::label($model->getAttributeLabel('rack')) ?>
-                            <br>
-                            <?= $form->field($model, "[$i]rack_id")->widget(HubCombo::class, ['hubType' => HubCombo::RACK]) ?>
-                            <?= $form->field($model, "[$i]rack_port") ?>
-                        </div>
-                        <div class="col-xs-3">
-                            <?= Html::label($model->getAttributeLabel('net')) ?>
-                            <br>
-                            <?= $form->field($model, "[$i]net_id")->widget(HubCombo::class, ['hubType' => HubCombo::NET]) ?>
-                            <?= $form->field($model, "[$i]net_port") ?>
-                        </div>
-                        <div class="col-xs-3">
-                            <?= Html::label($model->getAttributeLabel('pdu')) ?>
-                            <br>
-                            <?= $form->field($model, "[$i]pdu_id")->widget(HubCombo::class, ['hubType' => HubCombo::PDU]) ?>
-                            <?= $form->field($model, "[$i]pdu_port") ?>
-                        </div>
-                        <div class="col-xs-3">
-                            <?= Html::label($model->getAttributeLabel('ipmi')) ?>
-                            <br>
-                            <?= $form->field($model, "[$i]ipmi_id")->widget(HubCombo::class, ['hubType' => HubCombo::IPMI]) ?>
-                            <?= $form->field($model, "[$i]ipmi_port") ?>
-                        </div>
-                    </div>
-                    <div class="row" style="margin-top: 2rem">
-                        <div class="col-xs-3">
-                            <?= Html::label($model->getAttributeLabel('kvm')) ?>
-                            <br>
-                            <?= $form->field($model, "[$i]kvm_id")->widget(HubCombo::class, ['hubType' => HubCombo::KVM]) ?>
-                            <?= $form->field($model, "[$i]kvm_port") ?>
-                        </div>
-                        <div class="col-xs-3">
-                            <?= Html::label($model->getAttributeLabel('nic2')) ?>
-                            <br>
-                            <?= $form->field($model, "[$i]nic2_id")->widget(HubCombo::class, ['hubType' => HubCombo::NET]) ?>
-                            <?= $form->field($model, "[$i]nic2_port") ?>
-                        </div>
-                        <div class="col-xs-3">
-                            <?= Html::label($model->getAttributeLabel('pdu2')) ?>
-                            <br>
-                            <?= $form->field($model, "[$i]pdu2_id")->widget(HubCombo::class, ['hubType' => HubCombo::PDU]) ?>
-                            <?= $form->field($model, "[$i]pdu2_port") ?>
-                        </div>
+                        <?php foreach (array_chunk([
+                            'rack', 'net', 'pdu', 'ipmi', 'kvm', 'nic2', 'pdu2',
+                        ], 4) as $rows) : ?>
+                            <?php foreach ($rows as $variant) : ?>
+                                <div class="col-md-3">
+                                    <table class="table table-condensed" style="table-layout: fixed;">
+                                        <thead>
+                                        <tr>
+                                            <th><?= Html::label($model->getAttributeLabel($variant)) ?></th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td>
+                                                <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, [
+                                                    'name' => $variant,
+                                                    'hubType' => $variantMap[$variant] ?? $variant,
+                                                ])->label(false) ?>
+                                            </td>
+                                            <td>
+                                                <?= $form->field($model, "[$i]{$variant}_port")->label(false) ?>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            <?php endforeach; ?>
+                            <div class="clearfix"></div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
             </div>
