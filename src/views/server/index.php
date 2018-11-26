@@ -120,7 +120,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'linkOptions' => ['data-action' => 'set-rack-no'],
                             'visible' => Yii::$app->user->can('server.update'),
                         ],
-                        Yii::$app->user->can('manage') ? AjaxModalWithTemplatedButton::widget([
+                        Yii::$app->user->can('consumption.delete') ? AjaxModalWithTemplatedButton::widget([
                             'ajaxModalOptions' => [
                                 'id' => 'clear-resources-modal',
                                 'bulkPage' => true,
@@ -133,7 +133,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                         ]) : null,
-                        Yii::$app->user->can('manage') ? AjaxModalWithTemplatedButton::widget([
+                        Yii::$app->user->can('consumption.delete') ? AjaxModalWithTemplatedButton::widget([
                             'ajaxModalOptions' => [
                                 'id' => 'flush-modal',
                                 'bulkPage' => true,

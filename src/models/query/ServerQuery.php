@@ -17,7 +17,7 @@ class ServerQuery extends ActiveQuery
 {
     public function withBindings(): self
     {
-        if (Yii::$app->user->can('admin')) {
+        if (Yii::$app->user->can('hub.read')) {
             $this->joinWith('bindings');
             $this->andWhere(['with_bindings' => true]);
         }

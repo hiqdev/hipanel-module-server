@@ -58,7 +58,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <?php Pjax::end() ?>
             <?php Box::end() ?>
 
-            <?php if ($model->isVNCSupported() && Yii::$app->user->can('server.system-management')) : ?>
+            <?php if ($model->isVNCSupported() && Yii::$app->user->can('server.control-system')) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -74,7 +74,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <?php if (Yii::$app->user->can('server.system-management') || Yii::$app->user->can('server.power-management')) : ?>
+            <?php if (Yii::$app->user->can('server.control-system') || Yii::$app->user->can('server.control-power')) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -84,7 +84,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         $box->endHeader();
                         $box->beginBody() ?>
                         <div class="row">
-                            <?php if (Yii::$app->user->can('server.power-management')) : ?>
+                            <?php if (Yii::$app->user->can('server.control-power')) : ?>
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <?= SimpleOperation::widget([
                                         'model' => $model,
@@ -119,7 +119,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                     ]) ?>
                                 </div>
                             <?php endif ?>
-                            <?php if ($model->isLiveCDSupported() && Yii::$app->user->can('server.system-management')) : ?>
+                            <?php if ($model->isLiveCDSupported() && Yii::$app->user->can('server.control-system')) : ?>
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <?= BootLive::widget([
                                         'model' => $model,
@@ -127,7 +127,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                     ]) ?>
                                 </div>
                             <?php endif ?>
-                            <?php if ($model->isVirtualDevice() && Yii::$app->user->can('server.system-management')) : ?>
+                            <?php if ($model->isVirtualDevice() && Yii::$app->user->can('server.control-system')) : ?>
                                 <div class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
                                     <?= $this->render('_reinstall', compact(['model', 'groupedOsimages', 'panels'])) ?>
                                 </div>
@@ -145,7 +145,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <?php if ($model->isVirtualDevice() && Yii::$app->user->can('server.power-management')) : ?>
+            <?php if ($model->isVirtualDevice() && Yii::$app->user->can('server.control-power')) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php
@@ -328,13 +328,13 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                 </div>
                 <?php Pjax::end() ?>
             </div>
-            <?php if (Yii::$app->user->can('admin') && !empty($model->bindings)) : ?>
+            <?php if (Yii::$app->user->can('hub.read') && !empty($model->bindings)) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php $box = Box::begin(['renderBody' => false]) ?>
                         <?php $box->beginHeader() ?>
                             <?= $box->renderTitle(Yii::t('hipanel:server', 'Switches')) ?>
-                            <?php if (Yii::$app->user->can('support')) : ?>
+                            <?php if (Yii::$app->user->can('server.update')) : ?>
                                 <?php $box->beginTools(['class' => 'box-tools pull-right']) ?>
                                     <?= Html::a(
                                         Yii::t('hipanel:server', 'Assign hubs'),
@@ -363,7 +363,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('admin')) : ?>
+            <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('part.read')) : ?>
                 <div class="row">
                     <?php Pjax::begin(['enablePushState' => false]) ?>
                     <div class="col-md-12">
@@ -466,7 +466,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <?php endif ?>
         </div>
         <div class="clearfix"></div>
-        <?php if (Yii::$app->user->can('support') && $model->consumptions) : ?>
+        <?php if (Yii::$app->user->can('consumption.read') && $model->consumptions) : ?>
             <div class="col-md-7">
                 <?= ResourceConsumptionTable::widget(['model' => $model]) ?>
             </div>
