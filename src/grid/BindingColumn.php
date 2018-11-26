@@ -17,7 +17,7 @@ class BindingColumn extends DataColumn
     public function init()
     {
         parent::init();
-        $this->visible = Yii::$app->user->can('admin');
+        $this->visible = Yii::$app->user->can('hub.read');
         $this->label = $this->getLabel();
     }
 

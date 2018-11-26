@@ -56,7 +56,9 @@ $this->registerCss('
                     'toggleButton' => ['label' => Yii::t('hipanel:server:hub', 'Sell switches'), 'class' => 'btn btn-default btn-sm'],
                 ]) ?>
             <?php endif; ?>
-            <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
+            <?php if (Yii::$app->user->can('hub.update')) : ?>
+                <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
+            <?php endif ?>
         <?php $page->endContent('bulk-actions') ?>
 
         <?php $page->beginContent('table') ?>

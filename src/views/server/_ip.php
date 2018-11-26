@@ -9,7 +9,7 @@ if (Yii::getAlias('@ip', false) && $model->ips_num) : ?>
     <?php $box = Box::begin(['renderBody' => false]) ?>
         <?php $box->beginHeader() ?>
             <?= $box->renderTitle(Yii::t('hipanel:server', 'IP addresses'), $model->ips_num) ?>
-            <?php if (Yii::$app->user->can('support')) : ?>
+            <?php if (Yii::$app->user->can('ip.read')) : ?>
                 <?php $box->beginTools() ?>
                     <?= Html::a(
                         Yii::t('hipanel:server', 'Manage IP addresses'),
