@@ -43,7 +43,7 @@ class ServerQuery extends ActiveQuery
 
     public function withHardwareSettings(): self
     {
-        if (Yii::$app->user->can('admin')) {
+        if (Yii::$app->user->can('part.read')) {
             $this->joinWith(['hardwareSettings']);
             $this->andWhere(['with_hardwareSettings' => 1]);
         }
