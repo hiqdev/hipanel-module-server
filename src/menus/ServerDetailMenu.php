@@ -50,7 +50,7 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'modalFooterLoading' => Yii::t('hipanel:server', 'Resetting...'),
                     'modalFooterClass' => 'btn btn-danger',
                 ]),
-                'visible' => $this->model->isPwChangeSupported() && $user->can('server.system-management'),
+                'visible' => $this->model->isPwChangeSupported() && $user->can('server.control-system'),
                 'encode' => false,
             ],
             [
