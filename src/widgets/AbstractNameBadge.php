@@ -8,12 +8,17 @@ use hipanel\modules\server\models\Server;
 use hipanel\widgets\gridLegend\GridLegend;
 use yii\base\Widget;
 
-class NameBadgeInternal extends Widget
+abstract class AbstractNameBadge extends Widget
 {
     /**
      * @var string
      */
     public $gridLegendClass;
+
+    /**
+     * @var string
+     */
+    public $nameAttribute = 'name';
 
     /**
      * @var Hub|Server|HubSellForm
@@ -28,7 +33,7 @@ class NameBadgeInternal extends Widget
         $this->view->registerCss('.badge .item-badge-text { color: #bbbbbb; mix-blend-mode: difference; }');
 
         return <<<HTML
-<span class="badge" style="$colorString"><span class="item-badge-text">{$this->model->name}</span></span>
+<span class="badge" style="$colorString"><span class="item-badge-text">{$this->model->{$this->nameAttribute}}</span></span>
 HTML
             ;
     }
