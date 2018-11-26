@@ -23,16 +23,19 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
                 'label' => Yii::t('hipanel', 'View'),
                 'icon' => 'fa-info',
                 'url' => ['@hub/view', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('hub.read'),
             ],
             [
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@hub/update', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('hub.update'),
             ],
             [
                 'label' => Yii::t('hipanel:server:hub', 'Options'),
                 'icon' => 'fa-cogs',
                 'url' => ['@hub/options', 'id' => $this->model->id],
+                'visible' => Yii::$app->user->can('hub.update'),
             ],
         ];
     }

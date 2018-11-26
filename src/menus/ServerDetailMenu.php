@@ -50,12 +50,12 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'modalFooterLoading' => Yii::t('hipanel:server', 'Resetting...'),
                     'modalFooterClass' => 'btn btn-danger',
                 ]),
-                'visible' => $this->model->isPwChangeSupported(),
+                'visible' => $this->model->isPwChangeSupported() && $user->can('server.control-system'),
                 'encode' => false,
             ],
             [
                 'label' => BlockModalButton::widget(['model' => $this->model]),
-                'visible' => $user->can('support') && $user->not($this->model->client_id),
+                'visible' => ($user->can('server.enable-block') || ($user->can('server.disable-block'))) && $user->not($this->model->client_id),
                 'encode' => false,
             ],
             [
@@ -72,7 +72,7 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'modalFooterClass' => 'btn btn-danger',
                 ]),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('support'),
+                'visible' => Yii::$app->user->can('server.delete'),
             ],
         ]);
         unset($items['view']);

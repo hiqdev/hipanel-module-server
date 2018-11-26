@@ -43,7 +43,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
     protected function formatTariff($model)
     {
-        if (Yii::$app->user->can('manage')) {
+        if (Yii::$app->user->can('plan.read')) {
             if ($model->parent_tariff) {
                 $title = Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
             } else {
@@ -66,9 +66,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'class' => MainColumn::class,
                 'attribute' => 'name',
                 'filterAttribute' => 'name_like',
-                'note' => $canSupport ? 'label' : 'note',
+                'note' => Yii::$app->user->can('server.set-label') ? 'label' : 'note',
                 'noteOptions' => [
-                    'url' => $canSupport ? Url::to('set-label') : Url::to('set-note'),
+                    'url' => Yii::$app->user->can('server.set-label') ? Url::to('set-label') : (Yii::$app->user->can('server.set-note') ? Url::to('set-note') : ''),
                 ],
                 'badges' => function ($model) use ($canSupport) {
                     $badges = '';
@@ -207,10 +207,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'data-type' => 'textarea',
                     ],
                 ],
+                'visible' => Yii::$app->user->can('server.set-note'),
             ],
             'label' => [
                 'class' => XEditableColumn::class,
-                'visible' => $canSupport,
                 'pluginOptions' => [
                     'url'       => Url::to('set-label'),
                 ],
@@ -219,6 +219,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         'data-type' => 'textarea',
                     ],
                 ],
+                'visible' => Yii::$app->user->can('server.set-label'),
             ],
             'type' => [
                 'format' => 'html',

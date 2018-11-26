@@ -45,7 +45,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
-                'visible' => !empty($this->model->expires),
+                'visible' => !empty($this->model->expires) && Yii::$app->user->can('server.pay'),
             ],
             'update' => [
                 'label' => Yii::t('hipanel', 'Update'),
@@ -55,12 +55,13 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
+                'visible' => Yii::$app->user->can('server.update'),
             ],
             'assign-hubs' => [
                 'label' => Yii::t('hipanel:server', 'Assign hubs'),
                 'icon' => 'fa-exchange',
                 'url' => ['@server/assign-hubs', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('server.update') && $this->model->canAssignHubs(),
+                'visible' => $this->model->canAssignHubs() && Yii::$app->user->can('server.update'),
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
@@ -89,6 +90,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
+
             ],
             'software-settings' => [
                 'label' => Yii::t('hipanel:server', 'Software properties'),
@@ -116,6 +118,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
+                'visible' => $user->can('ip.read'),
             ],
             [
                 'label' => Yii::t('hipanel:server', 'Server Accounts'),
@@ -125,6 +128,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
+                'visible' => $user->can('account.read'),
             ],
         ];
     }
