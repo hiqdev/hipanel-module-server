@@ -6,6 +6,9 @@ use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\helpers\Html;
+use hipanel\widgets\AjaxModal;
+use yii\helpers\Url;
+use yii\bootstrap\Modal;
 
 $this->title = Yii::t('hipanel:server', 'Switches');
 $this->params['breadcrumbs'][] = $this->title;
@@ -41,6 +44,18 @@ $this->registerCss('
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
+            <?php if (Yii::$app->user->can('hub.sell')) : ?>
+                <?= AjaxModal::widget([
+                    'bulkPage' => true,
+                    'id' => 'hubs-sell',
+                    'scenario' => 'sell',
+                    'actionUrl' => ['sell'],
+                    'handleSubmit' => Url::toRoute('sell'),
+                    'size' => Modal::SIZE_LARGE,
+                    'header' => Html::tag('h4', Yii::t('hipanel:server:hub', 'Sell switches'), ['class' => 'modal-title']),
+                    'toggleButton' => ['label' => Yii::t('hipanel:server:hub', 'Sell switches'), 'class' => 'btn btn-default btn-sm'],
+                ]) ?>
+            <?php endif; ?>
             <?php if (Yii::$app->user->can('hub.update')) : ?>
                 <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
             <?php endif ?>
