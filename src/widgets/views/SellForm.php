@@ -1,7 +1,7 @@
 <?php
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
-use hipanel\modules\finance\widgets\TariffCombo;
+use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\server\forms\HubSellForm;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\HubNameBadge;
@@ -78,8 +78,8 @@ use yii\web\View;
                         ],
                     ])->hint($this->context->isServer() ? Yii::t('hipanel:server', 'Clear this input to unsale the servers') : '') ?>
 
-                    <?= $form->field($model, 'tariff_id')->widget(TariffCombo::class, [
-                        'tariffType' => 'server',
+                    <?= $form->field($model, 'tariff_id')->widget(PlanCombo::class, [
+                        /// TODO think: 'tariffType' => 'server'
                         'inputOptions' => [
                             'name' => 'tariff_id',
                         ],
@@ -144,9 +144,9 @@ use yii\web\View;
                                 <div class="row">
                                     <div class="col-md-6">
                                         <?= $form->field($model, "[$model->id]tariff_id")
-                                            ->widget(TariffCombo::class, [
-                                                'tariffType' => $this->context->isServer() ? 'server' : '',
-                                                'inputOptions' => ['ref' => 'tariff-combo'],
+                                            ->widget(PlanCombo::class, [
+                                                /// TODO think: 'tariffType' => $this->context->isServer() ? 'server' : '',
+                                                'inputOptions' => ['ref' => 'plan-combo'],
                                             ])
                                             ->label(false)
                                         ?>
@@ -190,5 +190,5 @@ use yii\web\View;
 </div>
 
 <?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
-    'inputSelectors' => ['select[ref=tariff-combo]', 'input[ref=sale-time-combo]'],
+    'inputSelectors' => ['select[ref=plan-combo]', 'input[ref=sale-time-combo]'],
 ]) ?>
