@@ -293,4 +293,11 @@ return [
     'Is wizzarded' => 'Наличие панели',
 
     'Affected items' => 'Затронутые элементы',
+    'rent' => 'аренда',
+    'sold' => 'выкуп',
+    'leasing' => 'лизинг',
+    'Monthly fee' => 'Ежемесячная плата',
+    'Traffic' => 'Трафик',
+    'Additional services' => 'Доп. услуги',
+    'Type of sale' => 'Тип продажи',
 ];

@@ -126,6 +126,10 @@ class ServerController extends CrudController
                             ->andWhere(['with_ips' => 1]);
                     }
 
+                    if ($this->indexPageUiOptionsModel->representation === 'billing' && Yii::$app->user->can('consumption.read')) {
+                        $dataProvider->query->withConsumptions()->withHardwarePrices();
+                    }
+
                     $dataProvider->query
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])

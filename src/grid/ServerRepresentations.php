@@ -15,11 +15,11 @@ use Yii;
 
 class ServerRepresentations extends RepresentationCollection
 {
-    protected function fillRepresentations()
+    protected function fillRepresentations(): void
     {
         $this->representations = array_filter([
             'common' => [
-                'label'   => Yii::t('hipanel', 'common'),
+                'label' => Yii::t('hipanel', 'common'),
                 'columns' => [
                     'checkbox',
                     'actions',
@@ -29,7 +29,7 @@ class ServerRepresentations extends RepresentationCollection
                 ],
             ],
             'short' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel:server', 'short'),
+                'label' => Yii::t('hipanel:server', 'short'),
                 'columns' => [
                     'checkbox',
                     'actions',
@@ -37,7 +37,7 @@ class ServerRepresentations extends RepresentationCollection
                 ],
             ] : null,
             'hardware' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel:server', 'hardware'),
+                'label' => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',
                     'actions',
@@ -45,7 +45,7 @@ class ServerRepresentations extends RepresentationCollection
                 ],
             ] : null,
             'manager' => Yii::$app->user->can('manage') ? [
-                'label'   => Yii::t('hipanel:server', 'manager'),
+                'label' => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
                     'checkbox',
                     'actions',
@@ -54,8 +54,22 @@ class ServerRepresentations extends RepresentationCollection
                     'hwsummary', 'nums',
                 ],
             ] : null,
+            'billing' => Yii::$app->user->can('consumption.read') && Yii::$app->user->can('manage') ? [
+                'label' => Yii::t('hipanel:server', 'billing'),
+                'columns' => [
+                    'checkbox',
+                    'actions',
+                    'rack',
+                    'server',
+                    'client_like',
+                    'monthly_fee',
+                    'traffic',
+                    'additional_services',
+                    'type_of_sale',
+                ],
+            ] : null,
             'admin' => Yii::$app->user->can('support') ? [
-                'label'   => Yii::t('hipanel:server', 'admin'),
+                'label' => Yii::t('hipanel:server', 'admin'),
                 'columns' => [
                     'checkbox',
                     'actions',

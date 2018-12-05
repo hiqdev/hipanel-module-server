@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\models;
 
 use hipanel\models\Ref;
+use hipanel\modules\finance\models\Price;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\query\ServerQuery;
@@ -65,7 +66,7 @@ class Server extends \hipanel\base\Model
                 'safe',
             ],
             [['show_del', 'show_nic', 'show_vds', 'show_jail'], 'boolean'],
-            [['switches', 'rack', 'net', 'kvm', 'pdu', 'ipmi'], 'safe'],
+            [['switches', 'rack', 'net', 'kvm', 'pdu', 'ipmi', 'prices'], 'safe'],
             [['last_expires', 'expires', 'status_time'], 'date'],
             [['time'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [
