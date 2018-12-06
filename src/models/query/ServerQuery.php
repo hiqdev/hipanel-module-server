@@ -61,10 +61,17 @@ class ServerQuery extends ActiveQuery
         return $this;
     }
 
-    public function withConsumptions()
+    public function withConsumptions(): self
     {
         $this->joinWith('consumptions');
         $this->andWhere(['with_consumptions' => true]);
+
+        return $this;
+    }
+
+    public function withHardwarePrices(): self
+    {
+        $this->andWhere(['with_hardwarePrices' => true]);
 
         return $this;
     }

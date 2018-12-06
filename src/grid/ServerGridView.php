@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\base\Model;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
@@ -17,16 +18,20 @@ use hipanel\helpers\Url;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
 use hipanel\modules\server\menus\ServerActionsMenu;
+use hipanel\modules\server\models\Consumption;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
+use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\modules\server\widgets\State;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\gridLegend\ColorizeGrid;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\Label;
 use hiqdev\yii2\menus\grid\MenuColumn;
+use Tuck\Sort\Sort;
 use Yii;
+use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -45,7 +50,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
     {
         if (Yii::$app->user->can('plan.read')) {
             if ($model->parent_tariff) {
-                $title = Html::tag('abbr', $model->parent_tariff, ['title' => $model->tariff, 'data-toggle' => 'tooltip']);
+                $title = Html::tag('abbr', $model->parent_tariff, [
+                    'title' => $model->tariff, 'data-toggle' => 'tooltip',
+                ]);
             } else {
                 $title = $model->tariff;
             }
@@ -107,7 +114,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'value' => function ($model) use ($canSupport) {
                     $value = $model->getPanel() ? Yii::t('hipanel:server:panel', $model->getPanel()) : Yii::t('hipanel:server:panel', 'No control panel');
                     if ($canSupport) {
-                        $value .= $model->wizzarded ? Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']) : '';
+                        $value .= $model->wizzarded ? Label::widget([
+                            'label' => 'W', 'tag' => 'sup', 'color' => 'success',
+                        ]) : '';
                     }
 
                     return $value;
@@ -169,9 +178,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'raw',
                 'value' => function ($model) {
                     return $this->formatTariff($model) . ' ' . DiscountFormatter::widget([
-                        'current' => $model->discounts['fee']['current'],
-                        'next' => $model->discounts['fee']['next'],
-                    ]);
+                            'current' => $model->discounts['fee']['current'],
+                            'next' => $model->discounts['fee']['next'],
+                        ]);
                 },
             ],
             'ip' => [
@@ -200,7 +209,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'note' => [
                 'class' => XEditableColumn::class,
                 'pluginOptions' => [
-                    'url'       => Url::to('set-note'),
+                    'url' => Url::to('set-note'),
                 ],
                 'widgetOptions' => [
                     'linkOptions' => [
@@ -212,7 +221,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'label' => [
                 'class' => XEditableColumn::class,
                 'pluginOptions' => [
-                    'url'       => Url::to('set-label'),
+                    'url' => Url::to('set-label'),
                 ],
                 'widgetOptions' => [
                     'linkOptions' => [
@@ -224,7 +233,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'type' => [
                 'format' => 'html',
                 'filter' => false,
-                'value'  => function ($model) {
+                'value' => function ($model) {
                     return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
                 },
             ],
@@ -232,7 +241,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'label' => Yii::t('hipanel', 'Type'),
                 'format' => 'html',
                 'filter' => false,
-                'value'  => function ($model) {
+                'value' => function ($model) {
                     return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
                 },
                 'contentOptions' => function ($model) {
@@ -268,10 +277,191 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     return Html::tag('nobr', $ips) . ' ' . Html::tag('nobr', $acs);
                 },
             ],
+            'monthly_fee' => [
+                'label' => Yii::t('hipanel:finance', 'Monthly fee'),
+                'format' => 'html',
+                'filter' => false,
+                'value' => function ($model) {
+                    return isset($model->consumptions['monthly,monthly']) ? $this->getFormattedConsumptionFor($model->consumptions['monthly,monthly']) : null;
+                },
+                'visible' => Yii::$app->user->can('consumption.read'),
+            ],
+            'traffic' => [
+                'label' => Yii::t('hipanel:server', 'Traffic'),
+                'format' => 'html',
+                'filter' => false,
+                'value' => function ($model) {
+                    return isset($model->consumptions['overuse,server_traf_max']) ? $this->getFormattedConsumptionFor($model->consumptions['overuse,server_traf_max']) : null;
+                },
+                'visible' => Yii::$app->user->can('consumption.read'),
+            ],
+            'additional_services' => [
+                'label' => Yii::t('hipanel:server', 'Additional services'),
+                'format' => 'raw',
+                'filter' => false,
+                'contentOptions' => ['class' => 'no-padding'],
+                'value' => function ($model) {
+                    return $this->getAdditionalServices($model);
+                },
+                'visible' => Yii::$app->user->can('consumption.read'),
+            ],
+            'type_of_sale' => [
+                'label' => Yii::t('hipanel:server', 'Type of sale'),
+                'format' => 'raw',
+                'filter' => false,
+                'value' => function ($model) {
+                    return $this->getTypeOfSale($model);
+                },
+                'visible' => Yii::$app->user->can('consumption.read'),
+            ],
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => ServerActionsMenu::class,
+                'contentOptions' => [
+                    'class' => 'text-center',
+                    'style' => 'width:1%; white-space:nowrap;',
+                ],
             ],
         ]);
+    }
+
+    private function getFormattedConsumptionFor(Consumption $consumption): string
+    {
+        $result = '';
+        $widget = Yii::createObject(['class' => ResourceConsumptionTable::class, 'model' => $consumption]);
+
+        if ($limit = $widget->getFormatted($consumption, $consumption->limit)) {
+            $result .= sprintf('%s: %s<br />',
+                Html::tag('b', Yii::t('hipanel:server', 'included')),
+                $limit
+            );
+        }
+        if ($price = Yii::$app->formatter->asCurrency($consumption->price, $consumption->currency)) {
+            $result .= sprintf('%s: %s',
+                Html::tag('b', Yii::t('hipanel:server', 'price')),
+                $price
+            );
+        }
+
+        return $result;
+    }
+
+    private function getAdditionalServices($model): string
+    {
+        $additional = new class() extends Model
+        {
+            /**
+             * @var string
+             */
+            public $typeLabel;
+
+            /**
+             * @var string
+             */
+            public $value;
+        };
+        $models = [];
+        if (isset($model->consumptions['overuse,support_time'])) {
+            $support = $model->consumptions['overuse,support_time'];
+            $models[] = new $additional([
+                'typeLabel' => Yii::t('hipanel.server.consumption.type', $support->typeLabel),
+                'value' => $this->getFormattedConsumptionFor($support),
+            ]);
+        }
+        if (isset($model->consumptions['overuse,backup_du'])) {
+            $backup = $model->consumptions['overuse,backup_du'];
+            $models[] = new $additional([
+                'typeLabel' => Yii::t('hipanel.server.consumption.type', $backup->typeLabel),
+                'value' => $this->getFormattedConsumptionFor($backup),
+            ]);
+        }
+        if (isset($model->consumptions['monthly,win_license'])) {
+            $win_license = $model->consumptions['monthly,win_license'];
+            $models[] = new $additional([
+                'typeLabel' => Yii::t('hipanel.server.consumption.type', $win_license->typeLabel),
+                'value' => $this->getFormattedConsumptionFor($win_license),
+            ]);
+        }
+
+        return \yii\grid\GridView::widget([
+            'layout' => '{items}',
+            'showOnEmpty' => false,
+            'emptyText' => '',
+            'tableOptions' => ['class' => 'table table-striped table-condensed'],
+            'headerRowOptions' => [
+                'style' => 'display: none;',
+            ],
+            'dataProvider' => new ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
+            'columns' => [
+                [
+                    'attribute' => 'typeLabel',
+                ],
+                [
+                    'attribute' => 'value',
+                    'format' => 'html',
+                ],
+            ],
+        ]);
+    }
+
+    private function getTypeOfSale($model): string
+    {
+        $html = '';
+        $badgeColors = [
+            'leasing' => 'bg-orange',
+            'rent' => 'bg-purple',
+            'sold' => 'bg-olive',
+        ];
+        if ($model->prices) {
+            foreach ($model->prices as $saleType => $prices) {
+                $html .= ArraySpoiler::widget([
+                    'data' => Sort::by($prices, function ($price) {
+                        $order = ['CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
+                        $type = substr($price['part'], 0, strpos($price['part'], ':'));
+                        $key = array_search($type, $order, true);
+                        if ($key !== false) {
+                            return $key;
+                        }
+
+                        return INF;
+                    }),
+                    'delimiter' => '<br/>',
+                    'visibleCount' => 0,
+                    'button' => [
+                        'label' => Yii::t('hipanel:server', $saleType) . ' ' . (count($prices)),
+                        'tag' => 'button',
+                        'type' => 'button',
+                        'class' => "btn btn-xs {$badgeColors[$saleType]}",
+                        'popoverOptions' => [
+                            'html' => true,
+                            'placement' => 'bottom',
+                            'title' => Yii::t('hipanel:stock', 'Parts'),
+                            'template' => '
+                                <div class="popover" role="tooltip">
+                                    <div class="arrow"></div>
+                                    <h3 class="popover-title"></h3>
+                                    <div class="popover-content" style="height: 25rem; overflow-x: scroll;"></div>
+                                </div>
+                            ',
+
+                        ],
+                    ],
+                    'formatter' => function ($item) {
+                        $title = $item['part'];
+                        if ($item['serialno']) {
+                            $title .= ': ' .$item['serialno'];
+                        }
+
+                        return Html::a(
+                            $title,
+                            ['@part/view', 'id' => $item['part_id']],
+                            ['class' => 'text-nowrap', 'target' => '_blank']
+                        );
+                    },
+                ]);
+            }
+        }
+
+        return $html;
     }
 }
