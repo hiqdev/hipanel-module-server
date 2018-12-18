@@ -43,4 +43,7 @@ class ServerCombo extends Combo
             'client/client' => 'client',
         ],
     ];
+
+    /** {@inheritdoc} */
+    protected $_primaryFilter = 'name_inilike';
 }

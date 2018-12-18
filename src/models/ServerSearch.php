@@ -28,7 +28,8 @@ class ServerSearch extends Server
             'with_requests',
             'show_deleted',
             'with_discounts',
-            'wizzarded_eq'
+            'wizzarded_eq',
+            'name_inilike',
         ]);
     }
 
