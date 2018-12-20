@@ -94,4 +94,9 @@ class Hub extends \hipanel\base\Model
 
         return $this->bindings[$type];
     }
+
+    public function getHardwareSettings()
+    {
+        return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
+    }
 }
