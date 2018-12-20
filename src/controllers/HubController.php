@@ -21,6 +21,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\server\forms\HubSellForm;
+use hipanel\modules\server\models\HardwareSettings;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\Event;
@@ -57,10 +58,16 @@ class HubController extends CrudController
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['bindings']);
+                    $dataProvider->query->joinWith([
+                        'bindings',
+                        'hardwareSettings'
+                    ]);
                     $dataProvider->query
-                        ->andWhere(['with_bindings' => 1])
-                        ->andWhere(['with_servers' => 1]);
+                        ->andWhere([
+                            'with_bindings' => 1,
+                            'with_servers' => 1,
+                            'with_hardwareSettings' => 1,
+                        ]);
                 },
                 'class' => ViewAction::class,
             ],

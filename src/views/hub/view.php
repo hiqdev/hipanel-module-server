@@ -7,6 +7,7 @@ use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
 
+
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -51,9 +52,9 @@ $this->registerCss('
             </div>
         </div>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-4">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-12">
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
@@ -87,5 +88,9 @@ $this->registerCss('
                 ?>
             </div>
         </div>
+        <?= $this->render('@hipanel/modules/server/views/_configuration-view', [
+                'model' => $model,
+                'configAttrs' => ['units'],
+        ]) ?>
     </div>
 </div>

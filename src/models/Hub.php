@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\models;
 
 use hipanel\modules\server\validators\MacValidator;
+use hiqdev\hiart\ActiveQuery;
 use Yii;
 
 class Hub extends \hipanel\base\Model
@@ -93,5 +94,10 @@ class Hub extends \hipanel\base\Model
         }
 
         return $this->bindings[$type];
+    }
+
+    public function getHardwareSettings(): ActiveQuery
+    {
+        return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
     }
 }
