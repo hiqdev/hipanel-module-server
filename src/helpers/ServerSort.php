@@ -20,6 +20,7 @@ class ServerSort
     {
         $order = [
             'monthly,monthly',
+            'monthly,rack',
             'monthly,rack_unit',
             'monthly,hardware',
             'monthly,server_traf_max',
