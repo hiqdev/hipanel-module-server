@@ -12,6 +12,7 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
+use hipanel\actions\ProxyAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
@@ -103,6 +104,7 @@ class HubController extends CrudController
             'sell' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Switches were sold'),
+                'view' => 'modal/_bulkSale',
                 'collection' => [
                     'class' => Collection::class,
                     'model' => new HubSellForm(),
@@ -137,7 +139,6 @@ class HubController extends CrudController
                         }
                     }
                 },
-                'view' => 'modals/sell',
             ],
             'validate-sell-form' => [
                 'class' => ValidateFormAction::class,

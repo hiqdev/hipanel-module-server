@@ -25,7 +25,8 @@ class Hub extends \hipanel\base\Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'access_id', 'type_id', 'state_id', 'buyer_id', 'units'], 'integer'],
+            [['id', 'access_id', 'type_id', 'state_id', 'buyer_id', 'units', 'tariff_id', 'client_id'], 'integer'],
+            [['tariff', 'parent_tariff'], 'safe'],
             [[
                 'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'buyer', 'note', 'inn', 'model',
                 'community', 'login', 'traf_server_id', 'order_no', 'password', 'ports_num', 'traf_server_id',
@@ -33,6 +34,8 @@ class Hub extends \hipanel\base\Model
                 'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type',
             ], 'string'],
             [['virtual'], 'boolean'],
+
+            [['tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
 
             // Create and update
             [['type_id', 'name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
@@ -79,6 +82,7 @@ class Hub extends \hipanel\base\Model
             'rack' => Yii::t('hipanel:server', 'Rack'),
             'ipmi' => Yii::t('hipanel:server', 'IPMI'),
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
+            'sale_time' => Yii::t('hipanel:server', 'Sale time'),
         ]);
     }
 

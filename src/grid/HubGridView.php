@@ -23,6 +23,23 @@ class HubGridView extends \hipanel\grid\BoxedGridView
 {
     use ColorizeGrid;
 
+    protected function formatTariff($model): string
+    {
+        if (Yii::$app->user->can('plan.read')) {
+            if ($model->parent_tariff) {
+                $title = Html::tag('abbr', $model->parent_tariff, [
+                    'title' => $model->tariff, 'data-toggle' => 'tooltip',
+                ]);
+            } else {
+                $title = $model->tariff;
+            }
+
+            return Html::a($title, ['@plan/view', 'id' => $model->tariff_id]);
+        }
+
+        return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
+    }
+
     public function columns()
     {
         return array_merge(parent::columns(), [
@@ -88,6 +105,17 @@ class HubGridView extends \hipanel\grid\BoxedGridView
                 'value' => function ($model) {
                     return Yii::t('hipanel:server:hub', $model->type_label);
                 },
+            ],
+            'tariff' => [
+                'format' => 'raw',
+                'filterAttribute' => 'tariff_like',
+                'value' => function ($model): string {
+                    return $this->formatTariff($model);
+                },
+            ],
+            'sale_time' => [
+                'attribute' => 'sale_time',
+                'format' => 'datetime',
             ],
         ]);
     }
