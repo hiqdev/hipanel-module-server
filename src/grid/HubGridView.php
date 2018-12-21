@@ -14,6 +14,7 @@ use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\server\menus\HubActionsMenu;
+use hipanel\modules\server\models\Hub;
 use hipanel\widgets\gridLegend\ColorizeGrid;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
@@ -22,23 +23,6 @@ use yii\helpers\Html;
 class HubGridView extends \hipanel\grid\BoxedGridView
 {
     use ColorizeGrid;
-
-    protected function formatTariff($model): string
-    {
-        if (Yii::$app->user->can('plan.read')) {
-            if ($model->parent_tariff) {
-                $title = Html::tag('abbr', $model->parent_tariff, [
-                    'title' => $model->tariff, 'data-toggle' => 'tooltip',
-                ]);
-            } else {
-                $title = $model->tariff;
-            }
-
-            return Html::a($title, ['@plan/view', 'id' => $model->tariff_id]);
-        }
-
-        return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
-    }
 
     public function columns()
     {
@@ -109,8 +93,10 @@ class HubGridView extends \hipanel\grid\BoxedGridView
             'tariff' => [
                 'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
-                'value' => function ($model): string {
-                    return $this->formatTariff($model);
+                'value' => function (Hub $model): string {
+                    return Yii::$app->user->can('plan.read')
+                        ? Html::a($model->tariff, ['@plan/view', 'id' => $model->tariff_id])
+                        : $model->tariff;
                 },
             ],
             'sale_time' => [
