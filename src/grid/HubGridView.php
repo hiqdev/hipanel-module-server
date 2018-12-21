@@ -23,7 +23,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
 {
     use ColorizeGrid;
 
-    protected function formatTariff($model)
+    protected function formatTariff($model): string
     {
         if (Yii::$app->user->can('plan.read')) {
             if ($model->parent_tariff) {
@@ -109,7 +109,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
             'tariff' => [
                 'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
-                'value' => function ($model) {
+                'value' => function ($model): string {
                     return $this->formatTariff($model);
                 },
             ],

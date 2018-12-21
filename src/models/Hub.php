@@ -25,7 +25,7 @@ class Hub extends \hipanel\base\Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'access_id', 'type_id', 'state_id', 'buyer_id', 'units', 'tariff_id'], 'integer'],
+            [['id', 'access_id', 'type_id', 'state_id', 'buyer_id', 'units', 'tariff_id', 'client_id'], 'integer'],
             [['tariff', 'parent_tariff'], 'safe'],
             [[
                 'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'buyer', 'note', 'inn', 'model',

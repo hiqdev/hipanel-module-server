@@ -1,11 +1,14 @@
 <?php
 
+use hipanel\helpers\Url;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
+use hipanel\modules\server\widgets\SellForm;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use hipanel\widgets\Pjax;
+use hipanel\widgets\SettingsModal;
 use yii\helpers\Html;
 
 
@@ -92,21 +95,35 @@ $this->registerCss('
         <div class="row">
             <?php Pjax::begin(['enablePushState' => false]) ?>
             <div class="col-md-12">
-                <?php $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
-                    $box->endHeader();
-                    $box->beginBody();
-                        echo HubGridView::detailView([
-                            'boxed'   => false,
-                            'model'   => $model,
-                            'columns' => [
-                                'tariff',
-                                'sale_time',
-                            ],
-                        ]);
-                    $box->endBody();
-                $box->end(); ?>
+                <?php
+                    $box = Box::begin(['renderBody' => false]);
+                        $box->beginHeader();
+                            echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
+                        $box->endHeader();
+                        $box->beginBody();
+                            echo HubGridView::detailView([
+                                'boxed'   => false,
+                                'model'   => $model,
+                                'columns' => [
+                                    'tariff',
+                                    'sale_time',
+                                ],
+                            ]);
+                        $box->endBody();
+                        $box->beginFooter();
+                            if (Yii::$app->user->can('hub.sell')) {
+                                echo SettingsModal::widget([
+                                    'model'    => $model,
+                                    'title'    => Yii::t('hipanel:server', 'Change tariff'),
+                                    'scenario' => 'sell',
+                                    'toggleButton' => [
+                                        'class' => 'btn btn-default',
+                                    ],
+                                ]);
+                            }
+                        $box->endFooter();
+                    $box->end();
+                ?>
             </div>
             <?php Pjax::end() ?>
         </div>
