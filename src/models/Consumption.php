@@ -4,6 +4,9 @@ namespace hipanel\modules\server\models;
 
 use hipanel\helpers\ArrayHelper;
 use hipanel\modules\finance\providers\BillTypesProvider;
+use hipanel\modules\server\helpers\consumptionPriceFormatter\MultiplePrice;
+use hipanel\modules\server\helpers\consumptionPriceFormatter\PriceFormatterStrategy;
+use hipanel\modules\server\helpers\consumptionPriceFormatter\SinglePrice;
 use Yii;
 
 /**
@@ -17,11 +20,16 @@ class Consumption extends \hipanel\base\Model
 {
     use \hipanel\base\ModelTrait;
 
+    /**
+     * @var PriceFormatterStrategy
+     */
+    private $priceFormatterStrategy;
+
     public function rules()
     {
         return [
             [['id', 'object_id'], 'integer'],
-            [['value', 'overuse'], 'safe'],
+            [['value', 'overuse', 'prices'], 'safe'],
             [['type', 'limit', 'time', 'unit', 'action_unit', 'currency'], 'string'],
             [['price'], 'number'],
         ];
@@ -71,5 +79,27 @@ class Consumption extends \hipanel\base\Model
     private function getPrevious(): string
     {
         return date('m', strtotime('-1month'));
+    }
+
+    public function getFormattedPrice(): string
+    {
+        if ($this->prices) {
+            $this->setPriceFormatterStrategy(new MultiplePrice());
+        } else {
+            $this->setPriceFormatterStrategy(new SinglePrice());
+        }
+
+        return $this->priceFormatterStrategy->showPrice($this);
+    }
+
+    /**
+     * @param PriceFormatterStrategy $priceFormatterStrategy
+     * @return Consumption
+     */
+    private function setPriceFormatterStrategy(PriceFormatterStrategy $priceFormatterStrategy): Consumption
+    {
+        $this->priceFormatterStrategy = $priceFormatterStrategy;
+
+        return $this;
     }
 }
