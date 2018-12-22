@@ -59,6 +59,7 @@ class Hub extends \hipanel\base\Model
         return array_merge(parent::attributeLabels(), [
             'type_id' => Yii::t('hipanel', 'Type'),
             'buyer_id' => Yii::t('hipanel:server:hub', 'Buyer'),
+            'buyer' => Yii::t('hipanel:server:hub', 'Buyer'),
             'inn' => Yii::t('hipanel:server:hub', 'INN'),
             'model' => Yii::t('hipanel:server:hub', 'Model'),
             'order_no' => Yii::t('hipanel:server:hub', 'Order No.'),

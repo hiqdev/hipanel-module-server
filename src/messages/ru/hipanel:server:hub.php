@@ -36,4 +36,5 @@ return [
     'Switches were sold' => 'Свитчи были проданы',
     'Sell switches' => 'Продать свитчи',
     'Switch name' => 'Свитч',
+    'sale' => 'продажа',
 ];

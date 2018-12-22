@@ -1,5 +1,12 @@
 <?php
-
+/**
+ * @var \yii\web\View $this
+ * @var \hipanel\modules\server\models\HubSearch $model
+ * @var \hipanel\models\IndexPageUiOptions $uiModel
+ * @var \hipanel\modules\server\grid\HubRepresentations $representationCollection
+ * @var \yii\data\ActiveDataProvider $dataProvider
+ * @var array $types
+ */
 use hipanel\modules\server\grid\HubGridLegend;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\widgets\gridLegend\GridLegend;
@@ -41,6 +48,10 @@ $this->registerCss('
 
         <?php $page->beginContent('sorter-actions') ?>
             <?= $page->renderSorter(['attributes' => ['id']]) ?>
+        <?php $page->endContent() ?>
+
+        <?php $page->beginContent('representation-actions') ?>
+            <?= $page->renderRepresentations($representationCollection) ?>
         <?php $page->endContent() ?>
 
         <?php $page->beginContent('bulk-actions') ?>
