@@ -31,6 +31,18 @@ class HubRepresentations extends RepresentationCollection
                     'mac',
                 ],
             ],
+            'sale' => [
+                'label' => Yii::t('hipanel:server:hub', 'sale'),
+                'columns' => [
+                    'checkbox',
+                    'actions',
+                    'switch',
+                    'buyer',
+                    'tariff',
+                    'model',
+                    'type',
+                ],
+            ],
         ]);
     }
 }
