@@ -336,7 +336,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 $limit
             );
         }
-        if ($price = $consumption->formattedPrice) {
+        if ($price = $consumption->getFormattedPrice()) {
             $result .= sprintf('%s: %s',
                 Html::tag('b', Yii::t('hipanel:server', 'price')),
                 $price
