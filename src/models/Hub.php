@@ -39,7 +39,23 @@ class Hub extends \hipanel\base\Model
 
             // Create and update
             [['type_id', 'name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
-            [['name', 'mac', 'ip'], 'unique', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [['name', 'mac', 'ip'], 'unique', 'on' => [self::SCENARIO_CREATE]],
+            [
+                ['name'], 'unique', 'on' => [self::SCENARIO_UPDATE], 'when' => function ($model) {
+                    return  $model->isAttributeChanged('name') && self::findOne($model->id)->name !== $model->name;
+                },
+            ],
+            [
+                ['mac'], 'unique', 'on' => [self::SCENARIO_UPDATE], 'when' => function ($model) {
+                    return $model->isAttributeChanged('mac') && self::findOne($model->id)->mac !== $model->mac;
+                },
+            ],
+            [
+                ['ip'], 'unique', 'on' => [self::SCENARIO_UPDATE], 'when' => function ($model) {
+                    return $model->isAttributeChanged('ip') && self::findOne($model->id)->ip !== $model->ip;
+                },
+            ],
+
             [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
             [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
 
