@@ -39,6 +39,7 @@ class Hub extends \hipanel\base\Model
 
             // Create and update
             [['type_id', 'name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [['name', 'mac', 'ip'], 'unique', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
             [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
 
