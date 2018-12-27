@@ -72,6 +72,9 @@ class HubController extends CrudController
                 },
                 'class' => ViewAction::class,
             ],
+            'validate-form' => [
+                'class' => ValidateFormAction::class,
+            ],
             'create' => [
                 'class' => SmartCreateAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Switch was created'),

@@ -11,6 +11,7 @@ use yii\helpers\Html;
 <div class="row">
     <?php $form = ActiveForm::begin([
         'id' => 'dynamic-form',
+        'enableAjaxValidation' => true,
         'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
     ]); ?>
 
