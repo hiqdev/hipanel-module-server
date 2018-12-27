@@ -2,6 +2,7 @@
 /** @var array $types */
 use hipanel\helpers\Url;
 use hipanel\widgets\DynamicFormWidget;
+use hipanel\widgets\DynamicFormCopyButton;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 
@@ -48,6 +49,7 @@ use yii\helpers\Html;
                                 <button type="button" class="btn btn-success btn-sm add-item">
                                     <i class="fa fa-plus"></i>
                                 </button>
+                                <?= DynamicFormCopyButton::widget() ?>
                                 <button type="button" class="btn btn-danger btn-sm remove-item">
                                     <i class="fa fa-minus"></i>
                                 </button>
