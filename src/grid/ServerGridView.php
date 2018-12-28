@@ -193,12 +193,44 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'raw',
                 'attribute' => 'ips',
                 'filter' => false,
+                'contentOptions' => [
+                    'class' => 'text-center',
+                    'style' => 'width:1%; white-space:nowrap;',
+                ],
                 'value' => function ($model) {
                     return ArraySpoiler::widget([
                         'data' => ArrayHelper::getColumn($model->ips, 'ip'),
                         'delimiter' => '<br />',
-                        'visibleCount' => 3,
-                        'button' => ['popoverOptions' => ['html' => true]],
+                        'visibleCount' => 1,
+                        'formatter' => function ($ip, $idx) use ($model) {
+                            if ($idx === 0) {
+                                return Html::a($ip, IpController::getSearchUrl(['server_in' => $model->name]), [
+                                    'class' => 'text-bold',
+                                    'target' => '_blank',
+                                ]);
+                            }
+
+                            return $ip;
+                        },
+                        'button' => [
+                            'label' => Yii::t('hipanel:server', '') . ' +' . (count($model->ips) - 1),
+                            'tag' => 'button',
+                            'type' => 'button',
+                            'class' => 'btn btn-xs btn-flat bg-maroon',
+                            'style' => 'font-size: 10px',
+                            'popoverOptions' => [
+                                'html' => true,
+                                'placement' => 'bottom',
+                                'title' => Yii::t('hipanel:server', 'IPs'),
+                                'template' => '
+                                    <div class="popover" role="tooltip">
+                                        <div class="arrow"></div>
+                                        <h3 class="popover-title"></h3>
+                                        <div class="popover-content" style="min-width: 15rem; height: 15rem; overflow-x: scroll;"></div>
+                                    </div>
+                                ',
+                            ],
+                        ]
                     ]);
                 },
             ],
