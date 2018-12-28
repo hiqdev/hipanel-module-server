@@ -18,6 +18,13 @@ class ServerRepresentations extends RepresentationCollection
     protected function fillRepresentations(): void
     {
         $this->representations = array_filter([
+            'short' => Yii::$app->user->can('support') ? [
+                'label' => Yii::t('hipanel:server', 'short'),
+                'columns' => [
+                    'checkbox',
+                    'ips', 'client', 'dc', 'actions', 'server', 'order_no',
+                ],
+            ] : null,
             'common' => [
                 'label' => Yii::t('hipanel', 'common'),
                 'columns' => [
@@ -28,29 +35,19 @@ class ServerRepresentations extends RepresentationCollection
                     'tariff_and_discount',
                 ],
             ],
-            'short' => Yii::$app->user->can('support') ? [
-                'label' => Yii::t('hipanel:server', 'short'),
-                'columns' => [
-                    'checkbox',
-                    'actions',
-                    'ips', 'client', 'dc', 'server', 'order_no',
-                ],
-            ] : null,
             'hardware' => Yii::$app->user->can('support') ? [
                 'label' => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',
-                    'actions',
-                    'rack', 'client', 'dc', 'server', 'hwsummary',
+                    'rack', 'client', 'dc', 'actions', 'server', 'hwsummary',
                 ],
             ] : null,
             'manager' => Yii::$app->user->can('manage') ? [
                 'label' => Yii::t('hipanel:server', 'manager'),
                 'columns' => [
                     'checkbox',
-                    'actions',
                     'client_like',
-                    'rack', 'server', 'tariff',
+                    'rack', 'actions', 'server', 'tariff',
                     'hwsummary', 'nums',
                 ],
             ] : null,
@@ -58,8 +55,8 @@ class ServerRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel:server', 'billing'),
                 'columns' => [
                     'checkbox',
-                    'actions',
                     'rack',
+                    'actions',
                     'server',
                     'client_like',
                     'monthly_fee',
@@ -72,8 +69,7 @@ class ServerRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel:server', 'admin'),
                 'columns' => [
                     'checkbox',
-                    'actions',
-                    'dc', 'server', 'type',
+                    'dc', 'actions', 'server', 'type',
                     'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac',
                 ],
             ] : null,
