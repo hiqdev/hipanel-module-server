@@ -216,7 +216,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                             'label' => Yii::t('hipanel:server', '') . ' +' . (count($model->ips) - 1),
                             'tag' => 'button',
                             'type' => 'button',
-                            'class' => 'btn btn-xs btn-flat bg-maroon',
+                            'class' => 'btn btn-xs btn-flat',
                             'style' => 'font-size: 10px',
                             'popoverOptions' => [
                                 'html' => true,
