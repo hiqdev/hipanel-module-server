@@ -12,6 +12,7 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
+use Yii;
 
 class ServerSearch extends Server
 {
@@ -30,13 +31,15 @@ class ServerSearch extends Server
             'with_discounts',
             'wizzarded_eq',
             'name_inilike',
+            'name_dc',
         ]);
     }
 
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'wizzarded_eq' => \Yii::t('hipanel:server', 'Is wizzarded')
+            'wizzarded_eq' => Yii::t('hipanel:server', 'Is wizzarded'),
+            'name_dc' => Yii::t('hipanel:server', 'Name or DC'),
         ]);
     }
 }
