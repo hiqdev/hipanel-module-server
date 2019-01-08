@@ -92,6 +92,11 @@ class Consumption extends \hipanel\base\Model
         return $this->priceFormatterStrategy->showPrice($this);
     }
 
+    public function hasFormattedAttributes(): bool
+    {
+        return $this->limit || ($this->price || $this->prices);
+    }
+
     /**
      * @param PriceFormatterStrategy $priceFormatterStrategy
      * @return Consumption

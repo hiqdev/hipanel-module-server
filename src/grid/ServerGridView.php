@@ -393,26 +393,14 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             public $value;
         };
         $models = [];
-        if (isset($model->consumptions['overuse,support_time'])) {
-            $support = $model->consumptions['overuse,support_time'];
-            $models[] = new $additional([
-                'typeLabel' => Yii::t('hipanel.server.consumption.type', $support->typeLabel),
-                'value' => $this->getFormattedConsumptionFor($support),
-            ]);
-        }
-        if (isset($model->consumptions['overuse,backup_du'])) {
-            $backup = $model->consumptions['overuse,backup_du'];
-            $models[] = new $additional([
-                'typeLabel' => Yii::t('hipanel.server.consumption.type', $backup->typeLabel),
-                'value' => $this->getFormattedConsumptionFor($backup),
-            ]);
-        }
-        if (isset($model->consumptions['monthly,win_license'])) {
-            $win_license = $model->consumptions['monthly,win_license'];
-            $models[] = new $additional([
-                'typeLabel' => Yii::t('hipanel.server.consumption.type', $win_license->typeLabel),
-                'value' => $this->getFormattedConsumptionFor($win_license),
-            ]);
+        foreach (['overuse,support_time', 'overuse,backup_du', 'monthly,win_license'] as $type) {
+            if (isset($model->consumptions[$type]) && $model->consumptions[$type]->hasFormattedAttributes()) {
+                $consumption = $model->consumptions[$type];
+                $models[] = new $additional([
+                    'typeLabel' => Yii::t('hipanel.server.consumption.type', $consumption->typeLabel),
+                    'value' => $this->getFormattedConsumptionFor($consumption),
+                ]);
+            }
         }
 
         return \yii\grid\GridView::widget([

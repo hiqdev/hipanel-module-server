@@ -15,6 +15,6 @@ class SinglePrice implements PriceFormatterStrategy
      */
     public function showPrice(Consumption $consumption): string
     {
-        return Yii::$app->formatter->asCurrency($consumption->price, $consumption->currency);
+        return $consumption->price ? Yii::$app->formatter->asCurrency($consumption->price, $consumption->currency) : '';
     }
 }
