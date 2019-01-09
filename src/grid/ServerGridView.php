@@ -14,6 +14,7 @@ use hipanel\base\Model;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
+use hipanel\helpers\StringHelper;
 use hipanel\helpers\Url;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
@@ -314,7 +315,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'format' => 'html',
                 'filter' => false,
                 'value' => function ($model) {
-                    return isset($model->consumptions['monthly,monthly']) ? $this->getFormattedConsumptionFor($model->consumptions['monthly,monthly']) : null;
+                    return $this->getMonthlyFee($model);
                 },
                 'visible' => Yii::$app->user->can('consumption.read'),
             ],
@@ -376,6 +377,27 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         }
 
         return $result;
+    }
+
+    private function getMonthlyFee($model): string
+    {
+        $unionConsumption = new Consumption();
+        $prices = [];
+        if ($model->consumptions) {
+            array_walk($model->consumptions, function (Consumption $consumption) use (&$prices) {
+                if ($consumption->type && $consumption->hasFormattedAttributes() && StringHelper::startsWith($consumption->type, 'monthly,')) {
+                    if ($consumption->price) {
+                        $consumption->setAttribute('prices', [$consumption->currency => $consumption->price]);
+                    }
+                    foreach ($consumption->prices as $currency => $price) {
+                        $prices[$currency] += $price;
+                    }
+                }
+            });
+        }
+        $unionConsumption->setAttribute('prices', $prices);
+
+        return $unionConsumption->getFormattedPrice();
     }
 
     private function getAdditionalServices($model): string
