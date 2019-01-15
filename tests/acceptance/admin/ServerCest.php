@@ -49,8 +49,6 @@ class ServerCest
             Input::asAdvancedSearch($I, 'APC'),
             Input::asAdvancedSearch($I, 'Rack'),
             Input::asAdvancedSearch($I, 'MAC'),
-            Input::asAdvancedSearch($I, 'Tariff'),
-            Dropdown::asAdvancedSearch($I, 'Is wizzarded'),
         ]);
     }
 
