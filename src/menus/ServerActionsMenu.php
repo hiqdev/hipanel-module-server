@@ -84,7 +84,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             'hardware-settings' => [
                 'label' => Yii::t('hipanel:server', 'Hardware properties'),
-                'visible' => $user->can('support'),
+                'visible' => $user->can('server.manage-settings'),
                 'icon' => 'fa-cogs',
                 'url' => ['@server/hardware-settings', 'id' => $this->model->id],
                 'linkOptions' => [
@@ -94,7 +94,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             'software-settings' => [
                 'label' => Yii::t('hipanel:server', 'Software properties'),
-                'visible' => $user->can('support'),
+                'visible' => $user->can('server.manage-settings'),
                 'icon' => 'fa-cogs',
                 'url' => ['@server/software-settings', 'id' => $this->model->id],
                 'linkOptions' => [

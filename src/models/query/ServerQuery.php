@@ -53,7 +53,7 @@ class ServerQuery extends ActiveQuery
 
     public function withSoftwareSettings(): self
     {
-        if (Yii::$app->user->can('admin')) {
+        if (Yii::$app->user->can('server.manage-settings')) {
             $this->joinWith(['softwareSettings']);
             $this->andWhere(['with_softwareSettings' => 1]);
         }
