@@ -348,10 +348,8 @@ class ServerController extends CrudController
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->joinWith(['monitoringSettings']);
-                    $dataProvider->query
-                        ->andWhere(['with_monitoringSettings' => 1])->select(['*']);
+                    $query = $action->getDataProvider()->query;
+                    $query->withMonitoringSettings()->select(['*']);
                 },
                 'on beforeLoad' => function (Event $event) {
                     /** @var Action $action */

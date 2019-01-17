@@ -93,7 +93,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             'monitoring-settings' => [
                 'label' => Yii::t('hipanel:server', 'Monitoring properties'),
-                'visible' => $user->can('support'),
+                'visible' => $user->can('server.manage-settings'),
                 'icon' => 'fa-cogs',
                 'url' => ['@server/monitoring-settings', 'id' => $this->model->id],
                 'linkOptions' => [
