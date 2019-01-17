@@ -29,7 +29,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                     'data-pjax' => 0,
                 ],
             ],
-            [
+            'update' => [
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@server/update', 'id' => $this->model->id],
@@ -46,16 +46,6 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                     'data-pjax' => 0,
                 ],
                 'visible' => !empty($this->model->expires) && Yii::$app->user->can('server.pay'),
-            ],
-            'update' => [
-                'label' => Yii::t('hipanel', 'Update'),
-                'icon' => 'fa-pencil',
-                'url' => ['@server/update', 'id' => $this->model->id],
-                'visible' => false,
-                'linkOptions' => [
-                    'data-pjax' => 0,
-                ],
-                'visible' => Yii::$app->user->can('server.update'),
             ],
             'assign-hubs' => [
                 'label' => Yii::t('hipanel:server', 'Assign hubs'),
