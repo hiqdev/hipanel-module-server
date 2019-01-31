@@ -42,7 +42,7 @@ class SidebarMenu extends \hiqdev\yii2\menus\Menu
                     'buy-server' => [
                         'label'   => Yii::t('hipanel:server:order', 'Order server'),
                         'url'     => ['/server/order/index'],
-                        'visible' => $user->can('deposit') && $module->orderIsAllowed,
+                        'visible' => $user->can('server.pay') && $module->orderIsAllowed,
                     ],
                     'pre-order' => [
                         'label'   => Yii::t('hipanel:server', 'Pre-orders'),
