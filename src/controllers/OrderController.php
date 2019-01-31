@@ -46,6 +46,9 @@ class OrderController extends CrudController
                 'class' => EasyAccessControl::class,
                 'actions' => [
                     'add-to-cart' => 'server.pay',
+                    'index' => 'server.pay',
+                    'xen-ssd' => 'server.pay',
+                    'open-vz' => 'server.pay',
                     '*' => 'server.read',
                 ],
             ],
