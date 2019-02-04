@@ -454,54 +454,78 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'rent' => 'bg-purple',
             'sold' => 'bg-olive',
         ];
-        if ($model->prices) {
-            foreach ($model->prices as $saleType => $prices) {
-                $html .= ArraySpoiler::widget([
-                    'data' => Sort::by($prices, function ($price) {
-                        $order = ['CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
-                        $type = substr($price['part'], 0, strpos($price['part'], ':'));
-                        $key = array_search($type, $order, true);
-                        if ($key !== false) {
-                            return $key;
+
+        if (empty($model->prices)) {
+            return $html;
+        }
+
+        foreach ($model->prices as $saleType => $prices) {
+            $html .= ArraySpoiler::widget([
+                'data' => Sort::by($prices, function ($price) {
+                    $order = ['CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
+                    $type = substr($price['part'], 0, strpos($price['part'], ':'));
+                    $key = array_search($type, $order, true);
+                    if ($key !== false) {
+                        return $key;
+                    }
+
+                    return INF;
+                }),
+                'delimiter' => '<br/>',
+                'visibleCount' => 0,
+                'button' => [
+                    'label' => (function() use ($saleType, $prices) {
+                        if ($saleType === 'leasing') {
+                            /** @var \DateTime $maxLeasingDate */
+                            $maxLeasingDate = array_reduce($prices, function (\DateTime $max, $item) {
+                                $date = new \DateTime($item['leasing_till']);
+                                return $date > $max ? $date : $max;
+                            }, new \DateTime());
+
+                            return Yii::t('hipanel:server', $saleType) . ' ' . \count($prices)
+                                . '<br />' . $maxLeasingDate->format('d.m.Y');
                         }
 
-                        return INF;
-                    }),
-                    'delimiter' => '<br/>',
-                    'visibleCount' => 0,
-                    'button' => [
-                        'label' => Yii::t('hipanel:server', $saleType) . ' ' . (count($prices)),
-                        'tag' => 'button',
-                        'type' => 'button',
-                        'class' => "btn btn-xs {$badgeColors[$saleType]}",
-                        'popoverOptions' => [
-                            'html' => true,
-                            'placement' => 'bottom',
-                            'title' => Yii::t('hipanel:stock', 'Parts'),
-                            'template' => '
-                                <div class="popover" role="tooltip">
-                                    <div class="arrow"></div>
-                                    <h3 class="popover-title"></h3>
-                                    <div class="popover-content" style="height: 25rem; overflow-x: scroll;"></div>
-                                </div>
-                            ',
+                        return Yii::t('hipanel:server', $saleType) . ' ' . \count($prices);
+                    })(),
+                    'tag' => 'button',
+                    'type' => 'button',
+                    'class' => "btn btn-xs {$badgeColors[$saleType]}",
+                    'popoverOptions' => [
+                        'html' => true,
+                        'placement' => 'bottom',
+                        'title' => Yii::t('hipanel:stock', 'Parts'),
+                        'template' => '
+                            <div class="popover" role="tooltip">
+                                <div class="arrow"></div>
+                                <h3 class="popover-title"></h3>
+                                <div class="popover-content" style="height: 25rem; overflow-x: scroll;"></div>
+                            </div>
+                        ',
 
-                        ],
                     ],
-                    'formatter' => function ($item) {
-                        $title = $item['part'];
-                        if ($item['serialno']) {
-                            $title .= ': ' .$item['serialno'];
-                        }
+                ],
+                'formatter' => function ($item) {
+                    $additionalInfo = null;
+                    $title = $item['part'];
+                    if (isset($item['serialno'])) {
+                        $title .= ': ' .$item['serialno'];
+                    }
 
-                        return Html::a(
-                            $title,
-                            ['@part/view', 'id' => $item['part_id']],
-                            ['class' => 'text-nowrap', 'target' => '_blank']
-                        );
-                    },
-                ]);
-            }
+                    if (isset($item['leasing_till'])) {
+                        $additionalInfo = Yii::t('hipanel:server', '{since} &mdash; {till}', [
+                            'since' => Yii::$app->formatter->asDate($item['leasing_since'], 'short'),
+                            'till' => Yii::$app->formatter->asDate($item['leasing_till'], 'short'),
+                        ]);
+                    }
+
+                    return Html::a(
+                        $title,
+                        ['@part/view', 'id' => $item['part_id']],
+                        ['class' => 'text-nowrap', 'target' => '_blank']
+                    ) . ($additionalInfo ? " ($additionalInfo)" : '');
+                },
+            ]);
         }
 
         return $html;
