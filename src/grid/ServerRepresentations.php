@@ -59,6 +59,7 @@ class ServerRepresentations extends RepresentationCollection
                     'actions',
                     'server',
                     'client_like',
+                    'tariff',
                     'monthly_fee',
                     'traffic',
                     'additional_services',

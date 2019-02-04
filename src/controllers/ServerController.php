@@ -127,7 +127,7 @@ class ServerController extends CrudController
                     }
 
                     if ($this->indexPageUiOptionsModel->representation === 'billing' && Yii::$app->user->can('consumption.read')) {
-                        $dataProvider->query->withConsumptions()->withHardwarePrices();
+                        $dataProvider->query->withConsumptions()->withHardwareSales();
                     }
 
                     $dataProvider->query

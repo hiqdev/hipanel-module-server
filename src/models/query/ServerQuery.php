@@ -79,9 +79,9 @@ class ServerQuery extends ActiveQuery
         return $this;
     }
 
-    public function withHardwarePrices(): self
+    public function withHardwareSales(): self
     {
-        $this->andWhere(['with_hardwarePrices' => true]);
+        $this->andWhere(['with_hardwareSales' => true]);
 
         return $this;
     }

@@ -66,7 +66,7 @@ class Server extends \hipanel\base\Model
                 'safe',
             ],
             [['show_del', 'show_nic', 'show_vds', 'show_jail'], 'boolean'],
-            [['switches', 'rack', 'net', 'kvm', 'pdu', 'ipmi', 'prices'], 'safe'],
+            [['switches', 'rack', 'net', 'kvm', 'pdu', 'ipmi', 'hardwareSales'], 'safe'],
             [['last_expires', 'expires', 'status_time'], 'date'],
             [['time'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [
@@ -285,6 +285,11 @@ class Server extends \hipanel\base\Model
     public function getHardwareSettings()
     {
         return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
+    }
+
+    public function getHardwareSales()
+    {
+        return $this->hasOne(HardwareSales::class, ['id' => 'id']);
     }
 
     public function getSoftwareSettings()

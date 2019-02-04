@@ -20,6 +20,7 @@ use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
 use hipanel\modules\server\menus\ServerActionsMenu;
 use hipanel\modules\server\models\Consumption;
+use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
@@ -342,7 +343,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'label' => Yii::t('hipanel:server', 'Type of sale'),
                 'format' => 'raw',
                 'filter' => false,
-                'value' => function ($model) {
+                'value' => function (Server $model) {
                     return $this->getTypeOfSale($model);
                 },
                 'visible' => Yii::$app->user->can('consumption.read'),
@@ -455,15 +456,15 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             'sold' => 'bg-olive',
         ];
 
-        if (empty($model->prices)) {
+        if (empty($model->hardwareSales)) {
             return $html;
         }
 
-        foreach ($model->prices as $saleType => $prices) {
+        foreach ($model->hardwareSales as $saleType => $sales) {
             $html .= ArraySpoiler::widget([
-                'data' => Sort::by($prices, function ($price) {
+                'data' => Sort::by($sales, function ($sale) {
                     $order = ['CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
-                    $type = substr($price['part'], 0, strpos($price['part'], ':'));
+                    $type = substr($sale['part'], 0, strpos($sale['part'], ':'));
                     $key = array_search($type, $order, true);
                     if ($key !== false) {
                         return $key;
@@ -474,19 +475,19 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'delimiter' => '<br/>',
                 'visibleCount' => 0,
                 'button' => [
-                    'label' => (function() use ($saleType, $prices) {
+                    'label' => (function() use ($saleType, $sales) {
                         if ($saleType === 'leasing') {
                             /** @var \DateTime $maxLeasingDate */
-                            $maxLeasingDate = array_reduce($prices, function (\DateTime $max, $item) {
+                            $maxLeasingDate = array_reduce($sales, function (\DateTime $max, $item) {
                                 $date = new \DateTime($item['leasing_till']);
                                 return $date > $max ? $date : $max;
                             }, new \DateTime());
 
-                            return Yii::t('hipanel:server', $saleType) . ' ' . \count($prices)
+                            return Yii::t('hipanel:server', $saleType) . ' ' . \count($sales)
                                 . '<br />' . $maxLeasingDate->format('d.m.Y');
                         }
 
-                        return Yii::t('hipanel:server', $saleType) . ' ' . \count($prices);
+                        return Yii::t('hipanel:server', $saleType) . ' ' . \count($sales);
                     })(),
                     'tag' => 'button',
                     'type' => 'button',
@@ -516,6 +517,12 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                         $additionalInfo = Yii::t('hipanel:server', '{since} &mdash; {till}', [
                             'since' => Yii::$app->formatter->asDate($item['leasing_since'], 'short'),
                             'till' => Yii::$app->formatter->asDate($item['leasing_till'], 'short'),
+                        ]);
+                    }
+
+                    if (isset($item['sale_time'])) {
+                        $additionalInfo = Yii::t('hipanel:server', 'since {date}', [
+                            'date' => Yii::$app->formatter->asDate($item['sale_time'], 'short'),
                         ]);
                     }
 
