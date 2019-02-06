@@ -136,11 +136,29 @@ class ServerController extends CrudController
                         ->select(['*']);
                 },
                 'filterStorageMap' => [
-                    'name_like' => 'server.server.name',
-                    'ips' => 'hosting.ip.ip_in',
-                    'state' => 'server.server.state',
+                    'name_dc'    => 'server.server.name_dc',
+                    'name_like'  => 'server.server.name',
+                    'label_like' => 'server.server.label',
+                    'note_like'  => 'server.server.note',
+                    'order_no'   => 'server.server.order_no',
+                    'dc_like'    => 'server.server.dc',
+                    'ip_like'    => 'server.server.ip',
+
+                    'ips'       => 'hosting.ip.ip_in',
                     'client_id' => 'client.client.id',
                     'seller_id' => 'client.client.seller_id',
+
+                    'hwsummary_like' => 'server.server.hwsummary',
+                    'type'           => 'server.server.type',
+                    'state'          => 'server.server.state',
+                    'net_like'       => 'server.server.net',
+                    'kvm_like'       => 'server.server.kvm',
+                    'pdu_like'       => 'server.server.pdu',
+                    'rack_like'      => 'server.server.rack',
+                    'mac_like'       => 'server.server.mac',
+
+                    'tariff_like'  => 'server.server.tariff',
+                    'wizzarded_eq' => 'server.server.wizzarded',
                 ],
             ],
             'search' => [
