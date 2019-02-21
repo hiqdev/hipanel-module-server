@@ -12,6 +12,7 @@ use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
+use yii\web\JsExpression;
 
 /**
  * @var OsimageSearch
@@ -202,6 +203,20 @@ $this->params['breadcrumbs'][] = $this->title;
                             ],
                             'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                         ]) : null,
+                        Yii::$app->user->can('server.control-power') ? [
+                            'label' => '<i class="fa fw fa-power-off"></i>&nbsp;' . Yii::t('hipanel:server', 'Reboot'),
+                            'url' => '#',
+                            'linkOptions' => [
+                                'data-action' => 'reboot',
+                                'onclick' => new JsExpression(
+                                    sprintf(
+                                        'return confirm(\'%s %s\');',
+                                        Yii::t('hipanel:server', 'This may cause data loose!'),
+                                        Yii::t('hipanel:server', 'Reboot will interrupt all processes on the server. Are you sure you want to reset the server?')
+                                    )
+                                ),
+                            ],
+                        ] : null,
                     ]),
                 ]) ?>
             <?php endif ?>
