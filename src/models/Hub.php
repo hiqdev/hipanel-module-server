@@ -64,6 +64,7 @@ class Hub extends \hipanel\base\Model
             'buyer_id' => Yii::t('hipanel:server:hub', 'Buyer'),
             'buyer' => Yii::t('hipanel:server:hub', 'Buyer'),
             'inn' => Yii::t('hipanel:server:hub', 'INN'),
+            'inn_ilike' => Yii::t('hipanel:server:hub', 'INN'),
             'model' => Yii::t('hipanel:server:hub', 'Model'),
             'order_no' => Yii::t('hipanel:server:hub', 'Order No.'),
             'login' => Yii::t('hipanel:server:hub', 'Login'),

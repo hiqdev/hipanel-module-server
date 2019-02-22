@@ -28,8 +28,9 @@ class HubGridView extends \hipanel\grid\BoxedGridView
     {
         return array_merge(parent::columns(), [
             'inn' => [
-                'enableSorting' => false,
-                'filterOptions' => ['class' => 'narrow-filter'],
+                'enableSorting'     => false,
+                'filterOptions'     => ['class' => 'narrow-filter'],
+                'filterAttribute'   => 'inn_ilike',
             ],
             'model' => [
                 'enableSorting' => false,
