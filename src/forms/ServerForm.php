@@ -48,7 +48,7 @@ class ServerForm extends Server
             [
                 ['server'], 'unique', 'on' => ['update'], 'when' => function ($model) {
                 if ($model->isAttributeChanged('server')) {
-                    return self::findOne($model->id)->server !== $model->server;
+                    return self::findOne($model->id)->name !== $model->server;
                 }
 
                 return false;
