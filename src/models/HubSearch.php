@@ -12,6 +12,7 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\SearchModelTrait;
 use hipanel\helpers\ArrayHelper;
+use Yii;
 
 class HubSearch extends Hub
 {
@@ -27,6 +28,14 @@ class HubSearch extends Hub
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
             'with_bindings',
             'with_servers',
+            'name_inilike',
+        ]);
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'name_inilike' => Yii::t('hipanel:server', 'Name'),
         ]);
     }
 }
