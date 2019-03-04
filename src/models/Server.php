@@ -366,15 +366,6 @@ class Server extends \hipanel\base\Model
     }
 
     /**
-     * Check if you can assign hubs
-     * @return bool
-     */
-    public function canAssignHubs(): bool
-    {
-        return $this->type !== 'nic'; // XXX todo: need to add more types
-    }
-
-    /**
      * {@inheritdoc}
      * @return ServerQuery
      */
