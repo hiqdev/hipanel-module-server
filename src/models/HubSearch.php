@@ -29,6 +29,7 @@ class HubSearch extends Hub
             'with_bindings',
             'with_servers',
             'name_inilike',
+            'rack_ilike',
         ]);
     }
 
