@@ -402,6 +402,7 @@ class ServerController extends CrudController
                         ->withBlocking()
                         ->withUses()
                         ->withConsumptions()
+                        ->withSales()
                         ->joinWith(['switches']);
 
                     if (Yii::getAlias('@ip', false)) {

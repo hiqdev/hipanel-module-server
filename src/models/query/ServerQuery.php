@@ -15,6 +15,14 @@ use Yii;
 
 class ServerQuery extends ActiveQuery
 {
+    public function withSales(): self
+    {
+        $this->joinWith('sales');
+        $this->andWhere(['with_sales' => true]);
+
+        return $this;
+    }
+
     public function withBindings(): self
     {
         if (Yii::$app->user->can('hub.read')) {

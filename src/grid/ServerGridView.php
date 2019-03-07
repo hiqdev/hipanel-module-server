@@ -16,6 +16,7 @@ use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\StringHelper;
 use hipanel\helpers\Url;
+use hipanel\modules\finance\models\Sale;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
 use hipanel\modules\server\menus\ServerActionsMenu;
@@ -36,6 +37,7 @@ use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\widgets\ListView;
 
 class ServerGridView extends \hipanel\grid\BoxedGridView
 {
@@ -48,21 +50,64 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
      */
     public $osImages;
 
+    public function init()
+    {
+        parent::init();
+
+        $this->view->registerCss('
+        .tariff-chain {
+            list-style: none;
+            background-color: #f5f5f5;
+        }
+        .tariff-chain > li {
+            display: inline-block;
+        }
+        .tariff-chain > li + li:before {
+            font: normal normal normal 14px/1 FontAwesome;
+            content: "\f178\00a0";
+            padding: 0 5px;
+            color: #ccc;
+        }
+        ');
+    }
+
     protected function formatTariff($model)
     {
-        if (Yii::$app->user->can('plan.read')) {
-            if ($model->parent_tariff) {
-                $title = Html::tag('abbr', $model->parent_tariff, [
-                    'title' => $model->tariff, 'data-toggle' => 'tooltip',
-                ]);
+        $user = Yii::$app->user;
+        $models = [];
+        $html = '';
+        if ($user->can('support') && isset($model->sales)) {
+            foreach ($model->sales as $sale) {
+                $models[] = $sale;
+            }
+        }
+        if ($user->can('plan.manager')) {
+            if (!empty($model->parent_tariff)) {
+                $title = $model->parent_tariff;
             } else {
                 $title = $model->tariff;
             }
 
-            return Html::a($title, ['@plan/view', 'id' => $model->tariff_id]);
+            $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
+        } else {
+            $models[] = new Sale(['tariff' => !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff]);
         }
 
-        return !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff;
+        foreach ($models as $model) {
+            if ($model->tariff) {
+                $tariff = $model->tariff_id ? Html::a($model->tariff, [
+                    '@plan/view',
+                    'id' => $model->tariff_id
+                ]) : $model->tariff;
+                $client = $model->seller ? '(' . Html::a($model->seller, [
+                    '@client/view', 'id' => $model->seller_id
+                ]) . ')' : '';
+
+                $html .= Html::tag('li', $tariff . '&nbsp;' . $client);
+            }
+        }
+
+        return Html::tag('ul', $html, ['class' => 'tariff-chain', 'style' => 'margin: 0; padding: 0;']);
     }
 
     public function columns()
