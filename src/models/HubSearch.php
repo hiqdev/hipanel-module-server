@@ -36,7 +36,8 @@ class HubSearch extends Hub
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'name_inilike' => Yii::t('hipanel:server', 'Name'),
+            'name_inilike' => Yii::t('hipanel:server', 'Switch'),
+            'rack_ilike'   => Yii::t('hipanel:server', 'Rack'),
         ]);
     }
 }
