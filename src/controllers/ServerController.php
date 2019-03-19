@@ -34,6 +34,7 @@ use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\ServerForm;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\HardwareSettings;
+use hipanel\modules\server\models\MailSettings;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\query\ServerQuery;
@@ -298,7 +299,7 @@ class ServerController extends CrudController
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server', 'Hardware properties was changed'),
-                'view' => 'hardwareSettings',
+                'view' => 'modal/hardwareSettings',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
@@ -327,7 +328,7 @@ class ServerController extends CrudController
             'software-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server', 'Software properties was changed'),
-                'view' => 'softwareSettings',
+                'view' => 'modal/softwareSettings',
                 'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
@@ -357,7 +358,7 @@ class ServerController extends CrudController
             'monitoring-settings' => [
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server', 'Monitoring properties was changed'),
-                'view' => 'monitoringSettings',
+                'view' => 'modal/monitoringSettings',
                 'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
@@ -382,6 +383,35 @@ class ServerController extends CrudController
                         'class' => RedirectAction::class,
                         'url' => function () {
                             $server = Yii::$app->request->post('MonitoringSettings');
+
+                            return ['@server/view', 'id' => $server['id']];
+                        },
+                    ],
+                ],
+            ],
+            'mail-settings' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server', 'Mail settings has been changed successfully'),
+                'view' => 'modal/mailSettings',
+                'scenario' => 'default',
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $query = $action->getDataProvider()->query;
+                    $query->withMailSettings()->select(['*']);
+                },
+                'on beforeLoad' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+
+                    $action->collection->setModel(MailSettings::class);
+                },
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $server = Yii::$app->request->post('MailSettings');
 
                             return ['@server/view', 'id' => $server['id']];
                         },

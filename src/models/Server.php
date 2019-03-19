@@ -302,6 +302,11 @@ class Server extends \hipanel\base\Model
         return $this->hasOne(SoftwareSettings::class, ['id' => 'id']);
     }
 
+    public function getMailSettings()
+    {
+        return $this->hasOne(MailSettings::class, ['id' => 'id']);
+    }
+
     public function getBinding($type)
     {
         if (!isset($this->bindings[$type])) {
