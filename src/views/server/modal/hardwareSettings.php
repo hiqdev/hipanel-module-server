@@ -11,7 +11,7 @@ use yii\helpers\Html;
     <div class="row">
         <?php Pjax::begin(['enablePushState' => false]) ?>
         <div class="col-md-12">
-            <?php $box = Box::begin(['renderBody' => false, 'bodyOptions' => ['class' => 'no-padding']]) ?>
+            <?php $box = Box::begin(['renderBody' => false, 'options' => ['class' => 'box-widget'], 'bodyOptions' => ['class' => 'no-padding']]) ?>
             <?php $box->beginHeader() ?>
             <?= $box->renderTitle(Yii::t('hipanel:server', 'Configuration')) ?>
             <?php $box->beginTools() ?>
