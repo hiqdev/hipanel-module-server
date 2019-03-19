@@ -44,7 +44,7 @@ class Server extends \hipanel\base\Model
     public function rules()
     {
         return [
-            [['id', 'tariff_id', 'client_id', 'seller_id'], 'integer'],
+            [['id', 'tariff_id', 'client_id', 'seller_id', 'mails_num'], 'integer'],
             [['osimage'], EidValidator::class],
             [['panel'], RefValidator::class],
             [
@@ -358,6 +358,7 @@ class Server extends \hipanel\base\Model
             'order_no' => Yii::t('hipanel:server', 'Order'),
             'move_accounts' => Yii::t('hipanel:server', 'Move accounts to new client'),
             'server' => Yii::t('hipanel:server', 'Server name'),
+            'mails_num' => Yii::t('hipanel:server', 'Number of mailboxes'),
         ]);
     }
 
