@@ -305,5 +305,5 @@ return [
     'Mail settings' => 'Настройки почты',
     'Mails per hour limit' => 'Лимит писем в час',
     'Block sending mail' => 'Блокировать отправку почты',
-    'Mail settings has been changed successfully' => 'Настройки почты были успешно изменены',
+    'Mail settings have been changed successfully' => 'Настройки почты были успешно изменены',
 ];

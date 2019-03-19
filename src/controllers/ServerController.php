@@ -391,7 +391,7 @@ class ServerController extends CrudController
             ],
             'mail-settings' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server', 'Mail settings has been changed successfully'),
+                'success' => Yii::t('hipanel:server', 'Mail settings have been changed successfully'),
                 'view' => 'modal/mailSettings',
                 'scenario' => 'default',
                 'on beforeFetch' => function (Event $event) {
