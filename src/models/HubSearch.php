@@ -30,14 +30,16 @@ class HubSearch extends Hub
             'with_servers',
             'name_inilike',
             'rack_ilike',
+            'order_no_ilike',
         ]);
     }
 
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'name_inilike' => Yii::t('hipanel:server', 'Switch'),
-            'rack_ilike'   => Yii::t('hipanel:server', 'Rack'),
+            'name_inilike'   => Yii::t('hipanel:server', 'Switch'),
+            'rack_ilike'     => Yii::t('hipanel:server', 'Rack'),
+            'order_no_ilike' => Yii::t('hipanel:server:hub', 'Order No.'),
         ]);
     }
 }
