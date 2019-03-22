@@ -22,7 +22,7 @@ use hipanel\modules\client\widgets\combo\ClientCombo;
     <?= $search->field('model') ?>
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('order_no') ?>
+    <?= $search->field('order_no_ilike') ?>
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('type_id')->dropDownList($types, ['prompt' => '--']) ?>
