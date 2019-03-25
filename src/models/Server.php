@@ -10,11 +10,13 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\base\ModelTrait;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Sale;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\query\ServerQuery;
+use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use Yii;
@@ -26,9 +28,9 @@ use yii\base\NotSupportedException;
  * @property int $id
  * @property string $name
  */
-class Server extends \hipanel\base\Model
+class Server extends \hipanel\base\Model implements AssignSwitchInterface
 {
-    use \hipanel\base\ModelTrait;
+    use ModelTrait, AssignSwitchTrait;
 
     const STATE_OK = 'ok';
     const STATE_DISABLED = 'disabled';

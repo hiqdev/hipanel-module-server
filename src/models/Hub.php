@@ -10,13 +10,16 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\base\ModelTrait;
+use hipanel\modules\server\models\query\HubQuery;
+use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\server\validators\MacValidator;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
-class Hub extends \hipanel\base\Model
+class Hub extends \hipanel\base\Model implements AssignSwitchInterface
 {
-    use \hipanel\base\ModelTrait;
+    use ModelTrait, AssignSwitchTrait;
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
@@ -108,5 +111,16 @@ class Hub extends \hipanel\base\Model
     public function getHardwareSettings(): ActiveQuery
     {
         return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return HubQuery
+     */
+    public static function find($options = [])
+    {
+        return new HubQuery(get_called_class(), [
+            'options' => $options,
+        ]);
     }
 }

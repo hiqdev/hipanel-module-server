@@ -21,11 +21,13 @@ use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
+use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\forms\HubSellForm;
 use hipanel\modules\server\models\HardwareSettings;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\Event;
+use yii\web\NotFoundHttpException;
 
 class HubController extends CrudController
 {
@@ -142,6 +144,41 @@ class HubController extends CrudController
                         }
                     }
                 },
+            ],
+            'assign-switches' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Switches have been edited'),
+                'view' => 'assign-switches',
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $dataProvider = $action->getDataProvider();
+                    $dataProvider->query->withBindings()->select(['*']);
+                },
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new AssignSwitchesForm(),
+                    'scenario' => 'default',
+                ],
+                'data' => function (Action $action, array $data) {
+                    $result = [];
+                    foreach ($data['models'] as $model) {
+                        $result['models'][] = AssignSwitchesForm::fromOriginalModel($model);
+                    }
+                    if (!$result['models']) {
+                        throw new NotFoundHttpException('There are no entries available for the selected operation.');
+                    }
+                    $result['model'] = reset($result['models']);
+
+                    return $result;
+                },
+            ],
+            'validate-switches-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new AssignSwitchesForm(),
+                ],
             ],
             'validate-sell-form' => [
                 'class' => ValidateFormAction::class,
