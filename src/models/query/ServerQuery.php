@@ -99,6 +99,7 @@ class ServerQuery extends ActiveQuery
 
     public function withHardwareSales(): self
     {
+        $this->joinWith('hardwareSales');
         $this->andWhere(['with_hardwareSales' => true]);
 
         return $this;

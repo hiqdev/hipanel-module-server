@@ -25,6 +25,8 @@ use yii\base\NotSupportedException;
  *
  * @property int $id
  * @property string $name
+ *
+ * @property-read HardwareSale[] $hardwareSales
  */
 class Server extends \hipanel\base\Model
 {
@@ -294,7 +296,7 @@ class Server extends \hipanel\base\Model
 
     public function getHardwareSales()
     {
-        return $this->hasOne(HardwareSales::class, ['id' => 'id']);
+        return $this->hasMany(HardwareSale::class, ['id' => 'id']);
     }
 
     public function getSoftwareSettings()
