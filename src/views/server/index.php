@@ -101,7 +101,7 @@ JS
                     'options' => ['class' => 'pull-right'],
                     'items' => array_filter([
                         [
-                            'label' => '<i class="fa fa-exchange"></i> ' . Yii::t('hipanel:server', 'Assign hubs'),
+                            'label' => '<i class="fa fa-plug"></i> ' . Yii::t('hipanel:server', 'Assign hubs'),
                             'url' => '#',
                             'linkOptions' => ['data-action' => 'assign-hubs'],
                             'visible' => Yii::$app->user->can('server.update'),

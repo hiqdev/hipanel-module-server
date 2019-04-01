@@ -308,4 +308,5 @@ return [
     'Mail settings have been changed successfully' => 'Настройки почты были успешно изменены',
     'Number of mailboxes' => 'Количество почтовых ящиков',
     'View parts' => 'Смотреть детали',
+    'Hubs have been assigned' => 'Свитчи назначены',
 ];

@@ -202,7 +202,7 @@ class ServerController extends CrudController
             ],
             'assign-hubs' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server', 'Hubs were assigned'),
+                'success' => Yii::t('hipanel:server', 'Hubs have been assigned'),
                 'view' => 'assignHubs',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
@@ -218,7 +218,7 @@ class ServerController extends CrudController
                 'data' => function (Action $action, array $data) {
                     $result = [];
                     foreach ($data['models'] as $model) {
-                        $result['models'][] = AssignHubsForm::fromServer($model);
+                        $result['models'][] = AssignHubsForm::fromOriginalModel($model);
                     }
                     if (!$result['models']) {
                         throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
