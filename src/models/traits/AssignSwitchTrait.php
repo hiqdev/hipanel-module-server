@@ -4,6 +4,7 @@ namespace hipanel\modules\server\models\traits;
 
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Binding;
+use hipanel\modules\server\models\Server;
 use Yii;
 use yii\base\InvalidConfigException;
 
@@ -17,6 +18,11 @@ trait AssignSwitchTrait
      */
     public $switchVariants = [];
 
+    /**
+     * @param AssignSwitchInterface $originalModel
+     *
+     * @return AssignSwitchInterface
+     */
     public static function fromOriginalModel(AssignSwitchInterface $originalModel): AssignSwitchInterface
     {
         $attributes = array_merge($originalModel->getAttributes(), []);
@@ -54,6 +60,7 @@ trait AssignSwitchTrait
      * @param $defaultScenario
      * @param array $data
      * @param array $options
+     *
      * @return mixed
      */
     public function batchQuery($defaultScenario, $data = [], array $options = [])
@@ -63,7 +70,7 @@ trait AssignSwitchTrait
         ];
         $scenario = isset($map[$defaultScenario]) ? $map[$defaultScenario] : $defaultScenario;
 
-        return (new static)->batchQuery($scenario, $data, $options);
+        return parent::batchQuery($scenario, $data, $options);
     }
 
     /**

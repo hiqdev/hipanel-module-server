@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Sale;
@@ -28,7 +29,7 @@ use yii\base\NotSupportedException;
  * @property int $id
  * @property string $name
  */
-class Server extends \hipanel\base\Model implements AssignSwitchInterface
+class Server extends Model implements AssignSwitchInterface
 {
     use ModelTrait, AssignSwitchTrait;
 

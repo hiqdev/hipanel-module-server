@@ -52,7 +52,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
             ],
             'assign-hubs' => [
                 'label' => Yii::t('hipanel:server', 'Assign hubs'),
-                'icon' => 'fa-exchange',
+                'icon' => 'fa-plug',
                 'url' => ['@server/assign-hubs', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('server.update'),
                 'linkOptions' => [

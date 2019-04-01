@@ -202,7 +202,7 @@ class ServerController extends CrudController
             ],
             'assign-hubs' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server', 'Hubs were assigned'),
+                'success' => Yii::t('hipanel:server', 'Hubs have been assigned'),
                 'view' => 'assignHubs',
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */

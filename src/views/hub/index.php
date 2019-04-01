@@ -69,6 +69,7 @@ $this->registerCss('
             <?php endif; ?>
             <?php if (Yii::$app->user->can('hub.update')) : ?>
                 <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
+                <?= $page->renderBulkButton('assign-switches', '<i class="fa fa-plug"></i>&nbsp;&nbsp;' . Yii::t('hipanel:server:hub', 'Switches')) ?>
             <?php endif ?>
         <?php $page->endContent('bulk-actions') ?>
 
