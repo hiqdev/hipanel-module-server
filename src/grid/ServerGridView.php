@@ -81,7 +81,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 $models[] = $sale;
             }
         }
-        if ($user->can('plan.manager')) {
+        if ($user->can('plan.read')) {
             if (!empty($model->parent_tariff)) {
                 $title = $model->parent_tariff;
             } else {

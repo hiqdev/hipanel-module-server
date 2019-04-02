@@ -35,7 +35,7 @@ class ServerRepresentations extends RepresentationCollection
                     'tariff_and_discount',
                 ],
             ],
-            'hardware' => Yii::$app->user->can('support') ? [
+            'hardware' => Yii::$app->user->can('part.read') ? [
                 'label' => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',
