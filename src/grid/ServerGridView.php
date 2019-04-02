@@ -77,12 +77,11 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         $user = Yii::$app->user;
         $models = [];
         $html = '';
-        if ($user->can('support') && isset($model->sales)) {
+        if ($user->can('sale.read') && isset($model->sales)) {
             foreach ($model->sales as $sale) {
                 $models[] = $sale;
             }
-        }
-        if ($user->can('plan.read')) {
+        } elseif ($user->can('plan.read')) {
             if (!empty($model->parent_tariff)) {
                 $title = $model->parent_tariff;
             } else {
