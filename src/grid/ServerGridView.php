@@ -58,7 +58,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         $this->view->registerCss('
         .tariff-chain {
             list-style: none;
-            background-color: #f5f5f5;
+            background-color: transparent;
         }
         .tariff-chain > li {
             display: inline-block;
@@ -81,8 +81,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             foreach ($model->sales as $sale) {
                 $models[] = $sale;
             }
-        }
-        if ($user->can('plan.manager')) {
+        } elseif ($user->can('plan.manager')) {
             if (!empty($model->parent_tariff)) {
                 $title = $model->parent_tariff;
             } else {
@@ -91,7 +90,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
             $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
         } else {
-            $models[] = new Sale(['tariff' => !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff]);
+            $models[] = new Sale([
+                'tariff' => $model->tariff,
+                'tariff_id' => $model->tariff_id,
+            ]);
         }
 
         foreach ($models as $model) {
