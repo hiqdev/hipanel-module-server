@@ -12,6 +12,8 @@ use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
+use yii\helpers\Json;
+use yii\helpers\Url;
 use yii\web\JsExpression;
 
 /**
@@ -58,6 +60,20 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
+        <?php if ($uiModel->representation === 'hardware'
+            && Yii::getAlias('@part', false)
+            && Yii::$app->user->can('part.read')
+        ): ?>
+            <?php
+            $partsDetailsLink = Json::htmlEncode(Url::to(\hipanel\helpers\Url::toSearch('part')));
+            echo Html::button(Yii::t('hipanel:server', 'View parts'), [
+                    'class' => 'btn btn-sm btn-default',
+                    'onClick' => new JsExpression(<<<JS
+                        const selection = jQuery('div[role="grid"]').yiiGridView('getSelectedRows');
+                        window.location.href = $partsDetailsLink + '?' + jQuery.param({PartSearch: {dst_id_in: selection}});
+JS
+            )]) ?>
+        <?php endif ?>
         <?php if (Yii::$app->user->can('server.sell')): ?>
             <?= AjaxModal::widget([
                 'id' => 'bulk-sale-modal',
@@ -85,7 +101,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     'options' => ['class' => 'pull-right'],
                     'items' => array_filter([
                         [
-                            'label' => '<i class="fa fa-exchange"></i> ' . Yii::t('hipanel:server', 'Assign hubs'),
+                            'label' => '<i class="fa fa-plug"></i> ' . Yii::t('hipanel:server', 'Assign hubs'),
                             'url' => '#',
                             'linkOptions' => ['data-action' => 'assign-hubs'],
                             'visible' => Yii::$app->user->can('server.update'),

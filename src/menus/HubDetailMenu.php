@@ -10,6 +10,8 @@
 
 namespace hipanel\modules\server\menus;
 
+use Yii;
+
 class HubDetailMenu extends \hipanel\menus\AbstractDetailMenu
 {
     public $model;
@@ -17,7 +19,16 @@ class HubDetailMenu extends \hipanel\menus\AbstractDetailMenu
     public function items()
     {
         $actions = HubActionsMenu::create(['model' => $this->model])->items();
-        $items = array_merge($actions, []);
+        $items = array_merge($actions, [
+            'assign-switches' => [
+                'label' => Yii::t('hipanel:server', 'Switches'),
+                'icon' => 'fa-plug',
+                'url' => ['@hub/assign-switches', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+            ],
+        ]);
         unset($items['view']);
 
         return $items;

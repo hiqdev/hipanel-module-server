@@ -49,6 +49,16 @@ class ServerQuery extends ActiveQuery
         return $this;
     }
 
+    public function withMailSettings(): self
+    {
+        if (Yii::$app->user->can('part.read')) {
+            $this->joinWith(['mailSettings']);
+            $this->andWhere(['with_mailSettings' => 1]);
+        }
+
+        return $this;
+    }
+
     public function withHardwareSettings(): self
     {
         if (Yii::$app->user->can('part.read')) {
@@ -89,6 +99,7 @@ class ServerQuery extends ActiveQuery
 
     public function withHardwareSales(): self
     {
+        $this->joinWith('hardwareSales');
         $this->andWhere(['with_hardwareSales' => true]);
 
         return $this;

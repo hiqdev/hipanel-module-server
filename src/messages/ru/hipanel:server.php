@@ -300,4 +300,13 @@ return [
     'Traffic' => 'Трафик',
     'Additional services' => 'Доп. услуги',
     'Type of sale' => 'Тип продажи',
+
+    'Save settings' => 'Сохранить настройки',
+    'Mail settings' => 'Настройки почты',
+    'Mails per hour limit' => 'Лимит писем в час',
+    'Block sending mail' => 'Блокировать отправку почты',
+    'Mail settings have been changed successfully' => 'Настройки почты были успешно изменены',
+    'Number of mailboxes' => 'Количество почтовых ящиков',
+    'View parts' => 'Смотреть детали',
+    'Hubs have been assigned' => 'Свитчи назначены',
 ];

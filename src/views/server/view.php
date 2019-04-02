@@ -245,7 +245,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 ], 'detailed_type',
                                 'ip', 'note', 'label',
                                 'state', 'blocking',
-                                'os', 'panel',
+                                'os', 'panel', 'mails_num'
                             ],
                         ]);
                         if (!empty($model->softwareSettings->failure_contacts)) {

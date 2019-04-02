@@ -10,11 +10,14 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\base\Model;
+use hipanel\base\ModelTrait;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Sale;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\query\ServerQuery;
+use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use Yii;
@@ -25,10 +28,12 @@ use yii\base\NotSupportedException;
  *
  * @property int $id
  * @property string $name
+ *
+ * @property-read HardwareSale[] $hardwareSales
  */
-class Server extends \hipanel\base\Model
+class Server extends Model implements AssignSwitchInterface
 {
-    use \hipanel\base\ModelTrait;
+    use ModelTrait, AssignSwitchTrait;
 
     const STATE_OK = 'ok';
     const STATE_DISABLED = 'disabled';
@@ -44,7 +49,7 @@ class Server extends \hipanel\base\Model
     public function rules()
     {
         return [
-            [['id', 'tariff_id', 'client_id', 'seller_id'], 'integer'],
+            [['id', 'tariff_id', 'client_id', 'seller_id', 'mails_num'], 'integer'],
             [['osimage'], EidValidator::class],
             [['panel'], RefValidator::class],
             [
@@ -294,12 +299,17 @@ class Server extends \hipanel\base\Model
 
     public function getHardwareSales()
     {
-        return $this->hasOne(HardwareSales::class, ['id' => 'id']);
+        return $this->hasMany(HardwareSale::class, ['id' => 'id']);
     }
 
     public function getSoftwareSettings()
     {
         return $this->hasOne(SoftwareSettings::class, ['id' => 'id']);
+    }
+
+    public function getMailSettings()
+    {
+        return $this->hasOne(MailSettings::class, ['id' => 'id']);
     }
 
     public function getBinding($type)
@@ -353,6 +363,7 @@ class Server extends \hipanel\base\Model
             'order_no' => Yii::t('hipanel:server', 'Order'),
             'move_accounts' => Yii::t('hipanel:server', 'Move accounts to new client'),
             'server' => Yii::t('hipanel:server', 'Server name'),
+            'mails_num' => Yii::t('hipanel:server', 'Number of mailboxes'),
         ]);
     }
 

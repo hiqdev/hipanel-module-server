@@ -29,6 +29,7 @@ class HubRepresentations extends RepresentationCollection
                     'type',
                     'ip',
                     'mac',
+                    'order_no',
                 ],
             ],
             'sale' => [

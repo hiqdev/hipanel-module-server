@@ -104,6 +104,11 @@ class HubGridView extends \hipanel\grid\BoxedGridView
                 'attribute' => 'sale_time',
                 'format' => 'datetime',
             ],
+            'order_no' => [
+                'attribute' => 'order_no',
+                'filterAttribute' => 'order_no_ilike',
+                'enableSorting' => false,
+            ]
         ]);
     }
 }
