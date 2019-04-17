@@ -8,7 +8,6 @@ use yii\helpers\Url;
 
 /** @var \hipanel\modules\server\models\Server $model */
 /** @var \hipanel\modules\server\models\Server[] $models */
-
 $model->hardwareSettings->scenario = 'set-rack-no';
 $this->title = Yii::t('hipanel:server', 'Set Rack No.');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
@@ -44,7 +43,7 @@ $model->rack_id = $model->rack_port = null;
                             </div>
                         </div>
                         <div style="padding: 0 1rem">
-                            <?= $form->field($model, "rack_id")->widget(HubCombo::class, ['hubType' => HubCombo::RACK]) ?>
+                            <?= $form->field($model, 'rack_id')->widget(HubCombo::class, ['hubType' => HubCombo::RACK]) ?>
                         </div>
                         <?php foreach ($models as $model) : ?>
                             <?= Html::activeHiddenInput($model, "[{$model->id}]id") ?>

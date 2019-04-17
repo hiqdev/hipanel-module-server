@@ -5,13 +5,13 @@ use hipanel\modules\server\grid\ServerGridLegend;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OsimageSearch;
 use hipanel\widgets\AjaxModal;
+use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
-use hipanel\widgets\AjaxModalWithTemplatedButton;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         const selection = jQuery('div[role="grid"]').yiiGridView('getSelectedRows');
                         window.location.href = $partsDetailsLink + '?' + jQuery.param({PartSearch: {dst_id_in: selection}});
 JS
-            )]) ?>
+            ), ]) ?>
         <?php endif ?>
         <?php if (Yii::$app->user->can('server.sell')): ?>
             <?= AjaxModal::widget([

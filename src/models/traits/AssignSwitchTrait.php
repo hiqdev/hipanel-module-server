@@ -1,10 +1,17 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\models\traits;
 
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Binding;
-use hipanel\modules\server\models\Server;
 use Yii;
 use yii\base\InvalidConfigException;
 
@@ -12,7 +19,7 @@ trait AssignSwitchTrait
 {
     /**
      * List of switch types
-     * Example: ['net', 'kvm', 'pdu', 'rack', 'console']
+     * Example: ['net', 'kvm', 'pdu', 'rack', 'console'].
      *
      * @var array
      */
@@ -47,6 +54,7 @@ trait AssignSwitchTrait
             $variantIds[] = $variant . '_id';
             $variantPorts[] = $variant . '_port';
         }
+
         return [
             [['id'], 'required'],
             [$variantIds, 'integer'],
@@ -55,7 +63,7 @@ trait AssignSwitchTrait
     }
 
     /**
-     * For compatibility with [[hiqdev\hiart\Collection]]
+     * For compatibility with [[hiqdev\hiart\Collection]].
      *
      * @param $defaultScenario
      * @param array $data
@@ -74,10 +82,10 @@ trait AssignSwitchTrait
     }
 
     /**
-     * Added to model's rules list of switch pairs
+     * Added to model's rules list of switch pairs.
      *
-     * @return array
      * @throws InvalidConfigException
+     * @return array
      */
     protected function generateUniqueValidators(): array
     {

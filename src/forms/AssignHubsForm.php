@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\forms;
 
@@ -7,7 +15,7 @@ use hipanel\modules\server\models\Server;
 use Yii;
 
 /**
- * Class AssignHubsForm
+ * Class AssignHubsForm.
  */
 class AssignHubsForm extends Server
 {
@@ -19,7 +27,7 @@ class AssignHubsForm extends Server
     public $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'pdu2', 'nic2', 'ipmi'];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -27,7 +35,7 @@ class AssignHubsForm extends Server
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -42,4 +50,3 @@ class AssignHubsForm extends Server
         ]);
     }
 }
-

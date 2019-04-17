@@ -2,14 +2,10 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\widgets\AssignSwitchesPage;
-use hipanel\modules\server\widgets\combo\HubCombo;
-use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
-use yii\bootstrap\Html;
 
 /** @var \hipanel\modules\server\models\Server $model */
 /** @var \hipanel\modules\server\models\Server[] $models */
-
 $this->title = Yii::t('hipanel:server', 'Assign hubs');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
 if (count($models) === 1) {

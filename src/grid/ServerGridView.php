@@ -5,7 +5,7 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
@@ -38,7 +38,6 @@ use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\widgets\ListView;
 
 class ServerGridView extends \hipanel\grid\BoxedGridView
 {
@@ -100,10 +99,10 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             if ($model->tariff) {
                 $tariff = $model->tariff_id ? Html::a($model->tariff, [
                     '@plan/view',
-                    'id' => $model->tariff_id
+                    'id' => $model->tariff_id,
                 ]) : $model->tariff;
                 $client = $model->seller ? '(' . Html::a($model->seller, [
-                    '@client/view', 'id' => $model->seller_id
+                    '@client/view', 'id' => $model->seller_id,
                 ]) . ')' : '';
 
                 $html .= Html::tag('li', $tariff . '&nbsp;' . $client);
@@ -280,7 +279,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                                     </div>
                                 ',
                             ],
-                        ]
+                        ],
                     ]);
                 },
             ],
@@ -451,8 +450,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
     private function getAdditionalServices($model): string
     {
-        $additional = new class() extends Model
-        {
+        $additional = new class() extends Model {
             /**
              * @var string
              */
@@ -532,11 +530,12 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'delimiter' => '<br/>',
                 'visibleCount' => 0,
                 'button' => [
-                    'label' => (function() use ($usageType, $sales) {
+                    'label' => (function () use ($usageType, $sales) {
                         if ($usageType === HardwareSale::USAGE_TYPE_LEASING) {
                             /** @var \DateTime $maxLeasingDate */
                             $maxLeasingDate = array_reduce($sales, function (\DateTime $max, HardwareSale $item) {
                                 $date = $item->saleTime();
+
                                 return $date > $max ? $date : $max;
                             }, new \DateTime());
 
@@ -560,7 +559,6 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                                 <div class="popover-content" style="height: 25rem; overflow-x: scroll;"></div>
                             </div>
                         ',
-
                     ],
                 ],
                 'formatter' => function (HardwareSale $item) {

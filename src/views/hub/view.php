@@ -1,16 +1,13 @@
 <?php
 
-use hipanel\helpers\Url;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
-use hipanel\modules\server\widgets\SellForm;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\SettingsModal;
 use yii\helpers\Html;
-
 
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];

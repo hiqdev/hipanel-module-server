@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\forms;
 
@@ -13,7 +21,7 @@ class AssignSwitchesForm extends Hub implements AssignSwitchInterface
     public $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'console'];
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -21,7 +29,7 @@ class AssignSwitchesForm extends Hub implements AssignSwitchInterface
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {

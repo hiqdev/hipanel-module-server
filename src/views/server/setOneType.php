@@ -7,7 +7,6 @@ use yii\helpers\Url;
 
 /** @var \hipanel\modules\server\models\Server $model */
 /** @var \hipanel\modules\server\models\Server[] $models */
-
 $this->title = Yii::t('hipanel:server', 'Set one type to many servers');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -38,7 +37,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="box-body">
                 <div class="row">
                     <div class="col-md-2">
-                        <?php $model->type = null; echo $form->field($model, "type")->dropDownList($model->typeOptions, ['prompt' => '--']) ?>
+                        <?php $model->type = null; echo $form->field($model, 'type')->dropDownList($model->typeOptions, ['prompt' => '--']) ?>
                     </div>
                 </div>
                 <?php foreach ($models as $model) : ?>

@@ -1,10 +1,10 @@
 <?php
 
-use hipanel\widgets\Box;
-use yii\widgets\Pjax;
 use hipanel\helpers\Url;
-use yii\widgets\DetailView;
+use hipanel\widgets\Box;
 use yii\helpers\Html;
+use yii\widgets\DetailView;
+use yii\widgets\Pjax;
 
 ?>
 

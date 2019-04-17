@@ -19,7 +19,6 @@ use yii\web\View;
  * @var string $actionUrl
  * @var string $validationUrl
  */
-
 ?>
 
 <div>

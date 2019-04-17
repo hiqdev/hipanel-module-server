@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\models;
 
@@ -10,7 +18,7 @@ use hipanel\modules\server\helpers\consumptionPriceFormatter\SinglePrice;
 use Yii;
 
 /**
- * Class Consumption
+ * Class Consumption.
  *
  * @property string $type
  * @property float[] $value
@@ -36,9 +44,9 @@ class Consumption extends \hipanel\base\Model
     }
 
     /**
-     * Get type label
-     * @return string
+     * Get type label.
      * @throws \yii\base\InvalidConfigException
+     * @return string
      */
     public function getTypeLabel(): string
     {
