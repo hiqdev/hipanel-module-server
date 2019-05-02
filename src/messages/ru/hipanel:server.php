@@ -217,6 +217,7 @@ return [
     '(not sold)' => '(не продан)',
     'Create server' => 'Создать сервер',
     'Server name' => 'Название сервера',
+    'To new tab {icon}' => 'Открыть список {icon}',
 
     /// Server states
     'On' => 'Ок, без панели',

@@ -551,7 +551,12 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                     'popoverOptions' => [
                         'html' => true,
                         'placement' => 'bottom',
-                        'title' => Yii::t('hipanel:stock', 'Parts'),
+                        'title' => Yii::t('hipanel:server', 'Parts') . ' '
+                            . Html::a(
+                                Yii::t('hipanel:server', 'To new tab {icon}', ['icon' => '<i class="fa fa-external-link"></i>']),
+                                Url::toSearch('part', ['dst_name_in' => $model->name]),
+                                ['class' => 'pull-right', 'target' => '_blank']
+                            ),
                         'template' => '
                             <div class="popover" role="tooltip">
                                 <div class="arrow"></div>
