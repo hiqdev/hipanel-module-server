@@ -286,7 +286,7 @@ class ServerController extends CrudController
                 'data' => function (Action $action, array $data) {
                     $result = [];
                     foreach ($data['models'] as $model) {
-                        $result['models'][] = AssignHubsForm::fromServer($model);
+                        $result['models'][] = AssignHubsForm::fromOriginalModel($model);
                     }
                     if (!$result['models']) {
                         throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
