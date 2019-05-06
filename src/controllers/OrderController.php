@@ -81,29 +81,33 @@ class OrderController extends CrudController
 
     public function actionIndex()
     {
-        $language = Yii::$app->language;
-        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
-        return $this->render('index');
+        return $this->redirectOutside();
+        //return $this->render('index');
     }
 
     public function actionXenSsd()
     {
-        $language = Yii::$app->language;
-        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
-        return $this->render('xen_ssd', [
+        return $this->redirectOutside();
+        /*return $this->render('xen_ssd', [
             'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_XEN),
             'tariffTypes' => Yii::$app->params['vdsproduct'],
-        ]);
+        ]);*/
     }
 
     public function actionOpenVz()
     {
-        $language = Yii::$app->language;
-        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
-        return $this->render('open_vz', [
+        return $this->redirectOutside();
+        /*return $this->render('open_vz', [
             'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_OPENVZ),
             'tariffTypes' => Yii::$app->params['vdsproduct'],
-        ]);
+        ]);*/
+    }
+
+    protected function redirectOutside()
+    {
+        $language = Yii::$app->language;
+        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
+
     }
 
     public function actionTariffsDetails()
