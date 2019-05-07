@@ -68,6 +68,8 @@ class OrderController extends CrudController
 
     public function actionOrder($id)
     {
+        return $this->redirectOutside();
+        /***
         $package = ServerHelper::getAvailablePackages(null, $id);
         $osImages = ServerHelper::getOsimages($package->tariff->type);
 
@@ -77,37 +79,37 @@ class OrderController extends CrudController
             'groupedOsimages' => ServerHelper::groupOsimages($osImages),
             'panels' => ServerHelper::getPanels(),
         ]);
+        ***/
     }
 
     public function actionIndex()
     {
         return $this->redirectOutside();
-        //return $this->render('index');
+        /***
+        return $this->render('index');
+         ***/
     }
 
     public function actionXenSsd()
     {
         return $this->redirectOutside();
-        /*return $this->render('xen_ssd', [
+        /***
+        return $this->render('xen_ssd', [
             'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_XEN),
             'tariffTypes' => Yii::$app->params['vdsproduct'],
-        ]);*/
+        ]);
+        ***/
     }
 
     public function actionOpenVz()
     {
         return $this->redirectOutside();
-        /*return $this->render('open_vz', [
+        /***
+        return $this->render('open_vz', [
             'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_OPENVZ),
             'tariffTypes' => Yii::$app->params['vdsproduct'],
-        ]);*/
-    }
-
-    protected function redirectOutside()
-    {
-        $language = Yii::$app->language;
-        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
-
+        ]);
+        ***/
     }
 
     public function actionTariffsDetails()
@@ -123,5 +125,13 @@ class OrderController extends CrudController
     public function actionWhatIsVds()
     {
         return $this->render('what_is_vds');
+    }
+
+    protected function redirectOutside()
+    {
+        $language = Yii::$app->language;
+        $template = Yii::$app->params['module.server.redirect.url'];
+        $url = preg_replace('/{language}/', $language, $template);
+        return $this->redirect($url);
     }
 }
