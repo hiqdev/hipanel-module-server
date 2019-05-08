@@ -37,6 +37,14 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
                 'url' => ['@hub/options', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('hub.update'),
             ],
+            'assign-switches' => [
+                'label' => Yii::t('hipanel:server', 'Switches'),
+                'icon' => 'fa-plug',
+                'url' => ['@hub/assign-switches', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
+            ],
         ];
     }
 }
