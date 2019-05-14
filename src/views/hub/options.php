@@ -2,7 +2,9 @@
 
 /** @var array $snmpOptions */
 /** @var array $digitalCapacityOptions */
+
 /** @var array $nicMediaOptions */
+
 use hipanel\helpers\Url;
 use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\widgets\PasswordInput;
@@ -59,14 +61,15 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                 </div>
             </div>
-            <div class="box-footer">
-
-                <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
-                &nbsp;
-                <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
-            </div>
         </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-md-12">
+        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
+        &nbsp;
+        <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 </div>
 

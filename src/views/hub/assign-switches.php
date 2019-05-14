@@ -21,8 +21,4 @@ $this->params['breadcrumbs'][] = $this->title;
     'validationUrl' => Url::toRoute(['validate-switches-form', 'scenario' => 'default']),
 ]) ?>
 
-<?= AssignSwitchesPage::widget([
-    'models' => $models,
-    'switchVariants' => ['net', 'kvm', 'pdu', 'rack', 'console'],
-    'form' => $form,
-]) ?>
+<?= AssignSwitchesPage::widget(['models' => $models, 'form' => $form]) ?>

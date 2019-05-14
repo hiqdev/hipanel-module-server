@@ -18,7 +18,7 @@ class AssignSwitchesForm extends Hub implements AssignSwitchInterface
 {
     use ModelTrait;
 
-    public $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'console'];
+    protected $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'console', 'location'];
 
     /**
      * {@inheritdoc}

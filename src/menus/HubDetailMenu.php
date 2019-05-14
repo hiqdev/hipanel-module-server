@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\menus;
 
 use hipanel\menus\AbstractDetailMenu;
+use Yii;
 
 class HubDetailMenu extends AbstractDetailMenu
 {
@@ -19,8 +20,24 @@ class HubDetailMenu extends AbstractDetailMenu
     public function items()
     {
         $actions = HubActionsMenu::create(['model' => $this->model])->items();
-        unset($actions['view']);
+        $items = array_merge($actions, [
+            'delete' => [
+                'label' => Yii::t('hipanel', 'Delete'),
+                'icon' => 'fa-trash',
+                'url' => ['@hub/delete', 'id' => $this->model->id],
+                'encode' => false,
+                'visible' => Yii::$app->user->can('hub.delete'),
+                'linkOptions' => [
+                    'data' => [
+                        'confirm' => Yii::t('hipanel', 'Are you sure you want to delete this item?'),
+                        'method' => 'POST',
+                        'pjax' => '0',
+                    ],
+                ],
+            ],
+        ]);
+        unset($items['view']);
 
-        return $actions;
+        return $items;
     }
 }

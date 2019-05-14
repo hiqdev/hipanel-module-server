@@ -10,14 +10,12 @@
 
 namespace hipanel\modules\server\widgets;
 
-class AssignSwitchesPage extends \yii\base\Widget
+use yii\base\Widget;
+
+class AssignSwitchesPage extends Widget
 {
     /**
-     * @var array
-     */
-    public $switchVariants = [];
-
-    /**
+     * Rack -> location Location -> location
      * @var
      */
     public $form;
@@ -39,7 +37,6 @@ class AssignSwitchesPage extends \yii\base\Widget
     public function run()
     {
         return $this->render('AssignSwitchesPage', [
-            'switchVariants' => $this->switchVariants,
             'form' => $this->form,
             'models' => $this->models,
         ]);
@@ -48,11 +45,16 @@ class AssignSwitchesPage extends \yii\base\Widget
     public function getFormFields(): array
     {
         $fields = [];
-        foreach ($this->switchVariants as $name) {
+        foreach (reset($this->models)->switchVariants as $name) {
             $fields[] = $name . '_id';
             $fields[] = $name . '_port';
         }
 
         return array_merge(['id'], $fields);
+    }
+
+    public function hasPort(string $variant): bool
+    {
+        return $variant !== 'location';
     }
 }
