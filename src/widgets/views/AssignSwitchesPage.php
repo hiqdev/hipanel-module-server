@@ -30,7 +30,7 @@ use yii\helpers\Inflector;
                     </div>
                     <div class="box-body">
                         <div class="row">
-                            <?php foreach (array_chunk($switchVariants, 4) as $rows) : ?>
+                            <?php foreach (array_chunk($model->getSwitchVariants(), 4) as $rows) : ?>
                                 <?php foreach ($rows as $variant) : ?>
                                     <div class="col-md-3">
                                         <table class="table table-condensed" style="table-layout: fixed;">
@@ -41,15 +41,17 @@ use yii\helpers\Inflector;
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td>
+                                                <td colspan="<?= $this->context->hasPort($variant) ? 1 : 2 ?>">
                                                     <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, [
                                                         'name' => $variant,
                                                         'hubType' => $this->context->variantMap[$variant] ?? $variant,
                                                     ])->label(false) ?>
                                                 </td>
-                                                <td>
-                                                    <?= $form->field($model, "[$i]{$variant}_port")->label(false) ?>
-                                                </td>
+                                                <?php if ($this->context->hasPort($variant)) : ?>
+                                                    <td>
+                                                        <?= $form->field($model, "[$i]{$variant}_port")->label(false) ?>
+                                                    </td>
+                                                <?php endif; ?>
                                             </tr>
                                             </tbody>
                                         </table>

@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\grid;
 
 use hipanel\base\Model;
+use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
@@ -39,7 +40,7 @@ use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-class ServerGridView extends \hipanel\grid\BoxedGridView
+class ServerGridView extends BoxedGridView
 {
     use ColorizeGrid;
 
@@ -342,6 +343,9 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'class' => BindingColumn::class,
             ],
             'ipmi' => [
+                'class' => BindingColumn::class,
+            ],
+            'location' => [
                 'class' => BindingColumn::class,
             ],
             'nums' => [

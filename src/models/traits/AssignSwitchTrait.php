@@ -10,6 +10,8 @@
 
 namespace hipanel\modules\server\models\traits;
 
+use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Binding;
 use Yii;
@@ -23,7 +25,7 @@ trait AssignSwitchTrait
      *
      * @var array
      */
-    public $switchVariants = [];
+    protected $switchVariants = [];
 
     /**
      * @param AssignSwitchInterface $originalModel
@@ -50,7 +52,7 @@ trait AssignSwitchTrait
     {
         $variantIds = [];
         $variantPorts = [];
-        foreach ($this->switchVariants as $variant) {
+        foreach ($this->getSwitchVariants() as $variant) {
             $variantIds[] = $variant . '_id';
             $variantPorts[] = $variant . '_port';
         }
@@ -82,10 +84,29 @@ trait AssignSwitchTrait
     }
 
     /**
+     * This method decides which `assigns` will be offered in the form based on the type of the current model
+     *
+     * @return array
+     */
+    public function getSwitchVariants(): array
+    {
+        $map = [
+            'rack' => ['location'],
+            'location' => ['location'],
+        ];
+        /** @var AssignSwitchesForm|AssignHubsForm $this */
+        if ($this instanceof AssignSwitchesForm && isset($map[$this->type])) {
+            return $map[$this->type];
+        }
+
+        return $this->switchVariants;
+    }
+
+    /**
      * Added to model's rules list of switch pairs.
      *
-     * @throws InvalidConfigException
      * @return array
+     * @throws InvalidConfigException
      */
     protected function generateUniqueValidators(): array
     {
@@ -94,7 +115,7 @@ trait AssignSwitchTrait
         }
         $rules = [];
 
-        foreach ($this->switchVariants as $variant) {
+        foreach ($this->getSwitchVariants() as $variant) {
             $rules[] = [
                 [$variant . '_port'],
                 function ($attribute, $params, $validator) use ($variant) {

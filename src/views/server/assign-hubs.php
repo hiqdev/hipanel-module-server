@@ -6,6 +6,7 @@ use yii\bootstrap\ActiveForm;
 
 /** @var \hipanel\modules\server\models\Server $model */
 /** @var \hipanel\modules\server\models\Server[] $models */
+
 $this->title = Yii::t('hipanel:server', 'Assign hubs');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
 if (count($models) === 1) {
@@ -22,8 +23,4 @@ $this->params['breadcrumbs'][] = $this->title;
     'validationUrl' => Url::toRoute(['validate-assign-hubs-form', 'scenario' => 'default']),
 ]) ?>
 
-<?= AssignSwitchesPage::widget([
-    'models' => $models,
-    'switchVariants' => ['rack', 'net', 'pdu', 'ipmi', 'kvm', 'nic2', 'pdu2'],
-    'form' => $form,
-]) ?>
+<?= AssignSwitchesPage::widget(['models' => $models, 'form' => $form]) ?>

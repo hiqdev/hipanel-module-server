@@ -32,7 +32,7 @@ $this->registerCss('
             </div>
             <div class="col-md-12">
                 <?php
-                $box = Box::begin(['renderBody' => false]);
+                $box = Box::begin(['renderBody' => false, 'bodyOptions' => ['class' => 'no-padding']]);
                 $box->beginHeader();
                 echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
                 $box->endHeader();
@@ -42,6 +42,8 @@ $this->registerCss('
                     'boxed' => false,
                     'columns' => [
                         'net',
+                        'kvm',
+                        'location',
                         'pdu',
                         'rack',
                         'ipmi',

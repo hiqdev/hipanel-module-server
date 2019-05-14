@@ -94,7 +94,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
             'tariff' => [
                 'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
-                'value' => function (Hub $model): string {
+                'value' => function (Hub $model): ?string {
                     return Yii::$app->user->can('plan.read')
                         ? Html::a($model->tariff, ['@plan/view', 'id' => $model->tariff_id])
                         : $model->tariff;

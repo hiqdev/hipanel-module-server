@@ -13,6 +13,7 @@ namespace hipanel\modules\server\controllers;
 use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
@@ -170,6 +171,10 @@ class HubController extends CrudController
 
                     return $result;
                 },
+            ],
+            'delete' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Switches have been deleted'),
             ],
             'validate-switches-form' => [
                 'class' => ValidateFormAction::class,

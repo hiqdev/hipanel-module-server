@@ -37,4 +37,6 @@ return [
     'Sell switches' => 'Продать свитчи',
     'Switch name' => 'Свитч',
     'sale' => 'продажа',
+    'Location' => 'Размещение',
+    'Edit switches' => 'Редактировать свитчи',
 ];

@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\models;
 
+use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\modules\server\models\query\HubQuery;
 use hipanel\modules\server\models\traits\AssignSwitchTrait;
@@ -17,7 +18,7 @@ use hipanel\modules\server\validators\MacValidator;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
-class Hub extends \hipanel\base\Model implements AssignSwitchInterface
+class Hub extends Model implements AssignSwitchInterface
 {
     use ModelTrait, AssignSwitchTrait;
 
@@ -57,6 +58,7 @@ class Hub extends \hipanel\base\Model implements AssignSwitchInterface
 
             [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
             [['mac'], MacValidator::class],
+            [['id'], 'required', 'on' => 'delete'],
         ]);
     }
 
@@ -89,6 +91,7 @@ class Hub extends \hipanel\base\Model implements AssignSwitchInterface
             'pdu' => Yii::t('hipanel:server', 'APC'),
             'rack_like' => Yii::t('hipanel:server', 'Rack'),
             'ipmi' => Yii::t('hipanel:server', 'IPMI'),
+            'location' => Yii::t('hipanel:server:hub', 'Location'),
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
         ]);
