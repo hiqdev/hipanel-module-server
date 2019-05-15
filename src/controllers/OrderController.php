@@ -81,15 +81,13 @@ class OrderController extends CrudController
 
     public function actionIndex()
     {
-        $language = Yii::$app->language;
-        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
+        return $this->redirectVDS();
         return $this->render('index');
     }
 
     public function actionXenSsd()
     {
-        $language = Yii::$app->language;
-        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
+        return $this->redirectVDS();
         return $this->render('xen_ssd', [
             'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_XEN),
             'tariffTypes' => Yii::$app->params['vdsproduct'],
@@ -98,8 +96,7 @@ class OrderController extends CrudController
 
     public function actionOpenVz()
     {
-        $language = Yii::$app->language;
-        return $this->redirect("https://advancedhosting.com/{$language}/cloud-servers?refid=ahmen{$language}");
+        return $this->redirectVDS();
         return $this->render('open_vz', [
             'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_OPENVZ),
             'tariffTypes' => Yii::$app->params['vdsproduct'],
@@ -119,5 +116,13 @@ class OrderController extends CrudController
     public function actionWhatIsVds()
     {
         return $this->render('what_is_vds');
+    }
+
+    protected function redirectVDS()
+    {
+        $language = Yii::$app->language;
+        $template = Yii::$app->params['module.server.redirect.url'];
+        $url = preg_replace('/{language}/', $language, $template);
+        return $this->redirect($url);
     }
 }
