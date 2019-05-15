@@ -3,7 +3,6 @@
 /** @var \hipanel\modules\server\models\Server $model */
 
 /** @var array $consumption */
-
 use hipanel\modules\server\helpers\ServerSort;
 use yii\helpers\Html;
 

@@ -5,7 +5,7 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
@@ -35,7 +35,7 @@ class ServerRepresentations extends RepresentationCollection
                     'tariff_and_discount',
                 ],
             ],
-            'hardware' => Yii::$app->user->can('support') ? [
+            'hardware' => Yii::$app->user->can('part.read') ? [
                 'label' => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',

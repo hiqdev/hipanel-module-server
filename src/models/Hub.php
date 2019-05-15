@@ -5,18 +5,21 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
 
+use hipanel\base\ModelTrait;
+use hipanel\modules\server\models\query\HubQuery;
+use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\server\validators\MacValidator;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
-class Hub extends \hipanel\base\Model
+class Hub extends \hipanel\base\Model implements AssignSwitchInterface
 {
-    use \hipanel\base\ModelTrait;
+    use ModelTrait, AssignSwitchTrait;
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
@@ -31,7 +34,7 @@ class Hub extends \hipanel\base\Model
                 'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'buyer', 'note', 'inn', 'model',
                 'community', 'login', 'traf_server_id', 'order_no', 'password', 'ports_num', 'traf_server_id',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
-                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type'
+                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type',
             ], 'string'],
             [['virtual'], 'boolean'],
 
@@ -108,5 +111,16 @@ class Hub extends \hipanel\base\Model
     public function getHardwareSettings(): ActiveQuery
     {
         return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return HubQuery
+     */
+    public static function find($options = [])
+    {
+        return new HubQuery(get_called_class(), [
+            'options' => $options,
+        ]);
     }
 }

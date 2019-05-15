@@ -7,7 +7,6 @@ use yii\helpers\Url;
 
 /** @var \hipanel\modules\server\models\Server $model */
 /** @var \hipanel\modules\server\models\Server[] $models */
-
 $model->hardwareSettings->scenario = 'set-units';
 $this->title = Yii::t('hipanel:server', 'Set units');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
@@ -44,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         </div>
                         <div style="padding: 0 1rem;">
                             <?php $model->hardwareSettings->units = null;
-                            echo $form->field($model->hardwareSettings, "units") ?>
+                            echo $form->field($model->hardwareSettings, 'units') ?>
                         </div>
                         <?php foreach ($models as $model) : ?>
                             <?= Html::activeHiddenInput($model->hardwareSettings, "[{$model->hardwareSettings->id}]id") ?>

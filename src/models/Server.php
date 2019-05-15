@@ -5,30 +5,35 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
 
+use hipanel\base\Model;
+use hipanel\base\ModelTrait;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Sale;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\query\ServerQuery;
+use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use Yii;
 use yii\base\NotSupportedException;
 
 /**
- * Class Server
+ * Class Server.
  *
  * @property int $id
  * @property string $name
+ *
+ * @property-read HardwareSale[] $hardwareSales
  */
-class Server extends \hipanel\base\Model
+class Server extends Model implements AssignSwitchInterface
 {
-    use \hipanel\base\ModelTrait;
+    use ModelTrait, AssignSwitchTrait;
 
     const STATE_OK = 'ok';
     const STATE_DISABLED = 'disabled';
@@ -294,7 +299,7 @@ class Server extends \hipanel\base\Model
 
     public function getHardwareSales()
     {
-        return $this->hasOne(HardwareSales::class, ['id' => 'id']);
+        return $this->hasMany(HardwareSale::class, ['id' => 'id']);
     }
 
     public function getSoftwareSettings()

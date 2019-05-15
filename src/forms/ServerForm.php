@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\forms;
 
@@ -8,14 +16,14 @@ use hipanel\modules\server\validators\MacValidator;
 use yii\helpers\ArrayHelper;
 
 /**
- * Class ServerForm represent create/update form
+ * Class ServerForm represent create/update form.
  */
 class ServerForm extends Server
 {
     use \hipanel\base\ModelTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -23,7 +31,7 @@ class ServerForm extends Server
     }
 
     /**
-     * Create ServerForm model from Server model
+     * Create ServerForm model from Server model.
      *
      * @param Server $server
      * @return ServerForm
@@ -36,32 +44,31 @@ class ServerForm extends Server
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
         return array_merge(parent::rules(), [
-
             // Create/update servers
             [['server', 'type', 'state'], 'required', 'on' => ['create', 'update']],
             [['server', 'dc'], 'unique', 'on' => ['create']],
             [
                 ['server'], 'unique', 'on' => ['update'], 'when' => function ($model) {
-                if ($model->isAttributeChanged('server')) {
-                    return self::findOne($model->id)->name !== $model->server;
-                }
+                    if ($model->isAttributeChanged('server')) {
+                        return self::findOne($model->id)->name !== $model->server;
+                    }
 
-                return false;
-            },
+                    return false;
+                },
             ],
             [
                 ['dc'], 'unique', 'on' => ['update'], 'when' => function ($model) {
-                if ($model->isAttributeChanged('dc')) {
-                    return self::findOne($model->id)->dc !== $model->dc;
-                }
+                    if ($model->isAttributeChanged('dc')) {
+                        return self::findOne($model->id)->dc !== $model->dc;
+                    }
 
-                return false;
-            },
+                    return false;
+                },
             ],
             [['name', 'dc', 'label', 'order_no', 'hwsummary'], 'string', 'on' => ['create', 'update']],
             [['mac'], MacValidator::class, 'on' => ['create', 'update']],
@@ -76,4 +83,3 @@ class ServerForm extends Server
         ]);
     }
 }
-

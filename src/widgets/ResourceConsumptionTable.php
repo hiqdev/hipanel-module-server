@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\widgets;
 
@@ -6,7 +14,6 @@ use hipanel\modules\finance\logic\bill\QuantityFormatterFactory;
 use hipanel\modules\finance\logic\bill\QuantityFormatterFactoryInterface;
 use hipanel\modules\server\models\Consumption;
 use hipanel\modules\server\models\Server;
-use Yii;
 use yii\base\Widget;
 
 class ResourceConsumptionTable extends Widget
@@ -44,8 +51,7 @@ class ResourceConsumptionTable extends Widget
             return '';
         }
 
-        $consumption = new class($currentQuantity, $model->getAttributes()) extends Consumption
-        {
+        $consumption = new class($currentQuantity, $model->getAttributes()) extends Consumption {
             /**
              * @var string
              */
@@ -68,4 +74,3 @@ class ResourceConsumptionTable extends Widget
         return $formatter->format();
     }
 }
-

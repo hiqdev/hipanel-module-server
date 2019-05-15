@@ -5,7 +5,7 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
@@ -21,6 +21,7 @@ use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
 use hipanel\modules\server\menus\ServerActionsMenu;
 use hipanel\modules\server\models\Consumption;
+use hipanel\modules\server\models\HardwareSale;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
@@ -37,7 +38,6 @@ use Yii;
 use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\widgets\ListView;
 
 class ServerGridView extends \hipanel\grid\BoxedGridView
 {
@@ -57,7 +57,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         $this->view->registerCss('
         .tariff-chain {
             list-style: none;
-            background-color: #f5f5f5;
+            background-color: transparent;
         }
         .tariff-chain > li {
             display: inline-block;
@@ -76,12 +76,11 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         $user = Yii::$app->user;
         $models = [];
         $html = '';
-        if ($user->can('support') && isset($model->sales)) {
+        if ($user->can('sale.read') && isset($model->sales)) {
             foreach ($model->sales as $sale) {
                 $models[] = $sale;
             }
-        }
-        if ($user->can('plan.manager')) {
+        } elseif ($user->can('plan.read')) {
             if (!empty($model->parent_tariff)) {
                 $title = $model->parent_tariff;
             } else {
@@ -90,17 +89,20 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
             $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
         } else {
-            $models[] = new Sale(['tariff' => !empty($model->parent_tariff) ? $model->parent_tariff : $model->tariff]);
+            $models[] = new Sale([
+                'tariff' => $model->tariff,
+                'tariff_id' => $model->tariff_id,
+            ]);
         }
 
         foreach ($models as $model) {
             if ($model->tariff) {
                 $tariff = $model->tariff_id ? Html::a($model->tariff, [
                     '@plan/view',
-                    'id' => $model->tariff_id
+                    'id' => $model->tariff_id,
                 ]) : $model->tariff;
                 $client = $model->seller ? '(' . Html::a($model->seller, [
-                    '@client/view', 'id' => $model->seller_id
+                    '@client/view', 'id' => $model->seller_id,
                 ]) . ')' : '';
 
                 $html .= Html::tag('li', $tariff . '&nbsp;' . $client);
@@ -277,7 +279,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                                     </div>
                                 ',
                             ],
-                        ]
+                        ],
                     ]);
                 },
             ],
@@ -448,8 +450,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
 
     private function getAdditionalServices($model): string
     {
-        $additional = new class() extends Model
-        {
+        $additional = new class() extends Model {
             /**
              * @var string
              */
@@ -492,7 +493,7 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
         ]);
     }
 
-    private function getTypeOfSale($model): string
+    private function getTypeOfSale(Server $model): string
     {
         $html = '';
         $badgeColors = [
@@ -505,11 +506,20 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
             return $html;
         }
 
-        foreach ($model->hardwareSales as $saleType => $sales) {
+        $salesByType = [
+            HardwareSale::USAGE_TYPE_LEASING => [],
+            HardwareSale::USAGE_TYPE_COLO => [],
+            HardwareSale::USAGE_TYPE_RENT => [],
+        ];
+        foreach ($model->hardwareSales as $sale) {
+            $salesByType[$sale->usage_type][] = $sale;
+        }
+
+        foreach ($salesByType as $usageType => $sales) {
             $html .= ArraySpoiler::widget([
-                'data' => Sort::by($sales, function ($sale) {
+                'data' => Sort::by($sales, function (HardwareSale $sale) {
                     $order = ['CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
-                    $type = substr($sale['part'], 0, strpos($sale['part'], ':'));
+                    $type = substr($sale->part, 0, strpos($sale->part, ':'));
                     $key = array_search($type, $order, true);
                     if ($key !== false) {
                         return $key;
@@ -520,27 +530,33 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                 'delimiter' => '<br/>',
                 'visibleCount' => 0,
                 'button' => [
-                    'label' => (function() use ($saleType, $sales) {
-                        if ($saleType === 'leasing') {
+                    'label' => (function () use ($usageType, $sales) {
+                        if ($usageType === HardwareSale::USAGE_TYPE_LEASING) {
                             /** @var \DateTime $maxLeasingDate */
-                            $maxLeasingDate = array_reduce($sales, function (\DateTime $max, $item) {
-                                $date = new \DateTime($item['leasing_till']);
+                            $maxLeasingDate = array_reduce($sales, function (\DateTime $max, HardwareSale $item) {
+                                $date = $item->saleTime();
+
                                 return $date > $max ? $date : $max;
                             }, new \DateTime());
 
-                            return Yii::t('hipanel:server', $saleType) . ' ' . \count($sales)
+                            return Yii::t('hipanel:server', $usageType) . ' ' . \count($sales)
                                 . '<br />' . $maxLeasingDate->format('d.m.Y');
                         }
 
-                        return Yii::t('hipanel:server', $saleType) . ' ' . \count($sales);
+                        return Yii::t('hipanel:server', $usageType) . ' ' . \count($sales);
                     })(),
                     'tag' => 'button',
                     'type' => 'button',
-                    'class' => "btn btn-xs {$badgeColors[$saleType]}",
+                    'class' => "btn btn-xs {$badgeColors[$usageType]}",
                     'popoverOptions' => [
                         'html' => true,
                         'placement' => 'bottom',
-                        'title' => Yii::t('hipanel:stock', 'Parts'),
+                        'title' => Yii::t('hipanel:server', 'Parts') . ' '
+                            . Html::a(
+                                Yii::t('hipanel:server', 'To new tab {icon}', ['icon' => '<i class="fa fa-external-link"></i>']),
+                                Url::toSearch('part', ['dst_name_in' => $model->name]),
+                                ['class' => 'pull-right', 'target' => '_blank']
+                            ),
                         'template' => '
                             <div class="popover" role="tooltip">
                                 <div class="arrow"></div>
@@ -548,26 +564,25 @@ class ServerGridView extends \hipanel\grid\BoxedGridView
                                 <div class="popover-content" style="height: 25rem; overflow-x: scroll;"></div>
                             </div>
                         ',
-
                     ],
                 ],
-                'formatter' => function ($item) {
+                'formatter' => function (HardwareSale $item) {
                     $additionalInfo = null;
-                    $title = $item['part'];
-                    if (isset($item['serialno'])) {
-                        $title .= ': ' .$item['serialno'];
+                    $title = $item->part;
+                    if (isset($item->serialno)) {
+                        $title .= ': ' . $item->serialno;
                     }
 
-                    if (isset($item['leasing_till'])) {
+                    if (isset($item->leasing_till)) {
                         $additionalInfo = Yii::t('hipanel:server', '{since} &mdash; {till}', [
-                            'since' => Yii::$app->formatter->asDate($item['leasing_since'], 'short'),
-                            'till' => Yii::$app->formatter->asDate($item['leasing_till'], 'short'),
+                            'since' => Yii::$app->formatter->asDate($item->leasing_since, 'short'),
+                            'till' => Yii::$app->formatter->asDate($item->leasing_till, 'short'),
                         ]);
                     }
 
-                    if (isset($item['sale_time'])) {
+                    if (isset($item->sale_time)) {
                         $additionalInfo = Yii::t('hipanel:server', 'since {date}', [
-                            'date' => Yii::$app->formatter->asDate($item['sale_time'], 'short'),
+                            'date' => Yii::$app->formatter->asDate($item->sale_time, 'short'),
                         ]);
                     }
 

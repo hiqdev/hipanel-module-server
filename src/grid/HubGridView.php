@@ -5,7 +5,7 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\grid;
@@ -108,7 +108,7 @@ class HubGridView extends \hipanel\grid\BoxedGridView
                 'attribute' => 'order_no',
                 'filterAttribute' => 'order_no_ilike',
                 'enableSorting' => false,
-            ]
+            ],
         ]);
     }
 }

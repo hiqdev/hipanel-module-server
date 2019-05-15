@@ -5,8 +5,9 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
+
 error_reporting(E_ALL & ~E_NOTICE);
 
 require_once __DIR__ . '/../vendor/autoload.php';

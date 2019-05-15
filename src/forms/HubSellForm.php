@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\forms;
 
@@ -9,7 +17,7 @@ class HubSellForm extends Hub
     use \hipanel\base\ModelTrait;
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public static function tableName()
     {
@@ -17,7 +25,7 @@ class HubSellForm extends Hub
     }
 
     /**
-     * Create HubSellForm model from Hub model
+     * Create HubSellForm model from Hub model.
      *
      * @param Hub $hub
      * @return HubSellForm
@@ -28,7 +36,7 @@ class HubSellForm extends Hub
     }
 
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public function rules()
     {
@@ -40,4 +48,3 @@ class HubSellForm extends Hub
         ]);
     }
 }
-

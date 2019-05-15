@@ -1,14 +1,13 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\widgets\DynamicFormWidget;
 use hipanel\widgets\DynamicFormCopyButton;
+use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
 /** @var \hipanel\modules\server\forms\ServerForm $model */
 /** @var \hipanel\modules\server\forms\ServerForm[] $models */
-
 $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
 ?>
 <?php $form = ActiveForm::begin([

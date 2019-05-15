@@ -1,4 +1,12 @@
 <?php
+/**
+ * Server module for HiPanel
+ *
+ * @link      https://github.com/hiqdev/hipanel-module-server
+ * @package   hipanel-module-server
+ * @license   BSD-3-Clause
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
+ */
 
 namespace hipanel\modules\server\grid;
 
@@ -59,6 +67,6 @@ class BindingColumn extends DataColumn
         $addColon = preg_replace('/(\d+)/', ':${1}', $defaultLabel);
         $replaceName = preg_replace(['/Net/', '/Pdu/'], ['Switch', 'APC'], $addColon);
 
-        return (string)$replaceName;
+        return (string) $replaceName;
     }
 }
