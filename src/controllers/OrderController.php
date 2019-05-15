@@ -85,16 +85,31 @@ class OrderController extends CrudController
     public function actionIndex()
     {
         return $this->redirectOutside();
+        /***
+        return $this->render('index');
+         ***/
     }
 
     public function actionXenSsd()
     {
         return $this->redirectOutside();
+        /***
+        return $this->render('xen_ssd', [
+            'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_XEN),
+            'tariffTypes' => Yii::$app->params['vdsproduct'],
+        ]);
+        ***/
     }
 
     public function actionOpenVz()
     {
         return $this->redirectOutside();
+        /***
+        return $this->render('open_vz', [
+            'packages' => ServerHelper::getAvailablePackages(Tariff::TYPE_OPENVZ),
+            'tariffTypes' => Yii::$app->params['vdsproduct'],
+        ]);
+        ***/
     }
 
     public function actionTariffsDetails()
