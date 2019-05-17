@@ -49,9 +49,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter([
             'attributes' => [
-                'name', 'id',
-                'client', 'tariff', 'ip',
-                'state', 'status_time', 'expires',
+                'name', 'tariff', 'ip',
             ],
         ]) ?>
     <?php $page->endContent() ?>
