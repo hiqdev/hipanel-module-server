@@ -8,9 +8,9 @@ use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\BootLive;
 use hipanel\modules\server\widgets\ChartOptions;
+use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\modules\server\widgets\ServerSwitcher;
 use hipanel\modules\server\widgets\Wizzard;
-use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\widgets\Box;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\EventLog;
@@ -245,7 +245,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 ], 'detailed_type',
                                 'ip', 'note', 'label',
                                 'state', 'blocking',
-                                'os', 'panel', 'mails_num'
+                                'os', 'panel', 'mails_num',
                             ],
                         ]);
                         if (!empty($model->softwareSettings->failure_contacts)) {
@@ -461,4 +461,4 @@ if ($model->running_task) {
         'pjaxSelector' => '#' . Yii::$app->params['pjax']['id'],
     ]);
     $this->registerJs("$('.server-view').serverTaskChecker($checkerOptions);");
-};
+}

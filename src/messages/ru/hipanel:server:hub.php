@@ -5,7 +5,7 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 return [
@@ -37,4 +37,6 @@ return [
     'Sell switches' => 'Продать свитчи',
     'Switch name' => 'Свитч',
     'sale' => 'продажа',
+    'Location' => 'Размещение',
+    'Edit switches' => 'Редактировать свитчи',
 ];

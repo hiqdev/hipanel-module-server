@@ -9,13 +9,13 @@
  */
 use hipanel\modules\server\grid\HubGridLegend;
 use hipanel\modules\server\grid\HubGridView;
+use hipanel\widgets\AjaxModal;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
-use yii\helpers\Html;
-use hipanel\widgets\AjaxModal;
-use yii\helpers\Url;
 use yii\bootstrap\Modal;
+use yii\helpers\Html;
+use yii\helpers\Url;
 
 $this->title = Yii::t('hipanel:server', 'Switches');
 $this->params['breadcrumbs'][] = $this->title;
@@ -69,6 +69,7 @@ $this->registerCss('
             <?php endif; ?>
             <?php if (Yii::$app->user->can('hub.update')) : ?>
                 <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
+                <?= $page->renderBulkButton('assign-switches', '<i class="fa fa-plug"></i>&nbsp;&nbsp;' . Yii::t('hipanel:server:hub', 'Switches')) ?>
             <?php endif ?>
         <?php $page->endContent('bulk-actions') ?>
 

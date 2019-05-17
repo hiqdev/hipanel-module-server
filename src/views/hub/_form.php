@@ -1,8 +1,8 @@
 <?php
 /** @var array $types */
 use hipanel\helpers\Url;
-use hipanel\widgets\DynamicFormWidget;
 use hipanel\widgets\DynamicFormCopyButton;
+use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 

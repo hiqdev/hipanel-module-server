@@ -5,7 +5,7 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\menus;
@@ -36,6 +36,14 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
                 'icon' => 'fa-cogs',
                 'url' => ['@hub/options', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('hub.update'),
+            ],
+            'assign-switches' => [
+                'label' => Yii::t('hipanel:server', 'Switches'),
+                'icon' => 'fa-plug',
+                'url' => ['@hub/assign-switches', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data-pjax' => 0,
+                ],
             ],
         ];
     }

@@ -5,7 +5,7 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 /**
@@ -217,6 +217,7 @@ return [
     '(not sold)' => '(не продан)',
     'Create server' => 'Создать сервер',
     'Server name' => 'Название сервера',
+    'To new tab {icon}' => 'Открыть список {icon}',
 
     /// Server states
     'On' => 'Ок, без панели',
@@ -307,4 +308,6 @@ return [
     'Block sending mail' => 'Блокировать отправку почты',
     'Mail settings have been changed successfully' => 'Настройки почты были успешно изменены',
     'Number of mailboxes' => 'Количество почтовых ящиков',
+    'View parts' => 'Смотреть детали',
+    'Hubs have been assigned' => 'Свитчи назначены',
 ];

@@ -5,16 +5,15 @@
  * @link      https://github.com/hiqdev/hipanel-module-server
  * @package   hipanel-module-server
  * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2018, HiQDev (http://hiqdev.com/)
+ * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
 namespace hipanel\modules\server\models;
 
 /**
- * Class Binding
+ * Class Binding.
  *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
- *
  */
 class Binding extends \hipanel\base\Model
 {
