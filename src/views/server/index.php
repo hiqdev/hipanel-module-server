@@ -48,9 +48,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $page->beginContent('sorter-actions') ?>
         <?= $page->renderSorter([
-            'attributes' => [
+            'attributes' => array_filter([
                 'name', 'tariff', 'ip',
-            ],
+                Yii::$app->user->can('support') ? 'client' : null,
+            ]),
         ]) ?>
     <?php $page->endContent() ?>
     <?php $page->beginContent('representation-actions') ?>
