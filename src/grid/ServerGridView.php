@@ -407,6 +407,9 @@ class ServerGridView extends BoxedGridView
                     'style' => 'width:1%; white-space:nowrap;',
                 ],
             ],
+            'hwsummary' => [
+                'label' => Yii::t('hipanel:server', 'HW summary'),
+            ],
         ]);
     }
 
