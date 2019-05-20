@@ -21,7 +21,7 @@ use yii\web\JsExpression;
  * @var yii\web\View $this
  * @var IndexPageUiOptions $uiModel
  * @var \hiqdev\higrid\representations\RepresentationCollection $representationCollection
-.* @var bool $orderIsAllowed
+ * @var bool $orderIsAllowed
  */
 $this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
