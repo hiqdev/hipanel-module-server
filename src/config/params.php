@@ -9,6 +9,6 @@
  */
 
 return [
-    'module.server.orderIsAllowed' => false,
+    'module.server.orderIsAllowed' => true,
     'module.server.redirect.url' => "https://advancedhosting.com/{language}/cloud-servers?refid=ahmen{language}",
 ];
