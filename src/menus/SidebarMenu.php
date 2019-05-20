@@ -11,9 +11,10 @@
 namespace hipanel\modules\server\menus;
 
 use hipanel\modules\server\Module;
+use hiqdev\yii2\menus\Menu;
 use Yii;
 
-class SidebarMenu extends \hiqdev\yii2\menus\Menu
+class SidebarMenu extends Menu
 {
     public function items()
     {

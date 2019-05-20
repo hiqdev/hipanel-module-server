@@ -10,13 +10,18 @@
 
 namespace hipanel\modules\server\menus;
 
+use hipanel\modules\server\models\Server;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
+use hiqdev\yii2\menus\Menu;
 use Yii;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
-class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
+class ServerActionsMenu extends Menu
 {
+    /**
+     * @var Server
+     */
     public $model;
 
     public function items(): array
@@ -63,6 +68,7 @@ class ServerActionsMenu extends \hiqdev\yii2\menus\Menu
                 'label' => Yii::t('hipanel:server', 'Performance graphs'),
                 'icon' => 'fa-signal',
                 'url' => ['@rrd/view', 'id' => $this->model->id],
+                'visible' => $this->model->canRrd(),
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],

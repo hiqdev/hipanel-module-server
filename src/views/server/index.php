@@ -21,10 +21,12 @@ use yii\web\JsExpression;
  * @var yii\web\View $this
  * @var IndexPageUiOptions $uiModel
  * @var \hiqdev\higrid\representations\RepresentationCollection $representationCollection
+.* @var bool $orderIsAllowed
  */
 $this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
+$orderIsAllowed = $this->context->module->orderIsAllowed;
 
 ?>
 
@@ -41,7 +43,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?php if (Yii::$app->user->can('server.create')) : ?>
             <?= Html::a(Yii::t('hipanel:server', 'Create server'), ['@server/create'], ['class' => 'btn btn-sm btn-success']) ?>
         <?php endif ?>
-        <?php if (Yii::$app->user->can('server.pay')) : ?>
+        <?php if (Yii::$app->user->can('server.pay') && $orderIsAllowed) : ?>
             <?= Html::a(Yii::t('hipanel:server:order', 'Buy server'), ['/server/order/index'], ['class' => 'btn btn-sm btn-primary']) ?>
         <?php endif ?>
     <?php $page->endContent() ?>
