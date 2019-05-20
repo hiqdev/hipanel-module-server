@@ -356,7 +356,7 @@ class Server extends Model implements AssignSwitchInterface
             'label' => Yii::t('hipanel:server', 'Internal note'),
             'os' => Yii::t('hipanel:server', 'OS'),
             'comment' => Yii::t('hipanel:server', 'Comment'),
-            'hwsummary' => Yii::t('hipanel:server', 'HW summary'),
+            'hwsummary' => Yii::t('hipanel:server', 'Summary'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
             'expires' => Yii::t('hipanel:server', 'Expires'),
             'tariff_id' => Yii::t('hipanel:server', 'Tariff'),
