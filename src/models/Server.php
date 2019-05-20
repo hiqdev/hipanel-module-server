@@ -246,6 +246,14 @@ class Server extends Model implements AssignSwitchInterface
         return (time() - Yii::$app->formatter->asTimestamp($this->last_expires)) / 3600 / 24 < 5;
     }
 
+    /**
+     * @return bool
+     */
+    public function canRrd(): bool
+    {
+        return isset($this->ip) && isset($this->wizzarded);
+    }
+
     public function groupUsesForCharts()
     {
         return ServerHelper::groupUsesForChart($this->uses);

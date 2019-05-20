@@ -11,11 +11,6 @@ use yii\helpers\Html;
 <div id="resource-consumption-table" class="box box-widget">
     <div class="box-header with-border">
         <h3 class="box-title"><?= Yii::t('hipanel:server', 'Resource consumption') ?></h3>
-        <div class="box-tools pull-right">
-            <?= Html::a(Yii::t('hipanel:server', 'See charts'), [
-                '@server/resources', 'id' => $model->id,
-            ], ['class' => 'btn btn-box-tool']) ?>
-        </div>
     </div>
     <div class="box-body no-padding">
         <div class="table-responsive">

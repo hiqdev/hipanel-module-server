@@ -148,6 +148,7 @@ class ServerGridView extends BoxedGridView
                 'i18nDictionary' => 'hipanel:server',
                 'format' => 'raw',
                 'gtype' => 'state,device',
+                'visible' => $canSupport,
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
@@ -211,6 +212,7 @@ class ServerGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
+                'visible' => $canSupport,
                 'value' => function ($model) {
                     return Expires::widget(compact('model'));
                 },
