@@ -50,7 +50,7 @@ use yii\helpers\Html;
                     <tr>
                         <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $consumption->typeLabel) ?></th>
                         <td><?= $this->context->getFormatted($consumption, $consumption->limit) ?></td>
-                        <td align=right><?= $consumption->getFormattedPrice() ?></td>
+                        <td class="text-right"><?= $consumption->getFormattedPrice() ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->currentValue) ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->currentOveruse) ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->previousValue) ?></td>
