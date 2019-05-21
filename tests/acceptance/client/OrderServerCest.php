@@ -15,6 +15,9 @@ use hipanel\tests\_support\Step\Acceptance\Client;
 
 class OrderServerCest
 {
+    /**
+     * @skip
+     */
     public function ensureIndexPageWorks(Client $I)
     {
         $I->login();
