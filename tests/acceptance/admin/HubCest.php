@@ -14,8 +14,8 @@ use Codeception\Example;
 use hipanel\helpers\Url;
 use hipanel\modules\server\tests\_support\Page\Hub\AssignHubs;
 use hipanel\modules\server\tests\_support\Page\Hub\Create;
-use hipanel\modules\server\tests\_support\Page\Hub\Delete;
 use hipanel\modules\server\tests\_support\Page\Hub\Update;
+use hipanel\modules\server\tests\_support\Page\Hub\View;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
@@ -24,10 +24,11 @@ use hipanel\tests\_support\Step\Acceptance\Admin;
 
 class HubCest
 {
-    /**
-     * @var IndexPage
-     */
+    /** @var IndexPage */
     private $index;
+
+    /** @var Example */
+    private $hubData;
 
     public function _before(Admin $I)
     {
@@ -39,7 +40,6 @@ class HubCest
      */
     public function ensureIndexPageWorks(Admin $I): void
     {
-        $I->login();
         $I->needPage(Url::to('@hub'));
         $I->see('Switches', 'h1');
         $I->seeLink('Create switch', Url::to('@hub/create'));
@@ -52,67 +52,83 @@ class HubCest
      * @dataProvider createProvider
      * @param Admin $I
      * @param Example $data
+     * @throws \Exception
      */
     public function ensureICanCreateHub(Admin $I, Example $data): void
     {
+        $createPage = new Create($I);
+        $this->hubData = $data;
         $I->needPage(Url::to(['@hub/create']));
-        $page = new Create($I);
-        $page->fillForm($data);
-        $page->submitForm();
-        $I->seeInCurrentUrl('hub/view?id');
-        $page->check($data);
+        $createPage->fillForm($data)
+            ->submitForm()
+            ->hasNotErrors();
+        $I->closeNotification('Switch was created');
     }
 
     /**
      * @dataProvider assignHubsProvider
      * @param Admin $I
      * @param Example $data
+     * @throws \Codeception\Exception\ModuleException
      */
     public function ensureICanAssignHubs(Admin $I, Example $data): void
     {
-        $I->login();
+        $assignPage = new AssignHubs($I);
+
         $I->needPage(Url::to(['@hub/index']));
-        $page = new AssignHubs($I);
-        $page->needPageByName($data['hub_name']);
-        $page->needGoToAssignForm();
-        unset($data['hub_name']);
-        $page->fillAssignForm($data);
-        $page->submitForm();
-        $page->checkAssigned($data);
+
+        $this->index->filterBy(
+            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+        );
+        $this->index->openRowMenuByColumnValue('Name', $this->hubData['name']);
+        $this->index->chooseRowMenuOption('Switches');
+
+        $assignPage->fillForm($data)
+            ->submitForm()
+            ->hasNotErrors();
+        $I->closeNotification('Switches have been edited');
     }
 
 
     /**
-     * @dataProvider updateProvider
      * @param Admin $I
-     * @param Example $data
+     * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureICanUpdateHub(Admin $I, Example $data): void
+    public function ensureICanUpdateHub(Admin $I): void
     {
-        $I->login();
         $I->needPage(Url::to(['@hub/index']));
-        $page = new Update($I);
-        $name = str_replace('_updated', '', $data['name']);
-        $page->needPageByName($name);
-        $page->needUpdatePage();
-        $page->fillForm($data);
-        $page->submitForm();
-        $I->seeInCurrentUrl('hub/view?id');
-        $page->check($data);
+        $updatePage = new Update($I);
+        $this->index->filterBy(
+            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+        );
+        $this->index->openRowMenuByColumnValue('Name', $this->hubData['name']);
+        $this->index->chooseRowMenuOption('Update');
+        $this->updateHubData();
+
+        $updatePage->fillForm($this->hubData)
+            ->submitForm()
+            ->hasNotErrors();
+        $I->closeNotification('Switch was updated');
     }
 
     /**
-     * @dataProvider updateProvider
+     * @dataProvider createProvider
      * @param Admin $I
-     * @param Example $data
+     * @throws \Codeception\Exception\ModuleException
      */
-    public function ensureICanDeleteHub(Admin $I, Example $data): void
+    public function ensureICanDeleteHub(Admin $I): void
     {
-        $I->login();
+        $viewPage = new View($I);
+
         $I->needPage(Url::to(['@hub/index']));
-        $page = new Delete($I);
-        $page->needPageByName($data['name']);
-        $page->deleteHub($data['name']);
+        $this->index->filterBy(
+            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+        );
+        $this->index->openRowMenuByColumnValue('Name', $this->hubData['name']);
+        $this->index->chooseRowMenuOption('View');
+        $viewPage->clickAction('Delete');
+        $I->acceptPopup();
+        $I->closeNotification('Switches have been deleted');
     }
 
     /**
@@ -122,45 +138,22 @@ class HubCest
     {
         return [
             [
-                'name' => 'test_switch',
+                'name' => 'test_switch' . uniqid(),
                 'type_id' => 'Switch',
-                'mac' => '00:27:0e:2a:b9:aa',
                 'inn' => 'test_inn',
-                'ip' => '127.0.0.1',
                 'model' => 'test_model',
                 'note' => 'test_note',
             ],
         ];
     }
 
-    /**
-     * @return array
-     */
-    protected function updateProvider(): array
+    protected function updateHubData(): void
     {
-        $result = [];
-        foreach ($this->createProvider() as $rows) {
-            $data = [];
-            foreach ($rows as $field => $value) {
-                if (!in_array($field, ['type_id', 'ip', 'mac'])) {
-                    $data[$field] = $value . '_updated';
-                }
+        foreach ($this->hubData as $field => $value) {
+            if (!in_array($field, ['type_id', 'ip', 'mac', 'name'])) {
+                $this->hubData[$field] = $value . '_updated';
             }
-            $result[] = $data;
         }
-
-        return $result;
-    }
-
-    /**
-     * @return array
-     */
-    protected function optionsProvider(): array
-    {
-        return [
-            [
-            ],
-        ];
     }
 
     /**
@@ -170,7 +163,6 @@ class HubCest
     {
         return [
             [
-                'hub_name' => 'test_switch',
                 'net_id' => 'TEST-SW-05',
                 'net_port' => 'port5',
                 'kvm_id' => 'TEST-SW-04',

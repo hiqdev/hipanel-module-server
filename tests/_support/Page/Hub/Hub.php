@@ -11,6 +11,11 @@ use hipanel\tests\_support\Page\Widget\Input\Textarea;
 
 abstract class Hub extends Authenticated
 {
+    /**
+     * @param Example $data
+     * @return Hub
+     * @throws \Exception
+     */
     public function fillForm(Example $data)
     {
         $I = $this->tester;
@@ -31,25 +36,25 @@ abstract class Hub extends Authenticated
                 }
             }
         }
-    }
-
-    public function needPageByName(string $name): self
-    {
-        $this->tester->click("//td/a[contains(text(), '{$name}')]");
-        $this->waitPjax();
 
         return $this;
     }
 
+    /**
+     * @return Hub
+     * @throws \Codeception\Exception\ModuleException
+     */
     public function submitForm(): self
     {
         $this->tester->pressButton('Save');
-        $this->waitPjax();
-        $this->hasNotErrors();
+        $this->tester->waitForPageUpdate();
 
         return $this;
     }
 
+    /**
+     * @return Hub
+     */
     public function hasNotErrors(): self
     {
         $this->tester->dontSeeElement("//*[contains(@class, 'has-error')]");
@@ -57,27 +62,12 @@ abstract class Hub extends Authenticated
         return $this;
     }
 
+    /**
+     * @return Hub
+     */
     public function hasErrors(): self
     {
         $this->tester->seeElement("//*[contains(@class, 'has-error')]");
-
-        return $this;
-    }
-
-    public function check($data): self
-    {
-        foreach ($data as $field => $value) {
-            if ($value) {
-                $this->tester->see($value);
-            }
-        }
-
-        return $this;
-    }
-
-    public function waitPjax(): self
-    {
-        $this->tester->waitForJS("return $.active == 0;", 30);
 
         return $this;
     }
