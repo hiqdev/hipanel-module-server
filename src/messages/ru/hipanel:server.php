@@ -310,4 +310,6 @@ return [
     'Number of mailboxes' => 'Количество почтовых ящиков',
     'View parts' => 'Смотреть детали',
     'Hubs have been assigned' => 'Свитчи назначены',
+
+    'Summary' => 'Итог',
 ];

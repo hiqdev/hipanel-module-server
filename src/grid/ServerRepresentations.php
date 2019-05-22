@@ -22,7 +22,7 @@ class ServerRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel:server', 'short'),
                 'columns' => [
                     'checkbox',
-                    'ips', 'client', 'dc', 'actions', 'server', 'order_no',
+                    'ips', 'client', 'dc', 'actions', 'server', 'order_no', 'hwsummary',
                 ],
             ] : null,
             'common' => [
@@ -32,7 +32,7 @@ class ServerRepresentations extends RepresentationCollection
                     'actions',
                     'server', 'client_like', 'seller_id',
                     'ips', 'state', 'expires',
-                    'tariff_and_discount',
+                    'tariff_and_discount', 'hwsummary',
                 ],
             ],
             'hardware' => Yii::$app->user->can('part.read') ? [
@@ -64,6 +64,7 @@ class ServerRepresentations extends RepresentationCollection
                     'traffic',
                     'additional_services',
                     'type_of_sale',
+                    'hwsummary',
                 ],
             ] : null,
             'admin' => Yii::$app->user->can('support') ? [
@@ -71,7 +72,7 @@ class ServerRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox',
                     'dc', 'actions', 'server', 'type',
-                    'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac',
+                    'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac', 'hwsummary',
                 ],
             ] : null,
         ]);
