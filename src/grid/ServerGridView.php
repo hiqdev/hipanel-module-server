@@ -69,6 +69,10 @@ class ServerGridView extends BoxedGridView
             padding: 0 5px;
             color: #ccc;
         }
+        .inactiveLink {
+           pointer-events: none;
+           cursor: default;
+        }
         ');
     }
 
@@ -110,7 +114,10 @@ class ServerGridView extends BoxedGridView
             }
         }
 
-        return Html::tag('ul', $html, ['class' => 'tariff-chain', 'style' => 'margin: 0; padding: 0;']);
+        return Html::tag('ul', $html, [
+            'class' => 'tariff-chain ' . ($user->can('support') ?: 'inactiveLink'),
+            'style' => 'margin: 0; padding: 0;',
+        ]);
     }
 
     public function columns()
@@ -148,6 +155,7 @@ class ServerGridView extends BoxedGridView
                 'i18nDictionary' => 'hipanel:server',
                 'format' => 'raw',
                 'gtype' => 'state,device',
+                'visible' => $canSupport,
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if ($model->status_time) {
@@ -211,6 +219,7 @@ class ServerGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
+                'visible' => $canSupport,
                 'value' => function ($model) {
                     return Expires::widget(compact('model'));
                 },

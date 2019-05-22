@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
@@ -20,13 +21,29 @@ use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
 use yii\helpers\Html;
 
-class HubGridView extends \hipanel\grid\BoxedGridView
+class HubGridView extends BoxedGridView
 {
     use ColorizeGrid;
 
+    /**
+     * @var array
+     */
+    public $extraOptions = [];
+
     public function columns()
     {
-        return array_merge(parent::columns(), [
+        $extraColumns = [];
+        foreach (['snmp_version_id', 'digit_capacity_id', 'nic_media'] as $attribute) {
+            $extraColumns[$attribute] = [
+                'attribute' => $attribute,
+                'enableSorting' => false,
+                'value' => function (Hub $hub) use ($attribute): string {
+                    return $this->extraOptions[$attribute][$hub->{$attribute}];
+                }
+            ];
+        }
+
+        return array_merge(parent::columns(), $extraColumns, [
             'inn' => [
                 'enableSorting'     => false,
                 'filterOptions'     => ['class' => 'narrow-filter'],

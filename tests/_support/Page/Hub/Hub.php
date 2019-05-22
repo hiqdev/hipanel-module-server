@@ -11,73 +11,66 @@ use hipanel\tests\_support\Page\Widget\Input\Textarea;
 
 abstract class Hub extends Authenticated
 {
+    /**
+     * @param Example $data
+     * @return Hub
+     * @throws \Exception
+     */
     public function fillForm(Example $data)
     {
         $I = $this->tester;
         foreach ($data as $field => $value) {
-            if ($value) {
-                switch (true) {
-                    case in_array($field, ['type_id']):
-                        (new Dropdown($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
-                        break;
-                    case in_array($field, ['note']):
-                        (new Textarea($I, "textarea[name$=\"[{$field}]\"]"))->setValue($value);
-                        break;
-                    case in_array($field, ['net_id', 'kvm_id', 'pdu_id', 'rack_id', 'pdu2_id', 'nic2_id', 'ipmi_id', 'location_id']):
-                        (new Select2($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
-                        break;
-                    default:
-                        (new Input($I, "input[name$=\"[{$field}]\"]"))->setValue($value);
-                }
+            if (is_null($value)) {
+                continue;
+            }
+            switch (true) {
+                case in_array($field, ['type_id', 'nic_media', 'digit_capacity_id']):
+                    (new Dropdown($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
+                    break;
+                case in_array($field, ['note']):
+                    (new Textarea($I, "textarea[name$=\"[{$field}]\"]"))->setValue($value);
+                    break;
+                case in_array($field, ['net_id', 'kvm_id', 'pdu_id', 'rack_id', 'pdu2_id', 'nic2_id', 'ipmi_id', 'location_id']):
+                    (new Select2($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
+                    break;
+                default:
+                    (new Input($I, "input[name$=\"[{$field}]\"]"))->setValue($value);
             }
         }
-    }
-
-    public function needPageByName(string $name): self
-    {
-        $this->tester->click("//td/a[contains(text(), '{$name}')]");
-        $this->waitPjax();
 
         return $this;
     }
 
+    /**
+     * @return Hub
+     * @throws \Codeception\Exception\ModuleException
+     */
     public function submitForm(): self
     {
         $this->tester->pressButton('Save');
-        $this->waitPjax();
-        $this->hasNotErrors();
+        $this->tester->waitForPageUpdate();
 
         return $this;
     }
 
+    /**
+     * @return Hub
+     * @throws \Codeception\Exception\ModuleException
+     */
     public function hasNotErrors(): self
     {
+        $this->tester->waitForPageUpdate();
         $this->tester->dontSeeElement("//*[contains(@class, 'has-error')]");
 
         return $this;
     }
 
+    /**
+     * @return Hub
+     */
     public function hasErrors(): self
     {
         $this->tester->seeElement("//*[contains(@class, 'has-error')]");
-
-        return $this;
-    }
-
-    public function check($data): self
-    {
-        foreach ($data as $field => $value) {
-            if ($value) {
-                $this->tester->see($value);
-            }
-        }
-
-        return $this;
-    }
-
-    public function waitPjax(): self
-    {
-        $this->tester->waitForJS("return $.active == 0;", 30);
 
         return $this;
     }
