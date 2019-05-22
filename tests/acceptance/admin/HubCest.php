@@ -14,38 +14,30 @@ use Codeception\Example;
 use hipanel\helpers\Url;
 use hipanel\modules\server\tests\_support\Page\Hub\AssignHubs;
 use hipanel\modules\server\tests\_support\Page\Hub\Create;
+use hipanel\modules\server\tests\_support\Page\Hub\Options;
 use hipanel\modules\server\tests\_support\Page\Hub\Update;
 use hipanel\modules\server\tests\_support\Page\Hub\View;
 use hipanel\tests\_support\Page\IndexPage;
-use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Input;
-use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Admin;
 
 class HubCest
 {
     /** @var IndexPage */
-    private $index;
+    private $indexPage;
+
+    /** @var View */
+    private $viewPage;
 
     /** @var Example */
     private $hubData;
 
     public function _before(Admin $I)
     {
-        $this->index = new IndexPage($I);
-    }
+        $this->indexPage = new IndexPage($I);
+        $this->viewPage = new View($I);
 
-    /**
-     * @param Admin $I
-     */
-    public function ensureIndexPageWorks(Admin $I): void
-    {
-        $I->needPage(Url::to('@hub'));
-        $I->see('Switches', 'h1');
-        $I->seeLink('Create switch', Url::to('@hub/create'));
-        $this->ensureICanSeeAdvancedSearchBox($I);
-        $this->ensureICanSeeLegendBox();
-        $this->ensureICanSeeBulkServerSearchBox();
+        $this->hubData = $this->createProvider()[0];
     }
 
     /**
@@ -60,9 +52,11 @@ class HubCest
         $this->hubData = $data;
         $I->needPage(Url::to(['@hub/create']));
         $createPage->fillForm($data)
-            ->submitForm()
-            ->hasNotErrors();
+            ->hasNotErrors()
+            ->submitForm();
         $I->closeNotification('Switch was created');
+        $I->seeInCurrentUrl(Url::to(['@hub/view']));
+        $this->viewPage->check($data);
     }
 
     /**
@@ -77,18 +71,45 @@ class HubCest
 
         $I->needPage(Url::to(['@hub/index']));
 
-        $this->index->filterBy(
+        $this->indexPage->filterBy(
             Input::asTableFilter($I, 'Name'), $this->hubData['name']
         );
-        $this->index->openRowMenuByColumnValue('Name', $this->hubData['name']);
-        $this->index->chooseRowMenuOption('Switches');
+        $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
+        $this->indexPage->chooseRowMenuOption('Switches');
 
         $assignPage->fillForm($data)
-            ->submitForm()
-            ->hasNotErrors();
+            ->hasNotErrors()
+            ->submitForm();
         $I->closeNotification('Switches have been edited');
+        $I->seeInCurrentUrl(Url::to(['@hub/view']));
+        $this->viewPage->check($data);
     }
 
+    /**
+     * @dataProvider optionsDataProvider
+     * @param Admin $I
+     * @param Example $data
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureICanSetHubOptions(Admin $I, Example $data): void
+    {
+        $optionsPage = new Options($I);
+
+        $I->needPage(Url::to(['@hub/index']));
+
+        $this->indexPage->filterBy(
+            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+        );
+        $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
+        $this->indexPage->chooseRowMenuOption('Options');
+
+        $optionsPage->fillForm($data)
+            ->hasNotErrors()
+            ->submitForm();
+        $I->closeNotification('Options was updated');
+        $I->seeInCurrentUrl(Url::to(['@hub/view']));
+        $this->viewPage->check($data);
+    }
 
     /**
      * @param Admin $I
@@ -96,19 +117,22 @@ class HubCest
      */
     public function ensureICanUpdateHub(Admin $I): void
     {
-        $I->needPage(Url::to(['@hub/index']));
         $updatePage = new Update($I);
-        $this->index->filterBy(
+
+        $I->needPage(Url::to(['@hub/index']));
+        $this->indexPage->filterBy(
             Input::asTableFilter($I, 'Name'), $this->hubData['name']
         );
-        $this->index->openRowMenuByColumnValue('Name', $this->hubData['name']);
-        $this->index->chooseRowMenuOption('Update');
+        $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
+        $this->indexPage->chooseRowMenuOption('Update');
         $this->updateHubData();
 
         $updatePage->fillForm($this->hubData)
-            ->submitForm()
-            ->hasNotErrors();
+            ->hasNotErrors()
+            ->submitForm();
         $I->closeNotification('Switch was updated');
+        $I->seeInCurrentUrl(Url::to(['@hub/view']));
+        $this->viewPage->check($this->hubData);
     }
 
     /**
@@ -121,11 +145,11 @@ class HubCest
         $viewPage = new View($I);
 
         $I->needPage(Url::to(['@hub/index']));
-        $this->index->filterBy(
+        $this->indexPage->filterBy(
             Input::asTableFilter($I, 'Name'), $this->hubData['name']
         );
-        $this->index->openRowMenuByColumnValue('Name', $this->hubData['name']);
-        $this->index->chooseRowMenuOption('View');
+        $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
+        $this->indexPage->chooseRowMenuOption('View');
         $viewPage->clickAction('Delete');
         $I->acceptPopup();
         $I->closeNotification('Switches have been deleted');
@@ -138,11 +162,11 @@ class HubCest
     {
         return [
             [
-                'name' => 'test_switch' . uniqid(),
+                'name'    => 'test_switch',
                 'type_id' => 'Switch',
-                'inn' => 'test_inn',
-                'model' => 'test_model',
-                'note' => 'test_note',
+                'inn'     => 'test_inn',
+                'model'   => 'test_model',
+                'note'    => 'test_note',
             ],
         ];
     }
@@ -163,71 +187,38 @@ class HubCest
     {
         return [
             [
-                'net_id' => 'TEST-SW-05',
-                'net_port' => 'port5',
-                'kvm_id' => 'TEST-SW-04',
-                'kvm_port' => 'port4',
-                'pdu_id' => 'TEST-SW-06',
-                'pdu_port' => 'port6',
-                'rack_id' => 'TEST-SW-02',
-                'rack_port' => 'port2',
-                'console_id' => null,
-                'console_port' => null,
-                'location_id' => 'TEST-SW-03',
+                'net_id'        => 'TEST-SW-05',
+                'net_port'      => 'port5',
+                'kvm_id'        => 'TEST-SW-04',
+                'kvm_port'      => 'port4',
+                'pdu_id'        => 'TEST-SW-06',
+                'pdu_port'      => 'port6',
+                'rack_id'       => 'TEST-SW-02',
+                'rack_port'     => 'port2',
+                'console_id'    => null,
+                'console_port'  => null,
+                'location_id'   => 'TEST-SW-03',
                 'location_port' => '',
             ],
         ];
     }
 
-    private function ensureICanSeeAdvancedSearchBox(Admin $I)
+    /**
+     * @return array
+     */
+    protected function optionsDataProvider(): array
     {
-        $this->index->containsFilters([
-            Input::asAdvancedSearch($I, 'Switch'),
-            Input::asAdvancedSearch($I, 'INN'),
-            Input::asAdvancedSearch($I, 'IP'),
-            Input::asAdvancedSearch($I, 'MAC address'),
-            Input::asAdvancedSearch($I, 'Model'),
-            Input::asAdvancedSearch($I, 'Order No.'),
-            (Dropdown::asAdvancedSearch($I, 'Type'))->withItems([
-                'Switch',
-                'KVM',
-                'APC',
-                'Rack',
-                'IPMI',
-                'Module',
-            ]),
-            Select2::asAdvancedSearch($I, 'Buyer'),
-            Input::asAdvancedSearch($I, 'Tariff'),
-            Input::asAdvancedSearch($I, 'Rack'),
-        ]);
-    }
-
-    private function ensureICanSeeLegendBox()
-    {
-        $this->index->containsLegend([
-            'Switch',
-            'KVM',
-            'APC',
-            'IPMI',
-            'Module',
-            'Rack',
-            'Camera',
-            'Cable organizer',
-        ]);
-    }
-
-    private function ensureICanSeeBulkServerSearchBox()
-    {
-        $this->index->containsBulkButtons([
-            'Update',
-        ]);
-        $this->index->containsColumns([
-            'Name',
-            'INN',
-            'Model',
-            'Type',
-            'IP',
-            'MAC address',
-        ]);
+        return [
+            [
+                'inn'               => 'test_inn_option',
+                'model'             => 'test_model_option',
+                'ports_num'         => 42,
+                'community'         => 'hiqdev',
+                'nic_media'         => '100 Gbit/s',
+                'digit_capacity_id' => 'vds2',
+                'base_port_no'      => 21,
+                'oob_key'           => 'gnu/gpl',
+            ],
+        ];
     }
 }

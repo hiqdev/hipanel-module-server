@@ -20,20 +20,21 @@ abstract class Hub extends Authenticated
     {
         $I = $this->tester;
         foreach ($data as $field => $value) {
-            if ($value) {
-                switch (true) {
-                    case in_array($field, ['type_id']):
-                        (new Dropdown($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
-                        break;
-                    case in_array($field, ['note']):
-                        (new Textarea($I, "textarea[name$=\"[{$field}]\"]"))->setValue($value);
-                        break;
-                    case in_array($field, ['net_id', 'kvm_id', 'pdu_id', 'rack_id', 'pdu2_id', 'nic2_id', 'ipmi_id', 'location_id']):
-                        (new Select2($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
-                        break;
-                    default:
-                        (new Input($I, "input[name$=\"[{$field}]\"]"))->setValue($value);
-                }
+            if (is_null($value)) {
+                continue;
+            }
+            switch (true) {
+                case in_array($field, ['type_id', 'nic_media', 'digit_capacity_id']):
+                    (new Dropdown($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
+                    break;
+                case in_array($field, ['note']):
+                    (new Textarea($I, "textarea[name$=\"[{$field}]\"]"))->setValue($value);
+                    break;
+                case in_array($field, ['net_id', 'kvm_id', 'pdu_id', 'rack_id', 'pdu2_id', 'nic2_id', 'ipmi_id', 'location_id']):
+                    (new Select2($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
+                    break;
+                default:
+                    (new Input($I, "input[name$=\"[{$field}]\"]"))->setValue($value);
             }
         }
 
@@ -54,9 +55,11 @@ abstract class Hub extends Authenticated
 
     /**
      * @return Hub
+     * @throws \Codeception\Exception\ModuleException
      */
     public function hasNotErrors(): self
     {
+        $this->tester->waitForPageUpdate();
         $this->tester->dontSeeElement("//*[contains(@class, 'has-error')]");
 
         return $this;
