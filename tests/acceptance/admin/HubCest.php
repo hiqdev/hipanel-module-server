@@ -36,8 +36,6 @@ class HubCest
     {
         $this->indexPage = new IndexPage($I);
         $this->viewPage = new View($I);
-
-        $this->hubData = $this->createProvider()[0];
     }
 
     /**
@@ -49,14 +47,16 @@ class HubCest
     public function ensureICanCreateHub(Admin $I, Example $data): void
     {
         $createPage = new Create($I);
-        $this->hubData = $data;
+
         $I->needPage(Url::to(['@hub/create']));
         $createPage->fillForm($data)
             ->hasNotErrors()
             ->submitForm();
+
         $I->closeNotification('Switch was created');
         $I->seeInCurrentUrl(Url::to(['@hub/view']));
         $this->viewPage->check($data);
+        $this->hubData = $data;
     }
 
     /**
@@ -162,7 +162,7 @@ class HubCest
     {
         return [
             [
-                'name'    => 'test_switch',
+                'name'    => 'test_switch' . uniqid(),
                 'type_id' => 'Switch',
                 'inn'     => 'test_inn',
                 'model'   => 'test_model',
@@ -188,17 +188,14 @@ class HubCest
         return [
             [
                 'net_id'        => 'TEST-SW-05',
-                'net_port'      => 'port5',
+                'net_port'      => 'port' . uniqid(),
                 'kvm_id'        => 'TEST-SW-04',
-                'kvm_port'      => 'port4',
+                'kvm_port'      => 'port' . uniqid(),
                 'pdu_id'        => 'TEST-SW-06',
-                'pdu_port'      => 'port6',
+                'pdu_port'      => 'port' . uniqid(),
                 'rack_id'       => 'TEST-SW-02',
-                'rack_port'     => 'port2',
-                'console_id'    => null,
-                'console_port'  => null,
+                'rack_port'     => 'port' . uniqid(),
                 'location_id'   => 'TEST-SW-03',
-                'location_port' => '',
             ],
         ];
     }
@@ -217,7 +214,6 @@ class HubCest
                 'nic_media'         => '100 Gbit/s',
                 'digit_capacity_id' => 'vds2',
                 'base_port_no'      => 21,
-                'oob_key'           => 'gnu/gpl',
             ],
         ];
     }
