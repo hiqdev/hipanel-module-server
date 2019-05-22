@@ -72,6 +72,13 @@ class HubController extends CrudController
                         ]);
                 },
                 'class' => ViewAction::class,
+                'data' => function () {
+                    return [
+                        'snmpOptions' => $this->getSnmpOptions(),
+                        'digitalCapacityOptions' => $this->getDigitalCapacityOptions(),
+                        'nicMediaOptions' => $this->getNicMediaOptions(),
+                    ];
+                },
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
