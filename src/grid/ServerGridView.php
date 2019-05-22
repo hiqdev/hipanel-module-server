@@ -69,6 +69,10 @@ class ServerGridView extends BoxedGridView
             padding: 0 5px;
             color: #ccc;
         }
+        .inactiveLink {
+           pointer-events: none;
+           cursor: default;
+        }
         ');
     }
 
@@ -110,7 +114,10 @@ class ServerGridView extends BoxedGridView
             }
         }
 
-        return Html::tag('ul', $html, ['class' => 'tariff-chain', 'style' => 'margin: 0; padding: 0;']);
+        return Html::tag('ul', $html, [
+            'class' => 'tariff-chain ' . ($user->can('support') ?: 'inactiveLink'),
+            'style' => 'margin: 0; padding: 0;',
+        ]);
     }
 
     public function columns()
