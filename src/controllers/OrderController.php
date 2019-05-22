@@ -130,7 +130,7 @@ class OrderController extends CrudController
     protected function redirectOutside()
     {
         $language = Yii::$app->language;
-        $template = Yii::$app->params['module.server.redirect.url'];
+        $template = Yii::$app->params['module.server.order.redirect.url'];
         $url = preg_replace('/{language}/', $language, $template);
         return $this->redirect($url);
     }
