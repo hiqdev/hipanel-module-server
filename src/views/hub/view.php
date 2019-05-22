@@ -4,6 +4,7 @@ use hipanel\modules\server\grid\BindingColumn;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
+use hipanel\modules\server\models\Binding;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use hipanel\widgets\Pjax;
@@ -45,8 +46,7 @@ $this->registerCss('
                 echo ServerGridView::detailView([
                     'model' => $model,
                     'boxed' => false,
-                    'columns' => array_map(function ($binding) {
-                        /** @var \hipanel\modules\server\models\Binding $binding */
+                    'columns' => array_map(function (Binding $binding) {
                         return [
                             'class' => BindingColumn::class,
                             'attribute' => $binding->typeWithNo,
