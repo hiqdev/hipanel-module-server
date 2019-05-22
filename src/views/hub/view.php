@@ -1,13 +1,19 @@
 <?php
 
+use hipanel\modules\server\grid\BindingColumn;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
+use hipanel\modules\server\models\Binding;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\SettingsModal;
 use yii\helpers\Html;
+
+/** @var array $snmpOptions */
+/** @var array $digitalCapacityOptions */
+/** @var array $nicMediaOptions */
 
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
@@ -40,14 +46,12 @@ $this->registerCss('
                 echo ServerGridView::detailView([
                     'model' => $model,
                     'boxed' => false,
-                    'columns' => [
-                        'net',
-                        'kvm',
-                        'location',
-                        'pdu',
-                        'rack',
-                        'ipmi',
-                    ],
+                    'columns' => array_map(function (Binding $binding) {
+                        return [
+                            'class' => BindingColumn::class,
+                            'attribute' => $binding->typeWithNo,
+                        ];
+                    }, $model->bindings),
                 ]);
                 $box->endBody();
                 $box->end();
@@ -67,6 +71,13 @@ $this->registerCss('
                 echo HubGridView::detailView([
                     'model' => $model,
                     'boxed' => false,
+                    'gridOptions' => [
+                        'extraOptions' => [
+                            'snmp_version_id' => $snmpOptions,
+                            'digit_capacity_id' => $digitalCapacityOptions,
+                            'nic_media' => $nicMediaOptions,
+                        ],
+                    ],
                     'columns' => [
                         'switch',
                         'inn',
