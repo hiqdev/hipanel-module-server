@@ -9,6 +9,7 @@
  */
 
 return [
-    'module.server.order.allowed'      => true,
-    'module.server.order.redirect.url'  => null,
+    'module.server.power.management.allowed'    => true,
+    'module.server.order.allowed'               => true,
+    'module.server.order.redirect.url'          => null,
 ];
