@@ -9,6 +9,6 @@
  */
 
 return [
-    'module.server.orderIsAllowed'      => true,
+    'module.server.order.allowed'      => true,
     'module.server.order.redirect.url'  => null,
 ];
