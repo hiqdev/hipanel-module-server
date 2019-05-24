@@ -74,7 +74,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <?php if (Yii::$app->user->can('server.control-system') || Yii::$app->user->can('server.control-power')) : ?>
+            <?php if ($model->canControlPower()) : ?>
                 <div class="row">
                     <div class="col-md-12">
                         <?php
