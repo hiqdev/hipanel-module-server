@@ -55,6 +55,11 @@ class SidebarMenu extends Menu
                         'url'     => ['/server/refuse/index'],
                         'visible' => $user->can('resell') && $module->orderIsAllowed,
                     ],
+                    'config' => [
+                        'label'   => Yii::t('hipanel:server:config', 'Config'),
+                        'url'     => ['/server/config/index'],
+                        'visible' => true, // TODO choose right permissions
+                    ],
                 ],
             ],
         ];
