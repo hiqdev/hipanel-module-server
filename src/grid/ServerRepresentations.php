@@ -31,8 +31,7 @@ class ServerRepresentations extends RepresentationCollection
                     'checkbox',
                     'actions',
                     'server', 'client_like', 'seller_id',
-                    'ips', 'state', 'expires',
-                    'tariff_and_discount', 'hwsummary',
+                    'ips', 'tariff_and_discount',
                 ],
             ],
             'hardware' => Yii::$app->user->can('part.read') ? [
