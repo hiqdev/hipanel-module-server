@@ -10,4 +10,5 @@
 
 return [
     'Config' => 'Конфигурация',
+    'Config detailed information' => 'Подробная информация',
 ];

@@ -10,6 +10,9 @@
 namespace hipanel\modules\server\grid;
 
 use hipanel\grid\BoxedGridView;
+use hipanel\grid\MainColumn;
+use hipanel\modules\server\menus\ConfigActionsMenu;
+use hiqdev\yii2\menus\grid\MenuColumn;
 use yii\helpers\Html;
 
 class ConfigGridView extends BoxedGridView
@@ -17,11 +20,12 @@ class ConfigGridView extends BoxedGridView
     public function columns()
     {
         return array_merge(parent::columns(), [
-//            'actions' => [
-//                'class' => MenuColumn::class,
-//                'menuClass' => HubActionsMenu::class,
-//            ],
+            'actions' => [
+                'class' => MenuColumn::class,
+                'menuClass' => ConfigActionsMenu::class,
+            ],
             'name' => [
+                'class' => MainColumn::class,
                 'format' => 'html',
                 'value' => function ($model) {
                     return Html::a($model->name, ['@config/view', 'id' => $model->id]);
@@ -30,4 +34,3 @@ class ConfigGridView extends BoxedGridView
         ]);
     }
 }
-

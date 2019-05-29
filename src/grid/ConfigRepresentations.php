@@ -14,7 +14,7 @@ class ConfigRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel', 'common'),
                 'columns' => [
                     'checkbox',
-//                    'actions',
+                    'actions',
                     'name',
                     'type',
                     'state',

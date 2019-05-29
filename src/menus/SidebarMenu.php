@@ -58,7 +58,7 @@ class SidebarMenu extends Menu
                     'config' => [
                         'label'   => Yii::t('hipanel:server:config', 'Config'),
                         'url'     => ['/server/config/index'],
-                        'visible' => true, // TODO choose right permissions
+                        'visible' => $user->can('config.read'),
                     ],
                 ],
             ],
