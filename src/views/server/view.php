@@ -244,8 +244,8 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                     'contentOptions' => ['class' => 'text-bold'],
                                 ], 'detailed_type',
                                 'ip', 'note', 'label',
-                                'state', 'blocking',
-                                'os', 'panel', 'mails_num',
+                                'blocking',
+                                'mails_num',
                             ],
                         ]);
                         if (!empty($model->softwareSettings->failure_contacts)) {
@@ -273,7 +273,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                             'boxed'   => false,
                             'model'   => $model,
                             'columns' => [
-                                'tariff', 'sale_time', 'discount', 'expires',
+                                'tariff', 'sale_time',
                             ],
                         ]);
                     $box->endBody();
