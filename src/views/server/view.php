@@ -278,24 +278,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                         ]);
                     $box->endBody();
                     $box->beginFooter();
-                        if ($model->autorenewal && $model->expires && Yii::$app->user->can('server.pay')) {
-                            echo SimpleOperation::widget([
-                                'model' => $model,
-                                'scenario' => 'refuse',
-                                'buttonLabel' => Yii::t('hipanel:server', 'Refuse service'),
-                                'buttonClass' => 'btn btn-default',
-                                'body' => function ($model) {
-                                    return $model->canFullRefuse()
-                                        ? Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off. All data on the server will be removed!')
-                                        : Yii::t('hipanel:server', 'In case of service refusing, the server will be locked and turned off {0, date, medium}. All data on the server will be removed!', Yii::$app->formatter->asTimestamp($model->expires));
-                                },
-                                'modalHeaderLabel' => Yii::t('hipanel:server', 'Confirm service refuse'),
-                                'modalHeaderOptions' => ['class' => 'label-danger'],
-                                'modalFooterLabel' => Yii::t('hipanel:server', 'Refuse'),
-                                'modalFooterLoading' => Yii::t('hipanel:server', 'Refusing...'),
-                                'modalFooterClass' => 'btn btn-warning',
-                            ]);
-                        } elseif (in_array($model->state, $model->goodStates(), true) && $model->expires && Yii::$app->user->can('server.pay')) {
+                        if (in_array($model->state, $model->goodStates(), true) && $model->expires && Yii::$app->user->can('server.pay')) {
                             echo SimpleOperation::widget([
                                 'model' => $model,
                                 'scenario' => 'enable-autorenewal',
