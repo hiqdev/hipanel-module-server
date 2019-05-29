@@ -9,6 +9,9 @@
  */
 
 return [
-    'module.server.orderIsAllowed'      => true,
-    'module.server.order.redirect.url'  => null,
+    'languages' => ['ru'],
+    'sourcePath' => dirname(__DIR__) . '/src',
+    'messagePath' => dirname(__DIR__) . '/src/messages',
+    'sort' => true,
+    'removeUnused' => true,
 ];

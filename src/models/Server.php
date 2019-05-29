@@ -399,4 +399,18 @@ class Server extends Model implements AssignSwitchInterface
             'options' => $options,
         ]);
     }
+
+    /**
+     * @return bool
+     */
+    public function canControlPower(): bool
+    {
+        $powerManagementAllowed = Yii::$app->params['module.server.power.management.allowed'];
+
+        $userCanControlPower = Yii::$app->user->can('support') &&
+            (Yii::$app->user->can('server.control-system') ||
+            Yii::$app->user->can('server.control-power'));
+
+        return $powerManagementAllowed || $userCanControlPower;
+    }
 }

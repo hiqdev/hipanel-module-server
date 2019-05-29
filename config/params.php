@@ -9,9 +9,7 @@
  */
 
 return [
-    'languages' => ['ru'],
-    'sourcePath' => dirname(__DIR__),
-    'messagePath' => dirname(__DIR__) . '/messages',
-    'sort' => true,
-    'removeUnused' => true,
+    'module.server.power.management.allowed'    => true,
+    'module.server.order.allowed'               => true,
+    'module.server.order.redirect.url'          => null,
 ];
