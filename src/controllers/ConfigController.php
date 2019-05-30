@@ -4,6 +4,7 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
@@ -37,6 +38,17 @@ class ConfigController extends CrudController
                 'success' => Yii::t(
                     'hipanel:server:config',
                     'The configuration was successfully updated'
+                ),
+            ],
+            'delete' => [
+                'class' => SmartDeleteAction::class,
+                'success' => Yii::t(
+                    'hipanel:server:config',
+                    'The configuration has been deleted'
+                ),
+                'error' => Yii::t(
+                    'hipanel:server:config',
+                    'Failed to delete the configuration'
                 ),
             ],
             'validate-form' => [

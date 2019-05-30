@@ -45,15 +45,11 @@ class Config extends Model
                     'descr',
                 ], 'string'],
             [
-                [
-                    'client_id',
-                    'name',
-                    'label',
-                    'cpu',
-                    'ram',
-                ], 'required', 'on' => ['create', 'update'],
+                ['client_id', 'name', 'label', 'cpu', 'ram'],
+                'required', 'on' => ['create', 'update'],
             ],
 
+            ['id', 'required', 'on' => 'delete']
         ]);
     }
 
