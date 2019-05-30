@@ -28,39 +28,29 @@ class Config extends Model
         return array_merge(parent::rules(), [
             [['id', 'client_id', 'type_id', 'state_id'], 'integer'],
             [['name', 'client', 'state', 'state_label', 'type', 'type_label'], 'string'],
+            [['sort_order'], 'integer', 'min'=>0],
             [
                 [
                     'data',
                     'name',
-                    'subname',
-                    'location',
+                    'label',
                     'cpu',
                     'ram',
                     'hdd',
+                    'ssd',
                     'traffic',
                     'lan',
                     'raid',
                     'enabled',
-                    'sort_order',
-                    'price',
-                    'last_price',
-                    'description',
+                    'descr',
                 ], 'string'],
             [
                 [
+                    'client_id',
                     'name',
-                    'subname',
-                    'location',
+                    'label',
                     'cpu',
                     'ram',
-                    'hdd',
-                    'traffic',
-                    'lan',
-                    'raid',
-                    'sort_order',
-                    'price',
-                    'last_price',
-                    'description',
                 ], 'required', 'on' => ['create', 'update'],
             ],
 
@@ -70,13 +60,14 @@ class Config extends Model
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
+            'label'      => 'Subname',
             'cpu'        => 'CPU',
             'ram'        => 'RAM',
             'hdd'        => 'HDD',
+            'ssd'        => 'SSD',
             'lan'        => 'LAN',
             'raid'       => 'RAID',
             'sort_order' => 'Sort order',
-            'last_price' => 'Last price',
         ]);
     }
 }

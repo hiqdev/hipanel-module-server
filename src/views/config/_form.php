@@ -27,21 +27,18 @@ use yii\widgets\ActiveForm;
     <div class="col-md-6">
         <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
         <?= $form->field($model, 'name'); ?>
-        <?= $form->field($model, 'subname'); ?>
-        <?= $form->field($model, 'location'); ?>
+        <?= $form->field($model, 'label'); ?>
         <?= $form->field($model, 'cpu'); ?>
         <?= $form->field($model, 'ram'); ?>
-        <?= $form->field($model, 'hdd'); ?>
-        <?= $form->field($model, 'enabled')->checkbox(); ?>
+        <?= $form->field($model, 'descr')->textarea(); ?>
     </div>
     <div class="col-md-6">
+        <?= $form->field($model, 'hdd'); ?>
+        <?= $form->field($model, 'ssd'); ?>
         <?= $form->field($model, 'traffic'); ?>
         <?= $form->field($model, 'lan'); ?>
         <?= $form->field($model, 'raid'); ?>
         <?= $form->field($model, 'sort_order'); ?>
-        <?= $form->field($model, 'price'); ?>
-        <?= $form->field($model, 'last_price'); ?>
-        <?= $form->field($model, 'description'); ?>
     </div>
     <?php Box::end() ?>
 

@@ -9,9 +9,6 @@
     <?= $search->field('subname_ilike') ?>
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('location_ilike') ?>
-</div>
-<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('cpu_ilike') ?>
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
@@ -19,6 +16,9 @@
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('hdd_ilike') ?>
+</div>
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('ssd_ilike') ?>
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('traffic_ilike') ?>
@@ -30,14 +30,8 @@
     <?= $search->field('raid_ilike') ?>
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('sort_order_ilike') ?>
+    <?= $search->field('sort_order') ?>
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('price_ilike') ?>
-</div>
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('last_price_ilike') ?>
-</div>
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('description_ilike') ?>
+    <?= $search->field('descr_ilike') ?>
 </div>
