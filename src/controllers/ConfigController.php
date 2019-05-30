@@ -4,6 +4,7 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
+use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
@@ -28,6 +29,14 @@ class ConfigController extends CrudController
                 'success' => Yii::t(
                     'hipanel:server:config',
                     'The configuration was successfully created'
+                ),
+            ],
+            'update' => [
+                'class' => SmartUpdateAction::class,
+                'scenario' => 'update',
+                'success' => Yii::t(
+                    'hipanel:server:config',
+                    'The configuration was successfully updated'
                 ),
             ],
             'validate-form' => [

@@ -17,6 +17,9 @@ class Config extends Model
 {
     use ModelTrait;
 
+    const SCENARIO_CREATE = 'create';
+    const SCENARIO_UPDATE = 'update';
+
     /**
      * {@inheritdoc}
      */
@@ -54,7 +57,6 @@ class Config extends Model
                     'traffic',
                     'lan',
                     'raid',
-                    'enabled',
                     'sort_order',
                     'price',
                     'last_price',

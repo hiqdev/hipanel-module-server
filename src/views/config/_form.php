@@ -1,13 +1,25 @@
 <?php
 
-/** @var \hipanel\modules\server\models\Config $model */
+/** @var Config $model */
 /** @var yii\widgets\ActiveForm $form */
 
+use hipanel\modules\server\models\Config;
 use hipanel\widgets\Box;
 use yii\bootstrap\Html;
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\helpers\Url;
+use yii\widgets\ActiveForm;
 
 ?>
+<?php $form = ActiveForm::begin([
+    'id' => 'dynamic-form',
+    'enableAjaxValidation' => true,
+    'validationUrl' => Url::toRoute(['validate-form', 'scenario' => $model->scenario]),
+]); ?>
+
+<?php if ($model->scenario === Config::SCENARIO_UPDATE) : ?>
+    <?= Html::activeHiddenInput($model, 'id') ?>
+<?php endif; ?>
 
 <div class="row">
     <?php Box::begin(['title' => Yii::t('hipanel:server:config', 'Configuration details')]) ?>
@@ -42,3 +54,5 @@ use hipanel\modules\client\widgets\combo\ClientCombo;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 </div>
+
+<?php $form->end() ?>
