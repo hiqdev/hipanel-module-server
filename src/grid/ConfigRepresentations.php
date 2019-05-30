@@ -16,9 +16,9 @@ class ConfigRepresentations extends RepresentationCollection
                     'checkbox',
                     'actions',
                     'name',
+                    'client',
                     'type',
                     'state',
-                    'client',
                 ],
             ],
         ]);

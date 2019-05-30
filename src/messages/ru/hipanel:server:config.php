@@ -11,4 +11,6 @@
 return [
     'Config' => 'Конфигурация',
     'Config detailed information' => 'Подробная информация',
+    'The configuration was successfully created' => 'Конфигурация была успешно создана',
+    'Configuration details' => 'Детали конфигурации'
 ];

@@ -11,6 +11,7 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
+use Yii;
 
 class Config extends Model
 {
@@ -23,8 +24,57 @@ class Config extends Model
     {
         return array_merge(parent::rules(), [
             [['id', 'client_id', 'type_id', 'state_id'], 'integer'],
-            [['client', 'client_label', 'state', 'state_label', 'type', 'type_label', 'name'], 'string'],
-            ['id', 'required', 'on' => 'delete'],
+            [['name', 'client', 'state', 'state_label', 'type', 'type_label'], 'string'],
+            [
+                [
+                    'data',
+                    'name',
+                    'subname',
+                    'location',
+                    'cpu',
+                    'ram',
+                    'hdd',
+                    'traffic',
+                    'lan',
+                    'raid',
+                    'enabled',
+                    'sort_order',
+                    'price',
+                    'last_price',
+                    'description',
+                ], 'string'],
+            [
+                [
+                    'name',
+                    'subname',
+                    'location',
+                    'cpu',
+                    'ram',
+                    'hdd',
+                    'traffic',
+                    'lan',
+                    'raid',
+                    'enabled',
+                    'sort_order',
+                    'price',
+                    'last_price',
+                    'description',
+                ], 'required', 'on' => ['create', 'update'],
+            ],
+
+        ]);
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'cpu'        => 'CPU',
+            'ram'        => 'RAM',
+            'hdd'        => 'HDD',
+            'lan'        => 'LAN',
+            'raid'       => 'RAID',
+            'sort_order' => 'Sort order',
+            'last_price' => 'Last price',
         ]);
     }
 }
