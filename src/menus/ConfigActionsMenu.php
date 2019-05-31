@@ -30,6 +30,45 @@ class ConfigActionsMenu extends \hiqdev\yii2\menus\Menu
                 'url' => ['@config/update', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('config.update'),
             ],
+            'enable' => [
+                'label' => Yii::t('hipanel', 'Enable'),
+                'icon' => 'fa-toggle-on',
+                'url' => ['@config/enable', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data' => [
+                        'confirm' => Yii::t('hipanel', 'Are you sure you want to enable this item?'),
+                        'method' => 'POST',
+                        'pjax' => '0',
+                    ],
+                ],
+                'visible' => Yii::$app->user->can('config.update'),
+            ],
+            'disable' => [
+                'label' => Yii::t('hipanel', 'Disable'),
+                'icon' => 'fa-toggle-off',
+                'url' => ['@config/disable', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data' => [
+                        'confirm' => Yii::t('hipanel', 'Are you sure you want to disable this item?'),
+                        'method' => 'POST',
+                        'pjax' => '0',
+                    ],
+                ],
+                'visible' => Yii::$app->user->can('config.update'),
+            ],
+            'delete' => [
+                'label' => Yii::t('hipanel', 'Delete'),
+                'icon' => 'fa-trash',
+                'url' => ['@config/delete', 'id' => $this->model->id],
+                'linkOptions' => [
+                    'data' => [
+                        'confirm' => Yii::t('hipanel', 'Are you sure you want to delete this item?'),
+                        'method' => 'POST',
+                        'pjax' => '0',
+                    ],
+                ],
+                'visible' => Yii::$app->user->can('config.delete'),
+            ],
         ];
     }
 }
