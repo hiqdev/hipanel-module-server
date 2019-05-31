@@ -22,7 +22,12 @@ use yii\widgets\ActiveForm;
 <?php endif; ?>
 
 <div class="row">
-    <?php Box::begin(['title' => Yii::t('hipanel:server:config', 'Configuration details')]) ?>
+    <div class="col-md-12">
+
+        <?php Box::begin([
+            'title' => Yii::t('hipanel:server:config', 'Configuration details'),
+            'options' => ['class' => 'box-widget']
+        ]) ?>
         <div class="col-md-6">
             <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
             <?= $form->field($model, 'name'); ?>
@@ -39,15 +44,24 @@ use yii\widgets\ActiveForm;
             <?= $form->field($model, 'raid'); ?>
             <?= $form->field($model, 'sort_order'); ?>
         </div>
-    <?php Box::end() ?>
+        <?php Box::end() ?>
 
+    </div>
 </div>
 
 <div class="row">
-    <div class="col-md-12 no">
-        <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
-        &nbsp;
-        <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
+    <div class="col-md-12">
+        <?php Box::begin(['options' => ['class' => 'box-widget']]); ?>
+
+        <?= Html::submitButton(Yii::t('hipanel', 'Save'), [
+            'class' => 'btn btn-success'
+        ]) ?>
+        <?= Html::button(Yii::t('hipanel', 'Cancel'), [
+            'class' => 'btn btn-default',
+            'onclick' => 'history.go(-1)'
+        ]) ?>
+
+        <?php Box::end(); ?>
     </div>
 </div>
 
