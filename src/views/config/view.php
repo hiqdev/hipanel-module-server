@@ -47,6 +47,7 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
                             'columns' => [
                                 'client', 'name', 'label', 'descr',
                                 'us_tariff', 'nl_tariff', 'sort_order',
+                                'state',
                             ],
                         ]);
                     $box->endBody();

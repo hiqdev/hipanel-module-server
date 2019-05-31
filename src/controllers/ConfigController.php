@@ -51,14 +51,14 @@ class ConfigController extends CrudController
                 ),
             ],
             'enable' => [
-                'class' => SmartPerformAction::class,
+                'class' => SmartDeleteAction::class,
                 'success' => Yii::t(
                     'hipanel:server:config',
                     'The configuration has been enabled'
                 ),
             ],
             'disable' => [
-                'class' => SmartPerformAction::class,
+                'class' => SmartDeleteAction::class,
                 'success' => Yii::t(
                     'hipanel:server:config',
                     'The configuration has been disabled'

@@ -24,6 +24,13 @@ class ConfigGridView extends BoxedGridView
                 'class' => MenuColumn::class,
                 'menuClass' => ConfigActionsMenu::class,
             ],
+            'name' => [
+                'class' => MainColumn::class,
+                'format' => 'html',
+                'value' => function ($model) {
+                    return Html::a($model->name, ['@config/view', 'id' => $model->id]);
+                },
+            ],
             'client' => [
                 'class' => MainColumn::class,
                 'format' => 'html',
