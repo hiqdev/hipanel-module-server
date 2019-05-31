@@ -3,9 +3,9 @@
 /** @var \hipanel\modules\server\forms\ConfigForm $model */
 /** @var \hipanel\modules\server\forms\ConfigForm[] $models */
 
-$this->title = Yii::t('hipanel:server:config', 'Edit configuration');
+$this->title = Yii::t('hipanel', 'Edit');
 $this->params['breadcrumbs'][] = [
-    'label' => Yii::t('hipanel:server:config', 'Configuration'),
+    'label' => Yii::t('hipanel:server:config', 'Configs'),
     'url' => ['index']
 ];
 $this->params['breadcrumbs'][] = $this->title;

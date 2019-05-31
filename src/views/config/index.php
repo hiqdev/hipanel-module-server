@@ -11,7 +11,7 @@ use hipanel\widgets\IndexPage;
 use yii\data\ActiveDataProvider;
 use yii\helpers\Html;
 
-$this->title = Yii::t('hipanel.integrations', 'Configuration');
+$this->title = Yii::t('hipanel.integrations', 'Configs');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), []))
     ? Yii::t('hipanel', 'filtered list')

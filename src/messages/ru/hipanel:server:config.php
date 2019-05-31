@@ -10,6 +10,7 @@
 
 return [
     'Config' => 'Конфигурация',
+    'Configs' => 'Конфигурации',
     'Config detailed information' => 'Подробная информация',
     'Create configuration' => 'Создать конфигурацию',
     'Edit configuration' => 'Изменить конфигурацию',

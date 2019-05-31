@@ -17,8 +17,8 @@ class ConfigRepresentations extends RepresentationCollection
                     'actions',
                     'name',
                     'client',
-                    'type',
-                    'state',
+                    'config',
+                    'tariffs'
                 ],
             ],
         ]);

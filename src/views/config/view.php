@@ -15,7 +15,7 @@ use yii\web\View;
  */
 $this->title = Html::encode($model->name);
 $this->params['subtitle'] = Yii::t('hipanel:server:config', 'Config detailed information');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server:config', 'Configs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>';
@@ -45,7 +45,7 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
                             'boxed'   => false,
                             'model'   => $model,
                             'columns' => [
-                                'client', 'name', 'label', 'descr',
+                                'client', 'name', 'descr',
                                 'us_tariff', 'nl_tariff', 'sort_order',
                                 'state',
                             ],
