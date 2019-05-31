@@ -28,6 +28,10 @@ $user = Yii::$app->user;
 ]) ?>
 <?php $page->endContent() ?>
 
+<?php $page->beginContent('bulk-actions') ?>
+    <?= $page->renderBulkDeleteButton('@config/delete')?>
+<?php $page->endContent() ?>
+
 <?php $page->beginContent('table') ?>
     <?php $page->beginBulkForm() ?>
         <?= ConfigGridView::widget([

@@ -23,23 +23,22 @@ use yii\widgets\ActiveForm;
 
 <div class="row">
     <?php Box::begin(['title' => Yii::t('hipanel:server:config', 'Configuration details')]) ?>
-
-    <div class="col-md-6">
-        <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
-        <?= $form->field($model, 'name'); ?>
-        <?= $form->field($model, 'label'); ?>
-        <?= $form->field($model, 'cpu'); ?>
-        <?= $form->field($model, 'ram'); ?>
-        <?= $form->field($model, 'descr')->textarea(); ?>
-    </div>
-    <div class="col-md-6">
-        <?= $form->field($model, 'hdd'); ?>
-        <?= $form->field($model, 'ssd'); ?>
-        <?= $form->field($model, 'traffic'); ?>
-        <?= $form->field($model, 'lan'); ?>
-        <?= $form->field($model, 'raid'); ?>
-        <?= $form->field($model, 'sort_order'); ?>
-    </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
+            <?= $form->field($model, 'name'); ?>
+            <?= $form->field($model, 'label'); ?>
+            <?= $form->field($model, 'cpu'); ?>
+            <?= $form->field($model, 'ram'); ?>
+            <?= $form->field($model, 'descr')->textarea(); ?>
+        </div>
+        <div class="col-md-6">
+            <?= $form->field($model, 'hdd'); ?>
+            <?= $form->field($model, 'ssd'); ?>
+            <?= $form->field($model, 'traffic'); ?>
+            <?= $form->field($model, 'lan'); ?>
+            <?= $form->field($model, 'raid'); ?>
+            <?= $form->field($model, 'sort_order'); ?>
+        </div>
     <?php Box::end() ?>
 
 </div>

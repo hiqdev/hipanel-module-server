@@ -41,7 +41,6 @@ class Config extends Model
                     'traffic',
                     'lan',
                     'raid',
-                    'enabled',
                     'descr',
                 ], 'string'],
             [
