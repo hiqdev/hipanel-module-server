@@ -26,7 +26,11 @@ class Config extends Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'client_id', 'type_id', 'state_id', 'us_tariff_id', 'nl_tariff_id'], 'integer'],
+            [[
+                'id', 'client_id', 'type_id', 'state_id',
+                'us_tariff_id', 'nl_tariff_id', 'servers_num'
+            ], 'integer'],
+            [['servers_ids'], 'safe'],
             [['name', 'client', 'state', 'state_label', 'type', 'type_label'], 'string'],
             [['sort_order'], 'integer', 'min'=>0],
             [

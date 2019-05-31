@@ -8,6 +8,7 @@ use hipanel\widgets\Box;
 use yii\bootstrap\Html;
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\combo\TariffCombo;
+use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\helpers\Url;
 use yii\widgets\ActiveForm;
 
@@ -51,6 +52,11 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'traffic'); ?>
                 <?= $form->field($model, 'lan'); ?>
                 <?= $form->field($model, 'raid'); ?>
+                <?= $form->field($model, 'servers_ids')->widget(ServerCombo::class, [
+                    'multiple' => true,
+                    'hasId' => true,
+                ]) ?>
+
             <?php Box::end() ?>
 
         </div>
