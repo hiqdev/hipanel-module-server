@@ -26,7 +26,7 @@ class Config extends Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'client_id', 'type_id', 'state_id'], 'integer'],
+            [['id', 'client_id', 'type_id', 'state_id', 'us_tariff_id', 'nl_tariff_id'], 'integer'],
             [['name', 'client', 'state', 'state_label', 'type', 'type_label'], 'string'],
             [['sort_order'], 'integer', 'min'=>0],
             [
@@ -48,13 +48,15 @@ class Config extends Model
                 'required', 'on' => ['create', 'update'],
             ],
 
-            ['id', 'required', 'on' => 'delete']
+            ['id', 'required', 'on' => ['delete', 'enable', 'disable']]
         ]);
     }
 
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
+            'us_tariff_id' => 'USA tariff',
+            'nl_tariff_id' => 'Netherlands tariff',
             'label'      => 'Subname',
             'cpu'        => 'CPU',
             'ram'        => 'RAM',
