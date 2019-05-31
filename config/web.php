@@ -15,6 +15,7 @@ return [
         '@switch-graph' => '/server/switch-graph',
         '@pre-order' => '/server/pre-order',
         '@hub' => '/server/hub',
+        '@config' => '/server/config',
     ],
     'modules' => [
         'server' => [
@@ -59,6 +60,10 @@ return [
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
                 'hipanel.server.consumption.type' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => '@hipanel/modules/server/messages',
+                ],
+                'hipanel:server:config' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => '@hipanel/modules/server/messages',
                 ],
