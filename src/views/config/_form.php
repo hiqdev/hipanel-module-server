@@ -7,6 +7,7 @@ use hipanel\modules\server\models\Config;
 use hipanel\widgets\Box;
 use yii\bootstrap\Html;
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\finance\widgets\combo\TariffCombo;
 use hipanel\helpers\Url;
 use yii\widgets\ActiveForm;
 
@@ -23,28 +24,36 @@ use yii\widgets\ActiveForm;
 
 <div class="row">
     <div class="col-md-12">
+        <div class="col-md-6">
+            <?php Box::begin([
+                'title' => Yii::t('hipanel:server:config', 'Configuration details'),
+                'options' => ['class' => 'box-widget']
+            ]) ?>
+                <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
+                <?= $form->field($model, 'name'); ?>
+                <?= $form->field($model, 'label'); ?>
+                <?= $form->field($model, 'descr')->textarea(); ?>
+                <?= $form->field($model, 'us_tariff_id')->widget(TariffCombo::class) ?>
+                <?= $form->field($model, 'nl_tariff_id')->widget(TariffCombo::class) ?>
+                <?= $form->field($model, 'sort_order'); ?>
+            <?php Box::end() ?>
 
-        <?php Box::begin([
-            'title' => Yii::t('hipanel:server:config', 'Configuration details'),
-            'options' => ['class' => 'box-widget']
-        ]) ?>
-        <div class="col-md-6">
-            <?= $form->field($model, 'client_id')->widget(ClientCombo::class) ?>
-            <?= $form->field($model, 'name'); ?>
-            <?= $form->field($model, 'label'); ?>
-            <?= $form->field($model, 'cpu'); ?>
-            <?= $form->field($model, 'ram'); ?>
-            <?= $form->field($model, 'descr')->textarea(); ?>
         </div>
         <div class="col-md-6">
-            <?= $form->field($model, 'hdd'); ?>
-            <?= $form->field($model, 'ssd'); ?>
-            <?= $form->field($model, 'traffic'); ?>
-            <?= $form->field($model, 'lan'); ?>
-            <?= $form->field($model, 'raid'); ?>
-            <?= $form->field($model, 'sort_order'); ?>
+            <?php Box::begin([
+                'title' => Yii::t('hipanel:server:config', 'Hardware'),
+                'options' => ['class' => 'box-widget']
+            ]) ?>
+                <?= $form->field($model, 'cpu'); ?>
+                <?= $form->field($model, 'ram'); ?>
+                <?= $form->field($model, 'hdd'); ?>
+                <?= $form->field($model, 'ssd'); ?>
+                <?= $form->field($model, 'traffic'); ?>
+                <?= $form->field($model, 'lan'); ?>
+                <?= $form->field($model, 'raid'); ?>
+            <?php Box::end() ?>
+
         </div>
-        <?php Box::end() ?>
 
     </div>
 </div>
