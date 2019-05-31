@@ -37,28 +37,33 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
             <div class="col-md-12">
                 <?php
                 $box = Box::begin(['renderBody' => false]);
-                $box->beginHeader();
-                echo $box->renderTitle(Yii::t('hipanel:server', 'Server information'));
-                $box->endHeader();
-                $box->beginBody();
-                echo ConfigGridView::detailView([
-                    'boxed'   => false,
-                    'model'   => $model,
-                    'columns' => [
-                        'client_id',
-                        'name',
-                        'label',
-                        'cpu',
-                        'ram',
-                        'hdd',
-                        'ssd',
-                        'traffic',
-                        'lan',
-                        'raid',
-                        'descr',
-                    ],
-                ]);
-                $box->endBody();
+                    $box->beginHeader();
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Config information'));
+                    $box->endHeader();
+                    $box->beginBody();
+                        echo ConfigGridView::detailView([
+                            'boxed'   => false,
+                            'model'   => $model,
+                            'columns' => [
+                                'client', 'name', 'label', 'descr',
+                                'us_tariff', 'nl_tariff', 'sort_order',
+                            ],
+                        ]);
+                    $box->endBody();
+
+                    $box->beginHeader();
+                        echo $box->renderTitle(Yii::t('hipanel:server', 'Hardware'));
+                    $box->endHeader();
+                    $box->beginBody();
+                        echo ConfigGridView::detailView([
+                            'boxed'   => false,
+                            'model'   => $model,
+                            'columns' => [
+                                'cpu', 'ram', 'hdd', 'ssd',
+                                'traffic', 'lan', 'raid',
+                            ],
+                        ]);
+                    $box->endBody();
                 $box->end();
                 ?>
             </div>

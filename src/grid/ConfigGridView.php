@@ -24,13 +24,13 @@ class ConfigGridView extends BoxedGridView
                 'class' => MenuColumn::class,
                 'menuClass' => ConfigActionsMenu::class,
             ],
-            'name' => [
+            'client' => [
                 'class' => MainColumn::class,
                 'format' => 'html',
                 'value' => function ($model) {
-                    return Html::a($model->name, ['@config/view', 'id' => $model->id]);
+                    return Html::a($model->client, ['@client/view', 'id' => $model->client_id]);
                 },
-            ]
+            ],
         ]);
     }
 }

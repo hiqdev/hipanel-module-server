@@ -34,6 +34,8 @@ class Config extends Model
                     'data',
                     'name',
                     'label',
+                    'us_tariff',
+                    'nl_tariff',
                     'cpu',
                     'ram',
                     'hdd',
@@ -57,14 +59,16 @@ class Config extends Model
         return array_merge(parent::attributeLabels(), [
             'us_tariff_id' => 'USA tariff',
             'nl_tariff_id' => 'Netherlands tariff',
-            'label'      => 'Subname',
-            'cpu'        => 'CPU',
-            'ram'        => 'RAM',
-            'hdd'        => 'HDD',
-            'ssd'        => 'SSD',
-            'lan'        => 'LAN',
-            'raid'       => 'RAID',
-            'sort_order' => 'Sort order',
+            'us_tariff'    => 'USA tariff',
+            'nl_tariff'    => 'Netherlands tariff',
+            'label'        => 'Subname',
+            'cpu'          => 'CPU',
+            'ram'          => 'RAM',
+            'hdd'          => 'HDD',
+            'ssd'          => 'SSD',
+            'lan'          => 'LAN',
+            'raid'         => 'RAID',
+            'sort_order'   => 'Sort order',
         ]);
     }
 }
