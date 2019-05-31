@@ -29,6 +29,8 @@ $user = Yii::$app->user;
 <?php $page->endContent() ?>
 
 <?php $page->beginContent('bulk-actions') ?>
+    <?= $page->renderBulkButton('enable', Yii::t('hipanel', 'Enable')) ?>
+    <?= $page->renderBulkButton('disable', Yii::t('hipanel', 'Disable')) ?>
     <?= $page->renderBulkDeleteButton('@config/delete')?>
 <?php $page->endContent() ?>
 

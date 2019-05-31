@@ -48,7 +48,7 @@ class Config extends Model
                 'required', 'on' => ['create', 'update'],
             ],
 
-            ['id', 'required', 'on' => 'delete']
+            ['id', 'required', 'on' => ['delete', 'enable', 'disable']]
         ]);
     }
 

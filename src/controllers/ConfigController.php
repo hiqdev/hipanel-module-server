@@ -5,12 +5,11 @@ namespace hipanel\modules\server\controllers;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
+use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
-use hipanel\modules\server\forms\ConfigForm;
-use hiqdev\hiart\Collection;
 use Yii;
 
 class ConfigController extends CrudController
@@ -29,7 +28,7 @@ class ConfigController extends CrudController
                 'scenario' => 'create',
                 'success' => Yii::t(
                     'hipanel:server:config',
-                    'The configuration was successfully created'
+                    'The configuration has been successfully created'
                 ),
             ],
             'update' => [
@@ -37,7 +36,7 @@ class ConfigController extends CrudController
                 'scenario' => 'update',
                 'success' => Yii::t(
                     'hipanel:server:config',
-                    'The configuration was successfully updated'
+                    'The configuration has been successfully updated'
                 ),
             ],
             'delete' => [
@@ -49,6 +48,20 @@ class ConfigController extends CrudController
                 'error' => Yii::t(
                     'hipanel:server:config',
                     'Failed to delete the configuration'
+                ),
+            ],
+            'enable' => [
+                'class' => SmartPerformAction::class,
+                'success' => Yii::t(
+                    'hipanel:server:config',
+                    'The configuration has been enabled'
+                ),
+            ],
+            'disable' => [
+                'class' => SmartPerformAction::class,
+                'success' => Yii::t(
+                    'hipanel:server:config',
+                    'The configuration has been disabled'
                 ),
             ],
             'validate-form' => [

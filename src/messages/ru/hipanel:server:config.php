@@ -13,8 +13,10 @@ return [
     'Config detailed information' => 'Подробная информация',
     'Create configuration' => 'Создать конфигурацию',
     'Edit configuration' => 'Изменить конфигурацию',
-    'The configuration was successfully created' => 'Конфигурация была успешно создана',
-    'The configuration was successfully updated' => 'Конфигурация была успешно изменена',
+    'The configuration has been successfully created' => 'Конфигурация была успешно создана',
+    'The configuration has been successfully updated' => 'Конфигурация была успешно изменена',
+    'The configuration has been enabled' => 'Конфигурация была включена',
+    'The configuration has been disabled' => 'Конфигурация была выключена',
     'Configuration details' => 'Детали конфигурации',
     'Hardware' => 'Аппаратные средства',
 ];
