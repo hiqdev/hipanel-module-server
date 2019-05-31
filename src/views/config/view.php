@@ -1,7 +1,9 @@
 <?php
 
+use hipanel\modules\server\grid\ConfigGridView;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\menus\ConfigDetailMenu;
+use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
 use yii\web\View;
@@ -28,5 +30,38 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
                 'linkTemplate' => $linkTemplate,
             ]),
         ]) ?>
+    </div>
+
+    <div class="col-md-4">
+        <div class="row">
+            <div class="col-md-12">
+                <?php
+                $box = Box::begin(['renderBody' => false]);
+                $box->beginHeader();
+                echo $box->renderTitle(Yii::t('hipanel:server', 'Server information'));
+                $box->endHeader();
+                $box->beginBody();
+                echo ConfigGridView::detailView([
+                    'boxed'   => false,
+                    'model'   => $model,
+                    'columns' => [
+                        'client_id',
+                        'name',
+                        'label',
+                        'cpu',
+                        'ram',
+                        'hdd',
+                        'ssd',
+                        'traffic',
+                        'lan',
+                        'raid',
+                        'descr',
+                    ],
+                ]);
+                $box->endBody();
+                $box->end();
+                ?>
+            </div>
+        </div>
     </div>
 </div>
