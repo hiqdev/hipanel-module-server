@@ -41,7 +41,7 @@ class ConfigActionsMenu extends \hiqdev\yii2\menus\Menu
                         'pjax' => '0',
                     ],
                 ],
-                'visible' => Yii::$app->user->can('config.update'),
+                'visible' => Yii::$app->user->can('config.update') && $this->model->state != 'ok',
             ],
             'disable' => [
                 'label' => Yii::t('hipanel', 'Disable'),
@@ -54,7 +54,7 @@ class ConfigActionsMenu extends \hiqdev\yii2\menus\Menu
                         'pjax' => '0',
                     ],
                 ],
-                'visible' => Yii::$app->user->can('config.update'),
+                'visible' => Yii::$app->user->can('config.update') && $this->model->state !== 'disabled',
             ],
             'delete' => [
                 'label' => Yii::t('hipanel', 'Delete'),
