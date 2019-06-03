@@ -40,8 +40,8 @@ class ConfigGridView extends BoxedGridView
                 'value' => function ($model) {
                     $value = '';
                     foreach (['cpu', 'ram', 'hdd'] as $item) {
-                        $value .= Html::tag('span', ucwords($item) . ': ') .
-                            Html::tag('span', $model->$item) . '</br>';
+                        $value .= '<nobr>' . Html::tag('span', ucwords($item) . ': ') .
+                            Html::tag('span', $model->$item) . '</nobr></br>';
                     }
 
                     return $value;

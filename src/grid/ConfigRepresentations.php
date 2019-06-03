@@ -18,7 +18,8 @@ class ConfigRepresentations extends RepresentationCollection
                     'name',
                     'client',
                     'config',
-                    'tariffs'
+                    'tariffs',
+                    'servers',
                 ],
             ],
         ]);
