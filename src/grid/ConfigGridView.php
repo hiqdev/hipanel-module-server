@@ -34,19 +34,13 @@ class ConfigGridView extends BoxedGridView
                         '</br>' . Html::tag('span', $model->label);
                 },
             ],
-            'client' => [
-                'format' => 'html',
-                'value' => function ($model) {
-                    return Html::a($model->client, ['@client/view', 'id' => $model->client_id]);
-                },
-            ],
             'config' => [
                 'class' => MainColumn::class,
                 'format' => 'html',
                 'value' => function ($model) {
                     $value = '';
                     foreach (['cpu', 'ram', 'hdd'] as $item) {
-                        $value .= Html::tag('span', ucwords($item) . ':') .
+                        $value .= Html::tag('span', ucwords($item) . ': ') .
                             Html::tag('span', $model->$item) . '</br>';
                     }
 
@@ -62,7 +56,7 @@ class ConfigGridView extends BoxedGridView
                         Html::tag('span', 'US:') .
                         Html::a($model->us_tariff, ['@tariff/view', 'id' => $model->us_tariff_id]);
                 },
-            ]
+            ],
         ]);
     }
 }

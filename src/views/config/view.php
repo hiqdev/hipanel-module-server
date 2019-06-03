@@ -4,6 +4,7 @@ use hipanel\modules\server\grid\ConfigGridView;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\menus\ConfigDetailMenu;
 use hipanel\widgets\Box;
+use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\MainDetails;
 use yii\helpers\Html;
 use yii\web\View;
@@ -25,7 +26,7 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
         <?= MainDetails::widget([
             'title' => 'Configuration',
             'icon' => 'fa-cogs',
-            'subTitle' => Html::a($model->client, ['@client/view', 'id' => $model->client_id]),
+            'subTitle' => ClientSellerLink::widget(['model' => $model]),
             'menu' => ConfigDetailMenu::widget(['model' => $model], [
                 'linkTemplate' => $linkTemplate,
             ]),
@@ -33,25 +34,30 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
     </div>
 
     <div class="col-md-4">
+            <?php
+            $box = Box::begin(['renderBody' => false]);
+                $box->beginHeader();
+                    echo $box->renderTitle(Yii::t('hipanel:server', 'Config information'));
+                $box->endHeader();
+                $box->beginBody();
+                    echo ConfigGridView::detailView([
+                        'boxed'   => false,
+                        'model'   => $model,
+                        'columns' => [
+                            'client', 'seller', 'name', 'descr',
+                            'us_tariff', 'nl_tariff', 'sort_order',
+                            'state', 'servers',
+                        ],
+                    ]);
+                $box->endBody();
+            $box->end();
+            ?>
+    </div>
+    <div class="col-md-4">
         <div class="row">
             <div class="col-md-12">
                 <?php
                 $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel:server', 'Config information'));
-                    $box->endHeader();
-                    $box->beginBody();
-                        echo ConfigGridView::detailView([
-                            'boxed'   => false,
-                            'model'   => $model,
-                            'columns' => [
-                                'client', 'name', 'descr',
-                                'us_tariff', 'nl_tariff', 'sort_order',
-                                'state',
-                            ],
-                        ]);
-                    $box->endBody();
-
                     $box->beginHeader();
                         echo $box->renderTitle(Yii::t('hipanel:server', 'Hardware'));
                     $box->endHeader();
