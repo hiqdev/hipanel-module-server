@@ -39,6 +39,7 @@ class Config extends Model
                 'us_tariff_id', 'nl_tariff_id', 'servers_num',
             ], 'integer'],
             [['server_ids', 'servers'], 'safe'],
+            [['nl_server_ids', 'nl_servers', 'us_server_ids', 'us_servers'], 'safe'],
             [['name', 'client', 'seller', 'state', 'state_label', 'type', 'type_label'], 'string'],
             [['sort_order'], 'integer', 'min' => 0],
             [

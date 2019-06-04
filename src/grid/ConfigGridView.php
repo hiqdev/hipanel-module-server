@@ -57,6 +57,13 @@ class ConfigGridView extends BoxedGridView
                         Html::a($model->us_tariff, ['@tariff/view', 'id' => $model->us_tariff_id]);
                 },
             ],
+            'servers' => [
+                'format' => 'html',
+                'value' => function ($model) {
+                    return  Html::tag('span', 'NL:') . $model->nl_servers . '<br/>' .
+                            Html::tag('span', 'US:') . $model->us_servers;
+                },
+            ],
         ]);
     }
 }
