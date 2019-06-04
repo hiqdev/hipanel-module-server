@@ -15,7 +15,7 @@ use yii\web\View;
  * @var Config $model
  */
 $this->title = Html::encode($model->name);
-$this->params['subtitle'] = Yii::t('hipanel:server:config', 'Config detailed information');
+$this->params['subtitle'] = Html::encode($model->label);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server:config', 'Configs'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
@@ -33,47 +33,44 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
         ]) ?>
     </div>
 
-    <div class="col-md-4">
-            <?php
-            $box = Box::begin(['renderBody' => false]);
-                $box->beginHeader();
-                    echo $box->renderTitle(Yii::t('hipanel:server', 'Config information'));
-                $box->endHeader();
-                $box->beginBody();
-                    echo ConfigGridView::detailView([
-                        'boxed'   => false,
-                        'model'   => $model,
-                        'columns' => [
-                            'client', 'seller', 'name', 'descr',
-                            'us_tariff', 'nl_tariff', 'sort_order',
-                            'state', 'servers',
-                        ],
-                    ]);
-                $box->endBody();
-            $box->end();
-            ?>
+    <div class="col-md-5">
+        <?php
+        $box = Box::begin(['renderBody' => false]);
+            $box->beginHeader();
+                echo $box->renderTitle(Yii::t('hipanel:server', 'Config information'));
+            $box->endHeader();
+            $box->beginBody();
+                echo ConfigGridView::detailView([
+                    'boxed'   => false,
+                    'model'   => $model,
+                    'columns' => [
+                        'client', 'seller', 'name', 'descr',
+                        'nl_tariff', 'us_tariff',
+                        'nl_servers', 'us_servers',
+                        'servers', 'state', 'sort_order',
+                    ],
+                ]);
+            $box->endBody();
+        $box->end();
+        ?>
     </div>
     <div class="col-md-4">
-        <div class="row">
-            <div class="col-md-12">
-                <?php
-                $box = Box::begin(['renderBody' => false]);
-                    $box->beginHeader();
-                        echo $box->renderTitle(Yii::t('hipanel:server', 'Hardware'));
-                    $box->endHeader();
-                    $box->beginBody();
-                        echo ConfigGridView::detailView([
-                            'boxed'   => false,
-                            'model'   => $model,
-                            'columns' => [
-                                'cpu', 'ram', 'hdd', 'ssd',
-                                'traffic', 'lan', 'raid',
-                            ],
-                        ]);
-                    $box->endBody();
-                $box->end();
-                ?>
-            </div>
-        </div>
+        <?php
+        $box = Box::begin(['renderBody' => false]);
+            $box->beginHeader();
+                echo $box->renderTitle(Yii::t('hipanel:server', 'Hardware'));
+            $box->endHeader();
+            $box->beginBody();
+                echo ConfigGridView::detailView([
+                    'boxed'   => false,
+                    'model'   => $model,
+                    'columns' => [
+                        'cpu', 'ram', 'hdd', 'ssd',
+                        'traffic', 'lan', 'raid',
+                    ],
+                ]);
+            $box->endBody();
+        $box->end();
+        ?>
     </div>
 </div>

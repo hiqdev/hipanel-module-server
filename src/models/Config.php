@@ -74,11 +74,16 @@ class Config extends Model
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
+            'servers' => Yii::t('hipanel:server:config', 'All servers'),
             'server_ids' => Yii::t('hipanel:server:config', 'Servers'),
-            'us_tariff_id' => Yii::t('hipanel:server:config', 'USA tariff'),
-            'nl_tariff_id' => Yii::t('hipanel:server:config', 'Netherlands tariff'),
-            'us_tariff' => Yii::t('hipanel:server:config', 'USA tariff'),
-            'nl_tariff' => Yii::t('hipanel:server:config', 'Netherlands tariff'),
+            'us_tariff_id' => Yii::t('hipanel:server:config', 'US tariff'),
+            'nl_tariff_id' => Yii::t('hipanel:server:config', 'NL tariff'),
+            'us_tariff' => Yii::t('hipanel:server:config', 'US tariff'),
+            'nl_tariff' => Yii::t('hipanel:server:config', 'NL tariff'),
+            'us_servers_id' => Yii::t('hipanel:server:config', 'US servers'),
+            'nl_servers_id' => Yii::t('hipanel:server:config', 'NL servers'),
+            'us_servers' => Yii::t('hipanel:server:config', 'US servers'),
+            'nl_servers' => Yii::t('hipanel:server:config', 'NL servers'),
             'label' => Yii::t('hipanel:server:config', 'Subname'),
             'cpu' => Yii::t('hipanel:server:config', 'CPU'),
             'ram' => Yii::t('hipanel:server:config', 'RAM'),

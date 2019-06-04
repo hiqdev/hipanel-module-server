@@ -40,7 +40,7 @@ class ConfigGridView extends BoxedGridView
                 'value' => function ($model) {
                     $value = '';
                     foreach (['cpu', 'ram', 'hdd'] as $item) {
-                        $value .= '<nobr>' . Html::tag('span', ucwords($item) . ': ') .
+                        $value .= '<nobr>' . Html::tag('span', strtoupper($item) . ': ') .
                             Html::tag('span', $model->$item) . '</nobr></br>';
                     }
 
@@ -57,7 +57,8 @@ class ConfigGridView extends BoxedGridView
                         Html::a($model->us_tariff, ['@tariff/view', 'id' => $model->us_tariff_id]);
                 },
             ],
-            'servers' => [
+            'cc_servers' => [
+                'label' => Yii::t('hipanel', 'Servers'),
                 'format' => 'html',
                 'value' => function ($model) {
                     return  Html::tag('span', 'NL:') . $model->nl_servers . '<br/>' .
