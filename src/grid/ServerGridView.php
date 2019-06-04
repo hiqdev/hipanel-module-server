@@ -417,7 +417,8 @@ class ServerGridView extends BoxedGridView
                 ],
             ],
             'hwsummary' => [
-                'label' => Yii::t('hipanel:server', 'Summary'),
+                'filterAttribute' => 'hwsummary_like',
+                'label' => Yii::t('hipanel:server', 'Hardware Summary'),
             ],
         ]);
     }
