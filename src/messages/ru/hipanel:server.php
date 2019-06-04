@@ -312,4 +312,5 @@ return [
     'Hubs have been assigned' => 'Свитчи назначены',
 
     'Summary' => 'Итог',
+    'Hardware Summary' => 'Конфигурация оборудования',
 ];
