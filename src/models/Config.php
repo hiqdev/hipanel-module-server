@@ -7,6 +7,7 @@
  * @license   BSD-3-Clause
  * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
+
 namespace hipanel\modules\server\models;
 
 use hipanel\base\Model;
@@ -18,7 +19,14 @@ class Config extends Model
     use ModelTrait;
 
     const SCENARIO_CREATE = 'create';
+
     const SCENARIO_UPDATE = 'update';
+
+    const SCENARIO_DELETE = 'delete';
+
+    const SCENARIO_ENABLE = 'enable';
+
+    const SCENARIO_DISABLE = 'disable';
 
     /**
      * {@inheritdoc}
@@ -28,11 +36,11 @@ class Config extends Model
         return array_merge(parent::rules(), [
             [[
                 'id', 'client_id', 'seller_id', 'type_id', 'state_id',
-                'us_tariff_id', 'nl_tariff_id', 'servers_num'
+                'us_tariff_id', 'nl_tariff_id', 'servers_num',
             ], 'integer'],
-            [['servers_ids', 'servers'], 'safe'],
+            [['server_ids', 'servers'], 'safe'],
             [['name', 'client', 'seller', 'state', 'state_label', 'type', 'type_label'], 'string'],
-            [['sort_order'], 'integer', 'min'=>0],
+            [['sort_order'], 'integer', 'min' => 0],
             [
                 [
                     'data',
@@ -51,28 +59,33 @@ class Config extends Model
                 ], 'string'],
             [
                 ['client_id', 'name', 'label', 'cpu', 'ram'],
-                'required', 'on' => ['create', 'update'],
+                'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE],
             ],
 
-            ['id', 'required', 'on' => ['delete', 'enable', 'disable']]
+            ['id', 'required', 'on' => [
+                self::SCENARIO_DELETE,
+                self::SCENARIO_ENABLE,
+                self::SCENARIO_DISABLE,
+            ]],
         ]);
     }
 
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'us_tariff_id' => 'USA tariff',
-            'nl_tariff_id' => 'Netherlands tariff',
-            'us_tariff'    => 'USA tariff',
-            'nl_tariff'    => 'Netherlands tariff',
-            'label'        => 'Subname',
-            'cpu'          => 'CPU',
-            'ram'          => 'RAM',
-            'hdd'          => 'HDD',
-            'ssd'          => 'SSD',
-            'lan'          => 'LAN',
-            'raid'         => 'RAID',
-            'sort_order'   => 'Sort order',
+            'server_ids' => Yii::t('hipanel:server:config', 'Servers'),
+            'us_tariff_id' => Yii::t('hipanel:server:config', 'USA tariff'),
+            'nl_tariff_id' => Yii::t('hipanel:server:config', 'Netherlands tariff'),
+            'us_tariff' => Yii::t('hipanel:server:config', 'USA tariff'),
+            'nl_tariff' => Yii::t('hipanel:server:config', 'Netherlands tariff'),
+            'label' => Yii::t('hipanel:server:config', 'Subname'),
+            'cpu' => Yii::t('hipanel:server:config', 'CPU'),
+            'ram' => Yii::t('hipanel:server:config', 'RAM'),
+            'hdd' => Yii::t('hipanel:server:config', 'HDD'),
+            'ssd' => Yii::t('hipanel:server:config', 'SSD'),
+            'lan' => Yii::t('hipanel:server:config', 'LAN'),
+            'raid' => Yii::t('hipanel:server:config', 'RAID'),
+            'sort_order' => Yii::t('hipanel:server:config', 'Sort order'),
         ]);
     }
 }

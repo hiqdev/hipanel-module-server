@@ -1,7 +1,6 @@
 <?php
 
 /** @var Config $model */
-/** @var yii\widgets\ActiveForm $form */
 
 use hipanel\modules\server\models\Config;
 use hipanel\widgets\Box;
@@ -12,6 +11,7 @@ use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\helpers\Url;
 use yii\widgets\ActiveForm;
 
+$model->server_ids = $model->server_ids ? explode(',', $model->server_ids) : [];
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -24,7 +24,6 @@ use yii\widgets\ActiveForm;
 <?php endif; ?>
 
 <div class="row">
-    <div class="col-md-12">
         <div class="col-md-6">
             <?php Box::begin([
                 'title' => Yii::t('hipanel:server:config', 'Configuration details'),
@@ -52,32 +51,27 @@ use yii\widgets\ActiveForm;
                 <?= $form->field($model, 'traffic'); ?>
                 <?= $form->field($model, 'lan'); ?>
                 <?= $form->field($model, 'raid'); ?>
-                <?= $form->field($model, 'servers_ids')->widget(ServerCombo::class, [
+                <?= $form->field($model, 'server_ids')->widget(ServerCombo::class, [
                     'multiple' => true,
                     'hasId' => true,
+                    'current' => array_combine((array)$model->server_ids, (array)$model->server_ids),
+                    'pluginOptions' => [],
                 ]) ?>
 
             <?php Box::end() ?>
-
         </div>
 
-    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-12">
-        <?php Box::begin(['options' => ['class' => 'box-widget']]); ?>
 
-        <?= Html::submitButton(Yii::t('hipanel', 'Save'), [
-            'class' => 'btn btn-success'
-        ]) ?>
-        <?= Html::button(Yii::t('hipanel', 'Cancel'), [
-            'class' => 'btn btn-default',
-            'onclick' => 'history.go(-1)'
-        ]) ?>
+<?= Html::submitButton(Yii::t('hipanel', 'Save'), [
+    'class' => 'btn btn-success',
+]) ?>
+&nbsp;
+<?= Html::button(Yii::t('hipanel', 'Cancel'), [
+    'class' => 'btn btn-default',
+    'onclick' => 'history.go(-1)',
+]) ?>
 
-        <?php Box::end(); ?>
-    </div>
-</div>
 
 <?php $form->end() ?>
