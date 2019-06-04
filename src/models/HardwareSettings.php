@@ -10,6 +10,8 @@
 
 namespace hipanel\modules\server\models;
 
+use Yii;
+
 class HardwareSettings extends \hipanel\base\Model
 {
     const SCENARIO_DEFAULT = 'dumb';
@@ -46,5 +48,15 @@ class HardwareSettings extends \hipanel\base\Model
             [['id', 'units'], 'required', 'on' => 'set-units'],
             [['id', 'rack_no'], 'required', 'on' => 'set-rack-no'],
         ];
+    }
+
+    public function attributeLabels()
+    {
+        return $this->mergeAttributeLabels([
+            'summary' => Yii::t('hipanel:server', 'Hardware Summary'),
+            'order_no' => Yii::t('hipanel:server', 'Order number'),
+            'Units' => Yii::t('hipanel:server', 'Units'),
+            'Motherboard' => Yii::t('hipanel:server', 'Motherboard'),
+        ]);
     }
 }

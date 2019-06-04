@@ -313,4 +313,7 @@ return [
 
     'Summary' => 'Итог',
     'Hardware Summary' => 'Конфигурация оборудования',
+    'Motherboard' => 'Материнская плата',
+    'Order number' => 'Номер заказа',
+    'Units' => 'Юниты',
 ];
