@@ -66,8 +66,14 @@ class OSFormatter extends Widget
     public function generateOSInfo()
     {
         $html = Html::beginTag('table', ['class' => 'table table-condensed table-striped']);
+        $soft = [];
+        if ($this->osimage->softpack['soft']) {
+            $soft = $this->osimage->softpack['soft'];
+        } else if ($this->osimage->softpack['packages']) {
+            $soft = $this->osimage->softpack['packages'];
+        }
 
-        foreach ($this->osimage->softpack['soft'] as $item) {
+        foreach ($soft as $item) {
             $html .= Html::beginTag('tr');
             $html .= Html::tag('th', $item['name'] . ' ' . $item['version'], ['class' => 'text-right']);
             $html .= Html::tag('td', str_replace(',', ', ', $item['description']));

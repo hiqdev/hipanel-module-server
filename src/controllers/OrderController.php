@@ -13,8 +13,11 @@ namespace hipanel\modules\server\controllers;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\server\cart\ServerOrderDedicatedProduct;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\helpers\ServerHelper;
+use hipanel\modules\server\models\Config;
+use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\Module;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
@@ -46,6 +49,7 @@ class OrderController extends CrudController
                 'class' => EasyAccessControl::class,
                 'actions' => [
                     'add-to-cart' => 'server.pay',
+                    'add-to-cart-dedicated' => 'server.pay',
                     'index' => 'server.pay',
                     'xen-ssd' => 'server.pay',
                     'open-vz' => 'server.pay',
@@ -61,6 +65,11 @@ class OrderController extends CrudController
             'add-to-cart' => [
                 'class' => AddToCartAction::class,
                 'productClass' => ServerOrderProduct::class,
+                'redirectToCart' => true,
+            ],
+            'add-to-cart-dedicated' => [
+                'class' => AddToCartAction::class,
+                'productClass' => ServerOrderDedicatedProduct::class,
                 'redirectToCart' => true,
             ],
         ];
@@ -110,6 +119,19 @@ class OrderController extends CrudController
             'tariffTypes' => Yii::$app->params['vdsproduct'],
         ]);
         ***/
+    }
+
+    public function actionDedicated()
+    {
+        $this->layout = '@hipanel/server/order/yii/views/layouts/advancedhosting';
+        $params = Yii::$app->user->isGuest ? ['seller' => Yii::$app->params['user.seller']] : [
+            'seller' => Yii::$app->user->identity->seller,
+            'seller_id' => Yii::$app->user->identity->seller_id,
+        ];
+        $configs = Config::find()->addAction('get-available')->where($params)->withPlans()->all();
+        $images = Osimage::find()->where(['type' => 'dedicated'])->all();
+
+        return $this->render('dedicated', compact('configs', 'images'));
     }
 
     public function actionTariffsDetails()
