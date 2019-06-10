@@ -129,9 +129,9 @@ class OrderController extends CrudController
             'seller_id' => Yii::$app->user->identity->seller_id,
         ];
         $configs = Config::find()->addAction('get-available')->where($params)->withPlans()->all();
-        $images = Osimage::find()->where(['type' => 'dedicated'])->all();
+        $osImages = Osimage::find()->where(['type' => 'dedicated'])->all();
 
-        return $this->render('dedicated', compact('configs', 'images'));
+        return $this->render('dedicated', compact('configs', 'osImages'));
     }
 
     public function actionTariffsDetails()
