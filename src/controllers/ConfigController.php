@@ -51,18 +51,34 @@ class ConfigController extends CrudController
                 ),
             ],
             'enable' => [
-                'class' => SmartDeleteAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t(
                     'hipanel:server:config',
                     'The configuration has been enabled'
                 ),
+                'on beforeSave' => function ($event) {
+                    $action = $event->sender;
+                    foreach ($action->collection->models as $model) {
+                        if ($id = Yii::$app->request->get('id')) {
+                            $model->id = $id;
+                        }
+                    }
+                },
             ],
             'disable' => [
-                'class' => SmartDeleteAction::class,
+                'class' => SmartPerformAction::class,
                 'success' => Yii::t(
                     'hipanel:server:config',
                     'The configuration has been disabled'
                 ),
+                'on beforeSave' => function ($event) {
+                    $action = $event->sender;
+                    foreach ($action->collection->models as $model) {
+                        if ($id = Yii::$app->request->get('id')) {
+                            $model->id = $id;
+                        }
+                    }
+                },
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
