@@ -12,6 +12,7 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
+use hipanel\modules\server\models\query\ConfigQuery;
 use Yii;
 
 class Config extends Model
@@ -27,6 +28,10 @@ class Config extends Model
     const SCENARIO_ENABLE = 'enable';
 
     const SCENARIO_DISABLE = 'disable';
+
+    const LOCATION_NL = 'nl';
+
+    const LOCATION_US = 'us';
 
     /**
      * {@inheritdoc}
@@ -92,6 +97,22 @@ class Config extends Model
             'lan' => Yii::t('hipanel:server:config', 'LAN'),
             'raid' => Yii::t('hipanel:server:config', 'RAID'),
             'sort_order' => Yii::t('hipanel:server:config', 'Sort order'),
+        ]);
+    }
+
+    public function getPrices()
+    {
+        return $this->hasMany(ConfigPrice::class, ['config_id' => 'id'])->indexBy('location');
+    }
+
+    /**
+     * {@inheritdoc}
+     * @return ConfigQuery
+     */
+    public static function find($options = [])
+    {
+        return new ConfigQuery(get_called_class(), [
+            'options' => $options,
         ]);
     }
 }

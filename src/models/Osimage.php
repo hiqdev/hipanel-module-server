@@ -16,6 +16,7 @@
 
 namespace hipanel\modules\server\models;
 
+use hiqdev\hiart\ActiveRecord;
 use Yii;
 
 /**
@@ -26,7 +27,7 @@ use Yii;
  * @property string panel
  * @property array softpack
  */
-class Osimage extends \hiqdev\hiart\ActiveRecord
+class Osimage extends ActiveRecord
 {
     const NO_PANEL = 'no';
 
@@ -35,7 +36,7 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
      */
     public function attributes()
     {
-        return ['osimage', 'os', 'version', 'bitwise', 'panel', 'softpack'];
+        return ['osimage', 'os', 'version', 'bitwise', 'panel', 'softpack', 'title', 'deprecated', 'name'];
     }
 
     /**
@@ -72,7 +73,15 @@ class Osimage extends \hiqdev\hiart\ActiveRecord
 
     public function getPanelName()
     {
-        return $this->panel ?: static::NO_PANEL;
+        if ($this->panel) {
+            return $this->panel;
+        }
+        /** @var array $softpack */
+        if ($softpack = $this->getSoftPack() && $softpack['panel']) {
+            return $softpack['panel'];
+        }
+
+        return static::NO_PANEL;
     }
 
     public function getSoftPack()

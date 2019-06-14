@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\widgets\cart;
 
+use hipanel\modules\server\cart\ServerOrderDedicatedProduct;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use yii\base\Widget;
 
@@ -20,13 +21,13 @@ use yii\base\Widget;
 class OrderPositionDescriptionWidget extends Widget
 {
     /**
-     * @var ServerOrderProduct
+     * @var ServerOrderProduct|ServerOrderDedicatedProduct
      */
     public $position;
 
     /** {@inheritdoc} */
     public function run()
     {
-        echo $this->render('_orderPositionDescription', ['position' => $this->position]);
+        return $this->render('_orderPositionDescription', ['position' => $this->position]);
     }
 }
