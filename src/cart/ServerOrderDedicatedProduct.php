@@ -91,7 +91,7 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     public function getId()
     {
         if ($this->_id === null) {
-            $this->_id = hash('crc32b', implode('_', ['server', 'order', 'dedicated', $this->_model->id]));
+            $this->_id = hash('crc32b', implode('_', ['server', 'order', 'dedicated', $this->_model->id, mt_rand()]));
         }
 
         return $this->_id;
