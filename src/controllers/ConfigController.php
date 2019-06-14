@@ -5,7 +5,7 @@ namespace hipanel\modules\server\controllers;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
-use hipanel\actions\SmartPerformAction;
+use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
@@ -56,6 +56,17 @@ class ConfigController extends CrudController
                     'hipanel:server:config',
                     'The configuration has been enabled'
                 ),
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $configId = Yii::$app->request->get('id');
+
+                            return ['@config/view', 'id' => $configId];
+                        },
+                    ],
+                ],
             ],
             'disable' => [
                 'class' => SmartDeleteAction::class,
@@ -63,6 +74,17 @@ class ConfigController extends CrudController
                     'hipanel:server:config',
                     'The configuration has been disabled'
                 ),
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $configId = Yii::$app->request->get('id');
+
+                            return ['@config/view', 'id' => $configId];
+                        },
+                    ],
+                ],
             ],
             'validate-form' => [
                 'class' => ValidateFormAction::class,
