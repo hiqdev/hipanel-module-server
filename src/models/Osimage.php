@@ -73,7 +73,15 @@ class Osimage extends ActiveRecord
 
     public function getPanelName()
     {
-        return $this->panel ?: static::NO_PANEL;
+        if ($this->panel) {
+            return $this->panel;
+        }
+        /** @var array $softpack */
+        if ($softpack = $this->getSoftPack() && $softpack['panel']) {
+            return $softpack['panel'];
+        }
+
+        return static::NO_PANEL;
     }
 
     public function getSoftPack()

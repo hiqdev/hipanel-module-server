@@ -40,7 +40,7 @@ class ServerOrderDedicatedPurchase extends AbstractServerPurchase
     {
         return array_merge(parent::rules(), [
             [['osimage', 'config_id', 'tariff_id'], 'required'],
-            [['osimage', 'administration', 'softpack', 'label'], 'string'],
+            [['osimage', 'administration', 'softpack', 'label', 'location'], 'string'],
             [['tariff_id', 'object_id'], 'integer'],
         ]);
     }

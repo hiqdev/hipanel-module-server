@@ -10,7 +10,6 @@
 
 namespace hipanel\modules\server\cart;
 
-use hipanel\modules\finance\cart\Calculation;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
@@ -27,12 +26,17 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     protected $_model;
 
     /** {@inheritdoc} */
-    protected $_calculationModel = Calculation::class;
+    protected $_calculationModel = ConfigCalculation::class;
 
     /**
      * @var Osimage the selected OS image detailed information
      */
     protected $_image;
+
+    /**
+     * @var string
+     */
+    public $location;
 
     /**
      * @var integer
@@ -78,7 +82,7 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     private function ensureRelatedData()
     {
         $this->_model = Config::findOne($this->object_id);
-        $this->_image = Osimage::find()->where(['osimage' => 'ubuntu_1804_lemp'/*$this->osimage*/, 'type' => 'dedicated'])->one();
+        $this->_image = Osimage::find()->where(['osimage' => $this->osimage, 'type' => 'dedicated'])->one();
         $this->name = $this->_model->name;
         $this->description = $this->_model->descr;
     }
@@ -98,14 +102,15 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     {
         return parent::getCalculationModel(array_merge([
             'tariff_id' => $this->tariff_id,
-            'object' => 'server',
+            'object_id' => $this->object_id,
+            'location' => $this->location,
         ], $options));
     }
 
     /** {@inheritdoc} */
     public function getPurchaseModel($options = [])
     {
-        $this->ensureRelatedData(); // To get fresh domain expiration date
+        $this->ensureRelatedData();
 
         $options = array_merge([
             'osimage' => $this->osimage,
@@ -124,8 +129,8 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     {
         return array_merge(parent::rules(), [
             [['object_id', 'tariff_id'], 'integer'],
-            [['administration', 'osimage', 'label'], 'string'],
-            [['tariff_id', 'object_id', 'osimage'], 'required'],
+            [['administration', 'osimage', 'label', 'location'], 'string'],
+            [['tariff_id', 'object_id', 'osimage', 'location'], 'required'],
         ]);
     }
 
@@ -170,6 +175,7 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
         $parent['administration'] = $this->administration;
         $parent['softpack'] = $this->softpack;
         $parent['tariff_id'] = $this->tariff_id;
+        $parent['location'] = $this->location;
         $parent['_image'] = $this->_image;
 
         return $parent;

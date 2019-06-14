@@ -12,7 +12,6 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
-use hipanel\modules\finance\models\Plan;
 use hipanel\modules\server\models\query\ConfigQuery;
 use Yii;
 
@@ -101,28 +100,9 @@ class Config extends Model
         ]);
     }
 
-    public function getNl()
+    public function getPrices()
     {
-        return $this->getPlan(self::LOCATION_NL);
-    }
-
-    public function getUs()
-    {
-        return $this->getPlan(self::LOCATION_US);
-    }
-
-    public function getPlans()
-    {
-        return $this->hasMany(Plan::class, ['config_id' => 'id'])->indexBy('location');
-    }
-
-    public function getPlan($location)
-    {
-        if (!isset($this->plans[$location])) {
-            return null;
-        }
-
-        return $this->plans[$location];
+        return $this->hasMany(ConfigPrice::class, ['config_id' => 'id'])->indexBy('location');
     }
 
     /**

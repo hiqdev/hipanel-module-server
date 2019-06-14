@@ -14,10 +14,10 @@ use hiqdev\hiart\ActiveQuery;
 
 class ConfigQuery extends ActiveQuery
 {
-    public function withPlans(): self
+    public function withPrices(): self
     {
-        $this->joinWith('plans');
-        $this->andWhere(['with_plans' => true]);
+        $this->joinWith('prices');
+        $this->andWhere(['with_prices' => true]);
 
         return $this;
     }
