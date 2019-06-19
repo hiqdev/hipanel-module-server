@@ -12,6 +12,7 @@ namespace hipanel\modules\server\grid;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
 use hipanel\modules\server\menus\ConfigActionsMenu;
+use hipanel\modules\server\models\Config;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
 use yii\helpers\Html;
@@ -55,6 +56,11 @@ class ConfigGridView extends BoxedGridView
                         Html::a($model->nl_tariff, ['@tariff/view', 'id' => $model->nl_tariff_id]) . '</br>' .
                         Html::tag('span', 'US:') .
                         Html::a($model->us_tariff, ['@tariff/view', 'id' => $model->us_tariff_id]);
+                },
+            ],
+            'servers' => [
+                'value' => function (Config $model) {
+                    return implode(', ', array_unique(explode(', ', $model->servers)));
                 },
             ],
             'cc_servers' => [
