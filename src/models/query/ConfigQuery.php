@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\models\query;
 
 use hiqdev\hiart\ActiveQuery;
+use Yii;
 
 class ConfigQuery extends ActiveQuery
 {
@@ -18,6 +19,24 @@ class ConfigQuery extends ActiveQuery
     {
         $this->joinWith('prices');
         $this->andWhere(['with_prices' => true]);
+
+        return $this;
+    }
+
+    public function getAvailable(): self
+    {
+        $this->addAction('get-available');
+
+        return $this;
+    }
+
+    public function withSellerOptions(): self
+    {
+        $options = Yii::$app->user->isGuest ? ['seller' => Yii::$app->params['user.seller']] : [
+            'seller' => Yii::$app->user->identity->seller,
+            'seller_id' => Yii::$app->user->identity->seller_id,
+        ];
+        $this->andWhere($options);
 
         return $this;
     }

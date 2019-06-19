@@ -12,10 +12,8 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
-use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerOrderDedicatedProduct;
 use hipanel\modules\server\cart\ServerOrderProduct;
-use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\Module;
@@ -124,11 +122,7 @@ class OrderController extends CrudController
     public function actionDedicated()
     {
         $this->layout = '@hipanel/server/order/yii/views/layouts/advancedhosting';
-        $params = Yii::$app->user->isGuest ? ['seller' => Yii::$app->params['user.seller']] : [
-            'seller' => Yii::$app->user->identity->seller,
-            'seller_id' => Yii::$app->user->identity->seller_id,
-        ];
-        $configs = Config::find()->addAction('get-available')->where($params)->withPrices()->all();
+        $configs = Config::find()->getAvailable()->withSellerOptions()->withPrices()->all();
         $osimages = Osimage::find()->where(['type' => 'dedicated'])->all();
 
         return $this->render('dedicated', compact('configs', 'osimages'));
