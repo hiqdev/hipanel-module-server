@@ -16,7 +16,7 @@ class ConfigCalculation extends Calculation
         parent::init();
 
         $this->object = 'serverConfig';
-        $this->type = 'purchase';
+        $this->type = 'estimate';
     }
 
     /** {@inheritdoc} */

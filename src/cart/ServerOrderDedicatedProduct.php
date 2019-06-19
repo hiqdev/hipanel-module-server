@@ -104,6 +104,7 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
             'tariff_id' => $this->tariff_id,
             'object_id' => $this->object_id,
             'location' => $this->location,
+            'image' => $this->osimage,
         ], $options));
     }
 
