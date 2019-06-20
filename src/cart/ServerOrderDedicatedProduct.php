@@ -79,9 +79,9 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     }
 
     /** {@inheritdoc} */
-    private function ensureRelatedData()
+    protected function ensureRelatedData()
     {
-        $this->_model = Config::find(['batch' => true])->getAvailable()->withSellerOptions()->andWhere(['id' => $this->object_id])->one();
+        $this->_model = Config::find()->getAvailable()->withSellerOptions()->andWhere(['id' => $this->object_id])->one();
         $this->_image = Osimage::find()->where(['osimage' => $this->osimage, 'type' => 'dedicated'])->one();
         $this->name = $this->_model->name;
         $this->description = $this->_model->descr;
