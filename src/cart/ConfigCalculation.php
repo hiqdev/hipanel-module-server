@@ -25,6 +25,7 @@ class ConfigCalculation extends Calculation
         return array_merge(parent::rules(), [
             [['object_id'], 'integer'],
             [['location'], 'string'],
+            [['image'], 'string'],
         ]);
     }
 }
