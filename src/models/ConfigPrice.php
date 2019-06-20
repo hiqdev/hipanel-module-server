@@ -12,7 +12,7 @@ class ConfigPrice extends Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['location', 'currency', 'value', 'price', 'discounted_price'], 'string'],
+            [['location', 'currency', 'values', 'value', 'price', 'discounted_price'], 'string'],
             [['eur', 'usd'], 'string'],
         ]);
     }
@@ -20,8 +20,8 @@ class ConfigPrice extends Model
     public function getFirstAvailable()
     {
         foreach (['eur', 'usd'] as $attribute) {
-            if ($this->hasProperty($attribute) && !empty($this->{$attribute})) {
-                foreach ($this->{$attribute} as $field => $value) {
+            if ($this->values[$attribute] && !empty($this->values[$attribute])) {
+                foreach ($this->values[$attribute] as $field => $value) {
                     $this->{$field} = $value;
                 }
                 break;
