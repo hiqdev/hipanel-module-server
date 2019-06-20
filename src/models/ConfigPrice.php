@@ -20,7 +20,7 @@ class ConfigPrice extends Model
     public function getFirstAvailable()
     {
         foreach (['eur', 'usd'] as $attribute) {
-            if ($this->values[$attribute] && !empty($this->values[$attribute])) {
+            if (isset($this->values[$attribute]) && !empty($this->values[$attribute])) {
                 foreach ($this->values[$attribute] as $field => $value) {
                     $this->{$field} = $value;
                 }
