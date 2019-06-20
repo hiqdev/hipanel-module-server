@@ -15,6 +15,7 @@ use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
 use hipanel\modules\server\widgets\cart\OrderPositionDescriptionWidget;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 
 class ServerOrderDedicatedProduct extends AbstractServerProduct
@@ -81,8 +82,16 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     protected function ensureRelatedData()
     {
-        $this->_model = Config::find()->getAvailable()->withSellerOptions()->andWhere(['id' => $this->object_id])->one();
+        $configs = Config::find(['batch' => true])->getAvailable()->withSellerOptions()->andWhere(['id' => $this->object_id])->all();
+        if (empty($configs)) {
+            throw new InvalidConfigException('Failed to find config');
+        }
+        $this->_model = reset($configs);
+
         $this->_image = Osimage::find()->where(['osimage' => $this->osimage, 'type' => 'dedicated'])->one();
+        if ($this->_image === null) {
+            throw new InvalidConfigException('Failed to find osimage');
+        }
         $this->name = $this->_model->name;
         $this->description = $this->_model->descr;
     }
