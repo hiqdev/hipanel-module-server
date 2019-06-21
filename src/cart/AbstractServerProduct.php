@@ -27,6 +27,7 @@ abstract class AbstractServerProduct extends AbstractCartPosition implements Don
     protected $_model;
 
     /**
+     * Number of months for which the server is purchased
      * @var array
      */
     protected $duration = [1, 3, 6, 12];
