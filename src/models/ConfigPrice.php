@@ -31,12 +31,12 @@ class ConfigPrice extends Model
         return $this;
     }
 
-    public function getSupportPrice(): int
+    public function getSupportPrice(): ?string
     {
         if (!empty($this->services) && isset($this->services['monthly,support_time'])) {
-            return (int)$this->services['monthly,support_time']['price'];
+            return $this->services['monthly,support_time']['price'];
         }
 
-        return 0;
+        return null;
     }
 }
