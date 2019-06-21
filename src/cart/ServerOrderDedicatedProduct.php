@@ -29,6 +29,9 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     protected $_calculationModel = ConfigCalculation::class;
 
+    /** {@inheritdoc} */
+    protected $duration = [1];
+
     /**
      * @var Osimage the selected OS image detailed information
      */

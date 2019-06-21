@@ -26,6 +26,11 @@ abstract class AbstractServerProduct extends AbstractCartPosition implements Don
      */
     protected $_model;
 
+    /**
+     * @var array
+     */
+    protected $duration = [1, 3, 6, 12];
+
     /** {@inheritdoc} */
     public function getIcon()
     {
@@ -36,7 +41,7 @@ abstract class AbstractServerProduct extends AbstractCartPosition implements Don
     public function getQuantityOptions()
     {
         $result = [];
-        foreach ([1, 3, 6, 12] as $n) {
+        foreach ($this->duration as $n) {
             $date = (new DateTime())->add(new \DateInterval("P{$n}M"));
 
             $result[$n] = Yii::t('hipanel:server', '{n, plural, one{# month} other{# months}} till {date}', [
