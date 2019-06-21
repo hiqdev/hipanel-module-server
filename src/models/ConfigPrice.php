@@ -12,7 +12,7 @@ class ConfigPrice extends Model
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['location', 'currency', 'values', 'value', 'price', 'discounted_price'], 'string'],
+            [['location', 'currency', 'values', 'value', 'price', 'discounted_price', 'services'], 'string'],
             [['eur', 'usd'], 'string'],
         ]);
     }
@@ -29,5 +29,14 @@ class ConfigPrice extends Model
         }
 
         return $this;
+    }
+
+    public function getSupportPrice(): int
+    {
+        if (!empty($this->services) && isset($this->services['monthly,support_time'])) {
+            return (int)$this->services['monthly,support_time']['price'];
+        }
+
+        return 0;
     }
 }
