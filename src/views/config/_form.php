@@ -9,9 +9,11 @@ use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\combo\TariffCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\helpers\Url;
+use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 
-$model->server_ids = $model->server_ids ? explode(',', $model->server_ids) : [];
+$model->servers = array_unique($model->servers ? array_map('trim', explode(',', $model->servers)) : []);
+
 ?>
 <?php $form = ActiveForm::begin([
     'id' => 'dynamic-form',
@@ -51,11 +53,13 @@ $model->server_ids = $model->server_ids ? explode(',', $model->server_ids) : [];
                 <?= $form->field($model, 'traffic'); ?>
                 <?= $form->field($model, 'lan'); ?>
                 <?= $form->field($model, 'raid'); ?>
-                <?= $form->field($model, 'server_ids')->widget(ServerCombo::class, [
-                    'multiple' => true,
-                    'hasId' => true,
-                    'current' => array_combine((array)$model->server_ids, (array)$model->server_ids),
+                <?= $form->field($model, 'servers')->widget(ServerCombo::class, [
+                    'name' => 'servers',
+                    'filter' => [],
                     'pluginOptions' => [],
+                    'multiple' => true,
+                    'selectAllButton' => false,
+                    'primaryFilter' => 'name_like',
                 ]) ?>
 
             <?php Box::end() ?>
