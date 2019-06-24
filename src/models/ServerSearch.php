@@ -32,6 +32,7 @@ class ServerSearch extends Server
             'wizzarded_eq',
             'name_inilike',
             'name_dc',
+            'primary_only',
         ]);
     }
 

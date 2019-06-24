@@ -3,7 +3,7 @@
 /** @var Config $model */
 
 use hipanel\modules\server\models\Config;
-use hipanel\modules\stock\widgets\combo\DestinationCombo;
+use hipanel\modules\server\widgets\combo\PrimaryServerCombo;
 use hipanel\widgets\Box;
 use yii\bootstrap\Html;
 use hipanel\modules\client\widgets\combo\ClientCombo;
@@ -52,13 +52,10 @@ $model->servers = array_unique($model->servers ? array_map('trim', explode(',', 
                 <?= $form->field($model, 'traffic'); ?>
                 <?= $form->field($model, 'lan'); ?>
                 <?= $form->field($model, 'raid'); ?>
-                <?= $form->field($model, 'servers')->widget(DestinationCombo::class, [
+                <?= $form->field($model, 'servers')->widget(PrimaryServerCombo::class, [
                     'name' => 'servers',
-                    'filter' => [],
-                    'pluginOptions' => [],
                     'multiple' => true,
                     'selectAllButton' => false,
-                    'primaryFilter' => 'name_inilike',
                 ]) ?>
 
             <?php Box::end() ?>
