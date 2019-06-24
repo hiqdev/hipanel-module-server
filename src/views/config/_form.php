@@ -9,7 +9,6 @@ use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\combo\TariffCombo;
 use hipanel\modules\server\widgets\combo\ServerCombo;
 use hipanel\helpers\Url;
-use yii\web\JsExpression;
 use yii\widgets\ActiveForm;
 
 $model->servers = array_unique($model->servers ? array_map('trim', explode(',', $model->servers)) : []);
