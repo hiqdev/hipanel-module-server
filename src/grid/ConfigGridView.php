@@ -7,6 +7,7 @@
  * @license   BSD-3-Clause
  * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
+
 namespace hipanel\modules\server\grid;
 
 use hipanel\grid\BoxedGridView;
@@ -19,9 +20,38 @@ use yii\helpers\Html;
 
 class ConfigGridView extends BoxedGridView
 {
+    /**
+     * @return array
+     */
+    private function getTariffsWithOldPriceColumns(): array
+    {
+        $columns = [];
+        foreach (['nl' => 'EUR', 'us' => 'USD'] as $region => $currency) {
+            $columns["{$region}_tariff"] = [
+                'format' => 'raw',
+                'value' => function (Config $config) use ($region, $currency): string {
+                    $tariff = Html::tag('span', $config->{$region . '_tariff'});
+                    $oldPrice = Html::tag(
+                        'span',
+                        Yii::t('hipanel:server:config', 'Old price: {price}', [
+                            'price' => Yii::$app->formatter->asCurrency($config->{$region . '_old_price'}, $currency)
+                        ]),
+                        ['class' => 'badge']
+                    );
+
+                    return Html::tag('span', $tariff . $oldPrice, [
+                        'style' => 'display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;'
+                    ]);
+                },
+            ];
+        }
+
+        return $columns;
+    }
+
     public function columns()
     {
-        return array_merge(parent::columns(), [
+        return array_merge(parent::columns(), $this->getTariffsWithOldPriceColumns(), [
             'actions' => [
                 'class' => MenuColumn::class,
                 'menuClass' => ConfigActionsMenu::class,
@@ -67,8 +97,8 @@ class ConfigGridView extends BoxedGridView
                 'label' => Yii::t('hipanel', 'Servers'),
                 'format' => 'html',
                 'value' => function ($model) {
-                    return  Html::tag('span', 'NL:') . $model->nl_servers . '<br/>' .
-                            Html::tag('span', 'US:') . $model->us_servers;
+                    return Html::tag('span', 'NL:') . $model->nl_servers . '<br/>' .
+                        Html::tag('span', 'US:') . $model->us_servers;
                 },
             ],
         ]);
