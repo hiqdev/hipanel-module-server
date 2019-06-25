@@ -34,8 +34,22 @@ $model->servers = array_unique($model->servers ? array_map('trim', explode(',', 
                 <?= $form->field($model, 'name'); ?>
                 <?= $form->field($model, 'label'); ?>
                 <?= $form->field($model, 'descr')->textarea(); ?>
-                <?= $form->field($model, 'us_tariff_id')->widget(TariffCombo::class) ?>
-                <?= $form->field($model, 'nl_tariff_id')->widget(TariffCombo::class) ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'us_tariff_id')->widget(TariffCombo::class) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'us_old_price') ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'nl_tariff_id')->widget(TariffCombo::class) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'nl_old_price') ?>
+                </div>
+            </div>
                 <?= $form->field($model, 'sort_order'); ?>
             <?php Box::end() ?>
 

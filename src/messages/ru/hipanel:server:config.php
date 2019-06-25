@@ -20,4 +20,7 @@ return [
     'The configuration has been disabled' => 'Конфигурация была выключена',
     'Configuration details' => 'Детали конфигурации',
     'Hardware' => 'Аппаратные средства',
+    'Old price: {price}' => 'Страя цена: {price}',
+    'US old price' => 'Страя цена US',
+    'NL old price' => 'Страя цена NL',
 ];
