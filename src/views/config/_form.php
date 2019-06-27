@@ -69,7 +69,6 @@ $model->servers = array_unique($model->servers ? array_map('trim', explode(',', 
                 <?= $form->field($model, 'servers')->widget(PrimaryServerCombo::class, [
                     'name' => 'servers',
                     'multiple' => true,
-                    'selectAllButton' => false,
                 ]) ?>
 
             <?php Box::end() ?>
