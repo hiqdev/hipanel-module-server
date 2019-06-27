@@ -37,8 +37,12 @@ class HubGridView extends BoxedGridView
             $extraColumns[$attribute] = [
                 'attribute' => $attribute,
                 'enableSorting' => false,
-                'value' => function (Hub $hub) use ($attribute): string {
-                    return $this->extraOptions[$attribute][$hub->{$attribute}];
+                'value' => function (Hub $hub) use ($attribute): ?string {
+                    if ($hub->{$attribute}) {
+                        return $this->extraOptions[$attribute][$hub->{$attribute}];
+                    }
+
+                    return null;
                 }
             ];
         }
