@@ -51,6 +51,7 @@ class Consumption extends \hipanel\base\Model
     public function getTypeLabel(): string
     {
         $provider = Yii::createObject(BillTypesProvider::class);
+        $provider->keepUnusedTypes();
         $types = ArrayHelper::index($provider->getTypes(), 'name');
         if (!isset($types[$this->type])) {
             return '--';
