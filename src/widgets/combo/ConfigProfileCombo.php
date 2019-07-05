@@ -41,16 +41,4 @@ class ConfigProfileCombo extends Combo
             'limit' => ['format' => '50'],
         ]);
     }
-
-    /** {@inheritdoc} */
-    public function init()
-    {
-        parent::init();
-        $this->updatePreselectedItems();
-    }
-
-    private function updatePreselectedItems(): void
-    {
-        $this->view->registerJs('');
-    }
 }
