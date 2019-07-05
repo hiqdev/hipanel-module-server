@@ -43,7 +43,7 @@ class Config extends Model
                 'id', 'client_id', 'seller_id', 'type_id', 'state_id',
                 'us_tariff_id', 'nl_tariff_id', 'servers_num',
             ], 'integer'],
-            [['server_ids', 'servers'], 'safe'],
+            [['server_ids', 'servers', 'profile_ids', 'profiles'], 'safe'],
             [['nl_old_price', 'us_old_price'], 'number', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['nl_server_ids', 'nl_servers', 'us_server_ids', 'us_servers'], 'safe'],
             [['name', 'client', 'seller', 'state', 'state_label', 'type', 'type_label'], 'string'],
