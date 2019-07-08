@@ -61,6 +61,7 @@ class ConfigGridView extends BoxedGridView
             'name' => [
                 'class' => MainColumn::class,
                 'label' => Yii::t('hipanel', 'Name'),
+                'filterOptions' => ['class' => 'narrow-filter'],
                 'format' => 'html',
                 'value' => function ($model) {
                     return Html::a($model->name, ['@config/view', 'id' => $model->id]) .
@@ -90,10 +91,10 @@ class ConfigGridView extends BoxedGridView
                     'formElementSelector' => 'td',
                 ]),
                 'enableSorting' => false,
-                'value' => function (Config $config) {
+                'value' => function (Config $config): string {
                     $colors = ['bg-teal', 'bg-green', 'bg-yellow', 'bg-purple', 'bg-aqua', 'bg-red'];
-                    return Html::tag('ul', implode('<br>', array_map(function ($profile) use ($colors) {
-                        return Html::tag('li', $profile, ['class' => 'badge ' . $colors[rand(0, 5)]]);
+                    return Html::tag('ul', implode('<br>', array_map(function ($profile) use (&$colors) {
+                        return Html::tag('li', $profile, ['class' => 'badge ' . array_pop($colors)]);
                     }, array_map('trim', explode(',', $config->profiles)))), ['class' => 'list-unstyled']);
                 },
             ],
