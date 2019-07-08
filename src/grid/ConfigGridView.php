@@ -14,6 +14,8 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
 use hipanel\modules\server\menus\ConfigActionsMenu;
 use hipanel\modules\server\models\Config;
+use hipanel\modules\server\models\ConfigSearch;
+use hipanel\modules\server\widgets\combo\ConfigProfileCombo;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
 use yii\helpers\Html;
@@ -76,6 +78,23 @@ class ConfigGridView extends BoxedGridView
                     }
 
                     return $value;
+                },
+            ],
+            'profiles' => [
+                'format' => 'raw',
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'attribute' => 'profiles',
+                'filter' => ConfigProfileCombo::widget([
+                    'attribute' => 'profiles_like',
+                    'model' => $this->filterModel ?? new ConfigSearch(),
+                    'formElementSelector' => 'td',
+                ]),
+                'enableSorting' => false,
+                'value' => function (Config $config) {
+                    $colors = ['bg-teal', 'bg-green', 'bg-yellow', 'bg-purple', 'bg-aqua', 'bg-red'];
+                    return Html::tag('ul', implode('<br>', array_map(function ($profile) use ($colors) {
+                        return Html::tag('li', $profile, ['class' => 'badge ' . $colors[rand(0, 5)]]);
+                    }, array_map('trim', explode(',', $config->profiles)))), ['class' => 'list-unstyled']);
                 },
             ],
             'tariffs' => [

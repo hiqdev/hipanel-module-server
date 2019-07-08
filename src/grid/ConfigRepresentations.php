@@ -15,7 +15,7 @@ class ConfigRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox', 'actions',
                     'name', 'client',
-                    'config', 'tariffs', 'cc_servers',
+                    'config', 'tariffs', 'cc_servers', 'profiles',
                 ],
             ],
         ]);
