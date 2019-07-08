@@ -133,7 +133,7 @@ class ServerActionsMenu extends Menu
             array_push($items, [
                 'label' => AjaxModalWithTemplatedButton::widget([
                     'ajaxModalOptions' => [
-                        'id' => "{$key}-modal",
+                        'id' => "{$key}-modal-{$this->model->id}",
                         'bulkPage' => true,
                         'header' => Html::tag('h4', $item['label'], ['class' => 'modal-title']),
                         'scenario' => 'default',
