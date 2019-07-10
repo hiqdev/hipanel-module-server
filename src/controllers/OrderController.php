@@ -51,6 +51,7 @@ class OrderController extends CrudController
                     'index' => 'server.pay',
                     'xen-ssd' => 'server.pay',
                     'open-vz' => 'server.pay',
+                    'dedicated' => '?',
                     '*' => 'server.read',
                 ],
             ],
