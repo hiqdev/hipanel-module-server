@@ -14,6 +14,7 @@ use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\modules\server\models\query\ConfigQuery;
 use Yii;
+use yii\helpers\ArrayHelper;
 
 class Config extends Model
 {
@@ -82,6 +83,7 @@ class Config extends Model
         return array_merge(parent::attributeLabels(), [
             'servers' => Yii::t('hipanel:server:config', 'All servers'),
             'server_ids' => Yii::t('hipanel:server:config', 'Servers'),
+            'profile_ids' => Yii::t('hipanel:server:config', 'Profiles'),
             'us_tariff_id' => Yii::t('hipanel:server:config', 'US tariff'),
             'nl_tariff_id' => Yii::t('hipanel:server:config', 'NL tariff'),
             'us_old_price' => Yii::t('hipanel:server:config', 'US old price'),
@@ -117,5 +119,14 @@ class Config extends Model
         return new ConfigQuery(get_called_class(), [
             'options' => $options,
         ]);
+    }
+
+    public function getProfileOptions(): array
+    {
+        $profiles = Yii::$app->get('cache')->getOrSet([__METHOD__, Yii::$app->user->identity->id], function (): array {
+            return ConfigProfile::find()->where(['class' => 'config', 'hide_default' => true])->limit(-1)->all();
+        }, 1800); // 30 min
+
+        return ArrayHelper::map($profiles, 'id', 'name');
     }
 }
