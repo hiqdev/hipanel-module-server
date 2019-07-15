@@ -6,6 +6,7 @@ use hipanel\modules\server\models\Config;
 use hipanel\modules\server\widgets\combo\ConfigProfileCombo;
 use hipanel\modules\server\widgets\combo\PrimaryServerCombo;
 use hipanel\widgets\Box;
+use hiqdev\combo\StaticCombo;
 use yii\bootstrap\Html;
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\combo\TariffCombo;
@@ -13,7 +14,7 @@ use hipanel\helpers\Url;
 use yii\widgets\ActiveForm;
 
 $model->servers = array_unique($model->servers ? array_map('trim', explode(',', $model->servers)) : []);
-$model->profiles = $model->profiles ? array_map('trim', explode(',', $model->profiles)) : [];
+$model->profile_ids = $model->profile_ids ? array_map('trim', explode(',', $model->profile_ids)) : [];
 
 ?>
 <?php $form = ActiveForm::begin([
@@ -72,7 +73,11 @@ $model->profiles = $model->profiles ? array_map('trim', explode(',', $model->pro
                     'name' => 'servers',
                     'multiple' => true,
                 ]) ?>
-                <?= $form->field($model, 'profiles')->widget(ConfigProfileCombo::class, ['multiple' => true]) ?>
+                <?= $form->field($model, 'profile_ids')->widget(StaticCombo::class, [
+                    'data' => $model->profileOptions,
+                    'multiple' => true,
+                    'hasId' => true,
+                ]) ?>
 
             <?php Box::end() ?>
         </div>
