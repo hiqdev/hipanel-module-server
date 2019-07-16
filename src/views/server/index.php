@@ -220,7 +220,7 @@ JS
                             ],
                             'toggleButtonTemplate' => '<li>{toggleButton}</li>',
                         ]) : null,
-                        Yii::$app->user->can('server.control-power') ? [
+                        $model->canControlPower() ? [
                             'label' => '<i class="fa fw fa-power-off"></i>&nbsp;' . Yii::t('hipanel:server', 'Reboot'),
                             'url' => '#',
                             'linkOptions' => [
