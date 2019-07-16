@@ -6,6 +6,8 @@
  */
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\client\widgets\combo\SellerCombo;
+use hipanel\modules\server\widgets\combo\ServerStateRefCombo;
+use hipanel\modules\server\widgets\combo\ServerTypeRefCombo;
 use hipanel\widgets\RefCombo;
 
 ?>
@@ -53,7 +55,7 @@ use hipanel\widgets\RefCombo;
 <?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('type')->widget(RefCombo::class, [
+    <?= $search->field('type')->widget(ServerTypeRefCombo::class, [
         'gtype' => 'type,device,server',
         'i18nDictionary' => 'hipanel:server',
         'multiple' => true,
@@ -61,7 +63,7 @@ use hipanel\widgets\RefCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('state')->widget(RefCombo::class, [
+    <?= $search->field('state')->widget(ServerStateRefCombo::class, [
         'gtype' => 'state,device',
         'i18nDictionary' => 'hipanel:server',
         'multiple' => true,
