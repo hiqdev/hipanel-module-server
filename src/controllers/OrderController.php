@@ -16,6 +16,7 @@ use hipanel\modules\server\cart\ServerOrderDedicatedProduct;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\Osimage;
+use hipanel\modules\server\models\query\ConfigQuery;
 use hipanel\modules\server\Module;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
@@ -123,7 +124,7 @@ class OrderController extends CrudController
     public function actionDedicated()
     {
         $this->layout = '@hipanel/server/order/yii/views/layouts/advancedhosting';
-        $configs = Config::find()->getAvailable()->withSellerOptions()->withPrices()->all();
+        $configs = Config::find()->getAvailable()->withSellerOptions()->withPrices()->addOption('batch', true)->createCommand()->send()->getData();
         $osimages = Osimage::find()->where(['type' => 'dedicated'])->all();
 
         return $this->render('dedicated', compact('configs', 'osimages'));
