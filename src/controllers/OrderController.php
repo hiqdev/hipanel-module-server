@@ -16,7 +16,6 @@ use hipanel\modules\server\cart\ServerOrderDedicatedProduct;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\Osimage;
-use hipanel\modules\server\models\query\ConfigQuery;
 use hipanel\modules\server\Module;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
