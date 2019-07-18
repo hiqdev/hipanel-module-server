@@ -33,7 +33,6 @@ class ServerCest
         $I->login();
         $I->needPage(Url::to('@server'));
         $I->see('Servers', 'h1');
-        $I->seeLink('Buy server', Url::to('/server/order/index'));
         $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeBulkServerSearchBox();
     }
@@ -57,9 +56,8 @@ class ServerCest
         $this->index->containsColumns([
             'Name',
             'IPs',
-            'Status',
-            'Expires',
             'Tariff',
+            'Hardware Summary',
         ]);
     }
 }

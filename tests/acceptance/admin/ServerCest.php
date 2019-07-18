@@ -48,7 +48,7 @@ class ServerCest
             Input::asAdvancedSearch($I, 'IP'),
             Select2::asAdvancedSearch($I, 'Client'),
             Select2::asAdvancedSearch($I, 'Reseller'),
-            Input::asAdvancedSearch($I, 'HW summary'),
+            Input::asAdvancedSearch($I, 'Hardware Summary'),
             Select2::asAdvancedSearch($I, 'Type'),
             Select2::asAdvancedSearch($I, 'Status'),
             Input::asAdvancedSearch($I, 'Switch'),
@@ -105,9 +105,8 @@ class ServerCest
             'Client',
             'Reseller',
             'IPs',
-            'Status',
-            'Expires',
             'Tariff',
+            'Hardware Summary',
         ], 'common');
         $this->index->containsColumns([
             'IPs',
@@ -115,13 +114,14 @@ class ServerCest
             'DC',
             'Name',
             'Order',
+            'Hardware Summary',
         ], 'short');
         $this->index->containsColumns([
             'Rack',
             'Client',
             'DC',
             'Name',
-            'HW summary',
+            'Hardware Summary',
         ], 'hardware');
         $this->index->containsColumns([
             'DC',
@@ -133,6 +133,7 @@ class ServerCest
             'APC',
             'IP',
             'MAC',
+            'Hardware Summary',
         ], 'admin');
     }
 }

@@ -34,7 +34,7 @@ class ServerCest
         $I->login();
         $I->needPage(Url::to('@server'));
         $I->see('Servers', 'h1');
-        $I->seeLink('Buy server', Url::to('/server/order/index'));
+//        $I->seeLink('Buy server', Url::to('/server/order/index'));
         $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
         $this->ensureICanSeeBulkServerSearchBox();
@@ -49,7 +49,7 @@ class ServerCest
             Input::asAdvancedSearch($I, 'IP'),
             Select2::asAdvancedSearch($I, 'Client'),
             Select2::asAdvancedSearch($I, 'Reseller'),
-            Input::asAdvancedSearch($I, 'HW summary'),
+            Input::asAdvancedSearch($I, 'Hardware Summary'),
             Select2::asAdvancedSearch($I, 'Type'),
             Select2::asAdvancedSearch($I, 'Status'),
             Input::asAdvancedSearch($I, 'Tariff'),
@@ -96,7 +96,6 @@ class ServerCest
     private function ensureICanSeeBulkServerSearchBox()
     {
         $this->index->containsBulkButtons([
-            'Sell',
             'Basic actions',
         ]);
         $this->index->containsColumns([
@@ -104,9 +103,8 @@ class ServerCest
             'Client',
             'Reseller',
             'IPs',
-            'Status',
-            'Expires',
             'Tariff',
+            'Hardware Summary',
         ], 'common');
         $this->index->containsColumns([
             'IPs',
@@ -114,25 +112,15 @@ class ServerCest
             'DC',
             'Name',
             'Order',
+            'Hardware Summary',
         ], 'short');
-        $this->index->containsColumns([
-            'Client',
-            'DC',
-            'Name',
-            'HW summary',
-        ], 'hardware');
-        $this->index->containsColumns([
-            'Client',
-            'Name',
-            'Tariff',
-            'HW summary',
-        ], 'manager');
         $this->index->containsColumns([
             'DC',
             'Name',
             'Type',
             'IP',
             'MAC',
+            'Hardware Summary',
         ], 'admin');
     }
 }

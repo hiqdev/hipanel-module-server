@@ -21,7 +21,7 @@ class ServerSidebarMenuCest
 
         $menu->ensureContains('Servers', [
             'Servers' => '@server/index',
-            'Order server' => '/server/order/index',
+//            'Order server' => '/server/order/index',
         ]);
 
         $menu->ensureDoesNotContain('Servers',[
