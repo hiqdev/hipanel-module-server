@@ -11,5 +11,6 @@
 return [
     'module.server.power.management.allowed'    => true,
     'module.server.order.allowed'               => true,
+    'module.server.renew.allowed'               => true,
     'module.server.order.redirect.url'          => null,
 ];

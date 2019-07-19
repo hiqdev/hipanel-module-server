@@ -295,7 +295,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                                 'modalFooterLoading' => Yii::t('hipanel:server', 'Refusing...'),
                                 'modalFooterClass' => 'btn btn-warning',
                             ]);
-                        } elseif (in_array($model->state, $model->goodStates(), true) && $model->expires && Yii::$app->user->can('server.pay') && Yii::$app->user->can('support')) {
+                        } elseif (in_array($model->state, $model->goodStates(), true) && $model->expires && Yii::$app->user->can('server.pay') && Yii::$app->params['module.server.renew.allowed']) {
                             echo SimpleOperation::widget([
                                 'model' => $model,
                                 'scenario' => 'enable-autorenewal',
