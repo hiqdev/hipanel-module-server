@@ -53,7 +53,7 @@ class ServerActionsMenu extends Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
-                'visible' => !empty($this->model->expires) && Yii::$app->user->can('server.pay'),
+                'visible' => !empty($this->model->expires) && Yii::$app->user->can('server.pay') && Yii::$app->user->can('support'),
             ],
             'assign-hubs' => [
                 'label' => Yii::t('hipanel:server', 'Assign hubs'),

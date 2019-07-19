@@ -108,6 +108,7 @@ class Server extends Model implements AssignSwitchInterface
                     'enable-block', 'disable-block',
                 ],
             ],
+            [['note'], 'string', 'max' => 50, 'on' => 'set-note'],
             [['id', 'osimage'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
