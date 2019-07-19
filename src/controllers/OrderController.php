@@ -58,6 +58,15 @@ class OrderController extends CrudController
         ]);
     }
 
+    public function beforeAction($action)
+    {
+        if ($action->id == 'add-to-cart-dedicated') {
+            $this->enableCsrfValidation = false;
+        }
+
+        return parent::beforeAction($action);
+    }
+
     public function actions()
     {
         return [
