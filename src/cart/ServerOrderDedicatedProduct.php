@@ -85,11 +85,11 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     protected function ensureRelatedData()
     {
-        $configs = Config::find(['batch' => true])->getAvailable()->withSellerOptions()->andWhere(['id' => $this->object_id])->all();
-        if (empty($configs)) {
+        $config = Config::find()->where(['id' => $this->object_id])->one();
+        if (empty($config)) {
             throw new InvalidConfigException('Failed to find config');
         }
-        $this->_model = reset($configs);
+        $this->_model = $config;
 
         $this->_image = Osimage::find()->where(['osimage' => $this->osimage, 'type' => 'dedicated'])->one();
         if ($this->_image === null) {
