@@ -25,7 +25,7 @@ class ServerOrderDedicatedPurchase extends AbstractServerPurchase
     /** {@inheritdoc} */
     public static function operation()
     {
-        return 'Buy';
+        return 'BuyConfig';
     }
 
     /** {@inheritdoc} */
@@ -39,8 +39,8 @@ class ServerOrderDedicatedPurchase extends AbstractServerPurchase
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['osimage', 'config_id', 'tariff_id'], 'required'],
-            [['osimage', 'administration', 'softpack', 'label', 'location'], 'string'],
+            [['image', 'config_id', 'tariff_id'], 'required'],
+            [['image', 'administration', 'softpack', 'label', 'location'], 'string'],
             [['tariff_id', 'object_id'], 'integer'],
         ]);
     }
