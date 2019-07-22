@@ -16,6 +16,7 @@ use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\Module;
+use hipanel\filters\EasyAccessControl;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\filters\AccessControl;
@@ -44,19 +45,17 @@ class OrderController extends CrudController
     {
         return array_merge(parent::behaviors(), [
             [
-                'class' => AccessControl::class,
-                'rules' => [
-                    [
-                        'allow' => true,
-                        'actions' => ['dedicated'],
-                    ],
-                    [
-                        'allow' => true,
-                        'actions' => ['add-to-cart', 'add-to-cart-dedicated', 'index', 'xen-ssd', 'open-vz'],
-                        'roles' => ['server.pay'],
-                    ],
-                ]
-            ],
+                'class' => EasyAccessControl::class,
+                'actions' => [
+                    'add-to-cart' => 'server.pay',
+                    'add-to-cart-dedicated' => 'server.pay',
+                    'index' => 'server.pay',
+                    'xen-ssd' => 'server.pay',
+                    'open-vz' => 'server.pay',
+                    'dedicated' => EasyAccessControl::ALLOW_ANY,
+					'*' => 'server.read',
+				],
+			],
         ]);
     }
 
