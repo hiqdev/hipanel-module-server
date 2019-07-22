@@ -11,7 +11,6 @@
 namespace hipanel\modules\server\controllers;
 
 use hipanel\base\CrudController;
-use hipanel\filters\EasyAccessControl;
 use hipanel\modules\server\cart\ServerOrderDedicatedProduct;
 use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\models\Config;
@@ -19,6 +18,7 @@ use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\Module;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
+use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 
 class OrderController extends CrudController
@@ -44,16 +44,18 @@ class OrderController extends CrudController
     {
         return array_merge(parent::behaviors(), [
             [
-                'class' => EasyAccessControl::class,
-                'actions' => [
-                    'add-to-cart' => 'server.pay',
-                    'add-to-cart-dedicated' => 'server.pay',
-                    'index' => 'server.pay',
-                    'xen-ssd' => 'server.pay',
-                    'open-vz' => 'server.pay',
-                    'dedicated' => '?',
-                    '*' => 'server.read',
-                ],
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['dedicated'],
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['add-to-cart', 'add-to-cart-dedicated', 'index', 'xen-ssd', 'open-vz'],
+                        'roles' => ['server.pay'],
+                    ],
+                ]
             ],
         ]);
     }
@@ -131,6 +133,7 @@ class OrderController extends CrudController
 
     public function actionDedicated()
     {
+        Yii::$app->get('hiart')->disableAuth();
         $this->layout = '@hipanel/server/order/yii/views/layouts/advancedhosting';
         $configs = Config::find()->getAvailable()->withSellerOptions()->withPrices()->addOption('batch', true)->createCommand()->send()->getData();
         $osimages = Osimage::find()->where(['type' => 'dedicated'])->all();

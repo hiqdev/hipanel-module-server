@@ -85,7 +85,7 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     protected function ensureRelatedData()
     {
-        $config = Config::find()->where(['id' => $this->object_id])->one();
+        $config = Config::find(['batch' => true])->getAvailable()->withSellerOptions()->andWhere(['id' => $this->object_id])->one();
         if (empty($config)) {
             throw new InvalidConfigException('Failed to find config');
         }
@@ -126,12 +126,13 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
         $this->ensureRelatedData();
 
         $options = array_merge([
-            'osimage' => $this->osimage,
-            'object_id' => $this->object_id,
+            'image' => $this->osimage,
+            'config_id' => $this->object_id,
             'label' => $this->label,
             'administration' => $this->administration,
             'softpack' => $this->softpack,
             'tariff_id' => $this->tariff_id,
+            'location' => $this->location,
         ], $options);
 
         return parent::getPurchaseModel($options);
