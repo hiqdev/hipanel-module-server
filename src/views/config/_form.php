@@ -3,7 +3,6 @@
 /** @var Config $model */
 
 use hipanel\modules\server\models\Config;
-use hipanel\modules\server\widgets\combo\ConfigProfileCombo;
 use hipanel\modules\server\widgets\combo\PrimaryServerCombo;
 use hipanel\widgets\Box;
 use hiqdev\combo\StaticCombo;
@@ -53,7 +52,15 @@ $model->profile_ids = $model->profile_ids ? array_map('trim', explode(',', $mode
                     <?= $form->field($model, 'nl_old_price') ?>
                 </div>
             </div>
-                <?= $form->field($model, 'sort_order'); ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <?= $form->field($model, 'nl_low_limit')->input('number', ['min' => 0]) ?>
+                </div>
+                <div class="col-md-6">
+                    <?= $form->field($model, 'us_low_limit')->input('number', ['min' => 0]) ?>
+                </div>
+            </div>
+            <?= $form->field($model, 'sort_order'); ?>
             <?php Box::end() ?>
 
         </div>
