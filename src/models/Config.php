@@ -102,6 +102,7 @@ class Config extends Model
             'lan' => Yii::t('hipanel:server:config', 'LAN'),
             'raid' => Yii::t('hipanel:server:config', 'RAID'),
             'sort_order' => Yii::t('hipanel:server:config', 'Sort order'),
+            'state_label' => Yii::t('hipanel', 'State'),
         ]);
     }
 

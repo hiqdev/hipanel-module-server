@@ -12,6 +12,7 @@ namespace hipanel\modules\server\grid;
 
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
+use hipanel\grid\RefColumn;
 use hipanel\modules\server\menus\ConfigActionsMenu;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\ConfigSearch;
@@ -123,6 +124,14 @@ class ConfigGridView extends BoxedGridView
                     return Html::tag('span', 'NL:') . $model->nl_servers . '<br/>' .
                         Html::tag('span', 'US:') . $model->us_servers;
                 },
+            ],
+            'state' => [
+                'label' => Yii::t('hipanel', 'State'),
+                'format' => 'raw',
+                'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'i18nDictionary' => 'hipanel',
+                'gtype' => 'state,config',
             ],
         ]);
     }

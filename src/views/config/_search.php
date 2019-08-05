@@ -4,6 +4,7 @@
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\client\widgets\combo\SellerCombo;
+use hipanel\widgets\RefCombo;
 
 ?>
 
@@ -15,6 +16,14 @@ use hipanel\modules\client\widgets\combo\SellerCombo;
 </div>
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('descr_ilike') ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('type')->widget(RefCombo::class, [
+        'gtype' => 'state,config',
+        'i18nDictionary' => 'hipanel',
+        'multiple' => true,
+    ]) ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
