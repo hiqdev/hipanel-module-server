@@ -73,7 +73,10 @@ class ConfigGridView extends BoxedGridView
                 'format' => 'html',
                 'value' => function ($model) {
                     $value = '';
-                    foreach (['cpu', 'ram', 'hdd'] as $item) {
+                    foreach (['cpu', 'ram', 'hdd', 'ssd'] as $item) {
+                        if (empty($model->$item)) {
+                            continue;
+                        }
                         $value .= '<nobr>' . Html::tag('span', strtoupper($item) . ': ') .
                             Html::tag('span', $model->$item) . '</nobr></br>';
                     }
