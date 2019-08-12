@@ -23,6 +23,7 @@ class PanelServerCombo extends ServerCombo
 
         if ($this->state !== null) {
             $this->_filter['state'] = ['format' => $this->state];
+            $this->_filter['show_last_sale'] = ['format' => 1];
         }
     }
 

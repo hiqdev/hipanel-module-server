@@ -49,6 +49,7 @@ class Server extends Model implements AssignSwitchInterface
     public function rules()
     {
         return [
+            [['show_last_sale'], 'boolean'],
             [['id', 'tariff_id', 'client_id', 'seller_id', 'mails_num'], 'integer'],
             [['osimage'], EidValidator::class],
             [['panel'], RefValidator::class],
