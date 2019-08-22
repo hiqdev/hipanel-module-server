@@ -107,9 +107,9 @@ class ConfigGridView extends BoxedGridView
                 'format' => 'html',
                 'value' => function ($model) {
                     return Html::tag('span', 'NL:') .
-                        Html::a($model->nl_tariff, ['@tariff/view', 'id' => $model->nl_tariff_id]) . '</br>' .
+                        Html::a($model->nl_tariff, ['@plan/view', 'id' => $model->nl_tariff_id]) . '</br>' .
                         Html::tag('span', 'US:') .
-                        Html::a($model->us_tariff, ['@tariff/view', 'id' => $model->us_tariff_id]);
+                        Html::a($model->us_tariff, ['@plan/view', 'id' => $model->us_tariff_id]);
                 },
             ],
             'servers' => [
