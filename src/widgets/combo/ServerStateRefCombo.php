@@ -10,7 +10,7 @@ class ServerStateRefCombo extends RefCombo
     public function prepareData()
     {
         $refs = parent::prepareData();
-        if (Yii::$app->user->can('support')) {
+        if (Yii::$app->user->can('access-subclients')) {
             return $refs;
         }
 
