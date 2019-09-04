@@ -11,7 +11,7 @@ class ServerTypeRefCombo extends RefCombo
     {
         $refs = parent::prepareData();
         $user = Yii::$app->user;
-        if ($user->can('support') || $user->can('role:junior-manager')) {
+        if ($user->can('support') || $user->can('access-subclients')) {
             return $refs;
         }
 
