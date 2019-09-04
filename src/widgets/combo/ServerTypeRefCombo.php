@@ -10,7 +10,8 @@ class ServerTypeRefCombo extends RefCombo
     public function prepareData()
     {
         $refs = parent::prepareData();
-        if (Yii::$app->user->can('support')) {
+        $user = Yii::$app->user;
+        if ($user->can('support') || $user->can('role:junior-manager')) {
             return $refs;
         }
 
