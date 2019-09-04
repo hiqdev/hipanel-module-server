@@ -10,8 +10,7 @@ class ServerTypeRefCombo extends RefCombo
     public function prepareData()
     {
         $refs = parent::prepareData();
-        $user = Yii::$app->user;
-        if ($user->can('support') || $user->can('access-subclients')) {
+        if (Yii::$app->user->can('access-subclients')) {
             return $refs;
         }
 
