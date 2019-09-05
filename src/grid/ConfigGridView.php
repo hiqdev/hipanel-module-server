@@ -33,7 +33,7 @@ class ConfigGridView extends BoxedGridView
             $columns["{$region}_tariff"] = [
                 'format' => 'raw',
                 'value' => function (Config $config) use ($region, $currency): string {
-                    $tariff = Html::tag('span', $config->{$region . '_tariff'});
+                    $tariff = Html::a($config->{$region . '_tariff'}, ['@plan/view', 'id' => $config->{$region . '_tariff_id'}]);
                     $oldPrice = Html::tag(
                         'span',
                         Yii::t('hipanel:server:config', 'Old price: {price}', [
@@ -45,6 +45,21 @@ class ConfigGridView extends BoxedGridView
                     return Html::tag('span', $tariff . $oldPrice, [
                         'style' => 'display: flex; flex-direction: row; justify-content: space-between; flex-wrap: wrap;'
                     ]);
+                },
+            ];
+
+            $columns["{$region}_servers"] = [
+                'format' => 'raw',
+                'value' => function (Config $config) use ($region): string {
+                    $servers = explode(',', $config->{$region . '_servers'});
+                    $server_ids = explode(',', $config->{$region . '_server_ids'});
+
+                    $links = [];
+                    foreach (array_combine($server_ids, $servers) as $id => $server) {
+                        $links[] = Html::a(trim($server), ['@server/view', 'id' => trim($id)]);
+                    }
+
+                    return implode(', ', array_unique($links));
                 },
             ];
         }
@@ -113,8 +128,17 @@ class ConfigGridView extends BoxedGridView
                 },
             ],
             'servers' => [
+                'format' => 'raw',
                 'value' => function (Config $model) {
-                    return implode(', ', array_unique(explode(', ', $model->servers)));
+                    $servers = explode(',', $model->servers);
+                    $server_ids = explode(',', $model->server_ids);
+
+                    $links = [];
+                    foreach (array_combine($server_ids, $servers) as $id => $server) {
+                        $links[] = Html::a(trim($server), ['@server/view', 'id' => trim($id)]);
+                    }
+
+                    return implode(', ', array_unique($links));
                 },
             ],
             'cc_servers' => [
