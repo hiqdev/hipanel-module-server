@@ -30,6 +30,7 @@ use yii\base\NotSupportedException;
  * @property string $name
  *
  * @property-read HardwareSale[] $hardwareSales
+ * @property-read HardwareSettings $hardwareSettings
  */
 class Server extends Model implements AssignSwitchInterface
 {

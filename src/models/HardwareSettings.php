@@ -12,6 +12,13 @@ namespace hipanel\modules\server\models;
 
 use Yii;
 
+/**
+ * Class HardwareSettings
+ *
+ * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
+ *
+ * @property float|int|string $units numeric units number (e.g. 1), or a fraction (3/5)
+ */
 class HardwareSettings extends \hipanel\base\Model
 {
     const SCENARIO_DEFAULT = 'dumb';
@@ -55,8 +62,8 @@ class HardwareSettings extends \hipanel\base\Model
         return $this->mergeAttributeLabels([
             'summary' => Yii::t('hipanel:server', 'Hardware Summary'),
             'order_no' => Yii::t('hipanel:server', 'Order number'),
-            'Units' => Yii::t('hipanel:server', 'Units'),
-            'Motherboard' => Yii::t('hipanel:server', 'Motherboard'),
+            'units' => Yii::t('hipanel:server', 'Units'),
+            'motherboard' => Yii::t('hipanel:server', 'Motherboard'),
         ]);
     }
 }

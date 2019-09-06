@@ -253,7 +253,7 @@ class ServerController extends CrudController
                     /** @var Action $action */
                     $action = $event->sender;
 
-                    $action->collection->setModel((new HardwareSettings(['scenario' => 'set-units'])));
+                    $action->collection->setModel(new HardwareSettings(['scenario' => 'set-units']));
                 },
             ],
             'set-rack-no' => [

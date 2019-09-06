@@ -316,4 +316,5 @@ return [
     'Motherboard' => 'Материнская плата',
     'Order number' => 'Номер заказа',
     'Units' => 'Юниты',
+    'Servers have different height!' => 'У серверов разная высота!'
 ];

@@ -1,12 +1,13 @@
 <?php
 
+use hipanel\modules\server\models\Server;
 use hipanel\widgets\ArraySpoiler;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 use yii\helpers\Url;
 
-/** @var \hipanel\modules\server\models\Server $model */
-/** @var \hipanel\modules\server\models\Server[] $models */
+/** @var Server $model */
+/** @var Server[] $models */
 $model->hardwareSettings->scenario = 'set-units';
 $this->title = Yii::t('hipanel:server', 'Set units');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
@@ -22,6 +23,15 @@ $this->params['breadcrumbs'][] = $this->title;
     'validationUrl' => Url::toRoute(['validate-hw-form', 'scenario' => $model->scenario]),
 ]) ?>
 
+<?php
+
+$unitsCount = $model->hardwareSettings->units;
+$unitsEqual = array_reduce($models, static function (bool $result, Server $server) use ($unitsCount): bool {
+    return $result && $server->hardwareSettings->units === $unitsCount;
+}, true);
+
+?>
+
 <div class="row">
     <div class="col-md-6">
         <div class="container-items">
@@ -31,19 +41,29 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="panel panel-default" style="box-shadow: none; border-radius: 0;">
                             <div class="panel-heading"><?= Yii::t('hipanel:server', 'Selected servers') ?></div>
                             <div class="panel-body">
+                                <?php if (!$unitsEqual) : ?>
+                                    <div class="callout callout-info"><?= Yii::t('hipanel:server', 'Servers have different height!') ?></div>
+                                <?php endif ?>
                                 <?= ArraySpoiler::widget([
                                     'data' => $models,
                                     'visibleCount' => count($models),
-                                    'formatter' => function ($model) {
-                                        return Html::tag('span', $model->name, ['class' => 'label label-default']);
+                                    'formatter' => static function (Server $model) use ($unitsEqual): string {
+                                        $value = $model->name;
+                                        if (!$unitsEqual) {
+                                            $size = $model->hardwareSettings->units ?? '?';
+                                            $value .= " &ndash; {$size}U";
+                                        }
+
+                                        return Html::tag('span', $value, ['class' => 'label label-default']);
                                     },
-                                    'delimiter' => ',&nbsp; ',
+                                    'delimiter' => ' &nbsp; ',
                                 ]) ?>
                             </div>
                         </div>
                         <div style="padding: 0 1rem;">
-                            <?php $model->hardwareSettings->units = null;
-                            echo $form->field($model->hardwareSettings, 'units') ?>
+                            <?= $form->field($model->hardwareSettings, 'units')->textInput([
+                                'value' => $unitsEqual ? $model->hardwareSettings->units : null
+                            ]) ?>
                         </div>
                         <?php foreach ($models as $model) : ?>
                             <?= Html::activeHiddenInput($model->hardwareSettings, "[{$model->hardwareSettings->id}]id") ?>
