@@ -214,27 +214,17 @@ class ServerHelper
     }
 
     /**
-     * Getting current used user types
+     * Getting used current user server types
      *
-     * @param User $user
      * @return array
      */
-    public static function getUserRelatedTypes(User $user): array
+    public static function getUsedTypes(): array
     {
+        $types = [];
         $usedTypes = Server::perform('get-used-types');
-        $key = [__CLASS__, __METHOD__, $user->id];
-        array_walk($usedTypes, static function ($v, $k) use (&$key) {
-            return $key[] = $k . '_' . $v;
+        array_walk($usedTypes, static function ($row) use (&$types): void {
+            $types[] = $row['type'];
         });
-        $types = Yii::$app->getCache()->getOrSet($key, static function (): array {
-            $types = [];
-            $usedTypes = ArrayHelper::index(Server::find()->limit(-1)->all(), 'id', 'type');
-            foreach ($usedTypes as $type => $server) {
-                $types[] = $type;
-            }
-
-            return $types;
-        }, 86400); // 1 day
 
         return $types;
     }

@@ -17,8 +17,11 @@ class ServerTypeRefCombo extends RefCombo
         if (Yii::$app->user->can('ref.view.not-used')) {
             return $refs;
         }
-        $usedTypes = ServerHelper::getUserRelatedTypes(Yii::$app->user);
-//        $allowedTypes = ['dedicated', 'unmanaged', 'unused', 'setup', 'jbod', 'remote', 'vds', 'avds', 'ovds', 'svds', 'cdn', 'cdnpix', 'nic', 'uplink3'];
+        $usedTypes = ServerHelper::getUsedTypes();
+        $allowedTypes = ['dedicated', 'unmanaged', 'setup', 'jbod', 'remote', 'vds', 'avds', 'ovds', 'svds', 'cdn', 'cdnpix', 'nic', 'uplink3'];
+        if (empty($usedTypes)) {
+            $usedTypes = $allowedTypes;
+        }
 
         return array_filter($refs, static function (string $k) use ($usedTypes): bool {
             return in_array($k, $usedTypes, true);
