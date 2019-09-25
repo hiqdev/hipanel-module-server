@@ -16,11 +16,15 @@ use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\models\OpenvzPackage;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
+use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUse;
 use Yii;
+use yii\caching\DbDependency;
+use yii\caching\ExpressionDependency;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UnprocessableEntityHttpException;
+use yii\web\User;
 
 class ServerHelper
 {
@@ -148,9 +152,9 @@ class ServerHelper
     /**
      * @param string $type (svds|ovds)
      * @param integer $tariff_id
-     * @throws NotFoundHttpException
-     * @throws UnprocessableEntityHttpException
      * @return Package|array
+     * @throws UnprocessableEntityHttpException
+     * @throws NotFoundHttpException
      */
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
@@ -207,5 +211,31 @@ class ServerHelper
         }
 
         return Package::class;
+    }
+
+    /**
+     * Getting current used user types
+     *
+     * @param User $user
+     * @return array
+     */
+    public static function getUserRelatedTypes(User $user): array
+    {
+        $usedTypes = Server::perform('get-used-types');
+        $key = [__CLASS__, __METHOD__, $user->id];
+        array_walk($usedTypes, static function ($v, $k) use (&$key) {
+            return $key[] = $k . '_' . $v;
+        });
+        $types = Yii::$app->getCache()->getOrSet($key, static function (): array {
+            $types = [];
+            $usedTypes = ArrayHelper::index(Server::find()->limit(-1)->all(), 'id', 'type');
+            foreach ($usedTypes as $type => $server) {
+                $types[] = $type;
+            }
+
+            return $types;
+        }, 86400); // 1 day
+
+        return $types;
     }
 }
