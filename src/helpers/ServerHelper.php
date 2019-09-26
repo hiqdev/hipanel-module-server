@@ -16,11 +16,15 @@ use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\models\OpenvzPackage;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
+use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUse;
 use Yii;
+use yii\caching\DbDependency;
+use yii\caching\ExpressionDependency;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UnprocessableEntityHttpException;
+use yii\web\User;
 
 class ServerHelper
 {
@@ -148,9 +152,9 @@ class ServerHelper
     /**
      * @param string $type (svds|ovds)
      * @param integer $tariff_id
-     * @throws NotFoundHttpException
-     * @throws UnprocessableEntityHttpException
      * @return Package|array
+     * @throws UnprocessableEntityHttpException
+     * @throws NotFoundHttpException
      */
     public static function getAvailablePackages($type = null, $tariff_id = null)
     {
@@ -207,5 +211,21 @@ class ServerHelper
         }
 
         return Package::class;
+    }
+
+    /**
+     * Getting used current user server types
+     *
+     * @return array
+     */
+    public static function getUsedTypes(): array
+    {
+        $types = [];
+        $usedTypes = Server::perform('get-used-types');
+        array_walk($usedTypes, static function ($row) use (&$types): void {
+            $types[] = $row['type'];
+        });
+
+        return $types;
     }
 }
