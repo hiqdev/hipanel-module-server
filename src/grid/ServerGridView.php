@@ -141,6 +141,7 @@ class ServerGridView extends BoxedGridView
                             $badges .= Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']);
                         }
                     }
+                    $badges .= Label::widget(['label' => Yii::t('hipanel:server', $model->type_label), 'tag' => 'sup', 'color' => 'info']);
 
                     return $badges;
                 },
