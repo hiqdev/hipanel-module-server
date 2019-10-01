@@ -29,6 +29,8 @@ class OrderPositionDescriptionWidget extends Widget
     public function init()
     {
         $this->view->registerCss(<<<CSS
+            .cart-item .dl-config { display: none; }
+            
             dl.dl-config {
                 padding: 1em 0 0;
                 display: flex;
@@ -52,7 +54,7 @@ class OrderPositionDescriptionWidget extends Widget
                 padding: 0;
             }
 CSS
-        , __CLASS__ . '_client_css');
+        , [], __CLASS__ . '_client_css');
     }
 
     /** {@inheritdoc} */

@@ -9,7 +9,6 @@ use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\widgets\OSFormatter;
 use yii\helpers\Html;
 
-$this->registerCss('.cart-item .dl-config { display: none; }');
 ?>
 
 <?= Html::tag('span', implode('&nbsp;', [
