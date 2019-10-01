@@ -52,4 +52,5 @@ return [
     'Expert service 24/7' => 'Сервис 24/7',
     'Netherlands' => 'Нидерланды',
     'USA' => 'США',
+    'Order another server' => 'Заказать еще сервер',
 ];

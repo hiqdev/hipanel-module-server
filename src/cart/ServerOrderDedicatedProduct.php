@@ -16,6 +16,7 @@ use hipanel\modules\server\widgets\cart\OrderPositionDescriptionWidget;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 
 class ServerOrderDedicatedProduct extends AbstractServerProduct
 {
@@ -214,5 +215,10 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
         ];
 
         return $map[$this->location] ?? 'unknown place';
+    }
+
+    public function getAdditionalLinks(): array
+    {
+        return  ['//beta-hipanel.advancedhosting.com/server/order/dedicated', Yii::t('hipanel:server:order', 'Order another server')];
     }
 }
