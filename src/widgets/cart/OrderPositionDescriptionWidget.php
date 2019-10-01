@@ -26,19 +26,8 @@ class OrderPositionDescriptionWidget extends Widget
      */
     public $position;
 
-    /** {@inheritdoc} */
-    public function run()
+    public function init()
     {
-        return $this->render('_orderPositionDescription', ['position' => $this->position]);
-    }
-
-    /**
-     * @param array $items
-     * @return string
-     */
-    public function formatConfig(array $items = []): string
-    {
-        $html = '';
         $this->view->registerCss(<<<CSS
             dl.dl-config {
                 padding: 1em 0 0;
@@ -63,7 +52,22 @@ class OrderPositionDescriptionWidget extends Widget
                 padding: 0;
             }
 CSS
-        );
+        , __CLASS__ . '_client_css');
+    }
+
+    /** {@inheritdoc} */
+    public function run()
+    {
+        return $this->render('_orderPositionDescription', ['position' => $this->position]);
+    }
+
+    /**
+     * @param array $items
+     * @return string
+     */
+    public function formatConfig(array $items = []): string
+    {
+        $html = '';
         foreach ($items as $label => $value) {
             if (empty($value)) {
                 continue;
