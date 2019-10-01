@@ -38,7 +38,7 @@ class OrderPositionDescriptionWidget extends Widget
             }
 
             dl.dl-config dt {
-                flex-basis: 16%;
+                flex-basis: 20%;
                 text-align: left;
                 width: auto;
             }
