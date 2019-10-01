@@ -37,7 +37,6 @@ return [
     'How are you going to use the server?' => 'Для чего вы планируете использовать сервер?',
     'Any social network link. Will be used in case of emergency contact' => 'Ссылка на любую социальную сеть. Будет использовано для срочной связи при необходимости.',
     'Server setup will be performed as soon as manager confirms your account verification. Pleas wait.' => 'Сервер будет создан сразу после того, как менеджер верифицирует Ваш аккаунт. Пожалуйста, ожидайте.',
-    'You will receive an email with server access information right after setup' => 'Вы получите данные для доступа на сервера сразу после окончания установки.',
     'Overuse {price}/{unit}' => 'Сверх объема тарифа: {price}/{unit}',
     'Remote backup' => 'Удалённый бэкап',
     'Backup overuse' => 'Перебор бэкапа',
@@ -53,4 +52,7 @@ return [
     'Netherlands' => 'Нидерланды',
     'USA' => 'США',
     'Order another server' => 'Заказать еще сервер',
+    '{tnx_for_order} The server will be ready in a few minutes. You will receive an email with server access information right after setup. Go to the {server_list} to see the status of the service preparation.' => '{tnx_for_order} Сервер будет готов в течении нескольких минут. Вы получите данные для доступа на e-mail. Перейдите к {server_list}, чтобы ознакомиться со статусом подготовки услуги.',
+    'Thank you for the order!' => 'Спасибо за заказ!',
+    'server list' => 'списку серверов',
 ];

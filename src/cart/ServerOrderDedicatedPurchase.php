@@ -14,6 +14,7 @@ use hipanel\base\ModelTrait;
 use hipanel\modules\finance\cart\PendingPurchaseException;
 use hipanel\widgets\Box;
 use Yii;
+use yii\helpers\Html;
 
 /**
  * Class ServerOrderPurchase.
@@ -50,7 +51,10 @@ class ServerOrderDedicatedPurchase extends AbstractServerPurchase
         if (parent::execute()) {
             $remark = Box::widget([
                 'options' => ['class' => 'box-solid box-warning'],
-                'body' => Yii::t('hipanel:server:order', 'You will receive an email with server access information right after setup'),
+                'body' => Yii::t('hipanel:server:order', '{tnx_for_order} The server will be ready in a few minutes. You will receive an email with server access information right after setup. Go to the {server_list} to see the status of the service preparation.', [
+                    'tnx_for_order' => Html::tag('h4', Yii::t('hipanel:server:order', 'Thank you for the order!')),
+                    'server_list' => Html::a(Yii::t('hipanel:server:order', 'server list'), ['@server/index']),
+                ]),
             ]);
 
             Yii::$app->getView()->params['remarks'][__CLASS__] = $remark;
