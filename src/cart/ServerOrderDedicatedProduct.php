@@ -12,7 +12,6 @@ namespace hipanel\modules\server\cart;
 
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\Osimage;
-use hipanel\modules\server\models\Package;
 use hipanel\modules\server\widgets\cart\OrderPositionDescriptionWidget;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -23,7 +22,7 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     protected $_purchaseModel = ServerOrderDedicatedPurchase::class;
 
-    /** @var Package */
+    /** @var Config */
     protected $_model;
 
     /** {@inheritdoc} */
@@ -85,10 +84,12 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     /** {@inheritdoc} */
     protected function ensureRelatedData()
     {
-        $config = Config::find(['batch' => true])->getAvailable()->withSellerOptions()->andWhere(['id' => $this->object_id])->one();
-        if (empty($config)) {
+        $availableConfig = Config::find(['batch' => true])->getAvailable()->withPrices()->withSellerOptions()->andWhere(['id' => $this->object_id])->limit(1)->createCommand()->send()->getData();
+        if (empty($availableConfig)) {
             throw new InvalidConfigException('Failed to find config');
         }
+        $config = new Config();
+        $config->setAttributes(reset($availableConfig));
         $this->_model = $config;
 
         $this->_image = Osimage::find()->where(['osimage' => $this->osimage, 'type' => 'dedicated'])->one();
@@ -193,5 +194,25 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
         $parent['_image'] = $this->_image;
 
         return $parent;
+    }
+
+    public function getDisplayAdministration(): string
+    {
+        $map = [
+            'unmanaged' => Yii::t('hipanel:server:order', 'Basic maintenance'),
+            'managed' => Yii::t('hipanel:server:order', 'Expert service 24/7'),
+        ];
+
+        return $map[$this->administration] ?? 'unknown state of administration';
+    }
+
+    public function getDisplayLocation(): string
+    {
+        $map = [
+            'nl' => Yii::t('hipanel:server:order', 'Netherlands'),
+            'us' => Yii::t('hipanel:server:order', 'USA'),
+        ];
+
+        return $map[$this->location] ?? 'unknown place';
     }
 }

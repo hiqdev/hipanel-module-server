@@ -10,10 +10,10 @@
 
 return [
     'OS' => 'ОС',
-    'Soft package' => 'Пакет ПО',
+    'Soft package' => 'Софт',
     'System name of image' => 'Название образа',
     'Panel' => 'Панель управления',
-    'clear' => 'отсутствует',
+    'clear' => 'Чистая сборка',
 
     'Softpack for usual website projects' => 'Пакет подходит для обычных сайтов',
 ];
