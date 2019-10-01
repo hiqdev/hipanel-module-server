@@ -19,7 +19,6 @@ use hipanel\modules\server\Module;
 use hipanel\filters\EasyAccessControl;
 use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
-use yii\filters\AccessControl;
 use yii\web\ForbiddenHttpException;
 
 class OrderController extends CrudController
@@ -53,9 +52,9 @@ class OrderController extends CrudController
                     'xen-ssd' => 'server.pay',
                     'open-vz' => 'server.pay',
                     'dedicated' => EasyAccessControl::ALLOW_ANY,
-					'*' => 'server.read',
-				],
-			],
+                    '*' => 'server.read',
+                ],
+            ],
         ]);
     }
 

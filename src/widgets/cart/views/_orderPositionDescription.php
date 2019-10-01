@@ -9,21 +9,25 @@ use hipanel\modules\server\cart\ServerOrderProduct;
 use hipanel\modules\server\widgets\OSFormatter;
 use yii\helpers\Html;
 
-echo $position->getIcon();
-echo '&nbsp';
-echo $position->name;
-echo '&nbsp';
-echo Html::tag('span', Yii::t('hipanel:server', 'Server ordering'), ['class' => 'text-muted']);
 ?>
 
-<br/>
-<?php if ($position->label) : ?>
-    <?= Html::tag('b', Yii::t('hipanel', 'Label')) ?>: <?= $position->label ?>
-<?php endif; ?>
-<br>
-<b><span><?= Yii::t('hipanel:server:os', 'OS') ?>:</span></b> <?= OSFormatter::widget(['osimage' => $position->getImage()]); ?>
-<br/>
-<b><span><?= Yii::t('hipanel:server:os', 'Soft package') ?>:</span></b> <?= $position->getImage()->getDisplaySoftPackName() ?>
-<br/>
-<b><span><?= Yii::t('hipanel:server:os', 'Panel') ?>:</span></b> <?= $position->getImage()->getDisplayPanelName() ?>
-<br/>
+<?= Html::tag('span', implode('&nbsp;', [
+    $position->getIcon(),
+    $position->name,
+    Html::tag('span', Yii::t('hipanel:server', 'Server ordering'), ['class' => 'text-muted']),
+])) ?>
+
+<?= $this->context->formatConfig([
+    Yii::t('hipanel', 'Label') => $position->label,
+    Yii::t('hipanel:server:order', 'CHASSIS') => $position->getModel()->label,
+    Yii::t('hipanel:server:order', 'CPU') => $position->getModel()->cpu,
+    Yii::t('hipanel:server:order', 'RAM') => $position->getModel()->ram,
+    Yii::t('hipanel:server:order', 'HDD') => $position->getModel()->hdd,
+    Yii::t('hipanel:server:order', 'SSD') => $position->getModel()->ssd,
+    Yii::t('hipanel:server:order', 'Traffic') => $position->getModel()->traffic,
+    Yii::t('hipanel:server:order', 'Administration') => $position->getDisplayAdministration(),
+    Yii::t('hipanel:server:os', 'OS') => OSFormatter::widget(['osimage' => $position->getImage()]),
+    Yii::t('hipanel:server:os', 'Soft package') => $position->getImage()->getDisplaySoftPackName(),
+    Yii::t('hipanel:server:os', 'Panel') => $position->getImage()->getDisplayPanelName(),
+    Yii::t('hipanel:server:order', 'Location') => $position->getDisplayLocation(),
+]) ?>
