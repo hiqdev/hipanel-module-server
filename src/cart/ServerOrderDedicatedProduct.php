@@ -219,6 +219,8 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
 
     public function getAdditionalLinks(): array
     {
-        return  ['//beta-hipanel.advancedhosting.com/server/order/dedicated', Yii::t('hipanel:server:order', 'Order another server')];
+        return [
+            ['//beta-hipanel.advancedhosting.com/server/order/dedicated', Yii::t('hipanel:server:order', 'Order another server')],
+        ];
     }
 }
