@@ -102,7 +102,7 @@ class Config extends Model
             'ram' => Yii::t('hipanel:server:config', 'RAM'),
             'hdd' => Yii::t('hipanel:server:config', 'HDD'),
             'ssd' => Yii::t('hipanel:server:config', 'SSD'),
-            'lan' => Yii::t('hipanel:server:config', 'LAN'),
+            'lan' => Yii::t('hipanel:server:config', 'Ethernet'),
             'raid' => Yii::t('hipanel:server:config', 'RAID'),
             'sort_order' => Yii::t('hipanel:server:config', 'Sort order'),
             'state_label' => Yii::t('hipanel', 'State'),

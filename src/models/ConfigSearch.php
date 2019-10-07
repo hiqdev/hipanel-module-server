@@ -46,7 +46,7 @@ class ConfigSearch extends Config
             'hdd_ilike'         => Yii::t('hipanel:server:config', 'HDD'),
             'ssd_ilike'         => Yii::t('hipanel:server:config', 'HDD'),
             'traffic_ilike'     => Yii::t('hipanel:server:config', 'Traffic'),
-            'lan_ilike'         => Yii::t('hipanel:server:config', 'LAN'),
+            'lan_ilike'         => Yii::t('hipanel:server:config', 'Ethernet'),
             'raid_ilike'        => Yii::t('hipanel:server:config', 'RAID'),
             'descr_ilike' => Yii::t('hipanel:server:config', 'Description'),
         ]);
