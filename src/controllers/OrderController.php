@@ -62,6 +62,10 @@ class OrderController extends CrudController
     {
         if ($action->id == 'add-to-cart-dedicated') {
             $this->enableCsrfValidation = false;
+
+            if (empty(Yii::$app->user->identity)) {
+                Yii::$app->get('hiart')->disableAuth();
+            }
         }
 
         return parent::beforeAction($action);
