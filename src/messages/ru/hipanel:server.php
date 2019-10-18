@@ -266,7 +266,7 @@ return [
     'CDN files count' => 'Количество CDN-файлов',
     'Backup disk usage' => 'Использование бекапа диска',
     'Backup traffic' => 'Трафик бекапа',
-    'CDN cache SATA' => 'CDN кеш SATA',
+    'CDN cache HDD' => 'CDN кеш HDD',
     'CDN cache SSD' => 'CDN кеш SSD',
 
     'Set one type to many servers' => 'Установить один тип для выбраных серверов',

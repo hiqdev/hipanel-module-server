@@ -24,7 +24,7 @@ class ResourceConsumption extends TrafficConsumption
             'server_files' => Yii::t('hipanel:server', 'CDN files count'),
             'backup_du' => Yii::t('hipanel:server', 'Backup disk usage'),
             'backup_traf' => Yii::t('hipanel:server', 'Backup traffic'),
-            'server_sata' => Yii::t('hipanel:server', 'CDN cache SATA'),
+            'server_sata' => Yii::t('hipanel:server', 'CDN cache HDD'),
             'server_ssd' => Yii::t('hipanel:server', 'CDN cache SSD'),
         ];
     }
