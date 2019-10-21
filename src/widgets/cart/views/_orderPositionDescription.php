@@ -18,7 +18,7 @@ use yii\helpers\Html;
 ])) ?>
 
 <?= $this->context->formatConfig([
-    Yii::t('hipanel', 'Label') => $position->label,
+    Yii::t('hipanel:server:order', 'Label') => $position->label,
     Yii::t('hipanel:server:order', 'CHASSIS') => $position->getModel()->label,
     Yii::t('hipanel:server:order', 'CPU') => $position->getModel()->cpu,
     Yii::t('hipanel:server:order', 'RAM') => $position->getModel()->ram,

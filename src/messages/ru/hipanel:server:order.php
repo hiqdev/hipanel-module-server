@@ -12,10 +12,10 @@ return [
     'Order server' => 'Заказать сервер',
     '{0, plural, one{# core} other{# cores}}' => '{0, plural, one{# ядро} few{# ядра} many{# ядер} other{# ядер}}',
     '{n, plural, one{# hour} other{# hours}}' => '{n, plural, one{# час} few{# часа} many{# часов} other{# часов}}',
-    'CPU' => 'Процессор',
+    'CPU' => 'CPU',
     'RAM' => 'RAM',
     'Dedicated IP' => 'Выделенных IP',
-    '24/7 support' => 'Поддержка 24/7',
+    '24/7 support' => 'Экспертное обслуживание 24/7',
     'Traffic' => 'Траффик',
     'Port speed' => 'Скорость Интернета',
     'Control panel' => 'Панель управления',
@@ -55,4 +55,5 @@ return [
     '{tnx_for_order} The server will be ready in a few minutes. You will receive an email with server access information right after setup. Go to the {server_list} to see the status of the service preparation.' => '{tnx_for_order} Сервер будет готов в течении нескольких минут. Вы получите данные для доступа на e-mail. Перейдите к {server_list}, чтобы ознакомиться со статусом подготовки услуги.',
     'Thank you for the order!' => 'Спасибо за заказ!',
     'server list' => 'списку серверов',
+    'Label' => 'Заметка',
 ];
