@@ -313,6 +313,7 @@ return [
 
     'Summary' => 'Итог',
     'Hardware Summary' => 'Конфигурация оборудования',
+    'Hardware Comment' => 'Комментарий к конфигурации оборудования',
     'Motherboard' => 'Материнская плата',
     'Order number' => 'Номер заказа',
     'Units' => 'Юниты',

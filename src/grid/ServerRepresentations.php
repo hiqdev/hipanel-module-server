@@ -38,7 +38,7 @@ class ServerRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',
-                    'rack', 'client', 'dc', 'actions', 'server', 'hwsummary',
+                    'rack', 'client', 'dc', 'actions', 'server', 'hwsummary', 'hwcomment',
                 ],
             ] : null,
             'manager' => Yii::$app->user->can('manage') ? [
@@ -47,7 +47,7 @@ class ServerRepresentations extends RepresentationCollection
                     'checkbox',
                     'client_like',
                     'rack', 'actions', 'server', 'tariff',
-                    'hwsummary', 'nums',
+                    'hwsummary', 'hwcomment', 'nums',
                 ],
             ] : null,
             'billing' => Yii::$app->user->can('consumption.read') && Yii::$app->user->can('manage') ? [
