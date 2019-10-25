@@ -101,6 +101,13 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <?= $form->field($model, "[$i]hwcomment") ?>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
