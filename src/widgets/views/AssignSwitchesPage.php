@@ -1,10 +1,17 @@
 <?php
 
+use hipanel\modules\server\widgets\AssignSwitchesPage;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
+
+$context = $this->context;
+/**
+ * @var \hipanel\modules\server\forms\AssignHubsForm[] $models
+ * @var AssignSwitchesPage $context
+ */
 
 ?>
 
@@ -44,7 +51,7 @@ use yii\helpers\Inflector;
                                                 <td colspan="<?= $this->context->hasPort($variant) ? 1 : 2 ?>">
                                                     <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, [
                                                         'name' => $variant,
-                                                        'hubType' => $this->context->variantMap[$variant] ?? $variant,
+                                                        'hubType' => $context->variantMap[$variant] ?? $variant,
                                                     ])->label(false) ?>
                                                 </td>
                                                 <?php if ($this->context->hasPort($variant)) : ?>
