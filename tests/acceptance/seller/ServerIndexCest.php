@@ -17,7 +17,7 @@ use hipanel\tests\_support\Page\Widget\Input\Input;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Seller;
 
-class ServerCest
+class ServerIndexCest
 {
     /**
      * @var IndexPage
