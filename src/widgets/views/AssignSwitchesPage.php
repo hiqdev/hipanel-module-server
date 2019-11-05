@@ -1,17 +1,16 @@
 <?php
 
-use hipanel\modules\server\widgets\AssignSwitchesPage;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 
-$context = $this->context;
 /**
  * @var \hipanel\modules\server\forms\AssignHubsForm[] $models
- * @var AssignSwitchesPage $context
+ * @var \hipanel\modules\server\widgets\AssignSwitchesPage $context
  */
+$context = $this->context;
 
 ?>
 
@@ -25,7 +24,7 @@ $context = $this->context;
     'deleteButton' => '.remove-item', // css class
     'model' => reset($models),
     'formId' => Inflector::camel2id(reset($models)->formName()) . '-form',
-    'formFields' => $this->context->getFormFields(),
+    'formFields' => $context->getFormFields(),
 ]) ?>
     <div class="container-items">
         <?php foreach ($models as $i => $model) : ?>
@@ -48,7 +47,7 @@ $context = $this->context;
                                             </thead>
                                             <tbody>
                                             <tr>
-                                                <td colspan="<?= $this->context->hasPort($variant) ? 1 : 2 ?>">
+                                                <td colspan="<?= $context->hasPort($variant) ? 1 : 2 ?>">
                                                     <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, [
                                                         'name' => $variant,
                                                         'hubType' => $context->variantMap[$variant] ?? $variant,
