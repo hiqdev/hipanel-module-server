@@ -31,7 +31,7 @@ class AssignSwitchesPage extends Widget
     public $variantMap = [
         'pdu2' => 'pdu',
         'ipmi' => 'net',
-        'nic2' => 'net',
+        'net2' => 'net',
     ];
 
     public function run()

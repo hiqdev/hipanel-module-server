@@ -24,7 +24,7 @@ class AssignHubsForm extends Server
     /**
      * @var array
      */
-    protected $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'pdu2', 'nic2', 'ipmi'];
+    protected $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'pdu2', 'net2', 'ipmi'];
 
     /**
      * {@inheritdoc}
@@ -46,7 +46,7 @@ class AssignHubsForm extends Server
     {
         return array_merge(parent::attributeLabels(), [
             'pdu2' => Yii::t('hipanel:server', 'APC 2'),
-            'nic2' => Yii::t('hipanel:server', 'Switch 2'),
+            'net2' => Yii::t('hipanel:server', 'Switch 2'),
         ]);
     }
 }
