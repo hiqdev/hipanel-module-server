@@ -68,7 +68,6 @@ class ServerAssingHubsCest
     public function ensureICanRemoveAssignedHubs(Admin $I, Example $data)
     {
         $assignPage = new AssignHubs($I);
-        $this->serverId = $this->getTestServerId($I);
 
         $I->needPage(Url::to('@server/assign-hubs?id=' . $this->serverId));
 
