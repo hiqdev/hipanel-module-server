@@ -10,8 +10,6 @@
 
 namespace hipanel\modules\server;
 
-use Yii;
-
 class Module extends \hipanel\base\Module
 {
     /**
