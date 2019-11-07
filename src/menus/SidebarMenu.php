@@ -21,6 +21,7 @@ class SidebarMenu extends Menu
         $app = Yii::$app;
         /** @var Module $module */
         $module = $app->getModule('server');
+        $outsideUrlExists = (bool)Yii::$app->params['module.server.order.redirect.url'];
         /** @var User $user */
         $user = $app->user;
 
@@ -43,17 +44,17 @@ class SidebarMenu extends Menu
                     'buy-server' => [
                         'label'   => Yii::t('hipanel:server:order', 'Order server'),
                         'url'     => ['/server/order/index'],
-                        'visible' => $user->can('server.pay') && $module->orderIsAllowed,
+                        'visible' => $user->can('server.pay') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
                     'pre-order' => [
                         'label'   => Yii::t('hipanel:server', 'Pre-orders'),
                         'url'     => ['/server/pre-order/index'],
-                        'visible' => $user->can('resell') && $module->orderIsAllowed,
+                        'visible' => $user->can('resell') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
                     'refuse' => [
                         'label'   => Yii::t('hipanel:server', 'Refuses'),
                         'url'     => ['/server/refuse/index'],
-                        'visible' => $user->can('resell') && $module->orderIsAllowed,
+                        'visible' => $user->can('resell') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
                     'config' => [
                         'label'   => Yii::t('hipanel:server:config', 'Config'),
