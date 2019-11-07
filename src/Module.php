@@ -10,10 +10,17 @@
 
 namespace hipanel\modules\server;
 
+use Yii;
+
 class Module extends \hipanel\base\Module
 {
     /**
      * @var bool Whether server order is allowed
      */
     public $orderIsAllowed = true;
+
+    public function isRedirectOutsideUrlExists(): bool
+    {
+        return (bool)Yii::$app->params['module.server.order.redirect.url'];
+    }
 }
