@@ -21,7 +21,7 @@ class SidebarMenu extends Menu
         $app = Yii::$app;
         /** @var Module $module */
         $module = $app->getModule('server');
-        $outsideUrlExists = $module->isRedirectOutsideUrlExists();
+        $outsideUrlExists = (bool)Yii::$app->params['module.server.order.redirect.url'];
         /** @var User $user */
         $user = $app->user;
 
