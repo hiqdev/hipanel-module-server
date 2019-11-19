@@ -1,5 +1,6 @@
 <?php
 
+use hipanel\modules\server\assets\AssignHubsAsset;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -38,7 +39,6 @@ $context = $this->context;
                         <div class="row">
                             <?php foreach (array_chunk($model->getSwitchVariants(), 4) as $rows) : ?>
                                 <?php foreach ($rows as $variant) : ?>
-                                    <?php $applyName = $i .'-' . $variant?>
                                     <div class="col-md-3">
                                         <table class="table table-condensed" style="table-layout: fixed;">
                                             <thead>
@@ -53,9 +53,11 @@ $context = $this->context;
                                                         'name' => $variant,
                                                         'hubType' => $context->variantMap[$variant] ?? $variant,
                                                     ])->label(false) ?>
+                                                    <?php $applyName = $i .'-' . $variant?>
                                                     <?= HTML::tag('a', Yii::t('hipanel', 'Apply to all'), [
-                                                       'href' => '#',
-                                                       'class' => 'hidden apply-all-' . $applyName,
+                                                        'href' => '#',
+                                                        'class' => 'hidden apply-all-' . $applyName,
+                                                        'style' => 'position: absolute;'
                                                     ]) ?>
                                                 </td>
                                                 <?php if ($this->context->hasPort($variant)) : ?>

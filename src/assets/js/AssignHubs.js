@@ -1,7 +1,9 @@
 (function ($, window, document, undefined) {
 	var pluginName = "assignHubs",
 		defaults = {
-			countModels: []
+			countModels: 1,
+			attributes: ['net', 'net2', 'kvm', 'pdu', 'pdu2', 'rack', 'ipmi'],
+			formAttribute: '',
 		};
 
 	function Plugin(element, options) {
@@ -9,16 +11,15 @@
 		this.settings = $.extend({}, defaults, options);
 		this._defaults = defaults;
 		this._name = pluginName;
-		this.attributes = ['net', 'net2', 'kvm', 'pdu', 'pdu2', 'rack', 'ipmi'];
-		this.formAttribute = 'assignhubsform';
+		this.attributes = this.settings.attributes;
+		this.formAttribute = this.settings.formAttribute;
 		this.init();
 	}
 
 	Plugin.prototype = {
 		init: function () {
-			const _countModels = this.settings.countModels;
-			if (_countModels > 1) {
-				[...Array(_countModels).keys()].forEach(el => this.registerItems(el))
+			if (this.settings.countModels > 1) {
+				this.getKeysArray().forEach(el => this.registerItems(el))
 			}
 		},
 		registerItems: function (index) {
@@ -33,8 +34,7 @@
 				});
 
 				$applyAllLink.on('click', event => {
-					const _countModels = this.settings.countModels;
-					[...Array(_countModels).keys()].forEach(el => {
+					this.getKeysArray().forEach(el => {
 						const value = $attributeBlock.children().last().clone();
 						const iterable = $(`#${this.formAttribute}-${el}-${attribute}_id`);
 						iterable.empty();
@@ -44,6 +44,10 @@
 				});
 			});
 		},
+		getKeysArray: function () {
+			const _countModels = this.settings.countModels;
+			return [...Array(_countModels).keys()];
+		}
 	};
 
 	$.fn[pluginName] = function (options) {
