@@ -89,5 +89,4 @@ $renderedAttributes = [];
 <?= AssignAttributesWidget::widget([
     'models' => $models,
     'attributes' => array_values(array_unique($renderedAttributes)),
-    'view' => $this,
 ])?>
