@@ -1,17 +1,20 @@
 <?php
 
-use hipanel\modules\server\assets\AssignHubsAsset;
 use hipanel\modules\server\widgets\combo\HubCombo;
+use hipanel\widgets\AssignAttributesWidget;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Inflector;
 
 /**
+ * @var \yii\web\View $this
  * @var \hipanel\modules\server\forms\AssignHubsForm[] $models
  * @var \hipanel\modules\server\widgets\AssignSwitchesPage $context
  */
 $context = $this->context;
+
+$renderedAttributes = [];
 
 ?>
 
@@ -39,6 +42,7 @@ $context = $this->context;
                         <div class="row">
                             <?php foreach (array_chunk($model->getSwitchVariants(), 4) as $rows) : ?>
                                 <?php foreach ($rows as $variant) : ?>
+                                    <?php $renderedAttributes[] = $variant ?>
                                     <div class="col-md-3">
                                         <table class="table table-condensed" style="table-layout: fixed;">
                                             <thead>
@@ -53,12 +57,6 @@ $context = $this->context;
                                                         'name' => $variant,
                                                         'hubType' => $context->variantMap[$variant] ?? $variant,
                                                     ])->label(false) ?>
-                                                    <?php $applyName = $i .'-' . $variant?>
-                                                    <?= HTML::tag('a', Yii::t('hipanel', 'Apply to all'), [
-                                                        'href' => '#',
-                                                        'class' => 'hidden apply-all-' . $applyName,
-                                                        'style' => 'position: absolute;'
-                                                    ]) ?>
                                                 </td>
                                                 <?php if ($this->context->hasPort($variant)) : ?>
                                                     <td>
@@ -87,3 +85,9 @@ $context = $this->context;
         </div>
     </div>
 <?php ActiveForm::end() ?>
+
+<?= AssignAttributesWidget::widget([
+    'models' => $models,
+    'attributes' => array_values(array_unique($renderedAttributes)),
+    'view' => $this,
+])?>

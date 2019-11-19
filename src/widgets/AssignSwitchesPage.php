@@ -10,7 +10,6 @@
 
 namespace hipanel\modules\server\widgets;
 
-use hipanel\modules\server\assets\AssignHubsAsset;
 use yii\base\Widget;
 
 class AssignSwitchesPage extends Widget
@@ -37,11 +36,6 @@ class AssignSwitchesPage extends Widget
 
     public function run()
     {
-        AssignHubsAsset::register($this->view);
-        $countModels = count($this->models);
-        $fieldsClassName = strtolower(reset($this->models)->formName());
-        $this->view->registerJs("$('#assign-hubs-form').assignHubs({countModels: {$countModels}, formAttribute: '{$fieldsClassName}'});");
-
         return $this->render('AssignSwitchesPage', [
             'form' => $this->form,
             'models' => $this->models,
