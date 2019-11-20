@@ -1,7 +1,7 @@
 <?php
 
 use hipanel\modules\server\widgets\combo\HubCombo;
-use hipanel\widgets\AssignAttributesWidget;
+use hipanel\widgets\ApplyToAllWidget;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -86,7 +86,7 @@ $renderedAttributes = [];
     </div>
 <?php ActiveForm::end() ?>
 
-<?= AssignAttributesWidget::widget([
+<?= ApplyToAllWidget::widget([
     'models' => $models,
     'attributes' => array_values(array_unique($renderedAttributes)),
 ])?>
