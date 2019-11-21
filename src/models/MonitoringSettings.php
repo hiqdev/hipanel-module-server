@@ -16,7 +16,7 @@ class MonitoringSettings extends \hipanel\base\Model
 
     public static function tableName()
     {
-        return 'server';
+        return 'device';
     }
 
     public function rules()

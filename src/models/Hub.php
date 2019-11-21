@@ -116,6 +116,11 @@ class Hub extends Model implements AssignSwitchInterface
         return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
     }
 
+    public function getMonitoringSettings()
+    {
+        return $this->hasOne(MonitoringSettings::class, ['id' => 'id']);
+    }
+
     /**
      * {@inheritdoc}
      * @return HubQuery
