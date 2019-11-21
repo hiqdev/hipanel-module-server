@@ -130,7 +130,7 @@ class ServerActionsMenu extends Menu
                          'size' => Modal::SIZE_SMALL,
                      ],
                  ] as $key => $item) {
-            array_push($items, [
+            $items[] = [
                 'label' => AjaxModalWithTemplatedButton::widget([
                     'ajaxModalOptions' => [
                         'id' => "{$key}-modal-{$this->model->id}",
@@ -150,7 +150,7 @@ class ServerActionsMenu extends Menu
                 ]),
                 'encode' => false,
                 'visible' => Yii::$app->user->can('server.manage-settings'),
-            ]);
+            ];
         }
 
         return $items;
