@@ -52,7 +52,7 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
                 'icon' => 'fa-cogs',
                 'label' => AjaxModalWithTemplatedButton::widget([
                     'ajaxModalOptions' => [
-                        'id' => "{$key}-modal-{$this->model->id}",
+                        'id' => "monitoring-settings-modal-{$this->model->id}",
                         'bulkPage' => true,
                         'header' => Html::tag('h4', Yii::t('hipanel:server', 'Monitoring properties'), ['class' => 'modal-title']),
                         'scenario' => 'default',
