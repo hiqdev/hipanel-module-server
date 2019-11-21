@@ -10,6 +10,8 @@
 
 namespace hipanel\modules\server\menus;
 
+use hipanel\widgets\AjaxModalWithTemplatedButton;
+use yii\helpers\Html;
 use Yii;
 
 class HubActionsMenu extends \hiqdev\yii2\menus\Menu
@@ -44,6 +46,27 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
+            ],
+            'monitoring-settings' => [
+                'url' => ['monitoring-settings', 'id' => $this->model->id],
+                'icon' => 'fa-cogs',
+                'label' => AjaxModalWithTemplatedButton::widget([
+                    'ajaxModalOptions' => [
+                        'id' => "{$key}-modal-{$this->model->id}",
+                        'bulkPage' => true,
+                        'header' => Html::tag('h4', Yii::t('hipanel:server', 'Monitoring properties'), ['class' => 'modal-title']),
+                        'scenario' => 'default',
+                        'actionUrl' => ['monitoring-settings', 'id' => $this->model->id],
+                        'handleSubmit' => ['monitoring-settings', 'id' => $this->model->id],
+                        'toggleButton' => [
+                            'tag' => 'a',
+                            'label' => Yii::t('hipanel:server', 'Monitoring properties'),
+                        ],
+                    ],
+                    'toggleButtonTemplate' => '{toggleButton}',
+                ]),
+                'encode' => false,
+                'visible' => Yii::$app->user->can('server.manage-settings'),
             ],
         ];
     }

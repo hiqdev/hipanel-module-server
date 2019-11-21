@@ -24,4 +24,14 @@ class HubQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function withMonitoringSettings(): self
+    {
+        if (Yii::$app->user->can('server.manage-settings')) {
+            $this->joinWith(['monitoringSettings']);
+            $this->andWhere(['with_monitoringSettings' => 1]);
+        }
+
+        return $this;
+    }
 }

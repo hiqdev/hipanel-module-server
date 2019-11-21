@@ -15,12 +15,14 @@ use hipanel\actions\IndexAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartUpdateAction;
+use hipanel\actions\RedirectAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
+use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\forms\HubSellForm;
 use hiqdev\hiart\Collection;
@@ -38,6 +40,7 @@ class HubController extends CrudController
                 'actions' => [
                     'create' => 'hub.create',
                     'update,options' => 'hub.update',
+                    'monitoring-settings' => 'server.manage-settings',
                     '*' => 'hub.read',
                 ],
             ],
@@ -195,6 +198,40 @@ class HubController extends CrudController
                 'collection' => [
                     'class' => Collection::class,
                     'model' => new HubSellForm(),
+                ],
+            ],
+            'monitoring-settings' => [
+                'class' => SmartUpdateAction::class,
+                'success' => Yii::t('hipanel:server', 'Monitoring properties was changed'),
+                'view' => 'modal/monitoringSettings',
+                'scenario' => 'default',
+                'on beforeFetch' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $query = $action->getDataProvider()->query;
+                    $query->withMonitoringSettings()->select(['*']);
+                },
+                'on beforeLoad' => function (Event $event) {
+                    /** @var Action $action */
+                    $action = $event->sender;
+
+                    $action->collection->setModel(MonitoringSettings::class);
+                },
+                'data' => function ($action) {
+                    return [
+                        'nicMediaOptions' => $action->controller->getFullFromRef('type,nic_media'),
+                    ];
+                },
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $hub = Yii::$app->request->post('MonitoringSettings');
+
+                            return ['@hub/view', 'id' => $hub['id']];
+                        },
+                    ],
                 ],
             ],
         ]);
