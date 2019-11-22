@@ -1,6 +1,7 @@
 <?php
 /** @var array $types */
 use hipanel\helpers\Url;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -79,7 +80,7 @@ use yii\helpers\Html;
                                 <?= $form->field($model, "[$i]model") ?>
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, "[$i]order_no") ?>
+                                <?= $form->field($model, "[$i]order_no")->widget(OrderCombo::class) ?>
                             </div>
                         </div>
                         <?= $form->field($model, "[$i]note")->textarea() ?>
