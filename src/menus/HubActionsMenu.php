@@ -11,14 +11,16 @@
 namespace hipanel\modules\server\menus;
 
 use hipanel\widgets\AjaxModalWithTemplatedButton;
+use hiqdev\yii2\menus\Menu;
 use yii\helpers\Html;
 use Yii;
+use yii\web\JsExpression;
 
-class HubActionsMenu extends \hiqdev\yii2\menus\Menu
+class HubActionsMenu extends Menu
 {
     public $model;
 
-    public function items()
+    public function items(): array
     {
         return [
             'view' => [
@@ -48,8 +50,6 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
                 ],
             ],
             'monitoring-settings' => [
-                'url' => ['monitoring-settings', 'id' => $this->model->id],
-                'icon' => 'fa-cogs',
                 'label' => AjaxModalWithTemplatedButton::widget([
                     'ajaxModalOptions' => [
                         'id' => "monitoring-settings-modal-{$this->model->id}",
@@ -60,7 +60,9 @@ class HubActionsMenu extends \hiqdev\yii2\menus\Menu
                         'handleSubmit' => ['monitoring-settings', 'id' => $this->model->id],
                         'toggleButton' => [
                             'tag' => 'a',
-                            'label' => Yii::t('hipanel:server', 'Monitoring properties'),
+                            'label' => Html::tag('i', null, ['class' => 'fa fa-fw fa-area-chart']) . '&nbsp;' . Yii::t('hipanel:server', 'Monitoring properties'),
+                            'style' => 'cursor: pointer;',
+                            'onClick' => new JsExpression("$(this).parents('.menu-button').find('.popover').popover('hide');"),
                         ],
                     ],
                     'toggleButtonTemplate' => '{toggleButton}',
