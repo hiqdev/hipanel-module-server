@@ -33,6 +33,7 @@ class ServerSearch extends Server
             'name_inilike',
             'name_dc',
             'primary_only',
+            'type_of_sale',
         ]);
     }
 

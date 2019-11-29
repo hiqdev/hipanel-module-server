@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\grid;
 
+use DateTime;
 use hipanel\base\Model;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
@@ -24,6 +25,7 @@ use hipanel\modules\server\menus\ServerActionsMenu;
 use hipanel\modules\server\models\Consumption;
 use hipanel\modules\server\models\HardwareSale;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\widgets\DiscountFormatter;
 use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
@@ -33,12 +35,14 @@ use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\gridLegend\ColorizeGrid;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\Label;
+use hiqdev\higrid\DataColumn;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Tuck\Sort\Sort;
 use Yii;
 use yii\data\ArrayDataProvider;
+use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
+use yii\bootstrap\Html;
 
 class ServerGridView extends BoxedGridView
 {
@@ -403,7 +407,13 @@ class ServerGridView extends BoxedGridView
             'type_of_sale' => [
                 'label' => Yii::t('hipanel:server', 'Type of sale'),
                 'format' => 'raw',
-                'filter' => false,
+                'filter' => static function (DataColumn $column, ServerSearch $filterModel) {
+                    return Html::activeDropDownList($filterModel, 'type_of_sale', [
+                        'rent' => Yii::t('hipanel:server', 'rent'),
+                        'leasing' => Yii::t('hipanel:server', 'leasing'),
+                        'sold' => Yii::t('hipanel:server', 'sold'),
+                    ], ['class' => 'form-control', 'prompt' => '--']);
+                },
                 'value' => function (Server $model) {
                     return $this->getTypeOfSale($model);
                 },
@@ -454,7 +464,7 @@ class ServerGridView extends BoxedGridView
         $unionConsumption = new Consumption();
         $prices = [];
         if ($model->consumptions) {
-            array_walk($model->consumptions, function (Consumption $consumption) use (&$prices) {
+            array_walk($model->consumptions, static function (Consumption $consumption) use (&$prices) {
                 if ($consumption->type && $consumption->hasFormattedAttributes() && StringHelper::startsWith($consumption->type, 'monthly,')) {
                     if ($consumption->price) {
                         $consumption->setAttribute('prices', [$consumption->currency => $consumption->price]);
@@ -494,7 +504,7 @@ class ServerGridView extends BoxedGridView
             }
         }
 
-        return \yii\grid\GridView::widget([
+        return GridView::widget([
             'layout' => '{items}',
             'showOnEmpty' => false,
             'emptyText' => '',
@@ -522,6 +532,7 @@ class ServerGridView extends BoxedGridView
             'leasing' => 'bg-orange',
             'rent' => 'bg-purple',
             'sold' => 'bg-olive',
+            'not defined' => 'bg-navy',
         ];
 
         if (empty($model->hardwareSales)) {
@@ -537,9 +548,13 @@ class ServerGridView extends BoxedGridView
             $salesByType[$sale->usage_type][] = $sale;
         }
 
+        $html = Html::beginTag('span', [
+            'style' => 'display: flex; flex-direction: column; justify-content: space-between;',
+        ]);
         foreach ($salesByType as $usageType => $sales) {
+            $usageType = empty($usageType) ? 'not defined' : $usageType;
             $html .= ArraySpoiler::widget([
-                'data' => Sort::by($sales, function (HardwareSale $sale) {
+                'data' => Sort::by($sales, static function (HardwareSale $sale) {
                     $order = ['CHASSIS', 'MOTHERBOARD', 'CPU', 'RAM', 'HDD', 'SSD'];
                     $type = substr($sale->part, 0, strpos($sale->part, ':'));
                     $key = array_search($type, $order, true);
@@ -552,24 +567,40 @@ class ServerGridView extends BoxedGridView
                 'delimiter' => '<br/>',
                 'visibleCount' => 0,
                 'button' => [
-                    'label' => (function () use ($usageType, $sales) {
+                    'label' => (static function () use ($usageType, $sales) {
+                        $consumption = new Consumption();
+                        $prices = [];
+                        foreach ($sales as $sale) {
+                            $prices[$sale->currency] += ($sale->sum * $sale->quantity) / 100;
+                        }
+                        $consumption->setAttribute('prices', $prices);
+
                         if ($usageType === HardwareSale::USAGE_TYPE_LEASING) {
-                            /** @var \DateTime $maxLeasingDate */
-                            $maxLeasingDate = array_reduce($sales, function (\DateTime $max, HardwareSale $item) {
+                            /** @var DateTime $maxLeasingDate */
+                            $maxLeasingDate = array_reduce($sales, static function (DateTime $max, HardwareSale $item) {
                                 $date = $item->saleTime();
 
                                 return $date > $max ? $date : $max;
-                            }, new \DateTime());
+                            }, new DateTime());
 
-                            return Yii::t('hipanel:server', $usageType) . ' ' . \count($sales)
-                                . '<br />' . $maxLeasingDate->format('d.m.Y');
+                            return Yii::t('hipanel:server', '{usageType} / {count} / {date} / {sum}', [
+                                'usageType' => Yii::t('hipanel:server', $usageType),
+                                'count' => count($sales),
+                                'date' => $maxLeasingDate->format('d.m.Y'),
+                                'sum' => $consumption->getFormattedPrice(),
+                            ]);
                         }
 
-                        return Yii::t('hipanel:server', $usageType) . ' ' . \count($sales);
+                        return Yii::t('hipanel:server', '{usageType} / {count} / {sum}', [
+                            'usageType' => Yii::t('hipanel:server', $usageType),
+                            'count' => count($sales),
+                            'sum' => $consumption->getFormattedPrice(),
+                        ]);
                     })(),
                     'tag' => 'button',
                     'type' => 'button',
                     'class' => "btn btn-xs {$badgeColors[$usageType]}",
+                    'style' => 'margin-bottom: .3em;',
                     'popoverOptions' => [
                         'html' => true,
                         'placement' => 'bottom',
@@ -616,6 +647,7 @@ class ServerGridView extends BoxedGridView
                 },
             ]);
         }
+        $html .= Html::endTag('span');
 
         return $html;
     }

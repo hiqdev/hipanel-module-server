@@ -10,6 +10,9 @@
 
 namespace hipanel\modules\server\models;
 
+use DateTime;
+use hipanel\base\Model;
+
 /**
  * Class HardwareSale.
  *
@@ -23,25 +26,31 @@ namespace hipanel\modules\server\models;
  * @property string $usage_type
  * @property string $leasing_since
  * @property string $leasing_till
+ * @property integer $sum
+ * @property string $currency
+ * @property float $quantity
  * @property array|null $data
  */
-class HardwareSale extends \hipanel\base\Model
+class HardwareSale extends Model
 {
     public const USAGE_TYPE_LEASING = 'leasing';
+
     public const USAGE_TYPE_RENT = 'rent';
+
     public const USAGE_TYPE_COLO = 'colo';
 
-    public function rules()
+    public function rules(): array
     {
         return [
-            [['id', 'tariff_id', 'price_id', 'part_id'], 'integer'],
-            [['scenario', 'sale_time', 'serialno', 'part', 'usage_type', 'leasing_till', 'leasing_since'], 'string'],
+            [['id', 'tariff_id', 'price_id', 'part_id', 'sum'], 'integer'],
+            [['scenario', 'sale_time', 'serialno', 'part', 'usage_type', 'leasing_till', 'leasing_since', 'currency'], 'string'],
+            [['quantity'], 'number'],
             [['data'], 'safe'],
         ];
     }
 
-    public function saleTime(): \DateTime
+    public function saleTime(): DateTime
     {
-        return new \DateTime($this->sale_time);
+        return new DateTime($this->sale_time);
     }
 }
