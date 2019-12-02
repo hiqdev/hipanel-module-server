@@ -408,11 +408,7 @@ class ServerGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:server', 'Type of sale'),
                 'format' => 'raw',
                 'filter' => static function (DataColumn $column, ServerSearch $filterModel) {
-                    return Html::activeDropDownList($filterModel, 'type_of_sale', [
-                        'rent' => Yii::t('hipanel:server', 'rent'),
-                        'leasing' => Yii::t('hipanel:server', 'leasing'),
-                        'sold' => Yii::t('hipanel:server', 'sold'),
-                    ], ['class' => 'form-control', 'prompt' => '--']);
+                    return Html::activeDropDownList($filterModel, 'type_of_sale', $filterModel->typeOfSaleOptions, ['class' => 'form-control', 'prompt' => '--']);
                 },
                 'value' => function (Server $model) {
                     return $this->getTypeOfSale($model);
@@ -571,9 +567,12 @@ class ServerGridView extends BoxedGridView
                         $consumption = new Consumption();
                         $prices = [];
                         foreach ($sales as $sale) {
-                            $prices[$sale->currency] += ($sale->sum * $sale->quantity) / 100;
+                            $prices[$sale->currency][] = $sale->sum * $sale->quantity;
                         }
-                        $consumption->setAttribute('prices', $prices);
+                        $sums = array_map(static function ($sums) {
+                            return array_sum($sums) / 100;
+                        }, $prices);
+                        $consumption->setAttribute('prices', $sums);
 
                         if ($usageType === HardwareSale::USAGE_TYPE_LEASING) {
                             /** @var DateTime $maxLeasingDate */

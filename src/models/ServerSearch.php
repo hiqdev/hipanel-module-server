@@ -42,6 +42,16 @@ class ServerSearch extends Server
         return array_merge(parent::attributeLabels(), [
             'wizzarded_eq' => Yii::t('hipanel:server', 'Is wizzarded'),
             'name_dc' => Yii::t('hipanel:server', 'Name or DC'),
+            'type_of_sale' => Yii::t('hipanel:server', 'Type of sale')
         ]);
+    }
+
+    public function getTypeOfSaleOptions(): array
+    {
+        return [
+            'rent' => Yii::t('hipanel:server', 'rent'),
+            'leasing' => Yii::t('hipanel:server', 'leasing'),
+            'sold' => Yii::t('hipanel:server', 'sold'),
+        ];
     }
 }

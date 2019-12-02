@@ -50,6 +50,10 @@ use hipanel\widgets\RefCombo;
     </div>
 
     <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('type_of_sale')->dropDownList($search->model->typeOfSaleOptions, ['prompt' => '--']) ?>
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('hwsummary_like') ?>
     </div>
 <?php endif ?>
