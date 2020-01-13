@@ -19,12 +19,12 @@ class ServerControllerTest extends \PHPUnit_Framework_TestCase
      */
     protected $object;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->object = new ServerController('test', null);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
     }
 
