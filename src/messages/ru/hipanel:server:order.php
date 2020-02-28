@@ -52,7 +52,7 @@ return [
     'Netherlands' => 'Нидерланды',
     'USA' => 'США',
     'Order another server' => 'Заказать еще сервер',
-    '{tnx_for_order} The server will be ready in a few minutes. You will receive an email with server access information right after setup. Go to the {server_list} to see the status of the service preparation.' => '{tnx_for_order} Сервер будет готов в течении нескольких минут. Вы получите данные для доступа на e-mail. Перейдите к {server_list}, чтобы ознакомиться со статусом подготовки услуги.',
+    '{tnx_for_order} The server will be ready in a few minutes. You will receive an email with server access information right after setup. Go to the {server_list} to see the status of the service preparation.' => '{tnx_for_order} Сервер будет готов в течение нескольких минут. Вы получите данные для доступа на e-mail. Перейдите к {server_list}, чтобы ознакомиться со статусом подготовки услуги.',
     'Thank you for the order!' => 'Спасибо за заказ!',
     'server list' => 'списку серверов',
     'Label' => 'Заметка',
