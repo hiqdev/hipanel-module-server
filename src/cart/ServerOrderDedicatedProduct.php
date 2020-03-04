@@ -220,7 +220,10 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
     public function getAdditionalLinks(): array
     {
         return [
-            ['/server/order/dedicated', Yii::t('hipanel:server:order', 'Order another server')],
+            [
+                Yii::$app->params['module.server.order.frontend.url'] ?? '/server/order/dedicated',
+                Yii::t('hipanel:server:order', 'Order another server')
+            ],
         ];
     }
 }
