@@ -29,7 +29,7 @@ class OrderPositionDescriptionWidget extends Widget
     public function init()
     {
         $this->view->registerCss(<<<CSS
-            .cart-item .dl-config { display: none; }
+            .cart-row .dl-config { display: none; }
             
             dl.dl-config {
                 padding: 1em 0 0;
@@ -43,15 +43,21 @@ class OrderPositionDescriptionWidget extends Widget
                 width: auto;
             }
 
-            dl.dl-config dt::after {
-                content: ":";
-            }
-
             dl.dl-config dd {
                 flex-basis: 70%;
                 flex-grow: 1;
                 margin: 0;
                 padding: 0;
+            }
+            
+            .dl-config time {
+                font-weight: 600;
+                padding: 0 5px;
+                display: inline-block;
+                background: linear-gradient(to bottom, rgba(216, 27, 96, 1) 0%, rgba(216, 27, 96, 1) 100%);
+                text-shadow: 0 0 2px #fff;
+                color: white;
+                border-radius: 0px;
             }
 CSS
         , [], __CLASS__ . '_client_css');

@@ -317,5 +317,10 @@ return [
     'Motherboard' => 'Материнская плата',
     'Order number' => 'Номер заказа',
     'Units' => 'Юниты',
-    'Servers have different height!' => 'У серверов разная высота!'
+    'Servers have different height!' => 'У серверов разная высота!',
+
+    'Take more time' => 'Взять больше времени',
+    'Reserving again...' => 'Резервирую...',
+    'Remaining time' => 'Осталось времени',
+    'Reservation time is over, your server can be purchased by someone else! Still would like to keep it?' => 'Время резервирования истекло, ваш сервер может быть куплен кем-то другим! Вы все еще хотели бы купить его?',
 ];

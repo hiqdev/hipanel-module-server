@@ -13,15 +13,7 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\View;
 
-?>
-
-<?= Html::tag('span', implode('&nbsp;', [
-    $position->getIcon(),
-    $position->name,
-    Html::tag('span', Yii::t('hipanel:server', 'Server ordering'), ['class' => 'text-muted']),
-])) ?>
-
-<?= $this->context->formatConfig([
+$configuration = [
     Yii::t('hipanel:server:order', 'Label') => $position->label,
     Yii::t('hipanel:server:order', 'CHASSIS') => $position->getModel()->label,
     Yii::t('hipanel:server:order', 'CPU') => $position->getModel()->cpu,
@@ -34,26 +26,48 @@ use yii\web\View;
     Yii::t('hipanel:server:os', 'Soft package') => $position->getImage()->getDisplaySoftPackName(),
     Yii::t('hipanel:server:os', 'Panel') => $position->getImage()->getDisplayPanelName(),
     Yii::t('hipanel:server:order', 'Location') => $position->getDisplayLocation(),
-]) ?>
+];
 
-<div class="dl-config">
-    <?php if ($position instanceof ServerOrderDedicatedProduct): ?>
-        <?php
-            $now = new DateTimeImmutable();
-            $exp = $position->expirationTime;
-            $dif = $now->diff($exp);
-            $remainingTime = (new DateTime('@0'))->add($dif);
-        ?>
-        <p>
-            <span class="server-config_countdown" data-remaining-time="<?= $remainingTime->getTimestamp()*1000 ?>"></span>
-            <a href="#" class="btn btn-info server-config_more-time" data-position-id="<?= $position->getId() ?>">Take more time</a>
-        </p>
-    <?php endif ?>
-</div>
+if ($position instanceof ServerOrderDedicatedProduct) {
+    $now = new DateTimeImmutable();
+    $exp = $position->expirationTime;
+    $dif = $now->diff($exp);
+    $remainingTime = (new DateTime('@0'))->add($dif);
+    $takeMoreTimeBtn = Html::a(Yii::t('hipanel:server', 'Take more time'), '#', [
+        'class' => 'btn bg-olive btn-flat btn-xs server-config_more-time',
+        'style' => 'margin-top: .1em;',
+        'data' => [
+            'position-id' => $position->getId(),
+            'loading-text' => Yii::t('hipanel:server', 'Reserving again...'),
+        ],
+    ]);
+    $configuration[Yii::t('hipanel:server', 'Remaining time')] = Html::tag('span', '<time>00:00</time>', [
+        'class' => 'server-config_countdown',
+        'data' => [
+            'remaining-time' => $remainingTime->getTimestamp() * 1000,
+        ],
+    ]);
+    $configuration[''] = $takeMoreTimeBtn;
+}
+
+?>
+
+<?= Html::tag('span', implode('&nbsp;', [
+    $position->getIcon(),
+    $position->name,
+    Html::tag('span', Yii::t('hipanel:server', 'Server ordering'), ['class' => 'text-muted']),
+])) ?>
+
+<?= $this->context->formatConfig($configuration) ?>
 
 <?php
 $reservationUrl = Json::htmlEncode(Url::to('@config/reserve'));
-$this->registerJs(<<<JS
+$timeIsOver = Json::htmlEncode(Html::tag(
+    'span',
+    Yii::t('hipanel:server', 'Reservation time is over, your server can be purchased by someone else! Still would like to keep it?'),
+    ['class' => 'text-danger']
+));
+$this->registerJs(<<<"JS"
 (function () {
     const interval = 1000;
     setInterval(() => {
@@ -61,26 +75,26 @@ $this->registerJs(<<<JS
             let remainingTime = $(this).data('remaining-time') - interval;
             let duration = moment.duration(remainingTime, 'milliseconds');
             if (duration <= 0) {
-                $(this).text('Reservation time is over, your the server can be purchased by someone else! Still would like to keep it?')
-                // TODO: styling
+                $(this).html('' + $timeIsOver);
                 return;
             }
             
-            $(this).data('remaining-time', remainingTime)
-                .text('Remaining time ' + moment.utc(duration.asMilliseconds()).format('mm:ss'));
+            $(this).data('remaining-time', remainingTime).find('time')
+                .text(moment.utc(duration.asMilliseconds()).format('mm:ss'));
         })
     }, interval);
 
     $('.server-config_more-time').click(function () {
-        // TODO: loading
+        const btn = $(this).button('loading');
         $.ajax({
             url: '' + $reservationUrl,
             method: 'POST',
             dataType: 'json',
             data: {reservation_id: $(this).data('position-id')},
             success: (data) => {
+                btn.button('reset');
                 const diff = moment.utc(data.expirationTime).diff(moment.utc());
-                $(this).closest('p').find('.server-config_countdown').data('remaining-time', diff)
+                $(this).parents('.dl-config').eq(0).find('.server-config_countdown').data('remaining-time', diff);
             }
         });
 
