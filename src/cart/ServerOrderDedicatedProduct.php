@@ -10,9 +10,11 @@
 
 namespace hipanel\modules\server\cart;
 
+use DateTimeImmutable;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\widgets\cart\OrderPositionDescriptionWidget;
+use hiqdev\hiart\ResponseErrorException;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
@@ -72,6 +74,11 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
      */
     public $softpack;
 
+    /**
+     * @var DateTimeImmutable
+     */
+    public $expirationTime;
+
     /** {@inheritdoc} */
     public function load($data, $formName = null)
     {
@@ -99,6 +106,22 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
         }
         $this->name = $this->_model->name;
         $this->description = $this->_model->descr;
+        $this->reserve();
+    }
+
+    public function reserve(): void
+    {
+        try {
+            $reserve = Config::perform('reserve', [
+                'id' => $this->object_id,
+                'location' => $this->location,
+                'reservation_id' => $this->getId(),
+            ]);
+        } catch (ResponseErrorException $e) {
+            throw new \RuntimeException(Yii::t('hipanel:server', 'Failed to reserve a server configuration: most probably it is out of stock now'));
+        }
+
+        $this->expirationTime = (new DateTimeImmutable($reserve['expirationTime']));
     }
 
     /** {@inheritdoc} */
@@ -192,6 +215,7 @@ class ServerOrderDedicatedProduct extends AbstractServerProduct
         $parent['softpack'] = $this->softpack;
         $parent['tariff_id'] = $this->tariff_id;
         $parent['location'] = $this->location;
+        $parent['expirationTime'] = $this->expirationTime;
         $parent['_image'] = $this->_image;
 
         return $parent;

@@ -10,7 +10,10 @@ use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\modules\server\cart\ServerOrderDedicatedProduct;
+use hiqdev\yii2\cart\ShoppingCart;
 use Yii;
+use yii\web\Response;
 
 class ConfigController extends CrudController
 {
@@ -84,5 +87,24 @@ class ConfigController extends CrudController
                 'class' => ValidateFormAction::class,
             ],
         ]);
+    }
+
+    public function actionReserve(): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        /** @var ShoppingCart $cart */
+        $cart = Yii::$app->getModule('cart')->getCart();
+
+        $position = $cart->getPositionById(Yii::$app->request->post('reservation_id', null));
+        if ($position === null || !$position instanceof ServerOrderDedicatedProduct) {
+            return ['success' => false];
+        }
+
+        $position->reserve();
+        $cart->saveToSession();
+        return [
+            'success' => true,
+            'expirationTime' => $position->expirationTime->format(DATE_ATOM),
+        ];
     }
 }

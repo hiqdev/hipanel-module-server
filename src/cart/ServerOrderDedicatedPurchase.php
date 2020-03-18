@@ -18,6 +18,8 @@ use yii\helpers\Html;
 
 /**
  * Class ServerOrderPurchase.
+ *
+ * @property string $reservation_id
  */
 class ServerOrderDedicatedPurchase extends AbstractServerPurchase
 {
@@ -35,13 +37,14 @@ class ServerOrderDedicatedPurchase extends AbstractServerPurchase
         parent::init();
 
         $this->amount = $this->position->getQuantity();
+        $this->reservation_id = $this->calculation_id;
     }
 
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['image', 'config_id', 'tariff_id'], 'required'],
-            [['image', 'administration', 'softpack', 'label', 'location'], 'string'],
+            [['reservation_id', 'image', 'config_id', 'tariff_id'], 'required'],
+            [['reservation_id', 'image', 'administration', 'softpack', 'label', 'location'], 'string'],
             [['tariff_id', 'object_id'], 'integer'],
         ]);
     }
