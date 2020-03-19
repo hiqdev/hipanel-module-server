@@ -29,7 +29,7 @@ class OrderPositionDescriptionWidget extends Widget
     public function init()
     {
         $this->view->registerCss(<<<CSS
-            .cart-row .dl-config { display: none; }
+            .cart-row .dl-config, .cart-finish .hide-on-cart-finish  { display: none; }
             
             dl.dl-config {
                 padding: 1em 0 0;
