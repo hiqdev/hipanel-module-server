@@ -28,6 +28,14 @@ $configuration = [
     Yii::t('hipanel:server:order', 'Location') => $position->getDisplayLocation(),
 ];
 
+$timerLoading = Html::tag('i', null, ['class' => 'fa fa-circle-o-notch fa-spin fa-fw']);
+$formattedTimerLoading = Json::htmlEncode(Html::tag('i', null, ['class' => 'fa fa-circle-o-notch fa-spin fa-fw']));
+$reservationUrl = Json::htmlEncode(Url::to('@config/reserve'));
+$timeIsOver = Json::htmlEncode(Html::tag(
+    'span',
+    Yii::t('hipanel:server', 'Reservation time is over, your server can be purchased by someone else! Still would like to keep it?'),
+    ['class' => 'text-danger']
+));
 if ($position instanceof ServerOrderDedicatedProduct) {
     $now = new DateTimeImmutable();
     $exp = $position->expirationTime;
@@ -41,7 +49,7 @@ if ($position instanceof ServerOrderDedicatedProduct) {
             'loading-text' => Yii::t('hipanel:server', 'Reserving again...'),
         ],
     ]);
-    $configuration[Yii::t('hipanel:server', 'Remaining time')] = Html::tag('span', '<time>00:00</time>', [
+    $configuration[Yii::t('hipanel:server', 'Remaining time')] = Html::tag('span', $timerLoading, [
         'class' => 'server-config_countdown',
         'data' => [
             'remaining-time' => $remainingTime->getTimestamp() * 1000,
@@ -61,42 +69,43 @@ if ($position instanceof ServerOrderDedicatedProduct) {
 <?= $this->context->formatConfig($configuration) ?>
 
 <?php
-$reservationUrl = Json::htmlEncode(Url::to('@config/reserve'));
-$timeIsOver = Json::htmlEncode(Html::tag(
-    'span',
-    Yii::t('hipanel:server', 'Reservation time is over, your server can be purchased by someone else! Still would like to keep it?'),
-    ['class' => 'text-danger']
-));
 $this->registerJs(<<<"JS"
 (function () {
     const interval = 1000;
     setInterval(() => {
         $('.server-config_countdown').each(function () {
-            let remainingTime = $(this).data('remaining-time') - interval;
-            let duration = moment.duration(remainingTime, 'milliseconds');
-            if (duration <= 0) {
-                $(this).html('' + $timeIsOver);
-                return;
+            if ($.active === 0) {
+                const remainingTime = this.dataset.remainingTime - interval;
+                const duration = moment.duration(remainingTime, 'milliseconds');
+                if (duration <= 0) {
+                    $(this).html('' + $timeIsOver);
+                    
+                    return;
+                }
+                this.dataset.remainingTime = remainingTime;
+                $(this).html('<time>' + moment.utc(duration.asMilliseconds()).format('mm:ss') + '</time>');
             }
-            
-            $(this).data('remaining-time', remainingTime).find('time')
-                .text(moment.utc(duration.asMilliseconds()).format('mm:ss'));
         })
     }, interval);
 
     $('.server-config_more-time').click(function () {
-        const btn = $(this).button('loading');
+        const btn = $(this).button('loading'), timer = $(this).parents('.dl-config').eq(0).find('.server-config_countdown');
         $.ajax({
             url: '' + $reservationUrl,
             method: 'POST',
             dataType: 'json',
             data: {reservation_id: $(this).data('position-id')},
+            beforeSend: () => {
+                timer.html('' + $formattedTimerLoading);
+            },
             success: (data) => {
-                btn.button('reset');
                 const diff = moment.utc(data.expirationTime).diff(moment.utc());
-                $(this).parents('.dl-config').eq(0).find('.server-config_countdown').data('remaining-time', diff);
-            }
-        });
+                timer.get(0).dataset.remainingTime = diff;
+           },
+           complete: () => {
+                btn.button('reset');
+           }
+       });
 
         return false;
     });
