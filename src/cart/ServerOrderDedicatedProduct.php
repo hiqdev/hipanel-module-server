@@ -18,7 +18,6 @@ use hiqdev\hiart\ResponseErrorException;
 use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
-use yii\helpers\Html;
 
 class ServerOrderDedicatedProduct extends AbstractServerProduct
 {

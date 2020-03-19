@@ -28,8 +28,8 @@ $configuration = [
     Yii::t('hipanel:server:order', 'Location') => $position->getDisplayLocation(),
 ];
 
-$timerLoading = Html::tag('i', null, ['class' => 'fa fa-circle-o-notch fa-spin fa-fw']);
-$formattedTimerLoading = Json::htmlEncode(Html::tag('i', null, ['class' => 'fa fa-circle-o-notch fa-spin fa-fw']));
+$timerLoading = Html::tag('i', null, ['class' => 'fa fa-circle-o-notch fa-spin fa-fw hide-on-cart-finish']);
+$formattedTimerLoading = Json::htmlEncode($timerLoading);
 $reservationUrl = Json::htmlEncode(Url::to('@config/reserve'));
 $timeIsOver = Json::htmlEncode(Html::tag(
     'span',
@@ -42,15 +42,15 @@ if ($position instanceof ServerOrderDedicatedProduct) {
     $dif = $now->diff($exp);
     $remainingTime = (new DateTime('@0'))->add($dif);
     $takeMoreTimeBtn = Html::a(Yii::t('hipanel:server', 'Take more time'), '#', [
-        'class' => 'btn bg-olive btn-flat btn-xs server-config_more-time',
+        'class' => 'btn bg-olive btn-flat btn-xs server-config_more-time hide-on-cart-finish',
         'style' => 'margin-top: .1em;',
         'data' => [
             'position-id' => $position->getId(),
             'loading-text' => Yii::t('hipanel:server', 'Reserving again...'),
         ],
     ]);
-    $configuration[Yii::t('hipanel:server', 'Remaining time')] = Html::tag('span', $timerLoading, [
-        'class' => 'server-config_countdown',
+    $configuration[Html::tag('span', Yii::t('hipanel:server', 'Remaining time'), ['class' => 'hide-on-cart-finish'])] = Html::tag('span', $timerLoading, [
+        'class' => 'server-config_countdown hide-on-cart-finish',
         'data' => [
             'remaining-time' => $remainingTime->getTimestamp() * 1000,
         ],
