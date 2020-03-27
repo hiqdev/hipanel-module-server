@@ -28,4 +28,4 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= $form->field($model->softwareSettings, 'info') ?>
 <?= Html::submitButton(Yii::t('hipanel:server', 'Save settings'), ['class' => 'btn btn-success']) ?>
 
-<?php $form->end() ?>
+<?php $form::end() ?>

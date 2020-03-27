@@ -26,7 +26,7 @@ use yii\helpers\Html;
                             });") ?>
             <?php $box->endBody() ?>
             <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
-            <?php $box->end() ?>
+            <?php $box::end() ?>
         </div>
         <?php Pjax::end() ?>
     </div>

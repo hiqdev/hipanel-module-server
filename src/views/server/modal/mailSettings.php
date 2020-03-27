@@ -18,4 +18,4 @@ use yii\helpers\Url;
 
 <?= Html::submitButton(Yii::t('hipanel:server', 'Save settings'), ['class' => 'btn btn-success btn-block']) ?>
 
-<?php $form->end() ?>
+<?php $form::end() ?>
