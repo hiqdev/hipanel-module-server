@@ -1,9 +1,12 @@
 <?php
 
 use hipanel\modules\hosting\grid\IpGridView;
+use hipanel\modules\server\models\Server;
 use hipanel\widgets\Box;
 use yii\data\ArrayDataProvider;
 use yii\helpers\Html;
+
+/** @var Server $model */
 
 if (Yii::getAlias('@ip', false) && $model->ips_num) : ?>
     <?php $box = Box::begin(['renderBody' => false]) ?>
@@ -18,7 +21,7 @@ if (Yii::getAlias('@ip', false) && $model->ips_num) : ?>
                     ) ?>
                 <?php $box->endTools() ?>
             <?php endif ?>
-        <?php $box->endHeader() ?>
+        <?php Box::endHeader() ?>
         <?php $box->beginBody() ?>
             <?= IpGridView::widget([
                 'dataProvider' => new ArrayDataProvider([
