@@ -41,7 +41,7 @@ class HubSellForm extends Hub
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['client_id', 'tariff_id', 'sale_time'], 'required'],
+            [['tariff_id', 'sale_time'], 'required'],
             [['id', 'client_id', 'tariff_id'], 'integer', 'on' => 'sell'],
             [['sale_time'], 'date', 'format'  => 'php:Y-m-d H:i:s', 'on' => 'sell'],
             [['move_accounts'], 'boolean', 'on' => ['sell']],

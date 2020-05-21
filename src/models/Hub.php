@@ -66,6 +66,7 @@ class Hub extends Model implements AssignSwitchInterface
     {
         return array_merge(parent::attributeLabels(), [
             'type_id' => Yii::t('hipanel', 'Type'),
+            'tariff_id' => Yii::t('hipanel', 'Tariff'),
             'buyer_id' => Yii::t('hipanel:server:hub', 'Buyer'),
             'buyer' => Yii::t('hipanel:server:hub', 'Buyer'),
             'inn' => Yii::t('hipanel:server:hub', 'INN'),
