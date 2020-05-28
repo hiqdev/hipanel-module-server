@@ -127,24 +127,7 @@ class ServerGridView extends BoxedGridView
 
         return array_merge(parent::columns(), [
             'server' => [
-                'class' => MainColumn::class,
-                'attribute' => 'name',
-                'filterAttribute' => 'name_like',
-                'note' => Yii::$app->user->can('server.set-label') ? 'label' : 'note',
-                'noteOptions' => [
-                    'url' => Yii::$app->user->can('server.set-label') ? Url::to('set-label') : (Yii::$app->user->can('server.set-note') ? Url::to('set-note') : ''),
-                ],
-                'badges' => function ($model) use ($canSupport) {
-                    $badges = '';
-                    if ($canSupport) {
-                        if ($model->wizzarded) {
-                            $badges .= Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']);
-                        }
-                    }
-                    $badges .= Label::widget(['label' => Yii::t('hipanel:server', $model->type_label), 'tag' => 'sup', 'color' => 'info']);
-
-                    return $badges;
-                },
+                'class' => ServerNameColumn::class,
             ],
             'dc' => [
                 'attribute' => 'dc',
@@ -310,7 +293,7 @@ class ServerGridView extends BoxedGridView
                 ],
                 'visible' => Yii::$app->user->can('server.set-note'),
             ],
-            'label' => [
+            'label' => Yii::$app->user->can('server.set-label') ? [
                 'class' => XEditableColumn::class,
                 'pluginOptions' => [
                     'url' => Url::to('set-label'),
@@ -320,7 +303,9 @@ class ServerGridView extends BoxedGridView
                         'data-type' => 'textarea',
                     ],
                 ],
-                'visible' => Yii::$app->user->can('server.set-label'),
+                'visible' => Yii::$app->user->can('server.see-label'),
+            ] : [
+                'visible' => Yii::$app->user->can('server.see-label'),
             ],
             'type' => [
                 'format' => 'html',
