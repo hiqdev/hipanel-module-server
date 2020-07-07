@@ -136,7 +136,7 @@ class OrderController extends CrudController
     public function actionDedicated()
     {
         Yii::$app->get('hiart')->disableAuth();
-        $this->layout = '@hipanel/server/order/yii/views/layouts/advancedhosting';
+        $this->layout = '@vendor/hiqdev/hipanel-server-order/yii/views/layouts/advancedhosting';
         $configs = Config::find()->getAvailable()->withSellerOptions()->withPrices()->addOption('batch', true)->createCommand()->send()->getData();
         $osimages = Osimage::find()->where(['type' => 'dedicated'])->all();
 

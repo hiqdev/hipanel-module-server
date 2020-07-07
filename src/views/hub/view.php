@@ -137,7 +137,7 @@ $this->registerCss('
             </div>
             <?php Pjax::end() ?>
         </div>
-        <?= $this->render('@hipanel/modules/server/views/_configuration-view', [
+        <?= $this->render(dirname(__DIR__) . '/_configuration-view.php', [
                 'model' => $model,
                 'configAttrs' => ['units'],
         ]) ?>
