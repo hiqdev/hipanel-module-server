@@ -28,44 +28,44 @@ return [
             'translations' => [
                 'omnilight/daterangepicker' => [ // TODO: get rid after PluginManager removing
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@omnilight/daterangepicker/messages',
+                    'basePath' => '@vendor/omnilight/yii2-bootstrap-daterangepicker/messages',
                     'sourceLanguage' => 'en-US',
                 ],
                 'hipanel:server' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:os' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:rrd' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:order' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:order:purpose' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:panel' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:hub' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel.server.consumption.type' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:config' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => '@hipanel/modules/server/messages',
+                    'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
             ],
         ],

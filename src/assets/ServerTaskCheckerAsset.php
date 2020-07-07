@@ -17,7 +17,7 @@ class ServerTaskCheckerAsset extends AssetBundle
     /**
      * @var string
      */
-    public $sourcePath = '@hipanel/modules/server/assets';
+    public $sourcePath = __DIR__;
 
     /**
      * @var array
