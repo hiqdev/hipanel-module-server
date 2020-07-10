@@ -14,6 +14,7 @@ use yii\helpers\Html;
 /** @var array $snmpOptions */
 /** @var array $digitalCapacityOptions */
 /** @var array $nicMediaOptions */
+/** @var \yii\web\View $this */
 
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
@@ -137,7 +138,7 @@ $this->registerCss('
             </div>
             <?php Pjax::end() ?>
         </div>
-        <?= $this->render(dirname(__DIR__) . '/_configuration-view.php', [
+        <?= $this->renderFile(dirname(__DIR__) . '/_configuration-view.php', [
                 'model' => $model,
                 'configAttrs' => ['units'],
         ]) ?>
