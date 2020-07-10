@@ -363,7 +363,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <?= $this->render(dirname(__DIR__) . '/_configuration-view.php', [
+            <?= $this->renderFile(dirname(__DIR__) . '/_configuration-view.php', [
                 'model' => $model,
                 'configAttrs' => ['summary', 'order_no', 'units'],
             ]) ?>
