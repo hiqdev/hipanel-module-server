@@ -38,6 +38,22 @@ class ServerAssingHubsCest
     }
 
     /**
+     * @dataProvider serverData
+     *
+     * @param Admin $I
+     * @param Example $data
+     * @throws \Codeception\Exception\ModuleException
+     */
+    public function ensureICanFindTestServer(Admin $I, Example $data): void
+    {
+        $I->needPage(Url::to('@server'));
+        $this->indexPage->filterBy((new Select2($I, "tr.filters select[name*=client]")), $data['seller']);
+        $this->indexPage->openRowMenuByColumnValue('DC', $data['server']);
+        $this->indexPage->chooseRowMenuOption('View');
+        $this->serverId = $I->grabFromCurrentUrl('~id=(\d+)~');
+    }
+
+    /**
      * @dataProvider assignHubsProvider
      *
      * @param Admin $I
@@ -47,7 +63,6 @@ class ServerAssingHubsCest
     public function ensureICanAssignHubs(Admin $I, Example $data)
     {
         $assignPage = new AssignHubs($I);
-        $this->serverId = $this->getTestServerId($I);
 
         $I->needPage(Url::to('@server/assign-hubs?id=' . $this->serverId));
 
@@ -79,20 +94,6 @@ class ServerAssingHubsCest
     }
 
     /**
-     * @param Admin $I
-     * @return string|null
-     * @throws \Codeception\Exception\ModuleException
-     */
-    private function getTestServerId(Admin $I): ?string
-    {
-        $I->needPage(Url::to('@server'));
-        $this->indexPage->filterBy((new Select2($I, "tr.filters select[name*=client]")), 'hipanel_test_reseller');
-        $this->indexPage->openRowMenuByColumnValue('DC', 'TEST01');
-        $this->indexPage->chooseRowMenuOption('View');
-        return $I->grabFromCurrentUrl('~id=(\d+)~');
-    }
-
-    /**
      * @return array
      */
     protected function assignHubsProvider(): array
@@ -111,6 +112,19 @@ class ServerAssingHubsCest
                 'pdu_port'      => 'port' . uniqid(),
                 'rack_id'       => 'TEST-SW-02',
                 'rack_port'     => 'port' . uniqid(),
+            ],
+        ];
+    }
+
+    /**
+     * @return array
+     */
+    private function serverData(): array
+    {
+        return [
+            [
+                'server' => 'TEST-DS-01',
+                'seller' => 'hipanel_test_reseller',
             ],
         ];
     }
