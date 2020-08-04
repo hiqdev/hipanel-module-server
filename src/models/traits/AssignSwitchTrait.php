@@ -99,6 +99,10 @@ trait AssignSwitchTrait
             return $map[$this->type];
         }
 
+        if (empty($this->switchVariants)) {
+            throw new InvalidConfigException('Please specify `switchVariants` array to use AssignSwitchTrait::generateUniqueValidators()');
+        }
+
         return $this->switchVariants;
     }
 
@@ -110,35 +114,38 @@ trait AssignSwitchTrait
      */
     protected function generateUniqueValidators(): array
     {
-        if (empty($this->switchVariants)) {
-            throw new InvalidConfigException('Please specify `switchVariants` array to use AssignSwitchTrait::generateUniqueValidators()');
-        }
-        $rules = [];
-
-        foreach ($this->getSwitchVariants() as $variant) {
-            $rules[] = [
+        return array_map(
+            fn ($variant) => [
                 [$variant . '_port'],
-                function ($attribute, $params, $validator) use ($variant) {
-                    if ($this->{$attribute} && $this->{$variant . '_id'}) {
-                        $query = Binding::find();
-                        $query->andWhere(['port' => $this->{$attribute}]);
-                        $query->andWhere(['switch_id' => $this->{$variant . '_id'}]);
-                        $query->andWhere(['ne', 'base_device_id', $this->id]);
-                        /** @var Binding[] $bindings */
-                        $bindings = $query->all();
-                        if (!empty($bindings)) {
-                            $binding = reset($bindings);
-                            $this->addError($attribute, Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
-                                'switch' => $binding->switch_name,
-                                'port' => $binding->port,
-                                'device' => $binding->device_name,
-                            ]));
-                        }
-                    }
-                },
-            ];
+                fn ($attribute, $params, $validator) => $this->validateSwitchVariants($attribute, $variant),
+            ],
+            $this->getSwitchVariants(),
+        );
+    }
+
+    protected function validateSwitchVariants($attribute, $variant)
+    {
+        if (empty($this->{$attribute}) || empty($this->{$variant . '_id'})) {
+            return;
         }
 
-        return $rules;
+        $binding = Binding::find()
+            ->andWhere(['port' => $this->{$attribute}])
+            ->andWhere(['switch_id' => $this->{$variant . '_id'}])
+            ->andWhere(['ne', 'base_device_id', $this->id])
+            ->one();
+        if (empty($binding)) {
+            return;
+        }
+
+        if (!strcmp($this->id, $binding->device_id)) {
+            return;
+        }
+
+        $this->addError($attribute, Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
+            'switch'    => $binding->switch_name,
+            'port'      => $binding->port,
+            'device'    => $binding->device_name,
+        ]));
     }
 }
