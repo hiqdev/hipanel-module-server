@@ -63,7 +63,7 @@ class SidebarMenu extends Menu
                     ],
                     'server-resource' => [
                         'label'   => Yii::t('hipanel:server', 'Server resources'),
-                        'url'     => ['/resource/servers'],
+                        'url'     => ['@server/resource-list'],
                         'visible' => $user->can('test.beta'),
                     ],
                 ],

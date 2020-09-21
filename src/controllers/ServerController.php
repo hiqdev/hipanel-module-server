@@ -19,6 +19,8 @@ use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\RequestStateAction;
+use hipanel\actions\ResourceDetailAction;
+use hipanel\actions\ResourceListAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
@@ -39,6 +41,7 @@ use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\query\ServerQuery;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
 use hipanel\modules\server\widgets\ResourceConsumption;
@@ -498,6 +501,17 @@ class ServerController extends CrudController
                     ]);
                 },
             ],
+            'resource-list' => [
+                'class' => ResourceListAction::class,
+                'searchModel' => ServerSearch::class,
+                'model' => Server::class,
+                'view' => 'resources/servers',
+            ],
+            'resource-detail' => [
+                'class' => ResourceDetailAction::class,
+                'model' => Server::class,
+                'view' => 'resources/server',
+            ],
             'resources' => [
                 'class' => ViewAction::class,
                 'view' => 'resources',
@@ -868,7 +882,7 @@ class ServerController extends CrudController
         $dataProvider->query->andWhere($post);
         $models = $dataProvider->getModels();
 
-        list($labels, $data) = ServerHelper::groupUsesForChart($models);
+        [$labels, $data] = ServerHelper::groupUsesForChart($models);
 
         return $this->renderAjax('_consumption', [
             'labels' => $labels,
