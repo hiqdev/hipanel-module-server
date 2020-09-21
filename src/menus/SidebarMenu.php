@@ -61,6 +61,11 @@ class SidebarMenu extends Menu
                         'url'     => ['/server/config/index'],
                         'visible' => $user->can('config.read'),
                     ],
+                    'server-resource' => [
+                        'label'   => Yii::t('hipanel:server', 'Server resources'),
+                        'url'     => ['/resource/servers'],
+                        'visible' => $user->can('test.beta'),
+                    ],
                 ],
             ],
         ];
