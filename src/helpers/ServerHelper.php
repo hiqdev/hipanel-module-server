@@ -10,13 +10,16 @@
 
 namespace hipanel\modules\server\helpers;
 
+use hipanel\helpers\ResourceConfigurator;
 use hipanel\models\Ref;
 use hipanel\modules\finance\logic\Calculator;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OpenvzPackage;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\models\ServerUse;
 use Yii;
 use yii\caching\DbDependency;
@@ -227,5 +230,21 @@ class ServerHelper
         });
 
         return $types;
+    }
+
+    public static function getServerResourceConfig(): ResourceConfigurator
+    {
+        return ResourceConfigurator::build()
+            ->setModelClassName(Server::class)
+            ->setToObjectUrl('@server/resource-detail')
+            ->setSearchModelClassName(ServerSearch::class)
+            ->setGridClassName(ServerGridView::class)
+            ->setSearchView('@vendor/hiqdev/hipanel-module-server/src/views/server/_search')
+            ->setColumns([
+                'server_traf' => Yii::t('hipanel:server', 'Traffic Out'),
+                'server_traf_in' => Yii::t('hipanel:server', 'Traffic In'),
+                'server_traf95' => Yii::t('hipanel:server', 'Traffic 95 Out'),
+                'server_traf95_in' => Yii::t('hipanel:server', 'Traffic 95 In'),
+            ]);
     }
 }
