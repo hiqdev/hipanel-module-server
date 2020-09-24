@@ -19,8 +19,6 @@ use hipanel\actions\RedirectAction;
 use hipanel\actions\RenderAction;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\RequestStateAction;
-use hipanel\actions\ResourceDetailAction;
-use hipanel\actions\ResourceListAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
@@ -30,6 +28,9 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
+use hipanel\modules\finance\actions\ResourceDetailAction;
+use hipanel\modules\finance\actions\ResourceFetchDataAction;
+use hipanel\modules\finance\actions\ResourceListAction;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
@@ -511,6 +512,10 @@ class ServerController extends CrudController
                 'class' => ResourceDetailAction::class,
                 'model' => Server::class,
                 'view' => 'resources/server',
+            ],
+            'fetch-resources' => [
+                'class' => ResourceFetchDataAction::class,
+                'configurator' => ServerHelper::getServerResourceConfig(),
             ],
             'resources' => [
                 'class' => ViewAction::class,

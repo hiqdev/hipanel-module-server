@@ -1,8 +1,8 @@
 <?php
 
 use hipanel\models\IndexPageUiOptions;
+use hipanel\modules\finance\widgets\ResourceDetailViewer;
 use hipanel\modules\server\helpers\ServerHelper;
-use hipanel\widgets\ResourceDetailViewer;
 use hiqdev\hiart\ActiveDataProvider;
 use yii\db\ActiveRecordInterface;
 
@@ -22,6 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'dataProvider' => $dataProvider,
     'originalContext' => $this->context,
     'originalModel' => $originalModel,
+    'originalSearchModel' => $model,
     'uiModel' => $uiModel,
     'configurator' => ServerHelper::getServerResourceConfig(),
 ]) ?>

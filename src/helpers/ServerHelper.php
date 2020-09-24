@@ -10,9 +10,10 @@
 
 namespace hipanel\modules\server\helpers;
 
-use hipanel\helpers\ResourceConfigurator;
 use hipanel\models\Ref;
+use hipanel\modules\finance\helpers\ResourceConfigurator;
 use hipanel\modules\finance\logic\Calculator;
+use hipanel\modules\finance\models\ServerResource;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OpenvzPackage;
@@ -22,12 +23,9 @@ use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\models\ServerUse;
 use Yii;
-use yii\caching\DbDependency;
-use yii\caching\ExpressionDependency;
 use yii\helpers\ArrayHelper;
 use yii\web\NotFoundHttpException;
 use yii\web\UnprocessableEntityHttpException;
-use yii\web\User;
 
 class ServerHelper
 {
@@ -239,12 +237,8 @@ class ServerHelper
             ->setToObjectUrl('@server/resource-detail')
             ->setSearchModelClassName(ServerSearch::class)
             ->setGridClassName(ServerGridView::class)
+            ->setResourceModelClassName(ServerResource::class)
             ->setSearchView('@vendor/hiqdev/hipanel-module-server/src/views/server/_search')
-            ->setColumns([
-                'server_traf' => Yii::t('hipanel:server', 'Traffic Out'),
-                'server_traf_in' => Yii::t('hipanel:server', 'Traffic In'),
-                'server_traf95' => Yii::t('hipanel:server', 'Traffic 95 Out'),
-                'server_traf95_in' => Yii::t('hipanel:server', 'Traffic 95 In'),
-            ]);
+            ->setColumns(['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in']);
     }
 }
