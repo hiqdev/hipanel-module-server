@@ -515,7 +515,7 @@ class ServerController extends CrudController
             ],
             'fetch-resources' => [
                 'class' => ResourceFetchDataAction::class,
-                'configurator' => ServerHelper::getServerResourceConfig(),
+                'configurator' => Yii::$container->get('server-resource-config'),
             ],
             'resources' => [
                 'class' => ViewAction::class,

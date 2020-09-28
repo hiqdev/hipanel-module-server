@@ -229,16 +229,4 @@ class ServerHelper
 
         return $types;
     }
-
-    public static function getServerResourceConfig(): ResourceConfigurator
-    {
-        return ResourceConfigurator::build()
-            ->setModelClassName(Server::class)
-            ->setToObjectUrl('@server/resource-detail')
-            ->setSearchModelClassName(ServerSearch::class)
-            ->setGridClassName(ServerGridView::class)
-            ->setResourceModelClassName(ServerResource::class)
-            ->setSearchView('@vendor/hiqdev/hipanel-module-server/src/views/server/_search')
-            ->setColumns(['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in']);
-    }
 }

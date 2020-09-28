@@ -8,6 +8,12 @@
  * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
+use hipanel\modules\finance\helpers\ResourceConfigurator;
+use hipanel\modules\finance\models\ServerResource;
+use hipanel\modules\server\grid\ServerGridView;
+use hipanel\modules\server\models\Server;
+use hipanel\modules\server\models\ServerSearch;
+
 return [
     'aliases' => [
         '@server' => '/server/server',
@@ -97,5 +103,15 @@ return [
                 ],
             ],
         ],
+        'singletons' => [
+            'server-resource-config' => fn(\yii\di\Container $container) => ResourceConfigurator::build()
+                ->setModelClassName(Server::class)
+                ->setToObjectUrl('@server/resource-detail')
+                ->setSearchModelClassName(ServerSearch::class)
+                ->setGridClassName(ServerGridView::class)
+                ->setResourceModelClassName(ServerResource::class)
+                ->setSearchView('@vendor/hiqdev/hipanel-module-server/src/views/server/_search')
+                ->setColumns(['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in']),
+        ]
     ],
 ];
