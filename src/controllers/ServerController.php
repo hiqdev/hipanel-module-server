@@ -28,6 +28,9 @@ use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
+use hipanel\modules\finance\actions\ResourceDetailAction;
+use hipanel\modules\finance\actions\ResourceFetchDataAction;
+use hipanel\modules\finance\actions\ResourceListAction;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
@@ -39,6 +42,7 @@ use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\query\ServerQuery;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
 use hipanel\modules\server\widgets\ResourceConsumption;
@@ -498,6 +502,21 @@ class ServerController extends CrudController
                     ]);
                 },
             ],
+            'resource-list' => [
+                'class' => ResourceListAction::class,
+                'searchModel' => ServerSearch::class,
+                'model' => Server::class,
+                'view' => 'resources/servers',
+            ],
+            'resource-detail' => [
+                'class' => ResourceDetailAction::class,
+                'model' => Server::class,
+                'view' => 'resources/server',
+            ],
+            'fetch-resources' => [
+                'class' => ResourceFetchDataAction::class,
+                'configurator' => Yii::$container->get('server-resource-config'),
+            ],
             'resources' => [
                 'class' => ViewAction::class,
                 'view' => 'resources',
@@ -868,7 +887,7 @@ class ServerController extends CrudController
         $dataProvider->query->andWhere($post);
         $models = $dataProvider->getModels();
 
-        list($labels, $data) = ServerHelper::groupUsesForChart($models);
+        [$labels, $data] = ServerHelper::groupUsesForChart($models);
 
         return $this->renderAjax('_consumption', [
             'labels' => $labels,
