@@ -104,7 +104,7 @@ return [
             ],
         ],
         'singletons' => [
-            'server-resource-config' => fn(\yii\di\Container $container) => ResourceConfigurator::build()
+            'server-resource-config' => static fn() => ResourceConfigurator::build()
                 ->setModelClassName(Server::class)
                 ->setToObjectUrl('@server/resource-detail')
                 ->setSearchModelClassName(ServerSearch::class)
