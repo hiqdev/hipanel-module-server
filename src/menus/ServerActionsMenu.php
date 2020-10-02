@@ -97,7 +97,7 @@ class ServerActionsMenu extends Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
-                'visible' => $user->can('account.read') && Yii::getAlias('@account', false),
+                'visible' => $user->can('account.read') && (bool)Yii::getAlias('@account', false),
             ],
         ];
 
