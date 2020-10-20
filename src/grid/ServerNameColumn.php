@@ -17,7 +17,7 @@ class ServerNameColumn extends MainColumn
         parent::init();
 
         $this->attribute = 'name';
-        $this->filterAttribute = 'name_like';
+        $this->filterAttribute = 'name_ilike';
 
         $this->prepareBadges();
         $this->prepareNotes();

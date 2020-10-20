@@ -17,7 +17,7 @@ use hipanel\widgets\RefCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('name_like') ?>
+    <?= $search->field('name_ilike') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
@@ -78,23 +78,23 @@ use hipanel\widgets\RefCombo;
 
 <?php if (Yii::$app->user->can('hub.read')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('net_like') ?>
+        <?= $search->field('net_ilike') ?>
     </div>
 
     <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('kvm_like') ?>
+        <?= $search->field('kvm_ilike') ?>
     </div>
 
     <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('pdu_like') ?>
+        <?= $search->field('pdu_ilike') ?>
     </div>
 
     <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('rack_like') ?>
+        <?= $search->field('rack_ilike') ?>
     </div>
 
     <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('mac_like') ?>
+        <?= $search->field('mac_ilike') ?>
     </div>
 <?php endif ?>
 
