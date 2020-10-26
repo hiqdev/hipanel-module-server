@@ -13,6 +13,7 @@ use hipanel\widgets\AjaxModal;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
+use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -71,6 +72,24 @@ $this->registerCss('
                 <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
                 <?= $page->renderBulkButton('assign-switches', '<i class="fa fa-plug"></i>&nbsp;&nbsp;' . Yii::t('hipanel:server:hub', 'Switches')) ?>
             <?php endif ?>
+            <div class="dropdown">
+                <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <?= Yii::t('hipanel:server:hub', 'Bulk actions') ?>
+                    <span class="caret"></span>
+                </button>
+                <?= Dropdown::widget([
+                    'encodeLabels' => false,
+                    'options' => ['class' => 'pull-right'],
+                    'items' => array_filter([
+                        [
+                            'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set Rack No.'),
+                            'url' => '#',
+                            'linkOptions' => ['data-action' => 'set-rack-no'],
+                            'visible' => Yii::$app->user->can('hub.update'),
+                        ],
+                    ]),
+                ]) ?>
+            </div>
         <?php $page->endContent('bulk-actions') ?>
 
         <?php $page->beginContent('table') ?>

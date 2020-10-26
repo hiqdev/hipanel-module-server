@@ -32,6 +32,7 @@ use hipanel\modules\finance\actions\ResourceDetailAction;
 use hipanel\modules\finance\actions\ResourceFetchDataAction;
 use hipanel\modules\finance\actions\ResourceListAction;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\server\actions\BulkSetRackNo;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\ServerForm;
@@ -261,44 +262,14 @@ class ServerController extends CrudController
                 },
             ],
             'set-rack-no' => [
-                'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server', 'Rack No. was assigned'),
+                'class' => BulkSetRackNo::class,
+                'success' => Yii::t('hipanel:server', 'Rack No. has been assigned'),
                 'view' => 'setRackNo',
                 'collection' => [
                     'class' => Collection::class,
                     'model' => new AssignHubsForm(),
                     'scenario' => 'default',
                 ],
-                'on beforeSave' => function (Event $event) {
-                    /** @var \hipanel\actions\Action $action */
-                    $action = $event->sender;
-                    $servers = Yii::$app->request->post('AssignHubsForm');
-                    $rackId = ArrayHelper::remove($servers, 'rack_id');
-                    $rackPort = ArrayHelper::remove($servers, 'rack_port');
-                    foreach ($servers as $id => $server) {
-                        $servers[$id]['rack_id'] = $rackId;
-                        $servers[$id]['rack_port'] = $rackPort;
-                    }
-                    $action->collection->load($servers);
-                },
-                'on beforeFetch' => function (Event $event) {
-                    /** @var \hipanel\actions\SearchAction $action */
-                    $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->select(['*']);
-                },
-                'data' => function (Action $action, array $data) {
-                    $result = [];
-                    foreach ($data['models'] as $model) {
-                        $result['models'][] = AssignHubsForm::fromOriginalModel($model);
-                    }
-                    if (!$result['models']) {
-                        throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
-                    }
-                    $result['model'] = reset($result['models']);
-
-                    return $result;
-                },
             ],
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,

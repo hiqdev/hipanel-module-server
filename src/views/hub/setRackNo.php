@@ -1,16 +1,16 @@
 <?php
 
-use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\widgets\SetRackNo;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
-/** @var AssignHubsForm $model */
-/** @var AssignHubsForm[] $models */
+/** @var AssignSwitchesForm $model */
+/** @var AssignSwitchesForm[] $models */
 
 $model->hardwareSettings->scenario = 'set-rack-no';
 $this->title = Yii::t('hipanel:server', 'Set Rack No.');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 $model->rack_id = $model->rack_port = null;
 ?>
