@@ -8,7 +8,6 @@ use yii\helpers\Url;
 /** @var AssignSwitchesForm $model */
 /** @var AssignSwitchesForm[] $models */
 
-$model->hardwareSettings->scenario = 'set-rack-no';
 $this->title = Yii::t('hipanel:server', 'Set Rack No.');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

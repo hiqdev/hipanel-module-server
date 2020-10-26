@@ -13,6 +13,7 @@ namespace hipanel\modules\server\forms;
 use hipanel\base\ModelTrait;
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Hub;
+use Yii;
 
 class AssignSwitchesForm extends Hub
 {
@@ -34,5 +35,12 @@ class AssignSwitchesForm extends Hub
     public function rules()
     {
         return array_merge(parent::rules(), $this->defaultSwitchRules(), $this->generateUniqueValidators());
+    }
+
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'rack_id' => Yii::t('hipanel:server', 'Rack'),
+        ]);
     }
 }
