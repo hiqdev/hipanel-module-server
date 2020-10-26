@@ -17,7 +17,7 @@ class BulkSetRackNo extends SmartUpdateAction
             foreach ($data['models'] as $model) {
                 $result['models'][] = $this->collection->getModel()::fromOriginalModel($model);
             }
-            if (!$result['models']) {
+            if (empty($result['models'])) {
                 throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
             }
             $result['model'] = reset($result['models']);
