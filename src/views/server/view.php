@@ -363,10 +363,6 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
                     </div>
                 </div>
             <?php endif ?>
-            <?= $this->renderFile(dirname(__DIR__) . '/_configuration-view.php', [
-                'model' => $model,
-                'configAttrs' => ['summary', 'order_no', 'units'],
-            ]) ?>
         </div>
         <div class="col-md-5">
             <?php echo $this->render('_ip', ['model' => $model]) ?>
@@ -436,6 +432,12 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
             <?php endif ?>
         </div>
         <div class="clearfix"></div>
+        <div class="col-md-7">
+            <?= $this->renderFile(dirname(__DIR__) . '/_configuration-view.php', [
+                'model' => $model,
+                'configAttrs' => ['summary', 'order_no', 'units'],
+            ]) ?>
+        </div>
         <?php if ($model->consumptions) : ?>
             <div class="col-md-7">
                 <?= ResourceConsumptionTable::widget(['model' => $model]) ?>
