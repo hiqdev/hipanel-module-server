@@ -22,6 +22,9 @@ use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
+use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\forms\HubSellForm;
@@ -41,6 +44,7 @@ class HubController extends CrudController
                     'create' => 'hub.create',
                     'update,options' => 'hub.update',
                     'monitoring-settings' => 'server.manage-settings',
+                    'set-rack-no' => 'hub.update',
                     '*' => 'hub.read',
                 ],
             ],
@@ -186,6 +190,16 @@ class HubController extends CrudController
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Switches have been deleted'),
             ],
+            'set-rack-no' => [
+                'class' => BulkSetRackNo::class,
+                'success' => Yii::t('hipanel:server', 'Rack No. has been assigned'),
+                'view' => 'setRackNo',
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new AssignSwitchesForm(),
+                    'scenario' => 'default',
+                ],
+            ],
             'validate-switches-form' => [
                 'class' => ValidateFormAction::class,
                 'collection' => [
@@ -198,6 +212,13 @@ class HubController extends CrudController
                 'collection' => [
                     'class' => Collection::class,
                     'model' => new HubSellForm(),
+                ],
+            ],
+            'validate-hw-form' => [
+                'class' => ValidateFormAction::class,
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new HardwareSettings(),
                 ],
             ],
             'monitoring-settings' => [

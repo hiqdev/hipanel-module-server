@@ -39,7 +39,14 @@ class AssignHubsForm extends Server
      */
     public function rules()
     {
-        return array_merge(parent::rules(), $this->defaultSwitchRules(), $this->generateUniqueValidators());
+        return array_merge(
+            parent::rules(),
+            $this->defaultSwitchRules(),
+            $this->generateUniqueValidators(),
+            [
+                [['switch'], 'string'],
+            ],
+        );
     }
 
     public function attributeLabels()

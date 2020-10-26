@@ -285,7 +285,7 @@ return [
     'Previous month {month_year,date,MMMM yyyy}' => 'Предыдущий месяц {month_year,date,LLL yyyy}',
     'See chart' => 'Смотреть график',
     'See charts' => 'Смотреть графики',
-    'Selected servers' => 'Выбранные серверы',
+    'Selected servers' => 'Выбранные сервера',
     '{switch}::{port} already taken by {device}' => '{switch}::{port} уже занят {device}',
 
     'All' => 'Все',
@@ -323,4 +323,7 @@ return [
     'Reserving again...' => 'Резервирую...',
     'Remaining time' => 'Осталось времени',
     'Reservation time is over, your server can be purchased by someone else! Still would like to keep it?' => 'Время резервирования истекло, ваш сервер может быть куплен кем-то другим! Вы все еще хотели бы купить его?',
+
+    'Assign the rack to all selected objects' => 'Назначить эту стойку, всем выбранным объектам',
+    'Selected objects:' => 'Выбранные объекты:',
 ];

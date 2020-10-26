@@ -14,7 +14,7 @@ use hipanel\base\ModelTrait;
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Hub;
 
-class AssignSwitchesForm extends Hub implements AssignSwitchInterface
+class AssignSwitchesForm extends Hub
 {
     use ModelTrait;
 

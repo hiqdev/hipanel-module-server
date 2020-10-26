@@ -42,6 +42,7 @@ trait AssignSwitchTrait
                 $attributes[$binding->typeWithNo . '_id'] = $binding->switch_id;
                 $attributes[$binding->typeWithNo . '_port'] = $binding->port;
             }
+            $model->populateRelation('bindings', [$binding->type => $binding]);
         }
         $model->setAttributes($attributes);
 
@@ -115,9 +116,9 @@ trait AssignSwitchTrait
     protected function generateUniqueValidators(): array
     {
         return array_map(
-            fn ($variant) => [
+            fn($variant) => [
                 [$variant . '_port'],
-                fn ($attribute, $params, $validator) => $this->validateSwitchVariants($attribute, $variant),
+                fn($attribute, $params, $validator) => $this->validateSwitchVariants($attribute, $variant),
             ],
             $this->getSwitchVariants(),
         );
@@ -143,9 +144,9 @@ trait AssignSwitchTrait
         }
 
         $this->addError($attribute, Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
-            'switch'    => $binding->switch_name,
-            'port'      => $binding->port,
-            'device'    => $binding->device_name,
+            'switch' => $binding->switch_name,
+            'port' => $binding->port,
+            'device' => $binding->device_name,
         ]));
     }
 }
