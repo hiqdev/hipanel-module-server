@@ -7,16 +7,17 @@ use hipanel\modules\server\widgets\combo\ServerTypeRefCombo;
 use hipanel\widgets\AdvancedSearch;
 
 /**
- * @var array
  * @var AdvancedSearch $search
  */
 
 ?>
 
-<div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('hide_nic')->checkbox(['class' => 'option-input']) ?>
-    <?= $search->field('hide_vds')->checkbox(['class' => 'option-input']) ?>
-</div>
+<?php if (Yii::$app->user->can('manage')) : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('hide_nic')->checkbox(['class' => 'option-input']) ?>
+        <?= $search->field('hide_vds')->checkbox(['class' => 'option-input']) ?>
+    </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('name_dc') ?>
