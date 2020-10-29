@@ -326,4 +326,7 @@ return [
 
     'Assign the rack to all selected objects' => 'Назначить эту стойку, всем выбранным объектам',
     'Selected objects:' => 'Выбранные объекты:',
+
+    'Hide additional network interfaces' => 'Скрыть дополнительные сетевые интерфейсы',
+    'Hide VDS' => 'Скрыть VDS',
 ];

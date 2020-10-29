@@ -1,16 +1,23 @@
 <?php
 
-/**
- * @var array
- * @var \hipanel\widgets\AdvancedSearch $search
- */
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\client\widgets\combo\SellerCombo;
 use hipanel\modules\server\widgets\combo\ServerStateRefCombo;
 use hipanel\modules\server\widgets\combo\ServerTypeRefCombo;
-use hipanel\widgets\RefCombo;
+use hipanel\widgets\AdvancedSearch;
+
+/**
+ * @var AdvancedSearch $search
+ */
 
 ?>
+
+<?php if (Yii::$app->user->can('manage')) : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('hide_nic')->checkbox(['class' => 'option-input']) ?>
+        <?= $search->field('hide_vds')->checkbox(['class' => 'option-input']) ?>
+    </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('name_dc') ?>
@@ -105,9 +112,9 @@ use hipanel\widgets\RefCombo;
 
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('wizzarded_eq')->dropDownList([
-            null    => Yii::t('hipanel:server', 'All'),
-            0       => Yii::t('hipanel:server', 'Not wizzarded'),
-            1       => Yii::t('hipanel:server', 'Wizzarded'),
+            null => Yii::t('hipanel:server', 'All'),
+            0 => Yii::t('hipanel:server', 'Not wizzarded'),
+            1 => Yii::t('hipanel:server', 'Wizzarded'),
         ]) ?>
     </div>
 <?php endif ?>
