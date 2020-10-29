@@ -33,6 +33,8 @@ class ServerSearch extends Server
             'name_inilike',
             'name_dc',
             'primary_only',
+            'hide_nic',
+            'hide_vds',
         ]);
     }
 
@@ -41,6 +43,8 @@ class ServerSearch extends Server
         return array_merge(parent::attributeLabels(), [
             'wizzarded_eq' => Yii::t('hipanel:server', 'Is wizzarded'),
             'name_dc' => Yii::t('hipanel:server', 'Name or DC'),
+            'hide_nic' => Yii::t('hipanel:server', 'Hide additional network interfaces'),
+            'hide_vds' => Yii::t('hipanel:server', 'Hide VDS'),
         ]);
     }
 }
