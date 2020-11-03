@@ -33,6 +33,7 @@ use hipanel\modules\finance\actions\ResourceDetailAction;
 use hipanel\modules\finance\actions\ResourceFetchDataAction;
 use hipanel\modules\finance\actions\ResourceListAction;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\server\actions\BulkPowerManagementAction;
 use hipanel\modules\server\actions\BulkSetRackNo;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
@@ -808,6 +809,38 @@ class ServerController extends CrudController
             'flush-switch-graphs-modal' => [
                 'class' => PrepareBulkAction::class,
                 'view' => '_flushSwitchGraphs',
+            ],
+
+            // Bulk power management actions
+            'bulk-power-on' => [
+                'class' => BulkPowerManagementAction::class,
+                'view' => 'modal/bulkPowerManagement',
+                'success' => Yii::t('hipanel:server', 'Power on task has been successfully added to queue'),
+                'error' => Yii::t('hipanel:server', 'Error during the turning power on'),
+            ],
+            'bulk-power-off' => [
+                'class' => BulkPowerManagementAction::class,
+                'view' => 'modal/bulkPowerManagement',
+                'success' => Yii::t('hipanel:server', 'Power off task has been successfully added to queue'),
+                'error' => Yii::t('hipanel:server', 'Error during the turning power off'),
+            ],
+            'bulk-reboot' => [
+                'class' => BulkPowerManagementAction::class,
+                'view' => 'modal/bulkPowerManagement',
+                'success' => Yii::t('hipanel:server', 'Reboot task has been successfully added to queue'),
+                'error' => Yii::t('hipanel:server', 'Error during the turning reboot'),
+            ],
+            'bulk-boot-to-bios' => [
+                'class' => BulkPowerManagementAction::class,
+                'view' => 'modal/bulkPowerManagement',
+                'success' => Yii::t('hipanel:server', 'Boot to BIOS task has been successfully added to queue'),
+                'error' => Yii::t('hipanel:server', 'Error during the turning boot to BIOS'),
+            ],
+            'bulk-boot-via-network' => [
+                'class' => BulkPowerManagementAction::class,
+                'view' => 'modal/bulkPowerManagement',
+                'success' => Yii::t('hipanel:server', 'Boot via network task has been successfully added to queue'),
+                'error' => Yii::t('hipanel:server', 'Error during the turning boot via network'),
             ],
         ]);
     }
