@@ -7,7 +7,10 @@ use hipanel\modules\server\models\ServerSearch;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/** @var string $entityName */
+
 ?>
+
 <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
     <?php $box = SmallBox::begin([
         'boxTitle' => Yii::t('hipanel', 'Servers'),
@@ -15,12 +18,7 @@ use yii\helpers\Url;
         'boxColor' => SmallBox::COLOR_TEAL,
     ]) ?>
     <?php $box->beginBody() ?>
-    <?= ObjectsCountWidget::widget([
-        'totalCount' => $totalCount['servers'],
-        'ownCount' => $model->count['servers'],
-    ]) ?>
-    <br>
-    <br>
+    <?= ObjectsCountWidget::widget(compact('route', 'ownCount', 'entityName')) ?>
     <?= SearchForm::widget([
         'formOptions' => [
             'id' => 'server-search',
