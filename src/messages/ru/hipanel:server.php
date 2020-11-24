@@ -89,7 +89,7 @@ return [
     'Panel and soft' => 'Панель и ПО',
     'Please, select the operating system you want to install' => 'Выберите ОС и панель, которую хотите установить',
     'Boot to BIOS' => 'Перегрузить в BIOS',
-    'Boot via network' => 'Перегрузить по сети',
+    'Boot via network' => 'Перегрузить по питанию',
     'Power OFF' => 'Выключить питание',
     'Power ON' => 'Включить питание',
     'Reason' => 'Причина',
@@ -337,4 +337,8 @@ return [
 
     'Hide additional network interfaces' => 'Скрыть дополнительные сетевые интерфейсы',
     'Hide VDS' => 'Скрыть VDS',
+
+    'Execution status' => 'Статус выполнения',
+    'Sending requests...' => 'Отправка запросов...',
+    'All requests completed successfully' => 'Все запросы успешно выполнены',
 ];

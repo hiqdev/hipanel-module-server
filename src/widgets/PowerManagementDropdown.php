@@ -71,6 +71,7 @@ class PowerManagementDropdown extends Widget
                         'tag' => 'a',
                         'label' => $label,
                     ],
+                    'handleSubmit' => false,
                 ],
                 'toggleButtonTemplate' => '<li>{toggleButton}</li>',
             ]);

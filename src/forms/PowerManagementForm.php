@@ -74,6 +74,6 @@ class PowerManagementForm extends Model
 
     public function canPowerManage(Server $server): bool
     {
-        return $server->isVirtualDevice() && $server->canControlPower();
+        return $server->type === 'vds' && $server->canControlPower();
     }
 }

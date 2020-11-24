@@ -3,6 +3,7 @@
 namespace hipanel\modules\server\actions;
 
 use hipanel\actions\Action;
+use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\modules\server\forms\PowerManagementForm;
 use hiqdev\hiart\Collection;
@@ -46,5 +47,37 @@ class BulkPowerManagementAction extends SmartUpdateAction
             ]);
         }
         $action->collection->set($models);
+    }
+
+    protected function getDefaultRules()
+    {
+        return array_merge(parent::getDefaultRules(), [
+            'POST ajax' => [
+                'save' => true,
+                'flash' => true,
+                'success' => [
+                    'class' => RenderJsonAction::class,
+                    'return' => function () {
+                        $message = Yii::$app->session->removeFlash('success');
+
+                        return [
+                            'success' => true,
+                            'text' => Yii::t('hipanel', reset($message)['text']),
+                        ];
+                    },
+                ],
+                'error' => [
+                    'class' => RenderJsonAction::class,
+                    'return' => function () {
+                        $message = Yii::$app->session->removeFlash('error');
+
+                        return [
+                            'success' => false,
+                            'text' => reset($message)['text'],
+                        ];
+                    },
+                ],
+            ],
+        ]);
     }
 }
