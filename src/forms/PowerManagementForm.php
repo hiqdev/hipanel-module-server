@@ -74,6 +74,8 @@ class PowerManagementForm extends Model
 
     public function canPowerManage(Server $server): bool
     {
-        return $server->type === 'vds' && $server->canControlPower();
+        return $server->canControlPower() && in_array($server->type, [
+                'vds', 'svds', 'ovds', 'unmanaged', 'jail', 'unused', 'vdsmaster', 'cloudstorage', 'setup', 'avds', 'jbod', 'system', 'dedicated',
+            ]);
     }
 }
