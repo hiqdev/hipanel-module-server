@@ -81,7 +81,7 @@ class ServerGridView extends BoxedGridView
         $user = Yii::$app->user;
         $models = [];
         $html = '';
-        if ($user->can('sale.read') && isset($model->sales)) {
+        if ($user->can('sale.read') && !empty($model->sales)) {
             foreach ($model->sales as $sale) {
                 $models[] = $sale;
             }

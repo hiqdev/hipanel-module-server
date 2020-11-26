@@ -130,12 +130,14 @@ class ServerController extends CrudController
 
                     $dataProvider->query->withBindings();
 
+                    if (Yii::$app->user->can('sale.read')) {
+                        $dataProvider->query->withSales();
+                    }
                     if (Yii::getAlias('@ip', false)) {
                         $dataProvider->query
                             ->joinWith(['ips'])
                             ->andWhere(['with_ips' => 1]);
                     }
-
                     if ($this->indexPageUiOptionsModel->representation === 'billing' && Yii::$app->user->can('consumption.read')) {
                         $dataProvider->query->withConsumptions()->withHardwareSales();
                     }
