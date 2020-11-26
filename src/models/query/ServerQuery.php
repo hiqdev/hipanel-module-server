@@ -15,6 +15,14 @@ use Yii;
 
 class ServerQuery extends ActiveQuery
 {
+    public function withIps(): self
+    {
+        $this->joinWith('ips');
+        $this->andWhere(['with_ips' => true]);
+
+        return $this;
+    }
+
     public function withSales(): self
     {
         $this->joinWith('sales');

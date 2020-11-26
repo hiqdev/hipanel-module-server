@@ -126,23 +126,21 @@ class ServerController extends CrudController
                 'on beforePerform' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
+                    $query = $action->getDataProvider()->query;
 
-                    $dataProvider->query->withBindings();
+                    $query->withBindings();
 
                     if (Yii::$app->user->can('sale.read')) {
-                        $dataProvider->query->withSales();
+                        $query->withSales();
                     }
                     if (Yii::getAlias('@ip', false)) {
-                        $dataProvider->query
-                            ->joinWith(['ips'])
-                            ->andWhere(['with_ips' => 1]);
+                        $query->withIps();
                     }
                     if ($this->indexPageUiOptionsModel->representation === 'billing' && Yii::$app->user->can('consumption.read')) {
-                        $dataProvider->query->withConsumptions()->withHardwareSales();
+                        $query->withConsumptions()->withHardwareSales();
                     }
 
-                    $dataProvider->query
+                    $query
                         ->andWhere(['with_requests' => 1])
                         ->andWhere(['with_discounts' => 1])
                         ->select(['*']);
