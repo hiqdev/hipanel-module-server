@@ -18,6 +18,7 @@ use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\query\ServerQuery;
 use hipanel\modules\server\models\traits\AssignSwitchTrait;
+use hipanel\modules\stock\models\Part;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use Yii;
@@ -265,6 +266,11 @@ class Server extends Model implements AssignSwitchInterface
     public function getUses()
     {
         return $this->hasMany(ServerUse::class, ['object_id' => 'id']);
+    }
+
+    public function getParts()
+    {
+        return $this->hasMany(Part::class, ['dst_id' => 'id']);
     }
 
     public function getIps()
