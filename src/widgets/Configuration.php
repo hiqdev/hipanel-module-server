@@ -2,10 +2,9 @@
 
 namespace hipanel\modules\server\widgets;
 
-use hipanel\modules\stock\controllers\PartController;
 use hipanel\modules\stock\helpers\PartSort;
+use hipanel\modules\stock\Module;
 use hiqdev\hiart\ActiveRecord;
-use Yii;
 use yii\base\Widget;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -18,6 +17,14 @@ class Configuration extends Widget
     public array $configAttrs = [];
 
     private bool $loadAjax = true;
+
+    private Module $stock;
+
+    public function __construct(Module $stock, $config = [])
+    {
+        parent::__construct($config);
+        $this->stock = $stock;
+    }
 
     public function init()
     {
@@ -45,8 +52,9 @@ class Configuration extends Widget
         }
         $parts = PartSort::byGeneralRules()->values($this->model->parts);
         $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
+        [$controller,] = $this->stock->createController('part');
 
-        return (new PartController('part', Yii::$app->getModule('stock')))->renderPartial('_objectParts', compact('data'));
+        return $controller->renderPartial('_objectParts', compact('data'));
     }
 
     private function registerClientScript(): void
