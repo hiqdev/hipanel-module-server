@@ -111,6 +111,7 @@ return [
                 ->setGridClassName(ServerGridView::class)
                 ->setResourceModelClassName(ServerResource::class)
                 ->setSearchView('@vendor/hiqdev/hipanel-module-server/src/views/server/_search')
+                ->setTotalGroups([['server_traf', 'server_traf_in'], ['server_traf95', 'server_traf95_in']])
                 ->setColumns(['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in']),
         ]
     ],
