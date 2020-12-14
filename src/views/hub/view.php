@@ -5,16 +5,20 @@ use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
 use hipanel\modules\server\models\Binding;
+use hipanel\modules\server\models\Hub;
+use hipanel\modules\server\widgets\Configuration;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\SettingsModal;
 use yii\helpers\Html;
+use yii\web\View;
 
 /** @var array $snmpOptions */
 /** @var array $digitalCapacityOptions */
 /** @var array $nicMediaOptions */
-/** @var \yii\web\View $this */
+/** @var View $this */
+/** @var Hub $model */
 
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
@@ -138,9 +142,6 @@ $this->registerCss('
             </div>
             <?php Pjax::end() ?>
         </div>
-        <?= $this->renderFile(dirname(__DIR__) . '/_configuration-view.php', [
-                'model' => $model,
-                'configAttrs' => ['units'],
-        ]) ?>
+        <?= Configuration::widget(['model' => $model, 'configAttrs' => ['units']]) ?>
     </div>
 </div>

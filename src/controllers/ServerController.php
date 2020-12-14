@@ -407,6 +407,7 @@ class ServerController extends CrudController
                     $query
                         ->withSoftwareSettings()
                         ->withHardwareSettings()
+                        ->withParts()
                         ->withBindings()
                         ->withBlocking()
                         ->withUses()
