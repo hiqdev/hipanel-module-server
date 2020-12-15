@@ -112,6 +112,19 @@ return [
                 ->setResourceModelClassName(ServerResource::class)
                 ->setSearchView('@vendor/hiqdev/hipanel-module-server/src/views/server/_search')
                 ->setTotalGroups([['server_traf', 'server_traf_in'], ['server_traf95', 'server_traf95_in']])
+                ->setTotalGroupsTransformer(static function (array $total, array $groups): array {
+                    foreach ($groups as $group) {
+                        $key = implode('-', $group);
+                        $values = [];
+                        foreach ($group as $type) {
+                            $values[] = $total[$type]['qty'];
+                            $total[$key]['unit'] = $total[$type]['unit'];
+                        }
+                        $total[$key]['qty'] = max($values);
+                    }
+
+                    return $total;
+                })
                 ->setColumns(['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in']),
         ]
     ],
