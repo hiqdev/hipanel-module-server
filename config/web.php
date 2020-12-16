@@ -117,10 +117,14 @@ return [
                         $key = implode('-', $group);
                         $values = [];
                         foreach ($group as $type) {
-                            $values[] = $total[$type]['qty'];
-                            $total[$key]['unit'] = $total[$type]['unit'];
+                            if ($qty = $total[$type]['qty']) {
+                                $values[] = $qty;
+                                $total[$key]['unit'] = $total[$type]['unit'];
+                            }
                         }
-                        $total[$key]['qty'] = max($values);
+                        if (!empty($values)) {
+                            $total[$key]['qty'] = max($values);
+                        }
                     }
 
                     return $total;
