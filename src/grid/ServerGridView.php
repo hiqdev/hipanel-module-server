@@ -12,7 +12,6 @@ namespace hipanel\modules\server\grid;
 
 use hipanel\base\Model;
 use hipanel\grid\BoxedGridView;
-use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\StringHelper;
