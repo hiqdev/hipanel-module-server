@@ -6,6 +6,12 @@ use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\widgets\Pjax;
 
+/**
+ * @var \yii\web\View $this
+ * @var \hipanel\modules\server\models\Server $model
+ * @var string[] $configAttrs
+ */
+
 ?>
 
 <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('part.read')) : ?>

@@ -435,7 +435,11 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
         <div class="col-md-7">
             <?= $this->renderFile(dirname(__DIR__) . '/_configuration-view.php', [
                 'model' => $model,
-                'configAttrs' => ['summary', 'order_no', 'units'],
+                'configAttrs' => array_filter([
+                    'summary',
+                    Yii::$app->user->can('order.read') ? 'order_no' : null,
+                    'units'
+                ]),
             ]) ?>
         </div>
         <?php if ($model->consumptions) : ?>
