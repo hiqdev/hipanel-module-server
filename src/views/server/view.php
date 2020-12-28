@@ -8,6 +8,7 @@ use hipanel\modules\server\menus\ServerDetailMenu;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\BootLive;
 use hipanel\modules\server\widgets\ChartOptions;
+use hipanel\modules\server\widgets\Configuration;
 use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\modules\server\widgets\ServerSwitcher;
 use hipanel\modules\server\widgets\Wizzard;
@@ -31,7 +32,7 @@ $this->params['subtitle'] = Yii::t('hipanel:server', 'Server detailed informatio
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
-list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
+[$chartsLabels, $chartsData] = $model->groupUsesForCharts();
 
 ?>
     <div class="row server-view">
@@ -433,7 +434,7 @@ list($chartsLabels, $chartsData) = $model->groupUsesForCharts();
         </div>
         <div class="clearfix"></div>
         <div class="col-md-7">
-            <?= $this->renderFile(dirname(__DIR__) . '/_configuration-view.php', [
+            <?= Configuration::widget([
                 'model' => $model,
                 'configAttrs' => array_filter([
                     'summary',

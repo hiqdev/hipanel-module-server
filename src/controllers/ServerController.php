@@ -407,6 +407,7 @@ class ServerController extends CrudController
                     $query
                         ->withSoftwareSettings()
                         ->withHardwareSettings()
+                        ->withParts()
                         ->withBindings()
                         ->withBlocking()
                         ->withUses()
@@ -486,6 +487,7 @@ class ServerController extends CrudController
             'resource-detail' => [
                 'class' => ResourceDetailAction::class,
                 'model' => Server::class,
+                'configurator' => Yii::$container->get('server-resource-config'),
                 'view' => 'resources/server',
             ],
             'fetch-resources' => [
