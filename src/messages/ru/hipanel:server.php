@@ -88,8 +88,16 @@ return [
     'OS' => 'ОС',
     'Panel and soft' => 'Панель и ПО',
     'Please, select the operating system you want to install' => 'Выберите ОС и панель, которую хотите установить',
-    'Power OFF' => 'Отключить',
-    'Power ON' => 'Включить',
+    'Boot to BIOS' => 'Перегрузить в BIOS',
+    'Boot via network' => 'Перегрузить по питанию',
+    'Power OFF' => 'Выключить питание',
+    'Power ON' => 'Включить питание',
+    'Reason' => 'Причина',
+    'Will be applied to servers' => 'Будет применено к серверам',
+    'Will not be applied' => 'Не будет применено',
+    'Total selected' => 'Всего выбрано',
+    'Filtered servers' => 'Отфильтрованные сервера',
+    'Execute action' => 'Выполнить действие',
     'Power management' => 'Управление питанием',
     'Power off' => 'Отключить',
     'Power off task has been successfully added to queue' => 'Питание будет отключено',
@@ -329,4 +337,8 @@ return [
 
     'Hide additional network interfaces' => 'Скрыть дополнительные сетевые интерфейсы',
     'Hide VDS' => 'Скрыть VDS',
+
+    'Execution status' => 'Статус выполнения',
+    'Sending requests...' => 'Отправка запросов...',
+    'All requests completed successfully' => 'Все запросы успешно выполнены',
 ];

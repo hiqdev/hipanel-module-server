@@ -4,11 +4,13 @@ use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\server\grid\ServerGridLegend;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OsimageSearch;
+use hipanel\modules\server\widgets\PowerManagementDropdown;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
+use hiqdev\higrid\representations\RepresentationCollection;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
@@ -20,7 +22,7 @@ use yii\web\JsExpression;
  * @var OsimageSearch
  * @var yii\web\View $this
  * @var IndexPageUiOptions $uiModel
- * @var \hiqdev\higrid\representations\RepresentationCollection $representationCollection
+ * @var RepresentationCollection $representationCollection
  * @var bool $orderIsAllowed
  */
 $this->title = Yii::t('hipanel:server', 'Servers');
@@ -238,6 +240,7 @@ JS
                 ]) ?>
             <?php endif ?>
         </div>
+        <?= PowerManagementDropdown::widget(['model' => $model]) ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('table') ?>
