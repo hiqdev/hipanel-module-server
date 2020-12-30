@@ -5,6 +5,7 @@ namespace hipanel\modules\server\actions;
 use hipanel\actions\Action;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartUpdateAction;
+use hipanel\helpers\ArrayHelper;
 use hipanel\modules\server\forms\PowerManagementForm;
 use hiqdev\hiart\Collection;
 use Yii;
@@ -63,6 +64,7 @@ class BulkPowerManagementAction extends SmartUpdateAction
                         return [
                             'success' => true,
                             'text' => Yii::t('hipanel', reset($message)['text']),
+                            'models' => $this->collection->models,
                         ];
                     },
                 ],
