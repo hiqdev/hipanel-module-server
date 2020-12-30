@@ -36,15 +36,16 @@ $(() => {
     if (button.attr('disabled')) {
       return;
     }
-    const checkRequestStatus = ids => {
+    const checkRequestStatus = models => {
+      const requestIds = models.map(model => model.request_id);
       $.ajax({
         url: '/hosting/request/search',
-        data: {id_in: ids}
+        data: {id_in: requestIds}
       }).done(res => {
-        ids.forEach(id => {
-          const found = res.filter(row => parseInt(row.object_id) === parseInt(id));
-          if (found.length === 0) {
-            const rowItem = $('#' + id);
+        requestIds.forEach(id => {
+          const exists = res.find(row => parseInt(row.id) === parseInt(id));
+          if (!exists) {
+            const rowItem = $('#' + models.find(model => parseInt(model.request_id) === parseInt(id)).id);
             rowItem.find('td:last-child').html('<span class="fa fa-fw fa-check text-success" title="Done"></span>');
             rowItem.removeClass('in_progress');
           }
@@ -65,16 +66,19 @@ $(() => {
       $('.check-step').show();
       $('.form-step').hide();
       let timerId = setInterval(() => {
-        const ids = [];
+        const models = [];
         const rowsInProgress = form.parents('.form-step').siblings('.check-step').find('.in_progress');
         rowsInProgress.each((idx, row) => {
-          ids.push(row.id);
+          const model = resp.models.find(model => parseInt(model.id) === parseInt(row.id));
+          if (model) {
+            models.push(model);
+          }
         });
-        if (ids.length === 0) { 
+        if (models.length === 0) {
           clearInterval(timerId);
           hipanel.notify.success({$successText});
         } else {
-          checkRequestStatus(ids);
+          checkRequestStatus(models);
         }
       }, 5000);
       form.parents('.modal').one('hide.bs.modal', () => {

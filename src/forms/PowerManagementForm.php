@@ -21,7 +21,7 @@ class PowerManagementForm extends Model
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'request_id'], 'integer'],
             [['reason'], 'string', 'min' => 2],
             [['reason'], 'required', 'on' => [
                 'bulk-power-on',
