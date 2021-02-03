@@ -3,6 +3,7 @@
 use hipanel\modules\server\grid\ConfigGridView;
 use hipanel\modules\server\models\Config;
 use hipanel\modules\server\menus\ConfigDetailMenu;
+use hipanel\modules\stock\widgets\HardwareSettingsDetail;
 use hipanel\widgets\Box;
 use hipanel\widgets\ClientSellerLink;
 use hipanel\widgets\MainDetails;
@@ -31,6 +32,7 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
                 'linkTemplate' => $linkTemplate,
             ]),
         ]) ?>
+        <?= HardwareSettingsDetail::widget(['id' => $model->id, 'type' => 'config']) ?>
     </div>
 
     <div class="col-md-5">
