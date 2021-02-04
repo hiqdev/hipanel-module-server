@@ -2,15 +2,20 @@
 
 namespace hipanel\modules\server\menus;
 
-use Yii;
+use hipanel\menus\AbstractDetailMenu;
+use hipanel\modules\stock\widgets\HardwareSettingsButton;
 
-class ConfigDetailMenu extends \hipanel\menus\AbstractDetailMenu
+class ConfigDetailMenu extends AbstractDetailMenu
 {
     public $model;
 
     public function items()
     {
         $items = ConfigActionsMenu::create(['model' => $this->model])->items();
+        $items[] = [
+            'label' => HardwareSettingsButton::widget(['id' => $this->model->id, 'type' => 'config']),
+            'encode' => false,
+        ];
 
         unset($items['view']);
 
