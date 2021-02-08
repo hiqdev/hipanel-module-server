@@ -57,23 +57,4 @@ $linkTemplate = '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</
         $box->end();
         ?>
     </div>
-    <div class="col-md-4">
-        <?php
-        $box = Box::begin(['renderBody' => false]);
-            $box->beginHeader();
-                echo $box->renderTitle(Yii::t('hipanel:server', 'Hardware'));
-            $box->endHeader();
-            $box->beginBody();
-                echo ConfigGridView::detailView([
-                    'boxed'   => false,
-                    'model'   => $model,
-                    'columns' => [
-                        'cpu', 'ram', 'hdd', 'ssd',
-                        'traffic', 'lan', 'raid',
-                    ],
-                ]);
-            $box->endBody();
-        $box->end();
-        ?>
-    </div>
 </div>

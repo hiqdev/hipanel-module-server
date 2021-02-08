@@ -62,33 +62,7 @@ $model->profile_ids = $model->profile_ids ? array_map('trim', explode(',', $mode
             </div>
             <?= $form->field($model, 'sort_order'); ?>
             <?php Box::end() ?>
-
         </div>
-        <div class="col-md-6">
-            <?php Box::begin([
-                'title' => Yii::t('hipanel:server:config', 'Hardware'),
-                'options' => ['class' => 'box-widget']
-            ]) ?>
-                <?= $form->field($model, 'cpu'); ?>
-                <?= $form->field($model, 'ram'); ?>
-                <?= $form->field($model, 'hdd'); ?>
-                <?= $form->field($model, 'ssd'); ?>
-                <?= $form->field($model, 'traffic'); ?>
-                <?= $form->field($model, 'lan'); ?>
-                <?= $form->field($model, 'raid'); ?>
-                <?= $form->field($model, 'servers')->widget(PrimaryServerCombo::class, [
-                    'name' => 'servers',
-                    'multiple' => true,
-                ]) ?>
-                <?= $form->field($model, 'profile_ids')->widget(StaticCombo::class, [
-                    'data' => $model->profileOptions,
-                    'multiple' => true,
-                    'hasId' => true,
-                ]) ?>
-
-            <?php Box::end() ?>
-        </div>
-
 </div>
 
 
