@@ -170,6 +170,9 @@ class ServerController extends CrudController
 
                     'tariff_like'  => 'server.server.tariff',
                     'wizzarded_eq' => 'server.server.wizzarded',
+
+                    'hide_nic'  => 'server.server.hide_hic',
+                    'hide_vds' => 'server.server.hide_vds',
                 ],
             ],
             'search' => [
