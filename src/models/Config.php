@@ -55,6 +55,7 @@ class Config extends Model
                     'data',
                     'name',
                     'label',
+                    'name_label',
                     'us_tariff',
                     'nl_tariff',
                     'cpu',

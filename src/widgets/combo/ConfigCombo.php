@@ -17,10 +17,10 @@ class ConfigCombo extends Combo
     public $url = '/server/config/index';
 
     /** {@inheritdoc} */
-    public $_return = ['id', 'name', 'label', 'descr'];
+    public $_return = ['id', 'name', 'label', 'name_label', 'descr'];
 
     /** {@inheritdoc} */
-    public $_rename = ['text' => 'name'];
+    public $_rename = ['text' => 'name_label'];
 
     public function getPluginOptions($options = [])
     {
