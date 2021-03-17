@@ -8,7 +8,7 @@
  * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
-namespace hipanel\modules\server\tests\acceptance\seller;
+namespace hipanel\modules\server\tests\acceptance\admin;
 
 use Codeception\Example;
 use hipanel\helpers\Url;
