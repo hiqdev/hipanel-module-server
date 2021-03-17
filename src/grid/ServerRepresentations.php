@@ -17,22 +17,25 @@ class ServerRepresentations extends RepresentationCollection
 {
     protected function fillRepresentations(): void
     {
+        $hostingExists = !empty(\Yii::getAlias('@ip', false));
         $this->representations = array_filter([
             'short' => Yii::$app->user->can('support') ? [
                 'label' => Yii::t('hipanel:server', 'short'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
-                    'ips', 'client', 'dc', 'actions', 'server', 'order_no', 'hwsummary',
-                ],
+                    $hostingExists ? 'ips' : null,
+                    'client', 'dc', 'actions', 'server', 'order_no', 'hwsummary',
+                ]),
             ] : null,
             'common' => [
                 'label' => Yii::t('hipanel', 'common'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
                     'actions',
                     'server', 'client_like', 'seller_id',
-                    'ips', 'tariff_and_discount', 'hwsummary',
-                ],
+                    $hostingExists ? 'ips' : null,
+                    'tariff_and_discount', 'hwsummary',
+                ]),
             ],
             'hardware' => Yii::$app->user->can('part.read') ? [
                 'label' => Yii::t('hipanel:server', 'hardware'),
@@ -43,12 +46,13 @@ class ServerRepresentations extends RepresentationCollection
             ] : null,
             'manager' => Yii::$app->user->can('manage') ? [
                 'label' => Yii::t('hipanel:server', 'manager'),
-                'columns' => [
+                'columns' => array_filter([
                     'checkbox',
                     'client_like',
                     'rack', 'actions', 'server', 'tariff',
-                    'hwsummary', 'hwcomment', 'nums',
-                ],
+                    'hwsummary', 'hwcomment',
+                    $hostingExists ? 'nums': null,
+                ]),
             ] : null,
             'billing' => Yii::$app->user->can('consumption.read') && Yii::$app->user->can('manage') ? [
                 'label' => Yii::t('hipanel:server', 'billing'),
