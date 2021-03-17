@@ -17,7 +17,7 @@ class ServerRepresentations extends RepresentationCollection
 {
     protected function fillRepresentations(): void
     {
-        $hostingExists = !empty(\Yii::getAlias('@ip', false));
+        $hostingExists = class_exists(\hipanel\modules\hosting\Module::class);
         $this->representations = array_filter([
             'short' => Yii::$app->user->can('support') ? [
                 'label' => Yii::t('hipanel:server', 'short'),
