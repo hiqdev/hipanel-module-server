@@ -5,13 +5,14 @@ use hipanel\modules\finance\widgets\ResourceDetailViewer;
 use hipanel\modules\server\grid\ServerGridView;
 use hiqdev\hiart\ActiveDataProvider;
 use yii\db\ActiveRecordInterface;
+use yii\helpers\Html;
 
 /** @var ActiveRecordInterface $originalModel */
 /** @var ActiveRecordInterface $model */
 /** @var ActiveDataProvider $dataProvider */
 /** @var IndexPageUiOptions $uiModel */
 
-$this->title = $originalModel->name;
+$this->title = Html::encode($originalModel->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['@server/index']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Server resources'), 'url' => ['@server/resource-list']];
 $this->params['breadcrumbs'][] = $this->title;
