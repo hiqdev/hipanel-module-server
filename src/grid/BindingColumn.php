@@ -18,7 +18,7 @@ use yii\helpers\Html;
 
 class BindingColumn extends DataColumn
 {
-    public $format = 'raw';
+    public $format = 'html';
 
     public $filter = false;
 

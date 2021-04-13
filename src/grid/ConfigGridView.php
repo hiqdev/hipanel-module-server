@@ -101,7 +101,7 @@ class ConfigGridView extends BoxedGridView
                 },
             ],
             'profiles' => [
-                'format' => 'raw',
+                'format' => 'html',
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'attribute' => 'profiles',
                 'filter' => ConfigProfileCombo::widget([

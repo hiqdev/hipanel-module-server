@@ -136,7 +136,7 @@ class ServerGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'i18nDictionary' => 'hipanel:server',
-                'format' => 'raw',
+                'format' => 'html',
                 'gtype' => 'state,device',
                 'visible' => $canSupport,
                 'value' => function ($model) {
@@ -165,7 +165,7 @@ class ServerGridView extends BoxedGridView
             ],
             'os' => [
                 'attribute' => 'os',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     return OSFormatter::widget([
                         'osimages' => $this->osImages,
@@ -175,7 +175,7 @@ class ServerGridView extends BoxedGridView
             ],
             'os_and_panel' => [
                 'attribute' => 'os',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     $html = OSFormatter::widget([
                         'osimages' => $this->osImages,
@@ -189,6 +189,7 @@ class ServerGridView extends BoxedGridView
             'discount' => [
                 'attribute' => 'discount',
                 'label' => Yii::t('hipanel:server', 'Discount'),
+                /** todo: refactor */
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'value' => function ($model) {
@@ -200,7 +201,7 @@ class ServerGridView extends BoxedGridView
             ],
             'expires' => [
                 'filter' => false,
-                'format' => 'raw',
+                'format' => 'html',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'visible' => $canSupport,
                 'value' => function ($model) {
@@ -208,7 +209,7 @@ class ServerGridView extends BoxedGridView
                 },
             ],
             'tariff' => [
-                'format' => 'raw',
+                'format' => 'html',
                 'filterAttribute' => 'tariff_like',
                 'value' => function ($model) {
                     return $this->formatTariff($model);
@@ -232,6 +233,7 @@ class ServerGridView extends BoxedGridView
                 'filter' => false,
             ],
             'ips' => [
+                /** todo: refactor */
                 'format' => 'raw',
                 'attribute' => 'ips',
                 'filter' => false,
@@ -344,7 +346,7 @@ class ServerGridView extends BoxedGridView
             ],
             'nums' => [
                 'label' => '',
-                'format' => 'raw',
+                'format' => 'html',
                 'value' => function ($model) {
                     $ips_num = $model->ips_num;
                     $ips = $ips_num ? Html::a("$ips_num ips", IpController::getSearchUrl(['server' => $model->name])) : 'no ips';
@@ -376,7 +378,7 @@ class ServerGridView extends BoxedGridView
             ],
             'additional_services' => [
                 'label' => Yii::t('hipanel:server', 'Additional services'),
-                'format' => 'raw',
+                'format' => 'html',
                 'filter' => false,
                 'contentOptions' => ['class' => 'no-padding'],
                 'value' => function ($model) {
@@ -386,7 +388,7 @@ class ServerGridView extends BoxedGridView
             ],
             'type_of_sale' => [
                 'label' => Yii::t('hipanel:server', 'Type of sale'),
-                'format' => 'raw',
+                'format' => 'html',
                 'filter' => false,
                 'value' => function (Server $model) {
                     return $this->getTypeOfSale($model);

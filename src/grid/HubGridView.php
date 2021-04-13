@@ -113,7 +113,7 @@ class HubGridView extends BoxedGridView
                 },
             ],
             'tariff' => [
-                'format' => 'raw',
+                'format' => 'html',
                 'filterAttribute' => 'tariff_like',
                 'value' => function (Hub $model): ?string {
                     return Yii::$app->user->can('plan.read')
