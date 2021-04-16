@@ -189,13 +189,12 @@ class ServerGridView extends BoxedGridView
             'discount' => [
                 'attribute' => 'discount',
                 'label' => Yii::t('hipanel:server', 'Discount'),
-                /** todo: refactor */
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'value' => function ($model) {
                     return DiscountFormatter::widget([
-                        'current' => $model->discounts['fee']['current'],
-                        'next' => $model->discounts['fee']['next'],
+                        'current' => Html::encode($model->discounts['fee']['current']),
+                        'next' => Html::encode($model->discounts['fee']['next']),
                     ]);
                 },
             ],
@@ -233,7 +232,6 @@ class ServerGridView extends BoxedGridView
                 'filter' => false,
             ],
             'ips' => [
-                /** todo: refactor */
                 'format' => 'raw',
                 'attribute' => 'ips',
                 'filter' => false,
