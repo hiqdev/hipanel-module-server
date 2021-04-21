@@ -21,7 +21,7 @@ class LocationCombo extends Combo
     public $_return = ['id'];
 
     /** {@inheritdoc} */
-    public $_rename = ['text' => 'location'];
+    public $_rename = ['text' => 'name'];
 
     /** {@inheritdoc} */
     public function getFilter()
