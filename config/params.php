@@ -14,4 +14,5 @@ return [
     'module.server.renew.allowed'               => true,
     'module.server.order.redirect.url'          => null,
     'module.server.order.frontend.url'          => null,
+    'hipanel.module.server.orderIsAllowed'      => true,
 ];

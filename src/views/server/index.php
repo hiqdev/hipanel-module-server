@@ -28,7 +28,7 @@ use yii\web\JsExpression;
 $this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
-$orderIsAllowed = $this->context->module->orderIsAllowed;
+$orderIsAllowed = $this->context->module->orderIsAllowed && Yii::$app->params['hipanel.module.server.orderIsAllowed'];
 
 ?>
 
