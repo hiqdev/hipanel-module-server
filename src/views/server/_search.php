@@ -12,7 +12,7 @@ use hipanel\widgets\AdvancedSearch;
 
 ?>
 
-<?php if (Yii::$app->user->can('manage')) : ?>
+<?php if (Yii::$app->user->can('support')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('hide_nic')->checkbox(['class' => 'option-input']) ?>
         <?= $search->field('hide_vds')->checkbox(['class' => 'option-input']) ?>
