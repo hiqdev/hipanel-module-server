@@ -21,7 +21,7 @@ class PreOrderGridView extends \hipanel\grid\BoxedGridView
     {
         return array_merge(parent::columns(), [
             'tech_details' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'label' => Yii::t('hipanel:finance:change', 'Operation details'),
                 'value' => function ($model) {
                     $params = $model->params;
@@ -34,10 +34,8 @@ class PreOrderGridView extends \hipanel\grid\BoxedGridView
                 },
             ],
             'user_comment' => [
+                'attribute' => 'user_comment',
                 'filterAttribute' => 'user_comment_like',
-                'value' => function ($model) {
-                    return $model->user_comment;
-                },
             ],
             'tech_comment' => [
                 'attribute' => 'tech_comment',

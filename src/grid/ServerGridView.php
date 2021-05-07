@@ -101,11 +101,13 @@ class ServerGridView extends BoxedGridView
 
         foreach ($models as $model) {
             if ($model->tariff) {
-                $tariff = $model->tariff_id ? Html::a($model->tariff, [
+                $tariff = Html::encode($model->tariff);
+                $client = Html::encode($model->seller);
+                $tariff = $model->tariff_id ? Html::a($tariff, [
                     '@plan/view',
                     'id' => $model->tariff_id,
-                ]) : $model->tariff;
-                $client = $model->seller ? '(' . Html::a($model->seller, [
+                ]) : $tariff;
+                $client = $model->seller ? '(' . Html::a($client, [
                     '@client/view', 'id' => $model->seller_id,
                 ]) . ')' : '';
 
@@ -136,7 +138,7 @@ class ServerGridView extends BoxedGridView
                 'class' => RefColumn::class,
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'i18nDictionary' => 'hipanel:server',
-                'format' => 'html',
+                'format' => 'raw',
                 'gtype' => 'state,device',
                 'visible' => $canSupport,
                 'value' => function ($model) {
@@ -150,7 +152,7 @@ class ServerGridView extends BoxedGridView
             ],
             'panel' => [
                 'attribute' => 'panel',
-                'format' => 'html',
+                'format' => 'raw',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) use ($canSupport) {
                     $value = $model->getPanel() ? Yii::t('hipanel:server:panel', $model->getPanel()) : Yii::t('hipanel:server:panel', 'No control panel');
@@ -165,7 +167,7 @@ class ServerGridView extends BoxedGridView
             ],
             'os' => [
                 'attribute' => 'os',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
                     return OSFormatter::widget([
                         'osimages' => $this->osImages,
@@ -175,7 +177,7 @@ class ServerGridView extends BoxedGridView
             ],
             'os_and_panel' => [
                 'attribute' => 'os',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
                     $html = OSFormatter::widget([
                         'osimages' => $this->osImages,
@@ -200,7 +202,7 @@ class ServerGridView extends BoxedGridView
             ],
             'expires' => [
                 'filter' => false,
-                'format' => 'html',
+                'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'visible' => $canSupport,
                 'value' => function ($model) {
@@ -208,7 +210,7 @@ class ServerGridView extends BoxedGridView
                 },
             ],
             'tariff' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
                 'value' => function ($model) {
                     return $this->formatTariff($model);
@@ -307,18 +309,18 @@ class ServerGridView extends BoxedGridView
                 'visible' => Yii::$app->user->can('server.see-label'),
             ],
             'type' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
-                    return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
+                    return Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']);
                 },
             ],
             'detailed_type' => [
                 'label' => Yii::t('hipanel', 'Type'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
-                    return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
+                    return Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']);
                 },
                 'contentOptions' => function ($model) {
                     return GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions('actions');
@@ -344,7 +346,7 @@ class ServerGridView extends BoxedGridView
             ],
             'nums' => [
                 'label' => '',
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
                     $ips_num = $model->ips_num;
                     $ips = $ips_num ? Html::a("$ips_num ips", IpController::getSearchUrl(['server' => $model->name])) : 'no ips';
@@ -358,7 +360,7 @@ class ServerGridView extends BoxedGridView
             ],
             'monthly_fee' => [
                 'label' => Yii::t('hipanel:finance', 'Monthly fee'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
                     return $this->getMonthlyFee($model);
@@ -367,7 +369,7 @@ class ServerGridView extends BoxedGridView
             ],
             'traffic' => [
                 'label' => Yii::t('hipanel:server', 'Traffic'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
                     return isset($model->consumptions['overuse,server_traf_max']) ? $this->getFormattedConsumptionFor($model->consumptions['overuse,server_traf_max']) : null;
@@ -376,7 +378,7 @@ class ServerGridView extends BoxedGridView
             ],
             'additional_services' => [
                 'label' => Yii::t('hipanel:server', 'Additional services'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'contentOptions' => ['class' => 'no-padding'],
                 'value' => function ($model) {
@@ -386,7 +388,7 @@ class ServerGridView extends BoxedGridView
             ],
             'type_of_sale' => [
                 'label' => Yii::t('hipanel:server', 'Type of sale'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function (Server $model) {
                     return $this->getTypeOfSale($model);
@@ -493,7 +495,6 @@ class ServerGridView extends BoxedGridView
                 ],
                 [
                     'attribute' => 'value',
-                    'format' => 'html',
                 ],
             ],
         ]);

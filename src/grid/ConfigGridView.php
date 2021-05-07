@@ -78,30 +78,30 @@ class ConfigGridView extends BoxedGridView
                 'class' => MainColumn::class,
                 'label' => Yii::t('hipanel', 'Name'),
                 'filterOptions' => ['class' => 'narrow-filter'],
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::a($model->name, ['@config/view', 'id' => $model->id]) .
-                        '</br>' . Html::tag('span', $model->label);
+                    return Html::a(Html::encode($model->name), ['@config/view', 'id' => $model->id]) .
+                        '</br>' . Html::tag('span', Html::encode($model->label));
                 },
             ],
             'config' => [
                 'class' => MainColumn::class,
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
                     $value = '';
                     foreach (['cpu', 'ram', 'hdd', 'ssd'] as $item) {
                         if (empty($model->$item)) {
                             continue;
                         }
-                        $value .= '<nobr>' . Html::tag('span', strtoupper($item) . ': ') .
-                            Html::tag('span', $model->$item) . '</nobr></br>';
+                        $value .= '<nobr>' . Html::tag('span', Html::encode(strtoupper($item)) . ': ') .
+                            Html::tag('span', Html::encode($model->$item)) . '</nobr></br>';
                     }
 
                     return $value;
                 },
             ],
             'profiles' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'filterOptions' => ['class' => 'narrow-filter'],
                 'attribute' => 'profiles',
                 'filter' => ConfigProfileCombo::widget([
@@ -113,18 +113,18 @@ class ConfigGridView extends BoxedGridView
                 'value' => function (Config $config): string {
                     $colors = ['bg-teal', 'bg-green', 'bg-yellow', 'bg-purple', 'bg-aqua', 'bg-red'];
                     return Html::tag('ul', implode('<br>', array_map(function ($profile) use (&$colors) {
-                        return Html::tag('li', $profile, ['class' => 'badge ' . array_pop($colors)]);
+                        return Html::tag('li', Html::encode($profile), ['class' => 'badge ' . array_pop($colors)]);
                     }, array_map('trim', explode(',', $config->profiles)))), ['class' => 'list-unstyled']);
                 },
             ],
             'tariffs' => [
                 'class' => MainColumn::class,
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
                     return Html::tag('span', 'NL:') .
-                        Html::a($model->nl_tariff, ['@plan/view', 'id' => $model->nl_tariff_id]) . '</br>' .
+                        Html::a(Html::encode($model->nl_tariff), ['@plan/view', 'id' => $model->nl_tariff_id]) . '</br>' .
                         Html::tag('span', 'US:') .
-                        Html::a($model->us_tariff, ['@plan/view', 'id' => $model->us_tariff_id]);
+                        Html::a(Html::encode($model->us_tariff), ['@plan/view', 'id' => $model->us_tariff_id]);
                 },
             ],
             'servers' => [
@@ -135,7 +135,7 @@ class ConfigGridView extends BoxedGridView
 
                     $links = [];
                     foreach (array_combine($server_ids, $servers) as $id => $server) {
-                        $links[] = Html::a(trim($server), ['@server/view', 'id' => trim($id)]);
+                        $links[] = Html::a(Html::encode(trim($server)), ['@server/view', 'id' => trim($id)]);
                     }
 
                     return implode(', ', array_unique($links));
@@ -143,10 +143,10 @@ class ConfigGridView extends BoxedGridView
             ],
             'cc_servers' => [
                 'label' => Yii::t('hipanel', 'Servers'),
-                'format' => 'html',
+                'format' => 'raw',
                 'value' => function ($model) {
-                    return Html::tag('span', 'NL:') . $model->nl_servers . '<br/>' .
-                        Html::tag('span', 'US:') . $model->us_servers;
+                    return Html::tag('span', 'NL:') . Html::encode($model->nl_servers) . '<br/>' .
+                        Html::tag('span', 'US:') . Html::encode($model->us_servers);
                 },
             ],
             'state' => [

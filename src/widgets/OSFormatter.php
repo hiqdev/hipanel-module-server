@@ -75,8 +75,8 @@ class OSFormatter extends Widget
 
         foreach ($soft as $item) {
             $html .= Html::beginTag('tr');
-            $html .= Html::tag('th', $item['name'] . ' ' . $item['version'], ['class' => 'text-right']);
-            $html .= Html::tag('td', str_replace(',', ', ', $item['description']));
+            $html .= Html::tag('th', Html::encode($item['name']) . ' ' . Html::encode($item['version']), ['class' => 'text-right']);
+            $html .= Html::tag('td', str_replace(',', ', ', Html::encode($item['description'])));
             $html .= Html::endTag('tr');
         }
 
@@ -95,7 +95,7 @@ class OSFormatter extends Widget
                 'class' => 'fa fa-info text-info os-info-popover',
                 'label' => '',
             ],
-            'header'       => Html::tag('h4', $this->osimage->getFullOsName()),
+            'header'       => Html::tag('h4', Html::encode($this->osimage->getFullOsName())),
             'size'         => Modal::SIZE_LARGE,
         ]);
         echo Html::tag('div', $this->generateOSInfo(), [
@@ -110,12 +110,12 @@ class OSFormatter extends Widget
     public function run()
     {
         if (!$this->osimage instanceof Osimage) {
-            echo $this->imageName;
+            echo Html::encode($this->imageName);
 
             return;
         }
 
-        echo $this->osimage->getFullOsName();
+        echo Html::encode($this->osimage->getFullOsName());
         echo '&nbsp;';
         if ($this->osimage->hasSoftPack() && $this->infoCircle) {
             $this->generateInfoCircle();

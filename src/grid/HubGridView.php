@@ -70,17 +70,17 @@ class HubGridView extends BoxedGridView
                 'menuClass' => HubActionsMenu::class,
             ],
             'traf_server_id' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'enableSorting' => false,
                 'value' => function ($model) {
-                    return Html::a($model->traf_server_id_label, ['@server/view', 'id' => $model->traf_server_id]);
+                    return Html::a(Html::encode($model->traf_server_id_label), ['@server/view', 'id' => $model->traf_server_id]);
                 },
             ],
             'vlan_server_id' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'enableSorting' => false,
                 'value' => function ($model) {
-                    return Html::a($model->vlan_server_id_label, ['@server/view', 'id' => $model->vlan_server_id]);
+                    return Html::a(Html::encode($model->vlan_server_id_label), ['@server/view', 'id' => $model->vlan_server_id]);
                 },
             ],
             'buyer' => [
@@ -109,16 +109,17 @@ class HubGridView extends BoxedGridView
                 'i18nDictionary' => 'hipanel:server:hub',
                 'gtype' => 'type,device,switch',
                 'value' => function ($model) {
-                    return Yii::t('hipanel:server:hub', $model->type_label);
+                    return Yii::t('hipanel:server:hub', Html::encode($model->type_label));
                 },
             ],
             'tariff' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
                 'value' => function (Hub $model): ?string {
+                    $tariff = Html::encode($model->tariff);
                     return Yii::$app->user->can('plan.read')
-                        ? Html::a($model->tariff, ['@plan/view', 'id' => $model->tariff_id])
-                        : $model->tariff;
+                        ? Html::a($tariff, ['@plan/view', 'id' => $model->tariff_id])
+                        : $tariff;
                 },
             ],
             'sale_time' => [
