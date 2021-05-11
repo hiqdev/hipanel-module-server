@@ -9,7 +9,7 @@ use hiqdev\combo\Combo;
 class LocationCombo extends Combo
 {
     /** {@inheritdoc} */
-    public $type = 'server/hub';
+    public $type = 'server/location';
 
     /** {@inheritdoc} */
     public $name = 'name';
