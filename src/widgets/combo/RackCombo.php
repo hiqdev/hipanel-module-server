@@ -6,10 +6,10 @@ namespace hipanel\modules\server\widgets\combo;
 use hipanel\helpers\ArrayHelper;
 use hiqdev\combo\Combo;
 
-class LocationCombo extends Combo
+class RackCombo extends Combo
 {
     /** {@inheritdoc} */
-    public $type = 'server/location';
+    public $type = 'server/rack';
 
     /** {@inheritdoc} */
     public $name = 'name';
@@ -27,7 +27,7 @@ class LocationCombo extends Combo
     public function getFilter()
     {
         return ArrayHelper::merge(parent::getFilter(), [
-            'type_in'  => ['format' => 'switch,location'],
+            'type_in'  => ['format' => 'switch,rack'],
             'limit' => ['format' => '50'],
         ]);
     }
