@@ -32,7 +32,8 @@ class BindingColumn extends DataColumn
     public function getDataCellValue($model, $key, $index)
     {
         if (StringHelper::startsWith($this->attribute, 'ipmi', false) && ($ipmi = $model->getBinding($this->attribute)) !== null) {
-            $link = Html::a($ipmi->device_ip, "http://$ipmi->device_ip/", ['target' => '_blank']) . ' ';
+            $device_ip = Html::encode($ipmi->device_ip);
+            $link = Html::a($device_ip, "http://$device_ip/", ['target' => '_blank']) . ' ';
 
             return $link . $this->renderSwitchPort($ipmi);
         }
@@ -50,10 +51,10 @@ class BindingColumn extends DataColumn
             return '';
         }
 
-        $label = $binding->switch_label;
+        $label = Html::encode($binding->switch_label);
         $inn = $binding->switch_inn;
-        $inn = $inn ? "($inn) " : '';
-        $main = $binding->switch . ($binding->port ? ':' . $binding->port : '');
+        $inn = Html::encode($inn ? "($inn) " : '');
+        $main = Html::encode($binding->switch . ($binding->port ? ':' . $binding->port : ''));
 
         return "$inn<b>$main</b> $label";
     }

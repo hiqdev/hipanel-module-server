@@ -34,10 +34,8 @@ class PreOrderGridView extends \hipanel\grid\BoxedGridView
                 },
             ],
             'user_comment' => [
+                'attribute' => 'user_comment',
                 'filterAttribute' => 'user_comment_like',
-                'value' => function ($model) {
-                    return $model->user_comment;
-                },
             ],
             'tech_comment' => [
                 'attribute' => 'tech_comment',

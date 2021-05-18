@@ -101,11 +101,13 @@ class ServerGridView extends BoxedGridView
 
         foreach ($models as $model) {
             if ($model->tariff) {
-                $tariff = $model->tariff_id ? Html::a($model->tariff, [
+                $tariff = Html::encode($model->tariff);
+                $client = Html::encode($model->seller);
+                $tariff = $model->tariff_id ? Html::a($tariff, [
                     '@plan/view',
                     'id' => $model->tariff_id,
-                ]) : $model->tariff;
-                $client = $model->seller ? '(' . Html::a($model->seller, [
+                ]) : $tariff;
+                $client = $model->seller ? '(' . Html::a($client, [
                     '@client/view', 'id' => $model->seller_id,
                 ]) . ')' : '';
 
@@ -150,7 +152,7 @@ class ServerGridView extends BoxedGridView
             ],
             'panel' => [
                 'attribute' => 'panel',
-                'format' => 'html',
+                'format' => 'raw',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) use ($canSupport) {
                     $value = $model->getPanel() ? Yii::t('hipanel:server:panel', $model->getPanel()) : Yii::t('hipanel:server:panel', 'No control panel');
@@ -193,8 +195,8 @@ class ServerGridView extends BoxedGridView
                 'headerOptions' => ['style' => 'width: 1em'],
                 'value' => function ($model) {
                     return DiscountFormatter::widget([
-                        'current' => $model->discounts['fee']['current'],
-                        'next' => $model->discounts['fee']['next'],
+                        'current' => Html::encode($model->discounts['fee']['current']),
+                        'next' => Html::encode($model->discounts['fee']['next']),
                     ]);
                 },
             ],
@@ -307,18 +309,18 @@ class ServerGridView extends BoxedGridView
                 'visible' => Yii::$app->user->can('server.see-label'),
             ],
             'type' => [
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
-                    return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
+                    return Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']);
                 },
             ],
             'detailed_type' => [
                 'label' => Yii::t('hipanel', 'Type'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
-                    return Html::tag('span', $model->type_label, ['class' => 'label label-default']);
+                    return Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']);
                 },
                 'contentOptions' => function ($model) {
                     return GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions('actions');
@@ -358,7 +360,7 @@ class ServerGridView extends BoxedGridView
             ],
             'monthly_fee' => [
                 'label' => Yii::t('hipanel:finance', 'Monthly fee'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
                     return $this->getMonthlyFee($model);
@@ -367,7 +369,7 @@ class ServerGridView extends BoxedGridView
             ],
             'traffic' => [
                 'label' => Yii::t('hipanel:server', 'Traffic'),
-                'format' => 'html',
+                'format' => 'raw',
                 'filter' => false,
                 'value' => function ($model) {
                     return isset($model->consumptions['overuse,server_traf_max']) ? $this->getFormattedConsumptionFor($model->consumptions['overuse,server_traf_max']) : null;
@@ -493,7 +495,6 @@ class ServerGridView extends BoxedGridView
                 ],
                 [
                     'attribute' => 'value',
-                    'format' => 'html',
                 ],
             ],
         ]);
