@@ -35,9 +35,9 @@ CSS
                         'data' => $models,
                         'visibleCount' => count($models),
                         'formatter' => static fn($model) => Html::a(
-                            ($model->getBinding('rack') ? Html::tag('span', $model->getBinding('rack')->switch, ['class' => 'badge bg-purple']) : '') .
+                            ($model->getBinding('rack') ? Html::tag('span', Html::encode($model->getBinding('rack')->switch), ['class' => 'badge bg-purple']) : '') .
                             Html::tag('i', null, ['class' => 'fa fa-server']) .
-                            $model->name,
+                            Html::encode($model->name),
                             ['view', 'id' => $model->id],
                             ['target' => '_blank', 'class' => 'btn btn-app text-bold col']
                         ),
