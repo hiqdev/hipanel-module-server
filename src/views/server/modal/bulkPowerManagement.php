@@ -172,7 +172,7 @@ JS
                         ],
                     ],
                     'formatter' => static fn(Server $server) => Html::a(
-                        '<i class="fa fa-server fa-fw"></i>&nbsp;' . $server->name,
+                        '<i class="fa fa-server fa-fw"></i>&nbsp;' . Html::encode($server->name),
                         ['view', 'id' => $server->id],
                         ['target' => '_blank']
                     ),

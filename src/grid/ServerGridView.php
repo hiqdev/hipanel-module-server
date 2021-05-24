@@ -247,8 +247,9 @@ class ServerGridView extends BoxedGridView
                         'delimiter' => '<br />',
                         'visibleCount' => 1,
                         'formatter' => function ($ip, $idx) use ($model) {
+                            $ip = Html::encode($ip);
                             if ($idx === 0) {
-                                return Html::a($ip, IpController::getSearchUrl(['server_in' => $model->name]), [
+                                return Html::a($ip, IpController::getSearchUrl(['server_in' => Html::encode($model->name)]), [
                                     'class' => 'text-bold',
                                     'target' => '_blank',
                                 ]);
@@ -575,9 +576,9 @@ class ServerGridView extends BoxedGridView
                 ],
                 'formatter' => function (HardwareSale $item) {
                     $additionalInfo = null;
-                    $title = $item->part;
+                    $title = Html::encode($item->part);
                     if (isset($item->serialno)) {
-                        $title .= ': ' . $item->serialno;
+                        $title .= ': ' . Html::encode($item->serialno);
                     }
 
                     if (isset($item->leasing_till)) {

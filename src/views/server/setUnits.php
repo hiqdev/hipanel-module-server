@@ -48,7 +48,7 @@ $unitsEqual = array_reduce($models, static function (bool $result, Server $serve
                                     'data' => $models,
                                     'visibleCount' => count($models),
                                     'formatter' => static function (Server $model) use ($unitsEqual): string {
-                                        $value = $model->name;
+                                        $value = Html::encode($model->name);
                                         if (!$unitsEqual) {
                                             $size = $model->hardwareSettings->units ?? '?';
                                             $value .= " &ndash; {$size}U";
