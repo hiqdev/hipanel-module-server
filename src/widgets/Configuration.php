@@ -2,10 +2,18 @@
 
 namespace hipanel\modules\server\widgets;
 
+use hipanel\grid\GridView;
+use hipanel\helpers\StringHelper;
 use hipanel\modules\stock\helpers\PartSort;
+use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\Module;
+use hipanel\widgets\AmountWithCurrency;
 use hiqdev\hiart\ActiveRecord;
+use Money\Currency;
+use Money\Money;
+use Yii;
 use yii\base\Widget;
+use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -55,6 +63,31 @@ class Configuration extends Widget
         [$controller,] = $this->stock->createController('part');
 
         return $controller->renderPartial('_objectParts', compact('data'));
+    }
+
+    public function getTotalsData(): array
+    {
+        $result = [];
+        foreach (ArrayHelper::index($this->model->parts, 'id', 'company') as $company => $parts) {
+            $sums = [];
+            $byCurrency = ArrayHelper::index(array_filter($parts, static fn(Part $part): bool => $part->currency !== null), 'id', 'currency');
+            foreach ($byCurrency as $currency => $rows) {
+                $sums[$currency] = 0;
+                foreach (ArrayHelper::getColumn($rows, 'price') as $price) {
+                    $sums[$currency] = bcadd($sums[$currency], $price, 2);
+                }
+            }
+            array_walk($sums, static function (&$sum, $currency): void {
+                $sum = Yii::$app->formatter->asCurrency($sum, $currency);
+            });
+            $result[] = [
+                'company' => $company,
+                'count' => Yii::t('hipanel:server', '{0} pcs', [count($parts)]),
+                'sum' => implode(', ', $sums),
+            ];
+        }
+
+        return $result;
     }
 
     private function registerClientScript(): void
