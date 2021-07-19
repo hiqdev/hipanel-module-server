@@ -341,4 +341,8 @@ return [
     'Execution status' => 'Статус выполнения',
     'Sending requests...' => 'Отправка запросов...',
     'All requests completed successfully' => 'Все запросы успешно выполнены',
+    'Company' => 'Компания',
+    'Totals' => 'Итого',
+    'Count' => 'Кол. деталей',
+    '{0} pcs' => '{0} шт.',
 ];

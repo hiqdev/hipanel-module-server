@@ -37,28 +37,30 @@ use yii\widgets\DetailView;
                 ]) ?>
                 <?= $this->context->takeContent() ?>
 
-                <?= GridView::widget([
-                    'dataProvider' => new ArrayDataProvider([
-                        'pagination' => false,
-                        'allModels' => $this->context->getTotalsData(),
-                        'sort' => false,
-                    ]),
-                    'summary' => false,
-                    'columns' => [
-                        [
-                            'attribute' => 'company',
-                            'label' => Yii::t('hipanel:server', 'Company'),
+                <?php if (Yii::$app->user->can('part.create')) : ?>
+                    <?= GridView::widget([
+                        'dataProvider' => new ArrayDataProvider([
+                            'pagination' => false,
+                            'allModels' => $this->context->getTotalsData(),
+                            'sort' => false,
+                        ]),
+                        'summary' => false,
+                        'columns' => [
+                            [
+                                'attribute' => 'company',
+                                'label' => Yii::t('hipanel:server', 'Company'),
+                            ],
+                            [
+                                'attribute' => 'count',
+                                'label' => Yii::t('hipanel:server', 'Count'),
+                            ],
+                            [
+                                'attribute' => 'sum',
+                                'label' => Yii::t('hipanel:server', 'Totals'),
+                            ],
                         ],
-                        [
-                            'attribute' => 'count',
-                            'label' => Yii::t('hipanel:server', 'Count'),
-                        ],
-                        [
-                            'attribute' => 'sum',
-                            'label' => Yii::t('hipanel:server', 'Totals'),
-                        ],
-                    ],
-                ]) ?>
+                    ]) ?>
+                <?php endif ?>
 
             <?php $box->endBody() ?>
 
