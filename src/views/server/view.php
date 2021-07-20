@@ -433,7 +433,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <?php endif ?>
         </div>
         <div class="clearfix"></div>
-        <div class="col-md-7">
+        <div class="col-md-12">
             <?= Configuration::widget([
                 'model' => $model,
                 'configAttrs' => array_filter([
