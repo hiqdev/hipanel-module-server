@@ -32,8 +32,8 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
             [
                 'label' => Yii::t('hipanel:server', 'Resources'),
                 'icon' => 'fa-area-chart',
-                'url' => ['resources', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('support'),
+                'url' => ['@consumption/view', 'id' => $this->model->id],
+                'visible' => $user->can('consumption.read'),
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
