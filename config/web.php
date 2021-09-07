@@ -8,11 +8,8 @@
  * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
  */
 
-use hipanel\modules\finance\helpers\ResourceConfigurator;
 use hipanel\modules\finance\models\ServerResource;
-use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\Server;
-use hipanel\modules\server\models\ServerSearch;
 
 return [
     'aliases' => [
@@ -78,6 +75,18 @@ return [
     ],
     'container' => [
         'definitions' => [
+            \hipanel\modules\finance\helpers\ConsumptionConfigurator::class => [
+                'class' => \hipanel\modules\finance\helpers\ConsumptionConfigurator::class,
+                'configurations' => [
+                    'device' => [
+                        'label' => ['hipanel:finance', 'Server resources'],
+                        'columns' => ['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in', 'ip_num'],
+                        'groups' => [['server_traf', 'server_traf_in'], ['server_traf95', 'server_traf95_in']],
+                        'model' => Server::class,
+                        'resourceModel' => ServerResource::class,
+                    ],
+                ]
+            ],
             \hipanel\modules\dashboard\menus\DashboardMenu::class => [
                 'add' => [
                     'server' => [
