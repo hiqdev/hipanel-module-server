@@ -15,6 +15,7 @@ use hipanel\base\ModelTrait;
 use hipanel\modules\server\models\query\HubQuery;
 use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\server\validators\MacValidator;
+use hipanel\modules\stock\models\Part;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
@@ -131,5 +132,10 @@ class Hub extends Model implements AssignSwitchInterface
         return new HubQuery(get_called_class(), [
             'options' => $options,
         ]);
+    }
+
+    public function getParts()
+    {
+        return $this->hasMany(Part::class, ['dst_id' => 'id']);
     }
 }
