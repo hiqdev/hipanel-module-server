@@ -482,22 +482,6 @@ class ServerController extends CrudController
                     ]);
                 },
             ],
-            'resource-list' => [
-                'class' => ResourceListAction::class,
-                'searchModel' => ServerSearch::class,
-                'model' => Server::class,
-                'view' => 'resources/servers',
-            ],
-            'resource-detail' => [
-                'class' => ResourceDetailAction::class,
-                'model' => Server::class,
-                'configurator' => Yii::$container->get('server-resource-config'),
-                'view' => 'resources/server',
-            ],
-            'fetch-resources' => [
-                'class' => ResourceFetchDataAction::class,
-                'configurator' => Yii::$container->get('server-resource-config'),
-            ],
             'resources' => [
                 'class' => ViewAction::class,
                 'view' => 'resources',
