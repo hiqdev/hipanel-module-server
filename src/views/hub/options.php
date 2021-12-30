@@ -39,6 +39,10 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'password')->widget(PasswordInput::class) ?>
                     </div>
                     <div class="col-md-6">
+                        <?= $form->field($model, 'user_login') ?>
+                        <?= $form->field($model, 'user_password')->widget(PasswordInput::class) ?>
+                    </div>
+                    <div class="col-md-6">
                         <?= $form->field($model, 'ports_num') ?>
                         <?= $form->field($model, 'traf_server_id')->widget(ServerCombo::class, [
                             'pluginOptions' => [],

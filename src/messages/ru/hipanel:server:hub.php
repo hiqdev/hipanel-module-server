@@ -40,4 +40,6 @@ return [
     'Location' => 'Размещение',
     'Edit switches' => 'Редактировать свитчи',
     'Bulk actions' => 'Массовые действия',
+    'User login' => 'Логин пользователя',
+    'User password' => 'Пароль пользователя',
 ];
