@@ -34,7 +34,8 @@ class Hub extends Model implements AssignSwitchInterface
             [['tariff'], 'safe'],
             [[
                 'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'buyer', 'note', 'inn', 'model',
-                'community', 'login', 'traf_server_id', 'order_no', 'password', 'ports_num', 'traf_server_id',
+                'community', 'traf_server_id', 'order_no', 'ports_num', 'traf_server_id',
+                'login', 'password', 'user_login', 'user_password',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
                 'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type',
             ], 'string'],
@@ -54,6 +55,7 @@ class Hub extends Model implements AssignSwitchInterface
             [[
                 'id', 'inn', 'model', 'login', 'password', 'ports_num', 'community',
                 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no', 'base_port_no',
+                'user_login', 'user_password',
             ], 'safe', 'on' => 'options'],
             [['traf_server_id', 'vlan_server_id'], 'integer', 'on' => self::SCENARIO_OPTIONS],
 
@@ -76,6 +78,8 @@ class Hub extends Model implements AssignSwitchInterface
             'order_no' => Yii::t('hipanel:server:hub', 'Order No.'),
             'login' => Yii::t('hipanel:server:hub', 'Login'),
             'password' => Yii::t('hipanel:server:hub', 'Password'),
+            'user_login' => Yii::t('hipanel:server:hub', 'User login'),
+            'user_password' => Yii::t('hipanel:server:hub', 'User password'),
             'ports_num' => Yii::t('hipanel:server:hub', 'Number of ports'),
             'traf_server_id' => Yii::t('hipanel:server:hub', 'Server where traf is counted'),
             'vlan_server_id' => Yii::t('hipanel:server:hub', 'Server in same VLAN'),
