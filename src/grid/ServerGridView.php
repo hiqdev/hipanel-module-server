@@ -493,9 +493,11 @@ class ServerGridView extends BoxedGridView
             'columns' => [
                 [
                     'attribute' => 'typeLabel',
+                    'format' => 'raw'
                 ],
                 [
                     'attribute' => 'value',
+                    'format' => 'raw'
                 ],
             ],
         ]);

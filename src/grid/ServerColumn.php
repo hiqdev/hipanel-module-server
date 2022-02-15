@@ -41,6 +41,10 @@ class ServerColumn extends DataColumn
 
     public function getDataCellValue($model, $key, $index)
     {
-        return Html::a($model->{$this->nameAttribute}, ['/server/server/view', 'id' => $model->{$this->idAttribute}]);
+        if (!empty($model->{$this->idAttribute})) {
+            return Html::a($model->{$this->nameAttribute}, ['/server/server/view', 'id' => $model->{$this->idAttribute}]);
+        }
+
+        return $model->{$this->nameAttribute};
     }
 }
