@@ -12,12 +12,9 @@ namespace hipanel\modules\server\tests\unit\controllers;
 
 use hipanel\modules\server\controllers\ServerController;
 
-class ServerControllerTest extends \PHPUnit_Framework_TestCase
+class ServerControllerTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var ServerController
-     */
-    protected $object;
+    protected ServerController $object;
 
     protected function setUp(): void
     {
@@ -28,8 +25,8 @@ class ServerControllerTest extends \PHPUnit_Framework_TestCase
     {
     }
 
-    public function testActions()
+    public function testActions(): void
     {
-        $this->assertInternalType('array', $this->object->actions());
+        $this->assertIsArray($this->object->actions());
     }
 }

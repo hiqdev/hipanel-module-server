@@ -3,9 +3,7 @@
 /** @var Config $model */
 
 use hipanel\modules\server\models\Config;
-use hipanel\modules\server\widgets\combo\PrimaryServerCombo;
 use hipanel\widgets\Box;
-use hiqdev\combo\StaticCombo;
 use yii\bootstrap\Html;
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\finance\widgets\combo\TariffCombo;

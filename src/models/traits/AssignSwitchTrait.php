@@ -14,6 +14,7 @@ use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Binding;
+use hipanel\modules\server\models\Hub;
 use Yii;
 use yii\base\InvalidConfigException;
 
@@ -25,7 +26,7 @@ trait AssignSwitchTrait
      *
      * @var array
      */
-    protected $switchVariants = [];
+    protected array $switchVariants = [];
 
     /**
      * @param AssignSwitchInterface $originalModel
@@ -35,6 +36,7 @@ trait AssignSwitchTrait
     public static function fromOriginalModel(AssignSwitchInterface $originalModel): AssignSwitchInterface
     {
         $attributes = array_merge($originalModel->getAttributes(), []);
+        /** @var Hub $model */
         $model = new static(['scenario' => 'default']);
         foreach ($originalModel->bindings as $binding) {
             $attribute = $binding->typeWithNo . '_id';
@@ -96,7 +98,7 @@ trait AssignSwitchTrait
             'location' => ['location'],
         ];
         /** @var AssignSwitchesForm|AssignHubsForm $this */
-        if ($this instanceof AssignSwitchesForm && isset($map[$this->type])) {
+        if (isset($this->type, $map[$this->type]) && $this instanceof AssignSwitchesForm) {
             return $map[$this->type];
         }
 

@@ -19,7 +19,7 @@ class AssignSwitchesForm extends Hub
 {
     use ModelTrait;
 
-    protected $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'console', 'location'];
+    protected array $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'console', 'location'];
 
     /**
      * {@inheritdoc}

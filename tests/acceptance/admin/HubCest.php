@@ -132,6 +132,8 @@ class HubCest
             ->submitForm();
         $I->closeNotification('Switch was updated');
         $I->seeInCurrentUrl(Url::to(['@hub/view']));
+        $data = $this->hubData;
+        unset($data['note']); // cause the xEditable plugin cut the `note` link
         $this->viewPage->check($this->hubData);
     }
 

@@ -138,7 +138,7 @@ class ServerActionsMenu extends Menu
                         'header' => Html::tag('h4', $item['label'], ['class' => 'modal-title']),
                         'scenario' => 'default',
                         'actionUrl' => $item['url'],
-                        'size' => $item['size'],
+                        'size' => $item['size'] ?? Modal::SIZE_DEFAULT,
                         'handleSubmit' => $item['url'],
                         'toggleButton' => [
                             'tag' => 'a',

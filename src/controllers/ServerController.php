@@ -454,7 +454,7 @@ class ServerController extends CrudController
                     $ispSupported = false;
                     if ($tariff !== null) {
                         foreach ($tariff->getResources() as $resource) {
-                            if ($resource->type === 'isp' && $resource->quantity > 0) {
+                            if (!empty($resource) && !empty($resource->type) && $resource->type === 'isp' && $resource->quantity > 0) {
                                 $ispSupported = true;
                             }
                         }
@@ -469,14 +469,14 @@ class ServerController extends CrudController
 
                     $blockReasons = $controller->getBlockReasons();
 
-                    return compact([
-                        'model',
-                        'osimages',
-                        'osimageslivecd',
-                        'groupedOsimages',
-                        'panels',
-                        'blockReasons',
-                    ]);
+                    return [
+                        'model' => $model,
+                        'osimages' => $osimages,
+                        'osimageslivecd' => $osimageslivecd ?? [],
+                        'groupedOsimages' => $groupedOsimages,
+                        'panels' => $panels,
+                        'blockReasons' => $blockReasons,
+                    ];
                 },
             ],
             'resources' => [
@@ -853,14 +853,14 @@ class ServerController extends CrudController
                 }
             }
         } else {
-            if ($model->statuses['serverEnableVNC'] !== null && strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC'])) > time()) {
+            if (!empty($model->statuses['serverEnableVNC']) && strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC'])) > time()) {
                 $vnc = Yii::$app->cache->getOrSet([__METHOD__, $model->id, $model], function () use ($model) {
                     return ArrayHelper::merge([
                         'endTime' => strtotime($model->statuses['serverEnableVNC']) + 28800,
                     ], Server::perform('enable-VNC', ['id' => $model->id]));
                 }, 28800);
             }
-            $vnc['enabled'] = $model->statuses['serverEnableVNC'] === null ? false : strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC'])) > time();
+            $vnc['enabled'] = !empty($model->statuses['serverEnableVNC']) && strtotime('+8 hours', strtotime($model->statuses['serverEnableVNC'])) > time();
         }
 
         return $vnc;

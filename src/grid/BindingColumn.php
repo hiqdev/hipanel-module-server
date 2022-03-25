@@ -38,7 +38,7 @@ class BindingColumn extends DataColumn
             return $link . $this->renderSwitchPort($ipmi);
         }
 
-        return $this->renderSwitchPort($model->bindings[$this->attribute]);
+        return isset($model->bindings[$this->attribute]) ? $this->renderSwitchPort($model->bindings[$this->attribute]) : '';
     }
 
     /**

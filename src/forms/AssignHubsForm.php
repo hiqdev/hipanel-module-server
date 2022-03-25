@@ -24,7 +24,7 @@ class AssignHubsForm extends Server
     /**
      * @var array
      */
-    protected $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'pdu2', 'net2', 'ipmi'];
+    protected array $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'pdu2', 'net2', 'ipmi'];
 
     /**
      * {@inheritdoc}

@@ -44,15 +44,9 @@ class ServerGridView extends BoxedGridView
 {
     use ColorizeGrid;
 
+    public string $controllerUrl = '@server';
+    public array $osImages = [];
     private const HIDE_UNSALE = false;
-
-    public $controllerUrl = '@server';
-
-    /**
-     * @var array
-     */
-    public $osImages;
-
     private User $user;
 
     public function init()
@@ -637,7 +631,7 @@ class ServerGridView extends BoxedGridView
                     })(),
                     'tag' => 'button',
                     'type' => 'button',
-                    'class' => "btn btn-xs {$badgeColors[$usageType]}",
+                    'class' => "btn btn-xs " . ($badgeColors[$usageType] ?? ''),
                     'popoverOptions' => [
                         'html' => true,
                         'placement' => 'bottom',

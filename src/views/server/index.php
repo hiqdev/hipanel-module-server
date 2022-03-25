@@ -236,7 +236,6 @@ JS
                 'boxed' => false,
                 'colorize' => true,
                 'filterModel' => $model,
-                'osImages' => $osimages,
                 'columns' => $representationCollection->getByName($uiModel->representation)->getColumns(),
                 'rowOptions' => function ($model) {
                     return GridLegend::create(new ServerGridLegend($model))->gridRowOptions();

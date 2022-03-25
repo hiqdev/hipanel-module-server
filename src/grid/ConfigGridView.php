@@ -112,9 +112,9 @@ class ConfigGridView extends BoxedGridView
                 'enableSorting' => false,
                 'value' => function (Config $config): string {
                     $colors = ['bg-teal', 'bg-green', 'bg-yellow', 'bg-purple', 'bg-aqua', 'bg-red'];
-                    return Html::tag('ul', implode('<br>', array_map(function ($profile) use (&$colors) {
+                    return Html::tag('ul', implode('<br>', array_map(static function ($profile) use (&$colors) {
                         return Html::tag('li', Html::encode($profile), ['class' => 'badge ' . array_pop($colors)]);
-                    }, array_map('trim', explode(',', $config->profiles)))), ['class' => 'list-unstyled']);
+                    }, array_map('trim', explode(',', (string)$config->profiles)))), ['class' => 'list-unstyled']);
                 },
             ],
             'tariffs' => [
