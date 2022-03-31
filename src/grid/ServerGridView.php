@@ -50,10 +50,12 @@ class ServerGridView extends BoxedGridView
      */
     public $osImages;
 
+    private $user;
+
     public function init()
     {
         parent::init();
-
+        $this->user = Yii::$app->user;
         $this->view->registerCss('
         .tariff-chain {
             list-style: none;
@@ -77,27 +79,7 @@ class ServerGridView extends BoxedGridView
 
     protected function formatTariff($model)
     {
-        $user = Yii::$app->user;
-        $models = [];
-        $html = '';
-        if ($user->can('sale.read') && !empty($model->sales)) {
-            foreach ($model->sales as $sale) {
-                $models[] = $sale;
-            }
-        } elseif ($user->can('plan.read')) {
-            if (!empty($model->parent_tariff)) {
-                $title = $model->parent_tariff;
-            } else {
-                $title = $model->tariff;
-            }
-
-            $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
-        } else {
-            $models[] = new Sale([
-                'tariff' => $model->tariff,
-                'tariff_id' => $model->tariff_id,
-            ]);
-        }
+        $models = $this->getModelWithUserPermission($model);
 
         foreach ($models as $model) {
             if ($model->tariff) {
@@ -116,9 +98,88 @@ class ServerGridView extends BoxedGridView
         }
 
         return Html::tag('ul', $html, [
-            'class' => 'tariff-chain ' . ($user->can('support') ?: 'inactiveLink'),
+            'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
             'style' => 'margin: 0; padding: 0;',
         ]);
+    }
+
+    protected function formatTariffWithoutUnsale($model) {
+        $models = $this->getModelWithUserPermission($model);
+
+        foreach ($models as $model) {
+            if ($model->tariff && ($model->unsale_time === null || $model->unsale_time > date('Y-m-d H:i:s'))) {
+                $tariff = Html::encode($model->tariff);
+                $data[] = [
+                    'tariff' => $model->tariff_id ? '(' . Html::a($tariff, [
+                            '@plan/view',
+                            'id' => $model->tariff_id,
+                        ]) . ')' : $tariff,
+                    'client' => $model->seller ? Html::a(Html::encode($model->seller), [
+                        '@client/view', 'id' => $model->seller_id,
+                    ]) : '',
+                    'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
+                        '@client/view', 'id' => $model->buyer_id,
+                    ]) : '',
+                    'start' => date('Y-m-d H:i:s', strtotime($model->time)),
+                    'finish' => $model->unsale_time ? date('Y-m-d H:i:s', strtotime($model->unsale_time)) : '',
+                ];
+            }
+        }
+        $result = '';
+        for ($i = 0; $i < count($data); $i++) {
+            $html = '';
+            if ($i == 0) {
+                $html .= Html::tag('li', $data[$i]['client']);
+                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
+                if (empty($data[$i]['finish']) && count($data) > 1) {
+                    $data[$i]['finish'] = $data[$i + 1]['start'];
+                } else {
+                    $data[$i]['finish'] = '&#8734;';
+                }
+            } else {
+                $html .= Html::tag('li', $data[0]['client']);
+                $html .= Html::tag('li', $data[0]['tariff'] . '&nbsp;' . $data[0]['buyer']);
+                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
+                if (empty($data[$i]['finish'])) {
+                    $data[$i]['finish'] = '&#8734;';
+                }
+            }
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+
+            $html = Html::tag('li', $data[$i]['start'] . ' - ' . $data[$i]['finish']);
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+        }
+        return $result;
+    }
+
+    protected function getModelWithUserPermission($model)
+    {
+        $models = [];
+        if ($this->user->can('sale.read') && !empty($model->sales)) {
+            foreach ($model->sales as $sale) {
+                $models[] = $sale;
+            }
+        } elseif ($this->user->can('plan.read')) {
+            if (!empty($model->parent_tariff)) {
+                $title = $model->parent_tariff;
+            } else {
+                $title = $model->tariff;
+            }
+
+            $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
+        } else {
+            $models[] = new Sale([
+                'tariff' => $model->tariff,
+                'tariff_id' => $model->tariff_id,
+            ]);
+        }
+        return $models;
     }
 
     public function columns()
@@ -225,6 +286,12 @@ class ServerGridView extends BoxedGridView
                             'current' => $model->discounts['fee']['current'],
                             'next' => $model->discounts['fee']['next'],
                         ]);
+                },
+            ],
+            'tariff_without_unsale' => [
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $this->formatTariffWithoutUnsale($model);
                 },
             ],
             'ip' => [
