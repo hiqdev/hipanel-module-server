@@ -247,7 +247,6 @@ return [
     'Sell servers' => 'Продать серверы',
     'Servers were sold' => 'Серверы были проданы',
     'Tariff' => 'Тариф',
-    'Tariff without unsale' => 'Тариф без закрытых продаж',
 
     'Fast navigation to another server' => 'Быстрый переход к другому серверу',
 

@@ -43,6 +43,8 @@ class ServerGridView extends BoxedGridView
 {
     use ColorizeGrid;
 
+    const HIDE_UNSALE = false;
+
     public $controllerUrl = '@server';
 
     /**
@@ -107,7 +109,7 @@ class ServerGridView extends BoxedGridView
         $models = $this->getModelWithUserPermission($model);
 
         foreach ($models as $model) {
-            if ($model->tariff && ($model->unsale_time === null || $model->unsale_time > date('Y-m-d H:i:s'))) {
+            if ($model->tariff && $this->checkHide($model)) {
                 $tariff = Html::encode($model->tariff);
                 $data[] = [
                     'tariff' => $model->tariff_id ? '(' . Html::a($tariff, [
@@ -120,8 +122,8 @@ class ServerGridView extends BoxedGridView
                     'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
                         '@client/view', 'id' => $model->buyer_id,
                     ]) : '',
-                    'start' => date('Y-m-d H:i:s', strtotime($model->time)),
-                    'finish' => $model->unsale_time ? date('Y-m-d H:i:s', strtotime($model->unsale_time)) : '',
+                    'start' => Yii::$app->formatter->asDate($model->time),
+                    'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
                 ];
             }
         }
@@ -154,6 +156,7 @@ class ServerGridView extends BoxedGridView
                 'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
                 'style' => 'margin: 0; padding: 0;',
             ]);
+            $result .= Html::tag('br');
         }
         return $result;
     }
@@ -180,6 +183,15 @@ class ServerGridView extends BoxedGridView
             ]);
         }
         return $models;
+    }
+
+    protected function checkHide($model)
+    {
+        $result = true;
+        if (self::HIDE_UNSALE) {
+            $result = ($model->unsale_time === null || $model->unsale_time > date('Y-m-d H:i:s'));
+        }
+        return $result;
     }
 
     public function columns()
