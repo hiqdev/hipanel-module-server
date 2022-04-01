@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\grid;
 
 use hipanel\base\Model;
+use hipanel\components\User;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
@@ -43,7 +44,7 @@ class ServerGridView extends BoxedGridView
 {
     use ColorizeGrid;
 
-    const HIDE_UNSALE = false;
+    private const HIDE_UNSALE = false;
 
     public $controllerUrl = '@server';
 
@@ -52,7 +53,7 @@ class ServerGridView extends BoxedGridView
      */
     public $osImages;
 
-    private $user;
+    private User $user;
 
     public function init()
     {
@@ -105,7 +106,7 @@ class ServerGridView extends BoxedGridView
         ]);
     }
 
-    protected function formatTariffWithoutUnsale($model) {
+    protected function formatTariffWithoutUnsale(Server $model) {
         $models = $this->getModelWithUserPermission($model);
 
         foreach ($models as $model) {
@@ -161,7 +162,7 @@ class ServerGridView extends BoxedGridView
         return $result;
     }
 
-    protected function getModelWithUserPermission($model)
+    protected function getModelWithUserPermission(Server $model)
     {
         $models = [];
         if ($this->user->can('sale.read') && !empty($model->sales)) {
@@ -185,7 +186,7 @@ class ServerGridView extends BoxedGridView
         return $models;
     }
 
-    protected function checkHide($model)
+    protected function checkHide(Sale $model)
     {
         $result = true;
         if (self::HIDE_UNSALE) {
