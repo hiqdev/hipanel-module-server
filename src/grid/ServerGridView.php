@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\grid;
 
 use hipanel\base\Model;
+use hipanel\components\User;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
@@ -43,6 +44,8 @@ class ServerGridView extends BoxedGridView
 {
     use ColorizeGrid;
 
+    private const HIDE_UNSALE = false;
+
     public $controllerUrl = '@server';
 
     /**
@@ -50,10 +53,12 @@ class ServerGridView extends BoxedGridView
      */
     public $osImages;
 
+    private User $user;
+
     public function init()
     {
         parent::init();
-
+        $this->user = Yii::$app->user;
         $this->view->registerCss('
         .tariff-chain {
             list-style: none;
@@ -77,27 +82,7 @@ class ServerGridView extends BoxedGridView
 
     protected function formatTariff($model)
     {
-        $user = Yii::$app->user;
-        $models = [];
-        $html = '';
-        if ($user->can('sale.read') && !empty($model->sales)) {
-            foreach ($model->sales as $sale) {
-                $models[] = $sale;
-            }
-        } elseif ($user->can('plan.read')) {
-            if (!empty($model->parent_tariff)) {
-                $title = $model->parent_tariff;
-            } else {
-                $title = $model->tariff;
-            }
-
-            $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
-        } else {
-            $models[] = new Sale([
-                'tariff' => $model->tariff,
-                'tariff_id' => $model->tariff_id,
-            ]);
-        }
+        $models = $this->getModelWithUserPermission($model);
 
         foreach ($models as $model) {
             if ($model->tariff) {
@@ -116,9 +101,98 @@ class ServerGridView extends BoxedGridView
         }
 
         return Html::tag('ul', $html, [
-            'class' => 'tariff-chain ' . ($user->can('support') ?: 'inactiveLink'),
+            'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
             'style' => 'margin: 0; padding: 0;',
         ]);
+    }
+
+    protected function formatTariffWithoutUnsale(Server $model) {
+        $models = $this->getModelWithUserPermission($model);
+
+        foreach ($models as $model) {
+            if ($model->tariff && $this->checkHide($model)) {
+                $tariff = Html::encode($model->tariff);
+                $data[] = [
+                    'tariff' => $model->tariff_id ? '(' . Html::a($tariff, [
+                            '@plan/view',
+                            'id' => $model->tariff_id,
+                        ]) . ')' : $tariff,
+                    'client' => $model->seller ? Html::a(Html::encode($model->seller), [
+                        '@client/view', 'id' => $model->seller_id,
+                    ]) : '',
+                    'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
+                        '@client/view', 'id' => $model->buyer_id,
+                    ]) : '',
+                    'start' => Yii::$app->formatter->asDate($model->time),
+                    'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
+                ];
+            }
+        }
+        $result = '';
+        for ($i = 0; $i < count($data); $i++) {
+            $html = '';
+            if ($i == 0) {
+                $html .= Html::tag('li', $data[$i]['client']);
+                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
+                if (empty($data[$i]['finish']) && count($data) > 1) {
+                    $data[$i]['finish'] = $data[$i + 1]['start'];
+                } else {
+                    $data[$i]['finish'] = '&#8734;';
+                }
+            } else {
+                $html .= Html::tag('li', $data[0]['client']);
+                $html .= Html::tag('li', $data[0]['tariff'] . '&nbsp;' . $data[0]['buyer']);
+                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
+                if (empty($data[$i]['finish'])) {
+                    $data[$i]['finish'] = '&#8734;';
+                }
+            }
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+
+            $html = Html::tag('li', $data[$i]['start'] . ' - ' . $data[$i]['finish']);
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+            $result .= Html::tag('br');
+        }
+        return $result;
+    }
+
+    protected function getModelWithUserPermission(Server $model)
+    {
+        $models = [];
+        if ($this->user->can('sale.read') && !empty($model->sales)) {
+            foreach ($model->sales as $sale) {
+                $models[] = $sale;
+            }
+        } elseif ($this->user->can('plan.read')) {
+            if (!empty($model->parent_tariff)) {
+                $title = $model->parent_tariff;
+            } else {
+                $title = $model->tariff;
+            }
+
+            $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
+        } else {
+            $models[] = new Sale([
+                'tariff' => $model->tariff,
+                'tariff_id' => $model->tariff_id,
+            ]);
+        }
+        return $models;
+    }
+
+    protected function checkHide(Sale $model)
+    {
+        $result = true;
+        if (self::HIDE_UNSALE) {
+            $result = ($model->unsale_time === null || $model->unsale_time > date('Y-m-d H:i:s'));
+        }
+        return $result;
     }
 
     public function columns()
@@ -225,6 +299,12 @@ class ServerGridView extends BoxedGridView
                             'current' => $model->discounts['fee']['current'],
                             'next' => $model->discounts['fee']['next'],
                         ]);
+                },
+            ],
+            'tariff_without_unsale' => [
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $this->formatTariffWithoutUnsale($model);
                 },
             ],
             'ip' => [

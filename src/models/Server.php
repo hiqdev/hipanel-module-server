@@ -378,6 +378,7 @@ class Server extends Model implements AssignSwitchInterface
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
             'expires' => Yii::t('hipanel:server', 'Expires'),
             'tariff_id' => Yii::t('hipanel:server', 'Tariff'),
+            'tariff_without_unsale' => Yii::t('hipanel:server', 'Tariff'),
             'order_no' => Yii::t('hipanel:server', 'Order'),
             'move_accounts' => Yii::t('hipanel:server', 'Move accounts to new client'),
             'server' => Yii::t('hipanel:server', 'Server name'),
