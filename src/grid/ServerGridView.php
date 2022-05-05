@@ -76,6 +76,7 @@ class ServerGridView extends BoxedGridView
 
     protected function formatTariff($model)
     {
+        $html = '';
         $models = $this->getModelWithUserPermission($model);
 
         foreach ($models as $model) {
@@ -521,6 +522,7 @@ class ServerGridView extends BoxedGridView
                         $consumption->setAttribute('prices', [$consumption->currency => $consumption->price]);
                     }
                     foreach ($consumption->prices as $currency => $price) {
+                        $prices[$currency] ??= 0;
                         $prices[$currency] += $price;
                     }
                 }
