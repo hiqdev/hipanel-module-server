@@ -12,8 +12,10 @@ namespace hipanel\modules\server\controllers;
 
 use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
+use hipanel\actions\PrepareBulkAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
+use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\actions\RedirectAction;
 use hipanel\actions\ValidateFormAction;
@@ -23,7 +25,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\server\actions\BulkSetRackNo;
-use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\forms\HubRestoreForm;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\forms\AssignSwitchesForm;
@@ -62,6 +64,19 @@ class HubController extends CrudController
                     ];
                 },
             ],
+            'restore-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => 'modal/_restore',
+                'scenario' => 'restore',
+                'on beforePerform' => function (Event $event) {
+                    $event->sender->getDataProvider()->query->withDeleted();
+                },
+            ],
+            'restore' => [
+                'class' => SmartPerformAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'The restore has been successful'),
+                'error' => Yii::t('hipanel:server:hub', 'An error has occurred while the restoring hub(s)'),
+            ],
             'view' => [
                 'on beforePerform' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
@@ -72,6 +87,7 @@ class HubController extends CrudController
                         'hardwareSettings',
                     ]);
                     $dataProvider->query
+                        ->withDeleted()
                         ->andWhere([
                             'with_bindings' => 1,
                             'with_servers' => 1,

@@ -21,6 +21,31 @@ class HubDetailMenu extends AbstractDetailMenu
 
     public function items(): array
     {
+        if ($this->model->isDeleted()) {
+            return [
+                'restore' => [
+                    'label' => AjaxModalWithTemplatedButton::widget([
+                        'ajaxModalOptions' => [
+                            'id' => "monitoring-settings-modal-{$this->model->id}",
+                            'bulkPage' => true,
+                            'header' => Html::tag('h4', Yii::t('hipanel:server:hub', 'Restore'), ['class' => 'modal-title']),
+                            'scenario' => 'default',
+                            'actionUrl' => ['restore-modal', 'id' => $this->model->id],
+                            'handleSubmit' => ['restore', 'id' => $this->model->id],
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => Html::tag('span', Html::tag('i', null, ['class' => 'fa fa-fw fa-history']), ['class' => 'pull-right']) . Yii::t('hipanel:server:hub', 'Restore'),
+                                'style' => 'cursor: pointer;',
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '{toggleButton}',
+                    ]),
+                    'encode' => false,
+                    'visible' => Yii::$app->user->can('server.manage-settings'),
+                ],
+            ];
+        }
+
         $actions = HubActionsMenu::create(['model' => $this->model])->items();
         $items = array_merge($actions, [
             'delete' => [

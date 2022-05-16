@@ -17,8 +17,10 @@ use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\server\menus\HubActionsMenu;
 use hipanel\modules\server\models\Hub;
 use hipanel\widgets\gridLegend\ColorizeGrid;
+use hipanel\widgets\State;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Yii;
+use yii\db\ActiveRecordInterface;
 use yii\helpers\Html;
 
 class HubGridView extends BoxedGridView
@@ -96,6 +98,13 @@ class HubGridView extends BoxedGridView
                 'attribute' => 'name',
                 'filterAttribute' => 'name_ilike',
                 'note' => 'note',
+            ],
+            'state_label' => [
+                'attribute' => 'state_label',
+                'label' => Yii::t('hipanel:server:hub', 'State'),
+                'filter' => false,
+                'format' => 'raw',
+                'value' => static fn(ActiveRecordInterface $model): string => State::widget(['model' => $model]),
             ],
             'type' => [
                 'class' => RefColumn::class,

@@ -37,6 +37,7 @@ use hiqdev\yii2\menus\grid\MenuColumn;
 use Tuck\Sort\Sort;
 use Yii;
 use yii\data\ArrayDataProvider;
+use yii\db\ActiveRecordInterface;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -157,7 +158,7 @@ class ServerGridView extends BoxedGridView
         return $result;
     }
 
-    protected function getModelWithUserPermission(Server $model)
+    protected function getModelWithUserPermission(ActiveRecordInterface $model)
     {
         $models = [];
         if ($this->user->can('sale.read') && !empty($model->sales)) {
@@ -192,7 +193,6 @@ class ServerGridView extends BoxedGridView
 
     public function columns()
     {
-        $canAdmin = Yii::$app->user->can('admin');
         $canSupport = Yii::$app->user->can('support');
 
         return array_merge(parent::columns(), [
@@ -212,7 +212,7 @@ class ServerGridView extends BoxedGridView
                 'visible' => $canSupport,
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
-                    if ($model->status_time) {
+                    if (isset($model->status_time)) {
                         $html .= ' ' . Html::tag('nobr', Yii::t('hipanel:server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
                     }
 
