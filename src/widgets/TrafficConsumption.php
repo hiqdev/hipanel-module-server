@@ -133,7 +133,7 @@ class TrafficConsumption extends Widget
                         'borderColor' => 'rgba(151,187,205,1)',
                         'pointBackgroundColor' => 'rgba(151,187,205,1)',
                         'pointBorderColor' => '#fff',
-                        'data' => (array) $this->data["{$this->consumptionBase}_in"],
+                        'data' => (array)($this->data["{$this->consumptionBase}_in"] ?? []),
                     ],
                 ],
             ],

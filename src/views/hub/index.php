@@ -7,9 +7,11 @@
  * @var \yii\data\ActiveDataProvider $dataProvider
  * @var array $types
  */
+
 use hipanel\modules\server\grid\HubGridLegend;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\widgets\AjaxModal;
+use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hipanel\widgets\Pjax;
@@ -87,6 +89,20 @@ $this->registerCss('
                             'linkOptions' => ['data-action' => 'set-rack-no'],
                             'visible' => Yii::$app->user->can('hub.update'),
                         ],
+                        AjaxModalWithTemplatedButton::widget([
+                            'ajaxModalOptions' => [
+                                'id' => 'restore-modal',
+                                'bulkPage' => true,
+                                'usePost' => true,
+                                'header' => Html::tag('h4', Yii::t('hipanel:server:hub', 'Restore'), ['class' => 'modal-title']),
+                                'scenario' => 'restore-modal',
+                                'toggleButton' => [
+                                    'tag' => 'a',
+                                    'label' => '<i class="fa fa-history"></i> ' . Yii::t('hipanel:server:hub', 'Restore'),
+                                ],
+                            ],
+                            'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                        ])
                     ]),
                 ]) ?>
             </div>

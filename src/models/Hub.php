@@ -26,6 +26,9 @@ class Hub extends Model implements AssignSwitchInterface
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
     const SCENARIO_OPTIONS = 'options';
+    public const STATE_OK = 'ok';
+    public const STATE_DELETED = 'deleted';
+
 
     public function rules()
     {
@@ -37,7 +40,7 @@ class Hub extends Model implements AssignSwitchInterface
                 'community', 'traf_server_id', 'order_no', 'ports_num', 'traf_server_id',
                 'login', 'password', 'user_login', 'user_password',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
-                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type',
+                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'state', 'state_label',
             ], 'string'],
             [['virtual'], 'boolean'],
 
@@ -61,7 +64,7 @@ class Hub extends Model implements AssignSwitchInterface
 
             [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
             [['mac'], MacValidator::class],
-            [['id'], 'required', 'on' => 'delete'],
+            [['id'], 'required', 'on' => ['delete', 'restore']],
         ]);
     }
 
@@ -141,5 +144,10 @@ class Hub extends Model implements AssignSwitchInterface
     public function getParts()
     {
         return $this->hasMany(Part::class, ['dst_id' => 'id']);
+    }
+
+    public function isDeleted(): bool
+    {
+        return isset($this->state) && $this->state === self::STATE_DELETED;
     }
 }

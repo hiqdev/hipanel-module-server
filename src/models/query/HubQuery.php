@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\models\query;
 
+use hipanel\modules\server\models\HubSearch;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
@@ -31,6 +32,13 @@ class HubQuery extends ActiveQuery
             $this->joinWith(['monitoringSettings']);
             $this->andWhere(['with_monitoringSettings' => 1]);
         }
+
+        return $this;
+    }
+
+    public function withDeleted(): self
+    {
+        $this->andWhere(['state_in' => [HubSearch::STATE_OK, HubSearch::STATE_DELETED]]);
 
         return $this;
     }

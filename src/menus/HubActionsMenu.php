@@ -22,13 +22,19 @@ class HubActionsMenu extends Menu
 
     public function items(): array
     {
-        return [
+        $onlyView = [
             'view' => [
                 'label' => Yii::t('hipanel', 'View'),
                 'icon' => 'fa-info',
                 'url' => ['@hub/view', 'id' => $this->model->id],
                 'visible' => Yii::$app->user->can('hub.read'),
             ],
+        ];
+        if ($this->model->isDeleted()) {
+            return $onlyView;
+        }
+
+        $actions = [
             [
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
@@ -71,5 +77,7 @@ class HubActionsMenu extends Menu
                 'visible' => Yii::$app->user->can('server.manage-settings'),
             ],
         ];
+
+        return array_merge($onlyView, $actions);
     }
 }

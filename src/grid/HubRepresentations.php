@@ -27,6 +27,7 @@ class HubRepresentations extends RepresentationCollection
                     'inn',
                     'model',
                     'type',
+                    'state_label',
                     'ip',
                     'mac',
                     'order_no',
