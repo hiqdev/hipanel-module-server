@@ -274,7 +274,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             'boxed'   => false,
                             'model'   => $model,
                             'columns' => [
-                                'tariff_without_unsale',
+                                'finished_sales',
+                                'active_sales',
+                                'future_sales',
                             ],
                         ]);
                     $box->endBody();
