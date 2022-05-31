@@ -62,22 +62,22 @@ class Consumption extends \hipanel\base\Model
 
     public function getCurrentValue(): ?string
     {
-        return $this->value[$this->getCurrent()];
+        return $this->value[$this->getCurrent()] ?? null;
     }
 
     public function getCurrentOveruse(): ?string
     {
-        return $this->overuse[$this->getCurrent()];
+        return $this->overuse[$this->getCurrent()] ?? null;
     }
 
     public function getPreviousValue(): ?string
     {
-        return $this->value[$this->getPrevious()];
+        return $this->value[$this->getPrevious()] ?? null;
     }
 
     public function getPreviousOveruse(): ?string
     {
-        return $this->overuse[$this->getPrevious()];
+        return $this->overuse[$this->getPrevious()] ?? null;
     }
 
     private function getCurrent(): string
