@@ -35,6 +35,7 @@ class ServerSearch extends Server
             'primary_only',
             'hide_nic',
             'hide_vds',
+            'rack_inilike',
         ]);
     }
 
