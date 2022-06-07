@@ -75,122 +75,6 @@ class ServerGridView extends BoxedGridView
         ');
     }
 
-    protected function formatTariff($model)
-    {
-        $html = '';
-        $models = $this->getModelWithUserPermission($model);
-
-        foreach ($models as $model) {
-            if ($model->tariff) {
-                $tariff = Html::encode($model->tariff);
-                $client = Html::encode($model->seller);
-                $tariff = $model->tariff_id ? Html::a($tariff, [
-                    '@plan/view',
-                    'id' => $model->tariff_id,
-                ]) : $tariff;
-                $client = $model->seller ? '(' . Html::a($client, [
-                    '@client/view', 'id' => $model->seller_id,
-                ]) . ')' : '';
-
-                $html .= Html::tag('li', $tariff . '&nbsp;' . $client);
-            }
-        }
-
-        return Html::tag('ul', $html, [
-            'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
-            'style' => 'margin: 0; padding: 0;',
-        ]);
-    }
-
-    protected function formatTariffWithoutUnsale(Server $model) {
-        $models = $this->getModelWithUserPermission($model);
-
-        foreach ($models as $model) {
-            if ($model->tariff && $this->checkHide($model)) {
-                $tariff = Html::encode($model->tariff);
-                $data[] = [
-                    'tariff' => $model->tariff_id ? '(' . Html::a($tariff, [
-                            '@plan/view',
-                            'id' => $model->tariff_id,
-                        ]) . ')' : $tariff,
-                    'client' => $model->seller ? Html::a(Html::encode($model->seller), [
-                        '@client/view', 'id' => $model->seller_id,
-                    ]) : '',
-                    'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
-                        '@client/view', 'id' => $model->buyer_id,
-                    ]) : '',
-                    'start' => Yii::$app->formatter->asDate($model->time),
-                    'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
-                ];
-            }
-        }
-        $result = '';
-        for ($i = 0; $i < count($data); $i++) {
-            $html = '';
-            if ($i == 0) {
-                $html .= Html::tag('li', $data[$i]['client']);
-                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
-                if (empty($data[$i]['finish']) && count($data) > 1) {
-                    $data[$i]['finish'] = $data[$i + 1]['start'];
-                } else {
-                    $data[$i]['finish'] = '&#8734;';
-                }
-            } else {
-                $html .= Html::tag('li', $data[0]['client']);
-                $html .= Html::tag('li', $data[0]['tariff'] . '&nbsp;' . $data[0]['buyer']);
-                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
-                if (empty($data[$i]['finish'])) {
-                    $data[$i]['finish'] = '&#8734;';
-                }
-            }
-            $result .= Html::tag('ul', $html, [
-                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
-                'style' => 'margin: 0; padding: 0;',
-            ]);
-
-            $html = Html::tag('li', $data[$i]['start'] . ' - ' . $data[$i]['finish']);
-            $result .= Html::tag('ul', $html, [
-                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
-                'style' => 'margin: 0; padding: 0;',
-            ]);
-            $result .= Html::tag('br');
-        }
-        return $result;
-    }
-
-    protected function getModelWithUserPermission(ActiveRecordInterface $model)
-    {
-        $models = [];
-        if ($this->user->can('sale.read') && !empty($model->sales)) {
-            foreach ($model->sales as $sale) {
-                $models[] = $sale;
-            }
-        } elseif ($this->user->can('plan.read')) {
-            if (!empty($model->parent_tariff)) {
-                $title = $model->parent_tariff;
-            } else {
-                $title = $model->tariff;
-            }
-
-            $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
-        } else {
-            $models[] = new Sale([
-                'tariff' => $model->tariff,
-                'tariff_id' => $model->tariff_id,
-            ]);
-        }
-        return $models;
-    }
-
-    protected function checkHide(Sale $model)
-    {
-        $result = true;
-        if (self::HIDE_UNSALE) {
-            $result = ($model->unsale_time === null || $model->unsale_time > date('Y-m-d H:i:s'));
-        }
-        return $result;
-    }
-
     public function columns()
     {
         $canSupport = Yii::$app->user->can('support');
@@ -300,6 +184,33 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'value' => function ($model) {
                     return $this->formatTariffWithoutUnsale($model);
+                },
+            ],
+            'active_sales' => [
+                'label' => Yii::t('hipanel:server', 'Active sales'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $this->formatSales($this->getActiveSales($model));
+                }
+            ],
+            'finished_sales' => [
+                'label' => Yii::t('hipanel:server', 'Finished sales'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $this->formatSales($this->getHistoricalSales($model));
+                },
+                'visible' => function ($model) {
+                    return !empty($this->getHistoricalSales());
+                },
+            ],
+            'future_sales' => [
+                'label' => Yii::t('hipanel:server', 'Future sales'),
+                'format' => 'raw',
+                'value' => function ($model) {
+                    return $this->formatSales($this->getFutureSales($model));
+                },
+                'visible' => function ($model) {
+                    return !empty($this->getFutureSales($model));
                 },
             ],
             'ip' => [
@@ -488,6 +399,241 @@ class ServerGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:server', 'Hardware Comment'),
             ],
         ]);
+    }
+
+    protected function formatTariff($model)
+    {
+        $html = '';
+        $models = $this->getActiveSales($model);
+
+        foreach ($models as $model) {
+            if ($model->tariff) {
+                $tariff = Html::encode($model->tariff);
+                $client = Html::encode($model->seller);
+                $tariff = $model->tariff_id ? Html::a($tariff, [
+                    '@plan/view',
+                    'id' => $model->tariff_id,
+                ]) : $tariff;
+                $client = $model->seller ? '(' . Html::a($client, [
+                    '@client/view', 'id' => $model->seller_id,
+                ]) . ')' : '';
+
+                $html .= Html::tag('li', $tariff . '&nbsp;' . $client);
+            }
+        }
+
+        return Html::tag('ul', $html, [
+            'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+            'style' => 'margin: 0; padding: 0;',
+        ]);
+    }
+
+    protected function getActiveSales(Server $model)
+    {
+        $sales = $this->getAndFilterServerSalesByVisibility($model);
+
+        if (empty($sales)) {
+            return '';
+        }
+
+        foreach ($sales as $sale) {
+            if ($sale->time <= date("Y-m-d H:i:s") && ($sale->unsale_time === null || $sale->unsale_time > date("Y-m-d H:i:s"))) {
+                $data[] = $sale;
+            }
+        }
+
+        return $data ?? [];
+    }
+
+    protected function getHistoricalSales(Server $model)
+    {
+        $sales = $this->getAndFilterServerSalesByVisibility($model);
+
+        if (empty($sales)) {
+            return '';
+        }
+
+        foreach ($sales as $sale) {
+            if ($sale->time <= date("Y-m-d H:i:s") && $sale->unsale_time !== null && $sale->unsale_time <= date("Y-m-d H:i:s")) {
+                $data[] = $sale;
+            }
+        }
+
+        return $data ?? [];
+    }
+
+    protected function getFutureSales(Server $model)
+    {
+        $sales = $this->getAndFilterServerSalesByVisibility($model);
+
+        if (empty($sales)) {
+            return '';
+        }
+
+        foreach ($sales as $sale) {
+            if ($sale->time > date("Y-m-d H:i:s") && ($sale->unsale_time === null || $sale->unsale_time > date("Y-m-d H:i:s"))) {
+                $data[] = $sale;
+            }
+        }
+
+        return $data ?? [];
+    }
+
+    protected function getAndFilterServerSalesByVisibility(Server $model): array
+    {
+        $models = $this->getModelWithUserPermission($model);
+
+        if (empty($models)) {
+            return [];
+        }
+
+        foreach ($models as $sale) {
+            if ($sale->tariff && $this->checkHide($sale)) {
+                $sales[] = $sale;
+            }
+        }
+
+        return $sales ?? [];
+    }
+
+    protected function formatSales(array $models): string
+    {
+        foreach ($models ?? [] as $model) {
+            $tariff = Html::encode($model->tariff);
+            $data[] = [
+                'tariff' => $model->tariff_id ? '(' . Html::a($tariff, [
+                        '@plan/view',
+                        'id' => $model->tariff_id,
+                    ]) . ')' : $tariff,
+                'client' => $model->seller ? Html::a(Html::encode($model->seller), [
+                    '@client/view', 'id' => $model->seller_id,
+                ]) : '',
+                'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
+                    '@client/view', 'id' => $model->buyer_id,
+                ]) : '',
+                'start' => Yii::$app->formatter->asDate($model->time),
+                'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
+            ];
+        }
+
+        if (empty($data)) {
+            return '';
+        }
+
+        $result = '';
+        foreach ($data as &$sale) {
+            $html = '';
+            $html .= Html::tag('li', $sale['client']);
+            $html .= Html::tag('li', $sale['tariff'] . '&nbsp;' . $sale['buyer']);
+            if (empty($sale['finish'])) {
+                $sale['finish'] = '&#8734;';
+            }
+
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+
+            $html = Html::tag('li', $sale['start'] . ' - ' . $sale['finish']);
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+
+            $result .= Html::tag('br');
+        }
+
+        return $result;
+    }
+
+    protected function formatTariffWithoutUnsale(Server $model) {
+        $models = $this->getModelWithUserPermission($model);
+
+        foreach ($models as $model) {
+            if ($model->tariff && $this->checkHide($model)) {
+                $tariff = Html::encode($model->tariff);
+                $data[] = [
+                    'tariff' => $model->tariff_id ? '(' . Html::a($tariff, [
+                            '@plan/view',
+                            'id' => $model->tariff_id,
+                        ]) . ')' : $tariff,
+                    'client' => $model->seller ? Html::a(Html::encode($model->seller), [
+                        '@client/view', 'id' => $model->seller_id,
+                    ]) : '',
+                    'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
+                        '@client/view', 'id' => $model->buyer_id,
+                    ]) : '',
+                    'start' => Yii::$app->formatter->asDate($model->time),
+                    'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
+                ];
+            }
+        }
+        $result = '';
+
+        for ($i = 0; $i < count($data); $i++) {
+            $html = '';
+            if ($i == 0) {
+                $html .= Html::tag('li', $data[$i]['client']);
+                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
+                if (empty($data[$i]['finish']) && count($data) > 1) {
+                    $data[$i]['finish'] = $data[$i + 1]['start'];
+                } else {
+                    $data[$i]['finish'] = '&#8734;';
+                }
+            } else {
+                $html .= Html::tag('li', $data[0]['client']);
+                $html .= Html::tag('li', $data[0]['tariff'] . '&nbsp;' . $data[0]['buyer']);
+                $html .= Html::tag('li', $data[$i]['tariff'] . '&nbsp;' . $data[$i]['buyer']);
+                if (empty($data[$i]['finish'])) {
+                    $data[$i]['finish'] = '&#8734;';
+                }
+            }
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+
+            $html = Html::tag('li', $data[$i]['start'] . ' - ' . $data[$i]['finish']);
+            $result .= Html::tag('ul', $html, [
+                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+                'style' => 'margin: 0; padding: 0;',
+            ]);
+            $result .= Html::tag('br');
+        }
+        return $result;
+    }
+
+    protected function getModelWithUserPermission(ActiveRecordInterface $model)
+    {
+        $models = [];
+        if ($this->user->can('sale.read') && !empty($model->sales)) {
+            foreach ($model->sales as $sale) {
+                $models[] = $sale;
+            }
+        } elseif ($this->user->can('plan.read')) {
+            if (!empty($model->parent_tariff)) {
+                $title = $model->parent_tariff;
+            } else {
+                $title = $model->tariff;
+            }
+
+            $models[] = new Sale(['tariff' => $title, 'tariff_id' => $model->tariff_id]);
+        } else {
+            $models[] = new Sale([
+                'tariff' => $model->tariff,
+                'tariff_id' => $model->tariff_id,
+            ]);
+        }
+        return $models;
+    }
+
+    protected function checkHide(Sale $model)
+    {
+        $result = true;
+        if (self::HIDE_UNSALE) {
+            $result = ($model->unsale_time === null || $model->unsale_time > date('Y-m-d H:i:s'));
+        }
+        return $result;
     }
 
     private function getFormattedConsumptionFor(Consumption $consumption): string
