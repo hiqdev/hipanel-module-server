@@ -5,6 +5,7 @@ use hipanel\modules\server\assets\ServerTaskCheckerAsset;
 use hipanel\modules\server\grid\BindingColumn;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\ServerDetailMenu;
+use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\BootLive;
 use hipanel\modules\server\widgets\ChartOptions;
@@ -18,6 +19,7 @@ use hipanel\widgets\EventLog;
 use hipanel\widgets\Pjax;
 use hipanel\widgets\SettingsModal;
 use hipanel\widgets\SimpleOperation;
+use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\web\View;
@@ -316,6 +318,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                         if (Yii::$app->user->can('server.sell')) {
                             echo SettingsModal::widget([
+                                'size' => Modal::SIZE_LARGE,
                                 'model'    => $model,
                                 'title'    => Yii::t('hipanel:server', 'Change tariff'),
                                 'scenario' => 'bulk-sale',
@@ -353,7 +356,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 'model' => $model,
                                 'boxed' => false,
                                 'columns' => array_map(function ($binding) {
-                                    /** @var \hipanel\modules\server\models\Binding $binding */
+                                    /** @var Binding $binding */
                                     return [
                                         'class' => BindingColumn::class,
                                         'attribute' => $binding->typeWithNo,

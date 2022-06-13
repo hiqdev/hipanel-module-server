@@ -6,6 +6,9 @@ use hipanel\modules\server\forms\HubSellForm;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\HubNameBadge;
 use hipanel\modules\server\widgets\ServerNameBadge;
+use hipanel\modules\finance\widgets\TariffComboWithTypeSuggester;
+use hipanel\widgets\ArraySpoiler;
+use hipanel\widgets\BulkAssignmentFieldsLinker;
 use hipanel\widgets\DateTimePicker;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
@@ -56,7 +59,7 @@ use yii\web\View;
                     <div class="panel panel-default">
                         <div class="panel-heading"><?= Yii::t('hipanel:server', 'Affected items') ?></div>
                         <div class="panel-body">
-                            <?= \hipanel\widgets\ArraySpoiler::widget([
+                            <?= ArraySpoiler::widget([
                                 'data' => $models,
                                 'visibleCount' => count($models),
                                 'formatter' => function ($model) {
@@ -77,12 +80,19 @@ use yii\web\View;
                         ],
                     ])->hint($this->context->isServer() ? Yii::t('hipanel:server', 'Clear this input to unsale the servers') : '') ?>
 
-                    <?= $form->field($model, 'tariff_id')->widget(PlanCombo::class, [
-                        /// TODO think: 'tariffType' => 'server'
-                        'inputOptions' => [
-                            'name' => 'tariff_id',
+                    <?= TariffComboWithTypeSuggester::widget([
+                        'form' => $form,
+                        'model' => $model,
+                        'models' => $models,
+                        'tariffAttribute' => 'tariff_id',
+                        'suggestAttribute' => 'type',
+                        'tariffComboOptions' => [
+                            'inputOptions' => [
+                                'name' => 'tariff_id',
+                            ],
                         ],
                     ]) ?>
+
                     <?= $form->field($model, 'sale_time')->widget(DateTimePicker::class, [
                         'clientOptions' => [
                             'autoclose' => true,
@@ -130,42 +140,56 @@ use yii\web\View;
                             ])->hint($this->context->isServer() ? Yii::t('hipanel:server', 'Clear this input to unsale the servers') : '') ?>
                         </div>
 
-                        <?php foreach ($models as $model) : ?>
-                            <div class="col-md-3 text-right" style="line-height: 34px;">
-                                <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
-                                <?php if ($this->context->isServer()) : ?>
-                                    <?= ServerNameBadge::widget(['model' => $model]) ?>
-                                <?php else : ?>
-                                    <?= HubNameBadge::widget(['model' => $model]) ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="col-md-9">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <?= $form->field($model, "[$model->id]tariff_id")
-                                            ->widget(PlanCombo::class, [
-                                                /// TODO think: 'tariffType' => $this->context->isServer() ? 'server' : '',
-                                                'inputOptions' => ['ref' => 'plan-combo'],
-                                            ])
-                                            ->label(false)
-                                        ?>
+                        <div class="col-md-12">
+
+                            <div class="row">
+
+                                <?php foreach ($models as $model) : ?>
+                                    <div class="col-md-12" style="line-height: 34px;">
+                                        <?= Html::activeHiddenInput($model, "[$model->id]id") ?>
+                                        <?php if ($this->context->isServer()) : ?>
+                                            <?= ServerNameBadge::widget(['model' => $model]) ?>
+                                        <?php else : ?>
+                                            <?= HubNameBadge::widget(['model' => $model]) ?>
+                                        <?php endif; ?>
                                     </div>
-                                    <div class="col-md-6">
-                                        <?= $form->field($model, "[$model->id]sale_time")->widget(DateTimePicker::class, [
-                                            'clientOptions' => [
-                                                'autoclose' => true,
-                                                'format' => 'yyyy-mm-dd hh:ii:ss',
-                                                'todayBtn' => true,
-                                            ],
-                                            'options' => [
-                                                'value' => Yii::$app->formatter->asDatetime($defaultDateTime, 'php:Y-m-d H:i:s'),
-                                                'ref' => 'sale-time-combo',
-                                            ],
-                                        ])->label(false) ?>
+                                    <div class="col-md-12">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <?= TariffComboWithTypeSuggester::widget([
+                                                    'form' => $form,
+                                                    'model' => $model,
+                                                    'models' => [$model],
+                                                    'tariffAttribute' => "[$model->id]tariff_id",
+                                                    'suggestAttribute' => 'type',
+                                                    'withLabels' => false,
+                                                    'tariffComboOptions' => [
+                                                        'inputOptions' => [
+                                                            'ref' => 'plan-combo',
+                                                        ],
+                                                    ],
+                                                ]) ?>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <?= $form->field($model, "[$model->id]sale_time")->widget(DateTimePicker::class, [
+                                                    'clientOptions' => [
+                                                        'autoclose' => true,
+                                                        'format' => 'yyyy-mm-dd hh:ii:ss',
+                                                        'todayBtn' => true,
+                                                    ],
+                                                    'options' => [
+                                                        'value' => Yii::$app->formatter->asDatetime($defaultDateTime, 'php:Y-m-d H:i:s'),
+                                                        'ref' => 'sale-time-combo',
+                                                    ],
+                                                ])->label(false) ?>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                <?php endforeach; ?>
+
                             </div>
-                        <?php endforeach; ?>
+
+                        </div>
 
                     </div>
 
@@ -188,6 +212,6 @@ use yii\web\View;
     </div>
 </div>
 
-<?= \hipanel\widgets\BulkAssignmentFieldsLinker::widget([
+<?= BulkAssignmentFieldsLinker::widget([
     'inputSelectors' => ['select[ref=plan-combo]', 'input[ref=sale-time-combo]'],
 ]) ?>
