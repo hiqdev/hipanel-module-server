@@ -85,7 +85,7 @@ class ServerForm extends Server
         ]);
     }
 
-    private static function setMainIpToBegining(array $ips, string $mainIp): array
+    private static function setMainIpToBegining(array $ips, ?string $mainIp): array
     {
         $keyIp = array_search($mainIp, $ips);
         if ($keyIp !== false) {
