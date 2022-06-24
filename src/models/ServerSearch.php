@@ -36,6 +36,7 @@ class ServerSearch extends Server
             'hide_nic',
             'hide_vds',
             'rack_inilike',
+            'rack_ilike',
         ]);
     }
 
@@ -46,6 +47,8 @@ class ServerSearch extends Server
             'name_dc' => Yii::t('hipanel:server', 'Name or DC'),
             'hide_nic' => Yii::t('hipanel:server', 'Hide additional network interfaces'),
             'hide_vds' => Yii::t('hipanel:server', 'Hide VDS'),
+            'rack_ilike' => Yii::t('hipanel:server', 'Rack by partial like'),
+            'rack_inilike' => Yii::t('hipanel:server', 'List of racks'),
         ]);
     }
 }

@@ -97,6 +97,10 @@ use hipanel\widgets\AdvancedSearch;
     </div>
 
     <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('rack_ilike') ?>
+    </div>
+
+    <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('rack_inilike') ?>
     </div>
 
