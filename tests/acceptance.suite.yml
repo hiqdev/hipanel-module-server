@@ -7,4 +7,8 @@
 actor: AcceptanceTester
 namespace: hipanel\modules\server\tests\_support
 extends: '%COMMON_SUITE_LOCATION%'
+modules:
+  enabled:
+    - \hipanel\modules\server\tests\_support\Helper\OrderServerHelper:
+        server_order_allowed: '%SERVER_ORDER_ALLOWED%'
 
