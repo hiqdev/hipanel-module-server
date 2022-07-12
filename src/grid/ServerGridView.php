@@ -433,7 +433,7 @@ class ServerGridView extends BoxedGridView
         $sales = $this->getAndFilterServerSalesByVisibility($model);
 
         if (empty($sales)) {
-            return '';
+            return [];
         }
 
         foreach ($sales as $sale) {
@@ -450,7 +450,7 @@ class ServerGridView extends BoxedGridView
         $sales = $this->getAndFilterServerSalesByVisibility($model);
 
         if (empty($sales)) {
-            return '';
+            return [];
         }
 
         foreach ($sales as $sale) {
@@ -467,7 +467,7 @@ class ServerGridView extends BoxedGridView
         $sales = $this->getAndFilterServerSalesByVisibility($model);
 
         if (empty($sales)) {
-            return '';
+            return [];
         }
 
         foreach ($sales as $sale) {

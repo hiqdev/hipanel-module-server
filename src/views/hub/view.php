@@ -48,7 +48,7 @@ $this->registerCss('
                 echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
                 $box->endHeader();
                 $box->beginBody();
-                echo ServerGridView::detailView([
+                echo HubGridView::detailView([
                     'model' => $model,
                     'boxed' => false,
                     'columns' => array_map(function (Binding $binding) {
