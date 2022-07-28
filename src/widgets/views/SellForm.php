@@ -1,7 +1,6 @@
 <?php
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
-use hipanel\modules\finance\widgets\combo\PlanCombo;
 use hipanel\modules\server\forms\HubSellForm;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\HubNameBadge;
@@ -86,6 +85,7 @@ use yii\web\View;
                         'models' => $models,
                         'tariffAttribute' => 'tariff_id',
                         'suggestAttribute' => 'type',
+                        'suggested' => ['switch', 'server'],
                         'tariffComboOptions' => [
                             'inputOptions' => [
                                 'name' => 'tariff_id',
@@ -162,6 +162,7 @@ use yii\web\View;
                                                     'models' => [$model],
                                                     'tariffAttribute' => "[$model->id]tariff_id",
                                                     'suggestAttribute' => 'type',
+                                                    'suggested' => ['switch', 'server'],
                                                     'withLabels' => false,
                                                     'tariffComboOptions' => [
                                                         'inputOptions' => [
