@@ -401,21 +401,21 @@ class ServerGridView extends BoxedGridView
         ]);
     }
 
-    protected function formatTariff($model)
+    protected function formatTariff($model): string
     {
         $html = '';
-        $models = $this->getActiveSales($model);
+        $sales = $this->getActiveSales($model);
 
-        foreach ($models as $model) {
-            if ($model->tariff) {
-                $tariff = Html::encode($model->tariff);
-                $client = Html::encode($model->seller);
-                $tariff = $model->tariff_id ? Html::a($tariff, [
+        foreach ($sales as $sale) {
+            if ($sale->tariff) {
+                $tariff = Html::encode($sale->tariff);
+                $client = Html::encode($sale->seller);
+                $tariff = $sale->tariff_id ? Html::a($tariff, [
                     '@plan/view',
-                    'id' => $model->tariff_id,
+                    'id' => $sale->tariff_id,
                 ]) : $tariff;
-                $client = $model->seller ? '(' . Html::a($client, [
-                    '@client/view', 'id' => $model->seller_id,
+                $client = $sale->seller ? '(' . Html::a($client, [
+                        '@client/view', 'id' => $sale->seller_id,
                 ]) . ')' : '';
 
                 $html .= Html::tag('li', $tariff . '&nbsp;' . $client);
