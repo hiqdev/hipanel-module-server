@@ -124,6 +124,9 @@ class ServerGridView extends BoxedGridView
             }
         }
         $result = '';
+        if (empty($data)) {
+            return '';
+        }
         for ($i = 0; $i < count($data); $i++) {
             $html = '';
             if ($i == 0) {

@@ -102,14 +102,14 @@ class ServerHelper
             if ($panel !== 'isp' || ($panel === 'isp' && $ispSupported)) {
                 $data = [
                     'name' => $softpack_name,
-                    'description' => preg_replace('/^ISPmanager - /', '', $softpack['description']),
+                    'description' => preg_replace('/^ISPmanager - /', '', $softpack['description'] ?? ''),
                     'osimage' => $image->osimage,
                 ];
 
-                if ($softpack['soft']) {
+                if (isset($softpack['soft'])) {
                     $html_desc = [];
                     foreach ($softpack['soft'] as $soft => $soft_info) {
-                        $soft_info['description'] = preg_replace('/,([^\s])/', ', $1', $soft_info['description']);
+                        $soft_info['description'] = preg_replace('/,([^\s])/', ', $1', $soft_info['description'] ?? '');
 
                         $html_desc[] = "<b>{$soft_info['name']} {$soft_info['version']}</b>: <i>{$soft_info['description']}</i>";
                         $data['soft'][$soft] = [
