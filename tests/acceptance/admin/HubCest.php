@@ -211,11 +211,11 @@ class HubCest
             [
                 'inn'               => 'test_inn_option',
                 'model'             => 'test_model_option',
-                'ports_num'         => 42,
+                'ports_num'         => '42',
                 'community'         => 'hiqdev',
                 'nic_media'         => '100 Gbit/s',
                 'digit_capacity_id' => 'vds2',
-                'base_port_no'      => 21,
+                'base_port_no'      => '21',
             ],
         ];
     }

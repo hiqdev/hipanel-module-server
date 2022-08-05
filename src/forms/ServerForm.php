@@ -38,8 +38,10 @@ class ServerForm extends Server
      */
     public static function fromServer(Server $server): ServerForm
     {
+        $ips = self::setMainIpToBegining(ArrayHelper::getColumn($server->ips, 'ip'), $server->getAttribute('ip'));
+
         return new self(array_merge($server->getAttributes(), ['server' => $server->name, 'scenario' => 'update'], [
-            'ips' => implode(',', ArrayHelper::getColumn($server->ips, 'ip')),
+            'ips' => implode(',', $ips),
         ]));
     }
 
@@ -82,4 +84,16 @@ class ServerForm extends Server
             [['ips'], 'each', 'rule' => ['ip'], 'on' => ['create', 'update']],
         ]);
     }
+
+    private static function setMainIpToBegining(array $ips, ?string $mainIp): array
+    {
+        $keyIp = array_search($mainIp, $ips);
+        if ($keyIp !== false) {
+            unset($ips[$keyIp]);
+            array_unshift($ips, $mainIp);
+        }
+
+        return $ips;
+    }
+
 }

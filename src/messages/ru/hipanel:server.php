@@ -345,4 +345,10 @@ return [
     'Totals' => 'Итого',
     'Count' => 'Кол. деталей',
     '{0} pcs' => '{0} шт.',
+
+    'Finished sales' => 'Прошлые продажи',
+    'Active sales' => 'Текущие продажи',
+    'Future sales' => 'Будущие продажи',
+    'Rack by partial like' => 'Частичное название стойки',
+    'List of racks' => 'Список стоек',
 ];

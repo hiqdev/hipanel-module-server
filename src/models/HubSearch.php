@@ -31,15 +31,25 @@ class HubSearch extends Hub
             'name_inilike',
             'rack_ilike',
             'order_no_ilike',
+            'state_in',
         ]);
     }
 
     public function attributeLabels()
     {
         return array_merge(parent::attributeLabels(), [
-            'name_inilike'   => Yii::t('hipanel:server', 'Switch'),
-            'rack_ilike'     => Yii::t('hipanel:server', 'Rack'),
+            'name_inilike' => Yii::t('hipanel:server', 'Switch'),
+            'rack_ilike' => Yii::t('hipanel:server', 'Rack'),
             'order_no_ilike' => Yii::t('hipanel:server:hub', 'Order No.'),
+            'state_in' => Yii::t('hipanel:server:hub', 'State'),
         ]);
+    }
+
+    public function getStateOptions(): array
+    {
+        return [
+            self::STATE_OK => Yii::t('hipanel:server:hub', 'OK'),
+            self::STATE_DELETED => Yii::t('hipanel:server:hub', 'Deleted'),
+        ];
     }
 }
