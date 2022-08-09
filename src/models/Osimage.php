@@ -77,7 +77,7 @@ class Osimage extends ActiveRecord
             return $this->panel;
         }
         /** @var array $softpack */
-        if (($softpack = $this->getSoftPack()) && $softpack['panel']) {
+        if (($softpack = $this->getSoftPack()) && isset($softpack['panel'])) {
             return $softpack['panel'];
         }
 

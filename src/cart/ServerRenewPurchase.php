@@ -22,7 +22,7 @@ class ServerRenewPurchase extends AbstractServerPurchase
     /** {@inheritdoc} */
     public static function operation()
     {
-        return 'Renew';
+        return 'renew';
     }
 
     /** {@inheritdoc} */
