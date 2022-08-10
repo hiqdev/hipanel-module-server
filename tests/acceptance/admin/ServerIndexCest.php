@@ -31,7 +31,7 @@ class ServerIndexCest
     public function ensureIndexPageWorks(Admin $I)
     {
         $I->login();
-        $I->needPage(Url::to('@server'));
+        $I->needPage(Url::to(['@server', 'representation' => 'admin']));
         $I->see('Servers', 'h1');
         $I->seeLink('Create server', Url::to('@server/create'));
         $this->ensureICanSeeAdvancedSearchBox($I);
@@ -54,7 +54,6 @@ class ServerIndexCest
             Input::asAdvancedSearch($I, 'Switch'),
             Input::asAdvancedSearch($I, 'KVM'),
             Input::asAdvancedSearch($I, 'APC'),
-            Input::asAdvancedSearch($I, 'Rack'),
             Input::asAdvancedSearch($I, 'MAC'),
         ]);
     }

@@ -2,7 +2,6 @@
 
 namespace hipanel\modules\server\tests\_support\Helper;
 
-use Codeception\Lib\ModuleContainer;
 use Codeception\Module;
 
 class OrderServerHelper extends Module
