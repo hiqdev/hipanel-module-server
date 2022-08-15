@@ -31,7 +31,9 @@ class VNCOperation extends Widget
 
         $this->vncEnabled = $this->model->vnc['enabled'];
 
-        $this->vncEnd = $this->model->statuses['serverEnableVNC'] === null ? 0 : strtotime('+8 hours', strtotime($this->model->statuses['serverEnableVNC']));
+        if (is_array($this->model->statuses)) {
+            $this->vncEnd = $this->model->statuses['serverEnableVNC'] === null ? 0 : strtotime('+8 hours', strtotime($this->model->statuses['serverEnableVNC']));
+        }
         if (isset($this->model->vnc['endTime'])) {
             $this->vncEnd = $this->vncEnd < time() ? ($this->model->vnc['endTime'] > time() ? $this->model->vnc['endTime'] : $this->vncEnd) : $this->vncEnd;
         }
