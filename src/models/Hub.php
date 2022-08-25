@@ -41,6 +41,7 @@ class Hub extends Model implements AssignSwitchInterface
                 'login', 'password', 'user_login', 'user_password',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
                 'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'state', 'state_label',
+                'stat_device', 'stat_domain',
             ], 'string'],
             [['virtual'], 'boolean'],
 
