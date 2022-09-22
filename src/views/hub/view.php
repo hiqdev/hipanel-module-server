@@ -29,6 +29,25 @@ $this->registerCss('
         text-align: center;
     }
 ');
+$this->registerJs(<<<JS
+    const tdElementPassword = $('tr [data-resizable-column-id="password"] + td');
+    let password = tdElementPassword.text().trim();
+
+    if (password) {
+        const hidePassword = '********'
+        tdElementPassword.text(hidePassword);
+        tdElementPassword.css('cursor', 'pointer');
+        
+        tdElementPassword.click(function (){
+            if ($(this).text() === hidePassword) {
+                $(this).text(password);
+            } else {
+                $(this).text(hidePassword);
+            }
+        });
+    }
+JS
+);
 ?>
 <div class="row">
     <div class="col-md-3">
@@ -92,6 +111,7 @@ $this->registerCss('
                         'ip',
                         'mac',
                         'login',
+                        'password',
                         'ports_num',
                         'traf_server_id',
                         'vlan_server_id',

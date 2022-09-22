@@ -140,6 +140,12 @@ class HubGridView extends BoxedGridView
                 'filterAttribute' => 'order_no_ilike',
                 'enableSorting' => false,
             ],
+            'login' => [
+                'visible' => Yii::$app->user->can('server.manage-settings'),
+            ],
+            'password' => [
+                'visible' => Yii::$app->user->can('server.manage-settings'),
+            ]
         ]);
     }
 }
