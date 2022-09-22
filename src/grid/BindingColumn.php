@@ -54,7 +54,7 @@ class BindingColumn extends DataColumn
         $label = Html::encode($binding->switch_label);
         $inn = $binding->switch_inn;
         $inn = Html::encode($inn ? "($inn) " : '');
-        $main = Html::encode($binding->switch . ($binding->port ? ':' . $binding->port : ''));
+        $main = Html::a(Html::encode($binding->switch . ($binding->port ? ':' . $binding->port : '')), ['@hub/view', 'id' => $binding->switch_id]);
 
         return "$inn<b>$main</b> $label";
     }
