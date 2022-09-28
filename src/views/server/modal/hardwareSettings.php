@@ -1,15 +1,18 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\models\Server;
 use hipanel\widgets\Box;
-use hipanel\widgets\Pjax;
 use yii\helpers\Html;
+
+/**
+ * @var Server $model
+ */
 
 ?>
 
 <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
     <div class="row">
-        <?php Pjax::begin(['enablePushState' => false]) ?>
         <div class="col-md-12">
             <?php $box = Box::begin(['renderBody' => false, 'options' => ['class' => 'box-widget'], 'bodyOptions' => ['class' => 'no-padding']]) ?>
             <?php $box->beginHeader() ?>
@@ -28,6 +31,5 @@ use yii\helpers\Html;
             <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
             <?php $box::end() ?>
         </div>
-        <?php Pjax::end() ?>
     </div>
 <?php endif ?>

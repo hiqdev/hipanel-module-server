@@ -1,14 +1,15 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\models\Server;
 use hipanel\widgets\Box;
 use yii\helpers\Html;
+use yii\web\View;
 use yii\widgets\DetailView;
-use yii\widgets\Pjax;
 
 /**
- * @var \yii\web\View $this
- * @var \hipanel\modules\server\models\Server $model
+ * @var View $this
+ * @var Server $model
  * @var string[] $configAttrs
  */
 
@@ -16,7 +17,6 @@ use yii\widgets\Pjax;
 
 <?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('part.read')) : ?>
     <div class="row">
-        <?php Pjax::begin(['enablePushState' => false]) ?>
         <div class="col-md-12">
             <?php $box = Box::begin(['renderBody' => false]) ?>
                 <?php $box->beginHeader() ?>
@@ -44,6 +44,5 @@ use yii\widgets\Pjax;
                 <div class="overlay"><i class="fa fa-refresh fa-spin"></i></div>
             <?php $box->end() ?>
         </div>
-        <?php Pjax::end() ?>
     </div>
 <?php endif ?>

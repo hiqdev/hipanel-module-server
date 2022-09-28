@@ -9,22 +9,27 @@ use hipanel\widgets\AjaxModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
-use hipanel\widgets\Pjax;
+use hiqdev\hiart\ActiveDataProvider;
 use hiqdev\higrid\representations\RepresentationCollection;
+use hipanel\modules\server\models\ServerSearch;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use yii\web\View;
 
 /**
  * @var OsimageSearch
- * @var yii\web\View $this
+ * @var View $this
  * @var IndexPageUiOptions $uiModel
  * @var RepresentationCollection $representationCollection
  * @var bool $orderIsAllowed
+ * @var ServerSearch $model
+ * @var ActiveDataProvider $dataProvider
  */
+
 $this->title = Yii::t('hipanel:server', 'Servers');
 $this->params['subtitle'] = array_filter(Yii::$app->request->get($model->formName(), [])) ? Yii::t('hipanel', 'filtered list') : Yii::t('hipanel', 'full list');
 $this->params['breadcrumbs'][] = $this->title;
@@ -32,8 +37,7 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
 
 ?>
 
-<?php Pjax::begin(array_merge(Yii::$app->params['pjax'], ['enablePushState' => true])) ?>
-<?php $page = IndexPage::begin(compact('model', 'dataProvider')) ?>
+<?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
 
     <?php if (Yii::$app->user->can('support')) : ?>
         <?php $page->beginContent('legend') ?>
@@ -244,4 +248,3 @@ JS
         <?php $page->endBulkForm(); ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
-<?php Pjax::end() ?>

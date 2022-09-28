@@ -2,23 +2,23 @@
 
 use hipanel\modules\server\grid\BindingColumn;
 use hipanel\modules\server\grid\HubGridView;
-use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\widgets\Configuration;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
-use hipanel\widgets\Pjax;
 use hipanel\widgets\SettingsModal;
 use yii\helpers\Html;
 use yii\web\View;
 
-/** @var array $snmpOptions */
-/** @var array $digitalCapacityOptions */
-/** @var array $nicMediaOptions */
-/** @var View $this */
-/** @var Hub $model */
+/**
+ * @var array $snmpOptions
+ * @var array $digitalCapacityOptions
+ * @var array $nicMediaOptions
+ * @var View $this
+ * @var Hub $model
+ */
 
 $this->title = Html::encode($model->name);
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
@@ -128,7 +128,6 @@ JS
             </div>
         </div>
         <div class="row">
-            <?php Pjax::begin(['enablePushState' => false]) ?>
             <div class="col-md-12">
                 <?php
                     $box = Box::begin(['renderBody' => false]);
@@ -160,7 +159,6 @@ JS
                     $box->end();
                 ?>
             </div>
-            <?php Pjax::end() ?>
         </div>
         <?= Configuration::widget(['model' => $model, 'configAttrs' => ['units']]) ?>
     </div>
