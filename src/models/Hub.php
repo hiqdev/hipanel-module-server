@@ -101,6 +101,7 @@ class Hub extends Model implements AssignSwitchInterface
             'pdu' => Yii::t('hipanel:server', 'APC'),
             'rack_like' => Yii::t('hipanel:server', 'Rack'),
             'ipmi' => Yii::t('hipanel:server', 'IPMI'),
+            'jbod' => Yii::t('hipanel:server', 'JBOD'),
             'location' => Yii::t('hipanel:server:hub', 'Location'),
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
