@@ -53,10 +53,12 @@ $renderedAttributes = [];
                                             <tbody>
                                             <tr>
                                                 <td colspan="<?= $context->hasPort($variant) ? 1 : 2 ?>">
-                                                    <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, [
+                                                    <?= $form->field($model, "[$i]{$variant}_id")->widget(HubCombo::class, array_filter([
                                                         'name' => $variant,
+                                                        'url' => $variant === HubCombo::JBOD ? '/server/server/index' : null,
+                                                        'type' => $variant === HubCombo::JBOD ? '/server/server' : null,
                                                         'hubType' => $context->variantMap[$variant] ?? $variant,
-                                                    ])->label(false) ?>
+                                                    ]))->label(false) ?>
                                                 </td>
                                                 <?php if ($this->context->hasPort($variant)) : ?>
                                                     <td>

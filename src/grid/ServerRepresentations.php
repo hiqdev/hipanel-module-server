@@ -75,7 +75,7 @@ class ServerRepresentations extends RepresentationCollection
                 'columns' => [
                     'checkbox',
                     'dc', 'actions', 'server', 'type',
-                    'net', 'kvm', 'ipmi', 'pdu', 'ip', 'mac', 'hwsummary',
+                    'net', 'kvm', 'ipmi', 'pdu', 'jbod', 'ip', 'mac', 'hwsummary',
                 ],
             ] : null,
         ]);

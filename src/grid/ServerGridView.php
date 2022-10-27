@@ -335,6 +335,9 @@ class ServerGridView extends BoxedGridView
             'location' => [
                 'class' => BindingColumn::class,
             ],
+            'jbod' => [
+                'class' => BindingColumn::class,
+            ],
             'nums' => [
                 'label' => '',
                 'format' => 'raw',

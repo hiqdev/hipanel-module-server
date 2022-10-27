@@ -20,6 +20,7 @@ class HubCombo extends Combo
     const NET = 'net';
     const PDU = 'pdu';
     const RACK = 'rack';
+    const JBOD = 'jbod';
 
     /** {@inheritdoc} */
     public $name = 'name';

@@ -74,7 +74,7 @@ class Server extends Model implements AssignSwitchInterface
                 'safe',
             ],
             [['show_del', 'show_nic', 'show_vds', 'show_jail'], 'boolean'],
-            [['switches', 'rack', 'net', 'kvm', 'pdu', 'ipmi'], 'safe'],
+            [['switches', 'rack', 'net', 'kvm', 'pdu', 'ipmi', 'jbod'], 'safe'],
             [['last_expires', 'expires', 'status_time'], 'date'],
             [['time'], 'date', 'format' => 'php:Y-m-d H:i:s'],
             [
@@ -365,6 +365,7 @@ class Server extends Model implements AssignSwitchInterface
             'pdu' => Yii::t('hipanel:server', 'APC'),
             'rack' => Yii::t('hipanel:server', 'Rack'),
             'ipmi' => Yii::t('hipanel:server', 'IPMI'),
+            'jbod' => Yii::t('hipanel:server', 'JBOD'),
             'status_time' => Yii::t('hipanel:server', 'Status update time'),
             'block_reason_label' => Yii::t('hipanel:server', 'Block reason label'),
             'request_state_label' => Yii::t('hipanel:server', 'Request state label'),
