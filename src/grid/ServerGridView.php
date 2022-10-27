@@ -296,16 +296,20 @@ class ServerGridView extends BoxedGridView
                 'visible' => Yii::$app->user->can('server.see-label'),
             ],
             'type' => [
+                'class' => RefColumn::class,
                 'format' => 'raw',
                 'filter' => false,
+                'i18nDictionary' => 'hipanel:server',
                 'value' => function ($model) {
                     return Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']);
                 },
             ],
             'detailed_type' => [
+                'class' => RefColumn::class,
                 'label' => Yii::t('hipanel', 'Type'),
                 'format' => 'raw',
                 'filter' => false,
+                'i18nDictionary' => 'hipanel:server',
                 'value' => function ($model) {
                     return Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']);
                 },
