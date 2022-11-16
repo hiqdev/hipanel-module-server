@@ -121,6 +121,15 @@ class HubGridView extends BoxedGridView
                     return Yii::t('hipanel:server:hub', Html::encode($model->type_label));
                 },
             ],
+            'type_label' => [
+                'class' => RefColumn::class,
+                'filter' => false,
+                'format' => 'raw',
+                'i18nDictionary' => 'hipanel:server:hub',
+                'value' => function ($model) {
+                    return Html::encode($model->type_label);
+                },
+            ],
             'tariff' => [
                 'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
