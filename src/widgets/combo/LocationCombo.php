@@ -27,6 +27,7 @@ class LocationCombo extends Combo
     public function getFilter()
     {
         return ArrayHelper::merge(parent::getFilter(), [
+            'select' => ['format' => 'id,name,type'],
             'type_in'  => ['format' => 'switch,location,region'],
             'limit' => ['format' => '50'],
         ]);
