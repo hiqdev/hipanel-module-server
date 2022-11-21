@@ -520,6 +520,7 @@ class ServerGridView extends BoxedGridView
                 ]) : '',
                 'start' => Yii::$app->formatter->asDate($model->time),
                 'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
+                'id' => $model->id,
             ];
         }
 
@@ -541,7 +542,9 @@ class ServerGridView extends BoxedGridView
                 'style' => 'margin: 0; padding: 0;',
             ]);
 
-            $html = Html::tag('li', $sale['start'] . ' - ' . $sale['finish']);
+            $html = Html::tag('li',
+                Html::a($sale['start'] . ' - ' . $sale['finish'], ['@sale/view', 'id' => $sale['id']])
+            );
             $result .= Html::tag('ul', $html, [
                 'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
                 'style' => 'margin: 0; padding: 0;',
@@ -572,6 +575,7 @@ class ServerGridView extends BoxedGridView
                     ]) : '',
                     'start' => Yii::$app->formatter->asDate($model->time),
                     'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
+                    'id' => $model->id,
                 ];
             }
         }
@@ -600,7 +604,10 @@ class ServerGridView extends BoxedGridView
                 'style' => 'margin: 0; padding: 0;',
             ]);
 
-            $html = Html::tag('li', $data[$i]['start'] . ' - ' . $data[$i]['finish']);
+            $html = Html::tag('li',
+                Html::a($sale['start'] . ' - ' . $sale['finish'], ['@sale/view', 'id' => $sale['id']])
+            );
+
             $result .= Html::tag('ul', $html, [
                 'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
                 'style' => 'margin: 0; padding: 0;',
