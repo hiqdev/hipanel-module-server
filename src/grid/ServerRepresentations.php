@@ -24,7 +24,9 @@ class ServerRepresentations extends RepresentationCollection
                 'columns' => array_filter([
                     'checkbox',
                     $hostingExists ? 'ips' : null,
-                    'client', 'dc', 'actions', 'server', 'order_no', 'hwsummary',
+                    'client', 'dc', 'actions', 'server',
+                    Yii::$app->user->can('order.read') ? 'order_no' : null,
+                    'hwsummary',
                 ]),
             ] : null,
             'common' => [
