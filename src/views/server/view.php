@@ -74,11 +74,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
                         echo $box->renderTitle(Yii::t('hipanel:server', 'VNC server'));
-                    $box->endHeader();
+                    Box::endHeader();
                     $box->beginBody();
                         echo $this->render('_vnc', compact(['model']));
                     $box->endBody();
-                    $box->end();
+                    Box::end();
                     ?>
                 </div>
             </div>
@@ -90,7 +90,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
                         echo $box->renderTitle(Yii::t('hipanel:server', 'System management'));
-                    $box->endHeader();
+                    Box::endHeader();
                     $box->beginBody() ?>
                     <div class="row">
                         <?php if (Yii::$app->user->can('server.control-power')) : ?>
@@ -149,7 +149,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <?php
                     $box->endBody();
-                    $box->end();
+                    Box::end();
                     ?>
                 </div>
             </div>
@@ -161,7 +161,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     $box = Box::begin(['renderBody' => false]);
                     $box->beginHeader();
                     echo $box->renderTitle(Yii::t('hipanel:server', 'Power management'));
-                    $box->endHeader();
+                    Box::endHeader();
                     $box->beginBody(); ?>
                     <div class="row">
                         <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
@@ -210,7 +210,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]) ?>
                         </div>
                     </div>
-                    <?php $box->endBody(); $box->end(); ?>
+                    <?php $box->endBody(); Box::end(); ?>
                 </div>
             </div>
         <?php endif ?>
@@ -220,13 +220,13 @@ $this->params['breadcrumbs'][] = $this->title;
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
                     echo $box->renderTitle(Yii::t('hipanel:server', 'Event log'));
-                $box->endHeader();
+                Box::endHeader();
                 $box->beginBody();
                     echo EventLog::widget([
                         'statuses' => $model->statuses,
                     ]);
                 $box->endBody();
-                $box->end();
+                Box::end();
                 ?>
             </div>
         </div>
@@ -238,7 +238,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
                     echo $box->renderTitle(Yii::t('hipanel:server', 'Server information'));
-                $box->endHeader();
+                Box::endHeader();
                 $box->beginBody();
                     echo ServerGridView::detailView([
                         'boxed'   => false,
@@ -265,7 +265,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     }
                 $box->endBody();
-                $box->end();
+                Box::end();
                 ?>
             </div>
         </div>
@@ -276,7 +276,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
                     echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
-                $box->endHeader();
+                Box::endHeader();
                 $box->beginBody();
                     echo ServerGridView::detailView([
                         'boxed'   => false,
@@ -334,7 +334,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]);
                     }
                 $box->endFooter();
-                $box->end();
+                Box::end();
                 ?>
 
             </div>
@@ -355,7 +355,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ) ?>
                             <?php $box->endTools() ?>
                         <?php endif ?>
-                    <?php $box->endHeader() ?>
+                    <?php Box::endHeader() ?>
                     <?php $box->beginBody() ?>
                         <div class="table-responsive">
                         <?= ServerGridView::detailView([
@@ -371,7 +371,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ]) ?>
                         </div>
                     <?php $box->endBody() ?>
-                    <?php $box->end() ?>
+                    <?php Box::end() ?>
                 </div>
             </div>
         <?php endif ?>
@@ -397,7 +397,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]);
                     $box->endTools();
-                    $box->endHeader();
+                    Box::endHeader();
                     $box->beginBody();
                         echo $this->render('_consumption', [
                             'labels' => $chartsLabels,
@@ -405,7 +405,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'consumptionBase' => 'server_traf',
                         ]);
                     $box->endBody();
-                    $box->end();
+                    Box::end();
                     ?>
                 </div>
             </div>
@@ -429,7 +429,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                     ]);
                     $box->endTools();
-                    $box->endHeader();
+                    Box::endHeader();
                     $box->beginBody();
                         echo $this->render('_consumption', [
                             'labels' => $chartsLabels,
@@ -437,7 +437,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'consumptionBase' => 'server_traf95',
                         ]);
                     $box->endBody();
-                    $box->end();
+                    Box::end();
                     ?>
                 </div>
             </div>

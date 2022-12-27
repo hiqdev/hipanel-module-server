@@ -37,7 +37,6 @@ $this->registerJs(<<<JS
         const hidePassword = '********'
         tdElementPassword.text(hidePassword);
         tdElementPassword.css('cursor', 'pointer');
-        
         tdElementPassword.click(function (){
             if ($(this).text() === hidePassword) {
                 $(this).text(password);
@@ -50,7 +49,7 @@ JS
 );
 ?>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="row">
             <div class="col-md-12">
                 <?= MainDetails::widget([
@@ -65,7 +64,7 @@ JS
                 $box = Box::begin(['renderBody' => false, 'bodyOptions' => ['class' => 'no-padding']]);
                 $box->beginHeader();
                 echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
-                $box->endHeader();
+                Box::endHeader();
                 $box->beginBody();
                 echo HubGridView::detailView([
                     'model' => $model,
@@ -78,19 +77,19 @@ JS
                     }, $model->bindings),
                 ]);
                 $box->endBody();
-                $box->end();
+                Box::end();
                 ?>
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-8">
         <div class="row">
             <div class="col-md-12">
                 <?php
                 $box = Box::begin(['renderBody' => false]);
                 $box->beginHeader();
                 echo $box->renderTitle(Yii::t('hipanel:server:hub', 'General information'));
-                $box->endHeader();
+                Box::endHeader();
                 $box->beginBody();
                 echo HubGridView::detailView([
                     'model' => $model,
@@ -123,7 +122,7 @@ JS
                     ],
                 ]);
                 $box->endBody();
-                $box->end();
+                Box::end();
                 ?>
             </div>
         </div>
@@ -133,7 +132,7 @@ JS
                     $box = Box::begin(['renderBody' => false]);
                         $box->beginHeader();
                             echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
-                        $box->endHeader();
+                        Box::endHeader();
                         $box->beginBody();
                             echo HubGridView::detailView([
                                 'boxed'   => false,
@@ -156,10 +155,15 @@ JS
                                 ]);
                             }
                         $box->endFooter();
-                    $box->end();
+                    Box::end();
                 ?>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
         <?= Configuration::widget(['model' => $model, 'configAttrs' => ['units']]) ?>
     </div>
 </div>
