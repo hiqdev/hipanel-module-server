@@ -270,7 +270,7 @@ class Server extends Model implements AssignSwitchInterface
 
     public function getParts()
     {
-        return $this->hasMany(Part::class, ['dst_id' => 'id']);
+        return $this->hasMany(Part::class, ['dst_id' => 'id'])->limit(-1);
     }
 
     public function getIps()

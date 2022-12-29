@@ -28,7 +28,7 @@ use yii\widgets\DetailView;
                 <?php $box->beginTools(['class' => 'box-tools pull-right']) ?>
                     <?= Html::a(Yii::t('hipanel', 'Details'), Url::toSearch('part', ['dst_name_like' => $model->name]), ['class' => 'btn btn-box-tool']) ?>
                 <?php $box->endTools() ?>
-            <?php $box->endHeader() ?>
+            <?php Box::endHeader() ?>
 
             <?php $box->beginBody() ?>
                 <?= DetailView::widget([

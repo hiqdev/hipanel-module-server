@@ -4,6 +4,7 @@ namespace hipanel\modules\server\widgets;
 
 use hipanel\grid\GridView;
 use hipanel\helpers\StringHelper;
+use hipanel\modules\stock\grid\ObjectPartsGridView;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\Module;
@@ -59,10 +60,9 @@ class Configuration extends Widget
             return Html::tag('div', '', ['class' => 'server-parts']);
         }
         $parts = PartSort::byGeneralRules()->values($this->model->parts);
-        $data = ArrayHelper::index($parts, 'id', ['model_type_label', 'model_id']);
         [$controller,] = $this->stock->createController('part');
 
-        return $controller->renderPartial('_objectParts', compact('data'));
+        return $controller->renderPartial('_objectParts', ['parts' => $parts]);
     }
 
     public function getTotalsData(): array
