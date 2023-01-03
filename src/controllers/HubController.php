@@ -47,6 +47,7 @@ class HubController extends CrudController
                     'update,options' => 'hub.update',
                     'monitoring-settings' => 'server.manage-settings',
                     'set-rack-no' => 'hub.update',
+                    'set-note' => 'hub.update',
                     '*' => 'hub.read',
                 ],
             ],
@@ -270,6 +271,12 @@ class HubController extends CrudController
                         },
                     ],
                 ],
+            ],
+            'set-note' => [
+                'class' => SmartUpdateAction::class,
+                'view' => 'modal/_bulkSetNote',
+                'success' => Yii::t('hipanel:server', 'Note changed'),
+                'error' => Yii::t('hipanel:server', 'Failed to change note'),
             ],
         ]);
     }

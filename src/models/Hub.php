@@ -65,7 +65,8 @@ class Hub extends Model implements AssignSwitchInterface
 
             [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
             [['mac'], MacValidator::class],
-            [['id'], 'required', 'on' => ['delete', 'restore']],
+            [['id'], 'required', 'on' => ['delete', 'restore', 'set-note']],
+            [['note'], 'safe', 'on' => ['set-note']],
         ]);
     }
 
