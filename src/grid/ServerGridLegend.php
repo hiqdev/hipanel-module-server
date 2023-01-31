@@ -20,6 +20,12 @@ class ServerGridLegend extends BaseGridLegend implements GridLegendInterface
     {
         return [
             [
+                'label' => Yii::t('hipanel:server', 'deleted: DEL'),
+                'color' => '#CCCCCC',
+                'rule' => $this->model->state === 'deleted',
+                'columns' => ['actions'],
+            ],
+            [
                 'label' => Yii::t('hipanel:server', 'unused: UU'),
                 'columns' => ['actions'],
             ],
@@ -175,12 +181,6 @@ class ServerGridLegend extends BaseGridLegend implements GridLegendInterface
             ],
             [
                 'label' => Yii::t('hipanel:server', 'stock: STOCK'),
-                'columns' => ['actions'],
-            ],
-            [
-                'label' => Yii::t('hipanel:server', 'deleted: DEL'),
-                'color' => '#CCCCCC',
-                'rule' => $this->model->type === 'deleted',
                 'columns' => ['actions'],
             ],
             [
