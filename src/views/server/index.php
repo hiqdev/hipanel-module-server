@@ -3,6 +3,7 @@
 use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\server\grid\ServerGridLegend;
 use hipanel\modules\server\grid\ServerGridView;
+use hipanel\modules\server\grid\ServerRepresentations;
 use hipanel\modules\server\models\OsimageSearch;
 use hipanel\modules\server\widgets\PowerManagementDropdown;
 use hipanel\widgets\AjaxModal;
@@ -10,7 +11,6 @@ use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
 use hipanel\widgets\IndexPage;
 use hiqdev\hiart\ActiveDataProvider;
-use hiqdev\higrid\representations\RepresentationCollection;
 use hipanel\modules\server\models\ServerSearch;
 use yii\bootstrap\Dropdown;
 use yii\bootstrap\Modal;
@@ -24,7 +24,7 @@ use yii\web\View;
  * @var OsimageSearch
  * @var View $this
  * @var IndexPageUiOptions $uiModel
- * @var RepresentationCollection $representationCollection
+ * @var ServerRepresentations $representationCollection
  * @var bool $orderIsAllowed
  * @var ServerSearch $model
  * @var ActiveDataProvider $dataProvider

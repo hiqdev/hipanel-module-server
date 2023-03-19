@@ -47,6 +47,10 @@ class ServerAssingHubsCest
     public function ensureICanFindTestServer(Admin $I, Example $data): void
     {
         $I->needPage(Url::to('@server'));
+        $I->click("//button[contains(text(), 'View:')]");
+        $I->click("//ul/li/a[contains(text(), 'short')]");
+        $I->waitForPageUpdate();
+
         $this->indexPage->filterBy((new Select2($I, "tr.filters select[name*=client]")), $data['seller']);
         $this->indexPage->openRowMenuByColumnValue('DC', $data['server']);
         $this->indexPage->chooseRowMenuOption('View');
