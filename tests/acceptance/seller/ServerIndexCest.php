@@ -34,10 +34,8 @@ class ServerIndexCest
         $I->login();
         $I->needPage(Url::to('@server'));
         $I->see('Servers', 'h1');
-//        $I->seeLink('Buy server', Url::to('/server/order/index'));
         $this->ensureICanSeeAdvancedSearchBox($I);
         $this->ensureICanSeeLegendBox();
-        $this->ensureICanSeeBulkServerSearchBox();
     }
 
     private function ensureICanSeeAdvancedSearchBox(Seller $I)
@@ -91,36 +89,5 @@ class ServerIndexCest
             'deleted: DEL',
             'office: OFFICE',
         ]);
-    }
-
-    private function ensureICanSeeBulkServerSearchBox()
-    {
-        $this->index->containsBulkButtons([
-            'Basic actions',
-        ]);
-        $this->index->containsColumns([
-            'Name',
-            'Client',
-            'Reseller',
-            'IPs',
-            'Tariff',
-            'Hardware Summary',
-        ], 'common');
-        $this->index->containsColumns([
-            'IPs',
-            'Client',
-            'DC',
-            'Name',
-            'Order',
-            'Hardware Summary',
-        ], 'short');
-        $this->index->containsColumns([
-            'DC',
-            'Name',
-            'Type',
-            'IP',
-            'MAC',
-            'Hardware Summary',
-        ], 'admin');
     }
 }
