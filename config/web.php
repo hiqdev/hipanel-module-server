@@ -23,7 +23,7 @@ return [
     'modules' => [
         'server' => [
             'class' => \hipanel\modules\server\Module::class,
-            'orderIsAllowed' => $params['module.server.order.allowed'] ?? true,
+            'orderIsAllowed' => $params['module.server.order.allowed'] ?? false,
         ],
     ],
     'components' => [

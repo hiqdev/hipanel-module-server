@@ -10,7 +10,7 @@
 
 return [
     'module.server.power.management.allowed'    => true,
-    'module.server.order.allowed'               => true,
+    'module.server.order.allowed'               => false,
     'module.server.renew.allowed'               => true,
     'module.server.order.redirect.url'          => null,
     'module.server.order.frontend.url'          => null,
