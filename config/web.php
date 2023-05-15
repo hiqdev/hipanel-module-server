@@ -80,7 +80,7 @@ return [
                 'configurations' => [
                     'device' => [
                         'label' => ['hipanel:finance', 'Server resources'],
-                        'columns' => ['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in', 'ip_num'],
+                        'columns' => ['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in', 'power', 'ip_num'],
                         'groups' => [['server_traf', 'server_traf_in'], ['server_traf95', 'server_traf95_in']],
                         'model' => Server::class,
                         'resourceModel' => ServerResource::class,
