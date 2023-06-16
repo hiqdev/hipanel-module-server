@@ -507,13 +507,14 @@ class ServerGridView extends BoxedGridView
     {
         foreach ($models ?? [] as $model) {
             $tariff = Html::encode($model->tariff);
+            $visibleTariffData = $this->user->can('access-reseller') && $this->user->identity->hasOwnSeller($model->getSeller());
+            if ($model->tariff_id && $visibleTariffData) {
+                $tariff = Html::a($tariff, ['@plan/view', 'id' => $model->tariff_id]);
+            }
             $data[] = [
-                'tariff' => $model->tariff_id ? '(' . Html::a($tariff, [
-                        '@plan/view',
-                        'id' => $model->tariff_id,
-                    ]) . ')' : $tariff,
+                'tariff' => '(' . $tariff . ')',
                 'client' => $model->seller ? Html::a(Html::encode($model->seller), [
-                    '@client/view', 'id' => $model->seller_id,
+                    '@client/view', 'id' => $model->getSellerId(),
                 ]) : '',
                 'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
                     '@client/view', 'id' => $model->buyer_id,
@@ -521,6 +522,7 @@ class ServerGridView extends BoxedGridView
                 'start' => Yii::$app->formatter->asDate($model->time),
                 'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
                 'id' => $model->id,
+                'visible' => $visibleTariffData,
             ];
         }
 
@@ -531,7 +533,7 @@ class ServerGridView extends BoxedGridView
         $result = '';
         foreach ($data as &$sale) {
             $html = '';
-            $html .= Html::tag('li', $sale['client']);
+            $html .= $sale['visible'] ? Html::tag('li', $sale['client']) : '';
             $html .= Html::tag('li', $sale['tariff'] . '&nbsp;' . $sale['buyer']);
             if (empty($sale['finish'])) {
                 $sale['finish'] = '&#8734;';
