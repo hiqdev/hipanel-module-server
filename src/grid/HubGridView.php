@@ -40,7 +40,7 @@ class HubGridView extends BoxedGridView
                 'attribute' => $attribute,
                 'enableSorting' => false,
                 'value' => function (Hub $hub) use ($attribute): ?string {
-                    if ($hub->{$attribute}) {
+                    if (isset($this->extraOptions[$attribute]) && $hub->{$attribute}) {
                         return $this->extraOptions[$attribute][$hub->{$attribute}];
                     }
 

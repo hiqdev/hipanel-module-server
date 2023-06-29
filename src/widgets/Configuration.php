@@ -74,6 +74,9 @@ class Configuration extends Widget
             foreach ($byCurrency as $currency => $rows) {
                 $sums[$currency] = 0;
                 foreach (ArrayHelper::getColumn($rows, 'price') as $price) {
+                    if (empty($price)) {
+                        continue;
+                    }
                     $sums[$currency] = bcadd($sums[$currency], $price, 2);
                 }
             }
