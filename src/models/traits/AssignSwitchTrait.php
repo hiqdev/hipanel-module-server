@@ -103,11 +103,11 @@ trait AssignSwitchTrait
     {
         $bindings = [];
         foreach ($this->getActualSets() as $types => $set) {
-            if (isset($this->type) && in_array($this->type, explode(',', $types))) {
-                $bindings = empty($set) ? [] : explode(',', $set);
+            if (isset($this->type) && in_array($this->type, ArrayHelper::csplit($types))) {
+                $bindings = empty($set) ? [] : ArrayHelper::csplit($set);
                 break;
             }
-            $bindings = explode(',', $this->sets[static::class][self::DEFAULT]);
+            $bindings = ArrayHelper::csplit($this->sets[static::class][self::DEFAULT]);
         }
 
         return $bindings;
