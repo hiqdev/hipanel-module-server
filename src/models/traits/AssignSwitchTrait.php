@@ -59,8 +59,8 @@ trait AssignSwitchTrait
         $variantIds = [];
         $variantPorts = [];
         $allPossibleBindings = [];
-        foreach ($this->getActualSets() as $set) {
-            $allPossibleBindings = [...$allPossibleBindings, ...ArrayHelper::csplit($set)];
+        foreach ($this->getActualSets() as $commaSeparatedBindings) {
+            $allPossibleBindings = [...$allPossibleBindings, ...ArrayHelper::csplit($commaSeparatedBindings)];
         }
 
         foreach (array_unique($allPossibleBindings) as $variant) {
@@ -102,12 +102,13 @@ trait AssignSwitchTrait
     public function getSwitchVariants(): array
     {
         $bindings = [];
-        foreach ($this->getActualSets() as $types => $set) {
-            if (isset($this->type) && in_array($this->type, ArrayHelper::csplit($types))) {
-                $bindings = empty($set) ? [] : ArrayHelper::csplit($set);
+        $sets = $this->getActualSets();
+        foreach ($sets as $commaSeparatedTypes => $commaSeparatedBindings) {
+            if (isset($this->type) && in_array($this->type, ArrayHelper::csplit($commaSeparatedTypes))) {
+                $bindings = empty($commaSeparatedBindings) ? [] : ArrayHelper::csplit($commaSeparatedBindings);
                 break;
             }
-            $bindings = ArrayHelper::csplit($this->sets[static::class][self::DEFAULT]);
+            $bindings = ArrayHelper::csplit($sets[self::DEFAULT]);
         }
 
         return $bindings;
