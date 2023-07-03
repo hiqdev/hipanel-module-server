@@ -22,12 +22,13 @@ class HubActionsMenu extends Menu
 
     public function items(): array
     {
+        $user = Yii::$app->user;
         $onlyView = [
             'view' => [
                 'label' => Yii::t('hipanel', 'View'),
                 'icon' => 'fa-info',
                 'url' => ['@hub/view', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('hub.read'),
+                'visible' => $user->can('hub.read'),
             ],
         ];
         if ($this->model->isDeleted()) {
@@ -39,13 +40,13 @@ class HubActionsMenu extends Menu
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@hub/update', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('hub.update'),
+                'visible' => $user->can('hub.update'),
             ],
             [
                 'label' => Yii::t('hipanel:server:hub', 'Options'),
                 'icon' => 'fa-cogs',
                 'url' => ['@hub/options', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('hub.update'),
+                'visible' => $user->can('hub.update'),
             ],
             'assign-switches' => [
                 'label' => Yii::t('hipanel:server', 'Switches'),
@@ -54,6 +55,7 @@ class HubActionsMenu extends Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
+                'visible' => $user->can('hub.read'),
             ],
             'monitoring-settings' => [
                 'label' => AjaxModalWithTemplatedButton::widget([
@@ -74,7 +76,7 @@ class HubActionsMenu extends Menu
                     'toggleButtonTemplate' => '{toggleButton}',
                 ]),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('server.manage-settings'),
+                'visible' => $user->can('server.manage-settings'),
             ],
         ];
 
