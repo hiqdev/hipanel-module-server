@@ -1,8 +1,12 @@
 <?php
 
+use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\widgets\AssignSwitchesPage;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
+
+/** @var AssignSwitchInterface $model */
+/** @var AssignSwitchInterface[] $models */
 
 $this->title = Yii::t('hipanel:server:hub', 'Edit switches');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];

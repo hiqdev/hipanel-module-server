@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\widgets;
 
+use hipanel\modules\server\models\AssignSwitchInterface;
 use yii\base\Widget;
 
 class AssignSwitchesPage extends Widget
@@ -20,15 +21,10 @@ class AssignSwitchesPage extends Widget
      */
     public $form;
 
-    /**
-     * @var
-     */
-    public $models;
+    /** @var AssignSwitchInterface[] */
+    public array $models;
 
-    /**
-     * @var array
-     */
-    public $variantMap = [
+    public array $variantMap = [
         'pdu2' => 'pdu',
         'ipmi' => 'net',
         'net2' => 'net',

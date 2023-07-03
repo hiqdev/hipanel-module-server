@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Server module for HiPanel
  *
@@ -10,29 +11,31 @@
 
 namespace hipanel\modules\server\models\traits;
 
+use hipanel\helpers\ArrayHelper;
 use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Hub;
 use Yii;
-use yii\base\InvalidConfigException;
 
 trait AssignSwitchTrait
 {
-    /**
-     * List of switch types
-     * Example: ['net', 'kvm', 'pdu', 'rack', 'console'].
-     *
-     * @var array
-     */
-    protected array $switchVariants = [];
+    private const DEFAULT = 'default';
+    private array $sets = [
+        AssignSwitchesForm::class => [
+            self::DEFAULT => 'net,kvm,pdu,rack,console,location',
+            'kvm' => 'net,rack,kvm,pdu',
+            'rack,location' => '',
+        ],
+        AssignHubsForm::class => [
+            self::DEFAULT => 'net,net2,kvm,rack,pdu,pdu2,ipmi,jbod',
+            'uplink1,uplink2,uplink3,total' => 'net,rack,location',
+            'stock' => 'location',
+            'chwbox' => 'rack',
+        ],
+    ];
 
-    /**
-     * @param AssignSwitchInterface $originalModel
-     *
-     * @return AssignSwitchInterface
-     */
     public static function fromOriginalModel(AssignSwitchInterface $originalModel): AssignSwitchInterface
     {
         $attributes = array_merge($originalModel->getAttributes(), []);
@@ -55,7 +58,12 @@ trait AssignSwitchTrait
     {
         $variantIds = [];
         $variantPorts = [];
-        foreach ($this->getSwitchVariants() as $variant) {
+        $allPossibleBindings = [];
+        foreach ($this->getActualSets() as $commaSeparatedBindings) {
+            $allPossibleBindings = [...$allPossibleBindings, ...ArrayHelper::csplit($commaSeparatedBindings)];
+        }
+
+        foreach (array_unique($allPossibleBindings) as $variant) {
             $variantIds[] = $variant . '_id';
             $variantPorts[] = $variant . '_port';
         }
@@ -81,7 +89,7 @@ trait AssignSwitchTrait
         $map = [
             'update' => 'assign-hubs',
         ];
-        $scenario = isset($map[$defaultScenario]) ? $map[$defaultScenario] : $defaultScenario;
+        $scenario = $map[$defaultScenario] ?? $defaultScenario;
 
         return parent::batchQuery($scenario, $data, $options);
     }
@@ -93,27 +101,28 @@ trait AssignSwitchTrait
      */
     public function getSwitchVariants(): array
     {
-        $map = [
-            'rack' => ['location'],
-            'location' => ['location'],
-        ];
-        /** @var AssignSwitchesForm|AssignHubsForm $this */
-        if (isset($this->type, $map[$this->type]) && $this instanceof AssignSwitchesForm) {
-            return $map[$this->type];
+        $bindings = [];
+        $sets = $this->getActualSets();
+        foreach ($sets as $commaSeparatedTypes => $commaSeparatedBindings) {
+            if (isset($this->type) && in_array($this->type, ArrayHelper::csplit($commaSeparatedTypes))) {
+                $bindings = empty($commaSeparatedBindings) ? [] : ArrayHelper::csplit($commaSeparatedBindings);
+                break;
+            }
+            $bindings = ArrayHelper::csplit($sets[self::DEFAULT]);
         }
 
-        if (empty($this->switchVariants)) {
-            throw new InvalidConfigException('Please specify `switchVariants` array to use AssignSwitchTrait::generateUniqueValidators()');
-        }
+        return $bindings;
+    }
 
-        return $this->switchVariants;
+    public function getActualSets(): array
+    {
+        return $this->sets[static::class];
     }
 
     /**
      * Added to model's rules list of switch pairs.
      *
      * @return array
-     * @throws InvalidConfigException
      */
     protected function generateUniqueValidators(): array
     {
@@ -126,7 +135,7 @@ trait AssignSwitchTrait
         );
     }
 
-    protected function validateSwitchVariants($attribute, $variant)
+    protected function validateSwitchVariants($attribute, $variant): void
     {
         if (empty($this->{$attribute}) || empty($this->{$variant . '_id'})) {
             return;
@@ -145,10 +154,13 @@ trait AssignSwitchTrait
             return;
         }
 
-        $this->addError($attribute, Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
-            'switch' => $binding->switch_name,
-            'port' => $binding->port,
-            'device' => $binding->device_name,
-        ]));
+        $this->addError(
+            $attribute,
+            Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
+                'switch' => $binding->switch_name,
+                'port' => $binding->port,
+                'device' => $binding->device_name,
+            ])
+        );
     }
 }

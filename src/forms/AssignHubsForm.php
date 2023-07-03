@@ -22,11 +22,6 @@ class AssignHubsForm extends Server
     use ModelTrait;
 
     /**
-     * @var array
-     */
-    protected array $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'pdu2', 'net2', 'ipmi', 'jbod'];
-
-    /**
      * {@inheritdoc}
      */
     public static function tableName()

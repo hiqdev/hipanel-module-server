@@ -11,15 +11,12 @@
 namespace hipanel\modules\server\forms;
 
 use hipanel\base\ModelTrait;
-use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Hub;
 use Yii;
 
 class AssignSwitchesForm extends Hub
 {
     use ModelTrait;
-
-    protected array $switchVariants = ['net', 'kvm', 'pdu', 'rack', 'console', 'location'];
 
     /**
      * {@inheritdoc}
