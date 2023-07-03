@@ -38,10 +38,10 @@ class SellForm extends Widget
      */
     public function run()
     {
-        $model = $this->getModels();
+        $models = $this->getModels();
         return $this->render('SellForm', [
             'defaultDateTime' => $this->getDefaultDateTime(),
-            'model' => \reset($model),
+            'model' => \reset($models),
             'models' => $this->getModels(),
             'actionUrl' => $this->getActionUrl(),
             'validationUrl' => $this->getValidationUrl(),
