@@ -13,6 +13,7 @@ namespace hipanel\modules\server\forms;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\validators\MacValidator;
+use Yii;
 use yii\helpers\ArrayHelper;
 
 /**
@@ -40,9 +41,11 @@ class ServerForm extends Server
     {
         $ips = self::setMainIpToBegining(ArrayHelper::getColumn($server->ips, 'ip'), $server->getAttribute('ip'));
 
-        return new self(array_merge($server->getAttributes(), ['server' => $server->name, 'scenario' => 'update'], [
-            'ips' => implode(',', $ips),
-        ]));
+        return new self(array_merge(
+            $server->getAttributes(),
+            ['server' => $server->name, 'new_server_name' => $server->name, 'scenario' => 'update'],
+            ['ips' => implode(',', $ips)]
+        ));
     }
 
     /**
@@ -53,14 +56,13 @@ class ServerForm extends Server
         return array_merge(parent::rules(), [
             // Create/update servers
             [['server', 'type', 'state'], 'required', 'on' => ['create', 'update']],
+            [['new_server_name'], 'required', 'on' => 'update'],
             [['server', 'dc'], 'unique', 'on' => ['create']],
             [
-                ['server'], 'unique', 'on' => ['update'], 'when' => function ($model) {
-                    if ($model->isAttributeChanged('server')) {
-                        return self::findOne($model->id)->name !== $model->server;
-                    }
+                ['new_server_name'], 'unique', 'on' => ['update'], 'when' => function () {
+                    $existing = self::find()->where(['eq', 'server', $this->new_server_name])->one();
 
-                    return false;
+                    return $existing && (string)$existing->id !== (string)$this->id && $existing->name === $this->new_server_name;
                 },
             ],
             [
@@ -96,4 +98,10 @@ class ServerForm extends Server
         return $ips;
     }
 
+    public function attributeLabels()
+    {
+        return array_merge(parent::attributeLabels(), [
+            'new_server_name' => Yii::t('hipanel:server', 'Name'),
+        ]);
+    }
 }

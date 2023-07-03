@@ -31,6 +31,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
     'formFields' => [
         'id',
         'server',
+        'new_server_name',
         'dc',
         'type',
         'state',
@@ -47,6 +48,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
         <div class="item">
             <?php if (!$model->isNewRecord) : ?>
                 <?= Html::activeHiddenInput($model, "[$i]id") ?>
+                <?= Html::activeHiddenInput($model, "[$i]server") ?>
             <?php endif; ?>
 
             <div class="box box-widget">
@@ -69,7 +71,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-3">
-                                    <?= $form->field($model, "[$i]server") ?>
+                                    <?= $model->isNewRecord ? $form->field($model, "[$i]server") : $form->field($model, "[$i]new_server_name") ?>
                                 </div>
                                 <div class="col-md-3">
                                     <?= $form->field($model, "[$i]dc") ?>
