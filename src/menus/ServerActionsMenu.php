@@ -44,7 +44,7 @@ class ServerActionsMenu extends Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
-                'visible' => Yii::$app->user->can('server.update'),
+                'visible' => $user->can('server.update'),
             ],
             [
                 'label' => Yii::t('hipanel:server', 'Renew server'),
@@ -53,13 +53,13 @@ class ServerActionsMenu extends Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
-                'visible' => !empty($this->model->expires) && Yii::$app->user->can('server.pay') && Yii::$app->params['module.server.renew.allowed'],
+                'visible' => !empty($this->model->expires) && $user->can('server.pay') && Yii::$app->params['module.server.renew.allowed'],
             ],
             'assign-hubs' => [
                 'label' => Yii::t('hipanel:server', 'Assign hubs'),
                 'icon' => 'fa-plug',
                 'url' => ['@server/assign-hubs', 'id' => $this->model->id],
-                'visible' => Yii::$app->user->can('server.update'),
+                'visible' => $user->can('server.update') && $user->can('hub.read'),
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
