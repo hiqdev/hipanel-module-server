@@ -11,16 +11,12 @@
 namespace hipanel\modules\server\helpers;
 
 use hipanel\models\Ref;
-use hipanel\modules\finance\helpers\ResourceConfigurator;
 use hipanel\modules\finance\logic\Calculator;
-use hipanel\modules\finance\models\ServerResource;
 use hipanel\modules\finance\models\Tariff;
-use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\models\OpenvzPackage;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\Package;
 use hipanel\modules\server\models\Server;
-use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\models\ServerUse;
 use Yii;
 use yii\helpers\ArrayHelper;
@@ -36,21 +32,25 @@ class ServerHelper
      *  0 - labels (like months)
      *  1 - values (value for each month)
      */
-    public static function groupUsesForChart($uses)
+    public static function groupUsesForChart(array $uses): array
     {
         $labels = [];
         $data = [];
-
         ArrayHelper::multisort($uses, 'date');
-
         foreach ($uses as $use) {
             /** @var ServerUse $use */
-            $labels[$use->date] = $use;
-            $data[$use->type][] = $use->getDisplayAmount();
+            $labels[$use->date] = $use->getDisplayDate();
+            $data[$use->type] = [];
         }
-
-        foreach ($labels as $date => $use) {
-            $labels[$date] = $use->getDisplayDate();
+        foreach (array_keys($labels) as $date) {
+            foreach (array_keys($data) as $type) {
+                $found = array_filter($uses, fn($entry) => $entry->type === $type && $entry->date === $date);
+                if (!empty($found)) {
+                    $data[$type][] = reset($found)->getDisplayAmount();
+                } else {
+                    $data[$type][] = null;
+                }
+            }
         }
 
         return [$labels, $data];

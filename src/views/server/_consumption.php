@@ -11,10 +11,19 @@
 use hipanel\modules\server\widgets\ResourceConsumption;
 use hipanel\modules\server\widgets\TrafficConsumption;
 
+/** @var string $consumptionBase */
+/** @var array $labels */
+/** @var array $data */
+
 $options = [
     'id' => 'widget_id_tc_' . $consumptionBase,
     'labels' => $labels,
     'data' => $data,
     'consumptionBase' => $consumptionBase,
 ];
-echo in_array($consumptionBase, ['server_traf', 'server_traf95'], true) ? TrafficConsumption::widget($options) : ResourceConsumption::widget($options);
+
+if (in_array($consumptionBase, ['server_traf', 'server_traf95'], true)) {
+    echo TrafficConsumption::widget($options);
+} else {
+    echo ResourceConsumption::widget($options);
+}

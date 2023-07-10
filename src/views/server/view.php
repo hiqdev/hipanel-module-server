@@ -10,6 +10,7 @@ use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\BootLive;
 use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\modules\server\widgets\Configuration;
+use hipanel\modules\server\widgets\PowerChartOptions;
 use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\modules\server\widgets\ServerSwitcher;
 use hipanel\modules\server\widgets\Wizzard;
@@ -436,6 +437,38 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data' => $chartsData,
                             'consumptionBase' => 'server_traf95',
                         ]);
+                    $box->endBody();
+                    Box::end();
+                    ?>
+                </div>
+            </div>
+        <?php endif ?>
+        <?php if (isset($chartsData['power'])) : ?>
+            <div class="row">
+                <div class="col-md-12">
+                    <?php
+                    $box = Box::begin(['renderBody' => false]);
+                    $box->beginHeader();
+                    echo $box->renderTitle(Yii::t('hipanel:server', 'Power consumption'));
+                    $box->beginTools();
+                    echo PowerChartOptions::widget([
+                        'id' => 'power',
+                        'form' => [
+                            'action' => 'draw-chart',
+                        ],
+                        'hiddenInputs' => [
+                            'id' => ['value' => $model->id],
+                            'type' => ['value' => 'power'],
+                        ],
+                    ]);
+                    $box->endTools();
+                    Box::endHeader();
+                    $box->beginBody();
+                    echo $this->render('_consumption', [
+                        'labels' => $chartsLabels,
+                        'data' => $chartsData,
+                        'consumptionBase' => 'power',
+                    ]);
                     $box->endBody();
                     Box::end();
                     ?>

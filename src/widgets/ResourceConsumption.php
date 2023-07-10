@@ -26,17 +26,16 @@ class ResourceConsumption extends TrafficConsumption
             'backup_traf' => Yii::t('hipanel:server', 'Backup traffic'),
             'server_sata' => Yii::t('hipanel:server', 'CDN cache HDD'),
             'server_ssd' => Yii::t('hipanel:server', 'CDN cache SSD'),
+            'power' => Yii::t('hipanel:server', 'Power'),
         ];
     }
 
     public function init()
     {
         foreach ($this->data as $k => $item) {
-            if (in_array($k, ['server_du', 'server_files', 'backup_du', 'backup_traf', 'server_sata', 'server_ssd'], true)) {
-                $this->data[$k] = array_map(function ($n) {
-                    return (int) Yii::$app->formatter->asShortSize($n, 2);
-                }, $item);
-            }
+            $this->data[$k] = array_map(function ($n) {
+                return (int)Yii::$app->formatter->asShortSize($n, 2);
+            }, $item);
         }
 
         parent::init();
@@ -49,6 +48,7 @@ class ResourceConsumption extends TrafficConsumption
             'backup_traf' => Yii::t('hipanel:server', ' consumption history is not available for this server.'),
             'server_sata' => Yii::t('hipanel:server', ' consumption history is not available for this server.'),
             'server_ssd' => Yii::t('hipanel:server', ' consumption history is not available for this server.'),
+            'power' => Yii::t('hipanel:server', ' power consumption history is not available for this server.'),
         ]);
 
         $this->legends = array_merge($this->legends, [
@@ -59,32 +59,35 @@ class ResourceConsumption extends TrafficConsumption
             'backup_traf' => Yii::t('hipanel:server', 'Buckup traffic, Gb'),
             'server_sata' => Yii::t('hipanel:server', 'Server SATA, Gb'),
             'server_ssd' => Yii::t('hipanel:server', 'Server SSD, Gb'),
+            'power' => Yii::t('hipanel:server', 'Power, W'),
         ]);
     }
 
     protected function renderCanvasData()
     {
-        return Html::tag('div', ChartJs::widget([
-            'id' => $this->id,
-            'type' => $this->chartType,
-            'data' => [
-                'labels' => $this->labels,
-                'datasets' => [
-                    [
-                        'label' => $this->legends[$this->consumptionBase],
-                        'backgroundColor' => 'rgba(139, 195, 74, 0.5)',
-                        'borderColor' => 'rgba(139, 195, 74, 1)',
-                        'pointBackgroundColor' => 'rgba(139, 195, 74, 1)',
-                        'pointBorderColor' => '#fff',
-                        'data' => (array) $this->data[$this->consumptionBase],
+        return Html::tag('div',
+            ChartJs::widget([
+                'id' => $this->id,
+                'type' => $this->consumptionBase === 'power' ? 'bar' : $this->chartType,
+                'data' => [
+                    'labels' => $this->labels,
+                    'datasets' => [
+                        [
+                            'label' => $this->legends[$this->consumptionBase],
+                            'backgroundColor' => 'rgba(139, 195, 74, 0.5)',
+                            'borderColor' => 'rgba(139, 195, 74, 1)',
+                            'pointBackgroundColor' => 'rgba(139, 195, 74, 1)',
+                            'pointBorderColor' => '#fff',
+                            'data' => (array)($this->data[$this->consumptionBase] ?? []),
+                        ],
                     ],
                 ],
-            ],
-            'clientOptions' => [
-                'bezierCurve' => false,
-                'responsive' => true,
-                'maintainAspectRatio' => true,
-            ],
-        ]));
+                'clientOptions' => [
+                    'bezierCurve' => false,
+                    'responsive' => true,
+                    'maintainAspectRatio' => true,
+                    'scales' => ['y' => ['beginAtZero' => true]],
+                ],
+            ]));
     }
 }
