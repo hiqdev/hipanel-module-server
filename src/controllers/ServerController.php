@@ -867,12 +867,9 @@ class ServerController extends CrudController
 
     public function actionDrawChart()
     {
-        $post = Yii::$app->request->post();
-        $types = array_merge(['server_traf', 'server_traf95'], array_keys(ResourceConsumption::types()));
-        if (!in_array($post['type'], $types, true)) {
-            throw new NotFoundHttpException();
-        }
-
+        $post = $this->request->post();
+        $type = $post['type'];
+        $post['type'] = 'overuse,' . $type;
         $searchModel = new ServerUseSearch();
         $dataProvider = $searchModel->search([]);
         $dataProvider->pagination = false;
@@ -885,7 +882,7 @@ class ServerController extends CrudController
         return $this->renderAjax('_consumption', [
             'labels' => $labels,
             'data' => $data,
-            'consumptionBase' => $post['type'],
+            'consumptionBase' => $type,
         ]);
     }
 

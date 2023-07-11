@@ -158,6 +158,7 @@ return [
     'You have refused the service' => 'Вы отказались от услуги',
     'since {date}' => 'с {date}',
     'Physical information' => 'Физическая информация',
+    'Power consumption' => 'Потребляемая мощность',
     'Traffic consumption' => 'Потребление трафика',
     'Bandwidth consumption' => 'Использование полосы пропускания',
     'Bandwidth consumption history is not available for this server' => 'История потребления полосы пропускания для этого сервера недоступна',

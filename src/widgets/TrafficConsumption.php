@@ -141,6 +141,7 @@ class TrafficConsumption extends Widget
                 'bezierCurve' => false,
                 'responsive' => true,
                 'maintainAspectRatio' => true,
+                'scales' => ['y' => ['beginAtZero' => true]],
             ],
         ]));
     }
