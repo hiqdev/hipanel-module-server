@@ -37,6 +37,7 @@ class ServerSearch extends Server
             'hide_vds',
             'rack_inilike',
             'rack_ilike',
+            'tags',
         ]);
     }
 

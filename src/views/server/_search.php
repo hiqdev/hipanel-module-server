@@ -5,6 +5,7 @@ use hipanel\modules\client\widgets\combo\SellerCombo;
 use hipanel\modules\server\widgets\combo\ServerStateRefCombo;
 use hipanel\modules\server\widgets\combo\ServerTypeRefCombo;
 use hipanel\widgets\AdvancedSearch;
+use hipanel\widgets\TagsInput;
 
 /**
  * @var AdvancedSearch $search
@@ -16,6 +17,9 @@ use hipanel\widgets\AdvancedSearch;
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('hide_nic', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
         <?= $search->field('hide_vds', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
+    </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('tags')->widget(TagsInput::class) ?>
     </div>
 <?php endif ?>
 
