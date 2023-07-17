@@ -20,6 +20,11 @@ class ServerSearch extends Server
         searchAttributes as defaultSearchAttributes;
     }
 
+    public static function tableName()
+    {
+        return Server::tableName();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -37,6 +42,7 @@ class ServerSearch extends Server
             'hide_vds',
             'rack_inilike',
             'rack_ilike',
+            'tags',
         ]);
     }
 

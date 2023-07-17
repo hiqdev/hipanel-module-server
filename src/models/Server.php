@@ -12,7 +12,9 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
+use hipanel\behaviors\TaggableBehavior;
 use hipanel\models\Ref;
+use hipanel\models\TaggableInterface;
 use hipanel\modules\finance\models\Sale;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
@@ -33,7 +35,7 @@ use yii\base\NotSupportedException;
  * @property-read HardwareSale[] $hardwareSales
  * @property-read HardwareSettings $hardwareSettings
  */
-class Server extends Model implements AssignSwitchInterface
+class Server extends Model implements AssignSwitchInterface, TaggableInterface
 {
     use ModelTrait, AssignSwitchTrait;
 
@@ -47,6 +49,13 @@ class Server extends Model implements AssignSwitchInterface
     const SVDS_TYPES = ['avds', 'svds'];
 
     const DEFAULT_PANEL = 'rcp';
+
+    public function behaviors()
+    {
+        return [
+            TaggableBehavior::class,
+        ];
+    }
 
     public function rules()
     {

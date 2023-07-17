@@ -2,6 +2,7 @@
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\widgets\AdvancedSearch;
+use hipanel\widgets\TagsInput;
 use hiqdev\combo\StaticCombo;
 
 /**
@@ -61,3 +62,9 @@ use hiqdev\combo\StaticCombo;
         'data' => $search->model->getStateOptions(),
     ]) ?>
 </div>
+
+<?php if (Yii::$app->user->can('hub.update')) : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('tags')->widget(TagsInput::class) ?>
+    </div>
+<?php endif ?>

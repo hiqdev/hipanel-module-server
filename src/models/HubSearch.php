@@ -20,6 +20,11 @@ class HubSearch extends Hub
         searchAttributes as defaultSearchAttributes;
     }
 
+    public static function tableName()
+    {
+        return Hub::tableName();
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -32,6 +37,7 @@ class HubSearch extends Hub
             'rack_ilike',
             'order_no_ilike',
             'state_in',
+            'tags',
         ]);
     }
 
