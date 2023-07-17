@@ -22,7 +22,7 @@ class HubSearch extends Hub
 
     public static function tableName()
     {
-        return 'hub';
+        return Hub::tableName();
     }
 
     /**

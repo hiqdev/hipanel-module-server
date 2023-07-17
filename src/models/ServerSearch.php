@@ -22,7 +22,7 @@ class ServerSearch extends Server
 
     public static function tableName()
     {
-        return 'server';
+        return Server::tableName();
     }
 
     /**
