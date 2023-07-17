@@ -18,6 +18,9 @@ use hipanel\widgets\TagsInput;
         <?= $search->field('hide_nic', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
         <?= $search->field('hide_vds', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
     </div>
+<?php endif ?>
+
+<?php if (Yii::$app->user->can('server.update')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('tags')->widget(TagsInput::class) ?>
     </div>

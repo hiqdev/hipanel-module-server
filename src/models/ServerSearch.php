@@ -20,6 +20,11 @@ class ServerSearch extends Server
         searchAttributes as defaultSearchAttributes;
     }
 
+    public static function tableName()
+    {
+        return 'server';
+    }
+
     /**
      * {@inheritdoc}
      */

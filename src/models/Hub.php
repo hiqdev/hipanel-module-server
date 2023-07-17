@@ -12,6 +12,8 @@ namespace hipanel\modules\server\models;
 
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
+use hipanel\behaviors\TaggableBehavior;
+use hipanel\models\TaggableInterface;
 use hipanel\modules\server\models\query\HubQuery;
 use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\server\validators\MacValidator;
@@ -19,7 +21,7 @@ use hipanel\modules\stock\models\Part;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
-class Hub extends Model implements AssignSwitchInterface
+class Hub extends Model implements AssignSwitchInterface, TaggableInterface
 {
     use ModelTrait, AssignSwitchTrait;
 
@@ -29,6 +31,12 @@ class Hub extends Model implements AssignSwitchInterface
     public const STATE_OK = 'ok';
     public const STATE_DELETED = 'deleted';
 
+    public function behaviors()
+    {
+        return [
+            TaggableBehavior::class,
+        ];
+    }
 
     public function rules()
     {
