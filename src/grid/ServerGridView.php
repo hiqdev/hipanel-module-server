@@ -82,6 +82,22 @@ class ServerGridView extends BoxedGridView
         return array_merge(parent::columns(), [
             'server' => [
                 'class' => ServerNameColumn::class,
+                'exportedColumns' => array_filter([
+                    'export_name', 'export_note',
+                    Yii::$app->user->can('server.see-label') ? 'export_internal_note' : null,
+                ]),
+            ],
+            'export_name' => [
+                'label' => Yii::t('hipanel', 'Name'),
+                'value' => static fn($server): string => $server->name ?? '',
+            ],
+            'export_note' => [
+                'label' => Yii::t('hipanel', 'Note'),
+                'value' => static fn($server): string => $server->note ?? '',
+            ],
+            'export_internal_note' => [
+                'label' => Yii::t('hipanel', 'Internal Note'),
+                'value' => static fn($server): string => $server->label ?? '',
             ],
             'dc' => [
                 'attribute' => 'dc',
