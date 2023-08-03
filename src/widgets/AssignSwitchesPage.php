@@ -51,6 +51,6 @@ class AssignSwitchesPage extends Widget
 
     public function hasPort(string $variant): bool
     {
-        return $variant !== 'location';
+        return !in_array($variant, ['location', 'region'], true);
     }
 }
