@@ -26,7 +26,8 @@ trait AssignSwitchTrait
         AssignSwitchesForm::class => [
             self::DEFAULT => 'net,kvm,pdu,rack,console,location',
             'kvm' => 'net,rack,kvm,pdu',
-            'rack,location' => '',
+            'rack' => '',
+            'location' => 'location',
         ],
         AssignHubsForm::class => [
             self::DEFAULT => 'net,net2,kvm,rack,pdu,pdu2,ipmi,jbod',
