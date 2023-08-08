@@ -151,7 +151,7 @@ trait AssignSwitchTrait
             return;
         }
 
-        if (!strcmp($this->id, $binding->device_id)) {
+        if (!strcmp((string) $this->id, (string) $binding->device_id)) {
             return;
         }
 
