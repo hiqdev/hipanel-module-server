@@ -248,12 +248,16 @@ $this->params['breadcrumbs'][] = $this->title;
                             'osImages' => $osimages,
                         ],
                         'columns' => [
-                            'client_id', 'seller_id',
+                            'client_id',
+                            'seller_id',
                             [
                                 'attribute' => 'name',
                                 'contentOptions' => ['class' => 'text-bold'],
-                            ], 'detailed_type',
-                            'ip', 'note', 'label',
+                            ],
+                            'detailed_type',
+                            'ip',
+                            'note',
+                            'label',
                             'blocking',
                             'mails_num',
                         ],
@@ -483,7 +487,8 @@ $this->params['breadcrumbs'][] = $this->title;
             'configAttrs' => array_filter([
                 'summary',
                 Yii::$app->user->can('order.read') ? 'order_no' : null,
-                'units'
+                'units',
+                'comment',
             ]),
         ]) ?>
     </div>
