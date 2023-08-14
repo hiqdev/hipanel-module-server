@@ -98,6 +98,7 @@ class HubGridView extends BoxedGridView
                 'attribute' => 'name',
                 'filterAttribute' => 'name_ilike',
                 'note' => 'note',
+                'exportedColumns' => ['tags', 'switch'],
             ],
             'state_label' => [
                 'attribute' => 'state_label',

@@ -83,7 +83,7 @@ class ServerGridView extends BoxedGridView
             'server' => [
                 'class' => ServerNameColumn::class,
                 'exportedColumns' => array_filter([
-                    'export_name', 'export_note',
+                    'tags', 'export_name', 'export_note',
                     Yii::$app->user->can('server.see-label') ? 'export_internal_note' : null,
                 ]),
             ],
