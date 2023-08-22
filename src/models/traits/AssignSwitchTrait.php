@@ -17,6 +17,7 @@ use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\models\AssignSwitchInterface;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Hub;
+use hipanel\modules\server\widgets\combo\HubCombo;
 use Yii;
 
 trait AssignSwitchTrait
@@ -129,7 +130,7 @@ trait AssignSwitchTrait
     {
         return array_map(
             fn($variant) => [
-                [$variant . '_port'],
+                [$variant . '_id', $variant . '_port'],
                 fn($attribute, $params, $validator) => $this->validateSwitchVariants($attribute, $variant),
             ],
             $this->getSwitchVariants(),
@@ -141,23 +142,30 @@ trait AssignSwitchTrait
         if (empty($this->{$attribute}) || empty($this->{$variant . '_id'})) {
             return;
         }
+        if ($variant === HubCombo::JBOD) {
+            if ($this->{$variant . '_id'} !== $this->id) {
+                return;
+            }
+            $message = "can't connect jbod to himself";
+        } else {
+            $binding = Binding::find()
+                ->andWhere(['port' => $this->{$variant . '_port'}])
+                ->andWhere(['switch_id' => $this->{$variant . '_id'}])
+                ->andWhere(['ne', 'base_device_id', $this->id])
+                ->one();
+            if (empty($binding)) {
+                return;
+            }
 
-        $binding = Binding::find()
-            ->andWhere(['port' => $this->{$attribute}])
-            ->andWhere(['switch_id' => $this->{$variant . '_id'}])
-            ->andWhere(['ne', 'base_device_id', $this->id])
-            ->one();
-        if (empty($binding)) {
-            return;
-        }
-
-        if (!strcmp((string) $this->id, (string) $binding->device_id)) {
-            return;
+            if (!strcmp((string)$this->id, (string)$binding->device_id)) {
+                return;
+            }
+            $message = '{switch}::{port} already taken by {device}';
         }
 
         $this->addError(
             $attribute,
-            Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
+            Yii::t('hipanel:server', $message, [
                 'switch' => $binding->switch_name,
                 'port' => $binding->port,
                 'device' => $binding->device_name,
