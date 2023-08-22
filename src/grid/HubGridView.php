@@ -14,6 +14,8 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
+use hipanel\modules\finance\helpers\ConsumptionConfigurator;
+use hipanel\modules\finance\helpers\ResourceHelper;
 use hipanel\modules\server\menus\HubActionsMenu;
 use hipanel\modules\server\models\Hub;
 use hipanel\widgets\gridLegend\ColorizeGrid;
@@ -34,6 +36,9 @@ class HubGridView extends BoxedGridView
 
     public function columns()
     {
+        $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
+        $consumptionColumns = $consumptionConfigurator->getColumnsWithLabels('switch');
+        $columns = ResourceHelper::buildGridColumns($consumptionColumns, date("Y-m"));
         $extraColumns = [];
         foreach (['snmp_version_id', 'digit_capacity_id', 'nic_media'] as $attribute) {
             $extraColumns[$attribute] = [
@@ -156,6 +161,6 @@ class HubGridView extends BoxedGridView
             'password' => [
                 'visible' => Yii::$app->user->can('server.manage-settings'),
             ]
-        ]);
+        ], $columns);
     }
 }

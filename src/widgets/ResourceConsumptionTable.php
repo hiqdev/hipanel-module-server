@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 /**
  * Server module for HiPanel
  *
@@ -10,40 +11,35 @@
 
 namespace hipanel\modules\server\widgets;
 
-use hipanel\modules\finance\logic\bill\QuantityFormatterFactory;
 use hipanel\modules\finance\logic\bill\QuantityFormatterFactoryInterface;
+use hipanel\modules\server\helpers\ServerSort;
 use hipanel\modules\server\models\Consumption;
-use hipanel\modules\server\models\Server;
+use hiqdev\hiart\ActiveRecord;
 use yii\base\Widget;
 
 class ResourceConsumptionTable extends Widget
 {
-    /**
-     * @var Server
-     */
-    public $model;
+    public ActiveRecord $model;
 
-    /**
-     * @var QuantityFormatterFactoryInterface|QuantityFormatterFactory
-     */
-    private $quantityFormatterFactory;
-
-    public function __construct(QuantityFormatterFactoryInterface $quantityFormatterFactory, array $config = [])
+    public function __construct(
+        readonly private QuantityFormatterFactoryInterface $quantityFormatterFactory,
+        array $config = []
+    )
     {
         parent::__construct($config);
-        $this->quantityFormatterFactory = $quantityFormatterFactory;
     }
 
     public function run(): string
     {
-        return $this->render('ResourceConsumptionTable', [
-            'model' => $this->model,
-        ]);
+        $consumptions = $this->model->consumptions;
+        $consumptions = ServerSort::byConsumptionType()->values($consumptions);
+
+        return $this->render('ResourceConsumptionTable', ['consumptions' => $consumptions]);
     }
 
     public function getFormatted(Consumption $model, ?string $currentQuantity): string
     {
-        if (strpos($model->type, 'monthly,') === 0) {
+        if (str_starts_with($model->type, 'monthly,')) {
             return '';
         }
 

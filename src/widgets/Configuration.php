@@ -2,19 +2,12 @@
 
 namespace hipanel\modules\server\widgets;
 
-use hipanel\grid\GridView;
-use hipanel\helpers\StringHelper;
-use hipanel\modules\stock\grid\ObjectPartsGridView;
 use hipanel\modules\stock\helpers\PartSort;
 use hipanel\modules\stock\models\Part;
 use hipanel\modules\stock\Module;
-use hipanel\widgets\AmountWithCurrency;
 use hiqdev\hiart\ActiveRecord;
-use Money\Currency;
-use Money\Money;
 use Yii;
 use yii\base\Widget;
-use yii\data\ArrayDataProvider;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;

@@ -1,12 +1,4 @@
-<?php
-
-/** @var \hipanel\modules\server\models\Server $model */
-
-/** @var array $consumption */
-use hipanel\modules\server\helpers\ServerSort;
-use yii\helpers\Html;
-
-?>
+<?php /** @var array $consumptions */ ?>
 
 <div id="resource-consumption-table" class="box box-widget">
     <div class="box-header with-border">
@@ -21,10 +13,14 @@ use yii\helpers\Html;
                     <th rowspan="2"></th>
                     <th colspan="2" class="text-center"><?= Yii::t('hipanel:server', 'Tariff') ?></th>
                     <th colspan="2" class="text-center">
-                        <?= Yii::t('hipanel:server', 'This month {month_year,date,MMMM yyyy}', ['month_year' => time()]) ?>
+                        <?= Yii::t('hipanel:server',
+                            'This month {month_year,date,MMMM yyyy}',
+                            ['month_year' => time()]) ?>
                     </th>
                     <th colspan="2" class="text-center">
-                        <?= Yii::t('hipanel:server', 'Previous month {month_year,date,MMMM yyyy}', ['month_year' => strtotime('-1month')]) ?>
+                        <?= Yii::t('hipanel:server',
+                            'Previous month {month_year,date,MMMM yyyy}',
+                            ['month_year' => strtotime('-1month')]) ?>
                     </th>
                 </tr>
 
@@ -41,9 +37,11 @@ use yii\helpers\Html;
 
                 <tbody>
 
-                <?php foreach (ServerSort::byConsumptionType()->values($model->consumptions) as $consumption) : ?>
+                <?php foreach ($consumptions as $consumption) : ?>
                     <tr>
-                        <th class="text-right"><?= Yii::t('hipanel.server.consumption.type', $consumption->typeLabel) ?></th>
+                        <th class="text-right">
+                            <?= Yii::t('hipanel.server.consumption.type', $consumption->typeLabel) ?>
+                        </th>
                         <td><?= $this->context->getFormatted($consumption, $consumption->limit) ?></td>
                         <td class="text-right"><?= $consumption->getFormattedPrice() ?></td>
                         <td><?= $this->context->getFormatted($consumption, $consumption->currentValue) ?></td>
@@ -58,4 +56,3 @@ use yii\helpers\Html;
         </div>
     </div>
 </div>
-

@@ -26,6 +26,14 @@ class HubQuery extends ActiveQuery
         return $this;
     }
 
+    public function withResources(): self
+    {
+        $this->joinWith('resources');
+        $this->andWhere(['with_resources' => true]);
+
+        return $this;
+    }
+
     public function withMonitoringSettings(): self
     {
         if (Yii::$app->user->can('server.manage-settings')) {

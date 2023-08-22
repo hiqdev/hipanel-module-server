@@ -352,4 +352,6 @@ return [
     'Future sales' => 'Будущие продажи',
     'Rack by partial like' => 'Частичное название стойки',
     'List of racks' => 'Список стоек',
+
+    'consumption' => 'потребление',
 ];

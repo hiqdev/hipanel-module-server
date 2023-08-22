@@ -17,6 +17,8 @@ use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\StringHelper;
 use hipanel\helpers\Url;
+use hipanel\modules\finance\helpers\ConsumptionConfigurator;
+use hipanel\modules\finance\helpers\ResourceHelper;
 use hipanel\modules\finance\models\Sale;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
@@ -78,12 +80,17 @@ class ServerGridView extends BoxedGridView
     public function columns()
     {
         $canSupport = Yii::$app->user->can('support');
+        $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
+        $consumptionColumns = $consumptionConfigurator->getColumnsWithLabels('server');
+        $columns = ResourceHelper::buildGridColumns($consumptionColumns, date("Y-m"));
 
         return array_merge(parent::columns(), [
             'server' => [
                 'class' => ServerNameColumn::class,
                 'exportedColumns' => array_filter([
-                    'tags', 'export_name', 'export_note',
+                    'tags',
+                    'export_name',
+                    'export_note',
                     Yii::$app->user->can('server.see-label') ? 'export_internal_note' : null,
                 ]),
             ],
@@ -207,7 +214,7 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'value' => function ($model) {
                     return $this->formatSales($this->getActiveSales($model));
-                }
+                },
             ],
             'finished_sales' => [
                 'label' => Yii::t('hipanel:server', 'Finished sales'),
@@ -251,10 +258,12 @@ class ServerGridView extends BoxedGridView
                         'formatter' => function ($ip, $idx) use ($model) {
                             $ip = Html::encode($ip);
                             if ($idx === 0) {
-                                return Html::a($ip, IpController::getSearchUrl(['server_in' => Html::encode($model->name)]), [
-                                    'class' => 'text-bold',
-                                    'target' => '_blank',
-                                ]);
+                                return Html::a($ip,
+                                    IpController::getSearchUrl(['server_in' => Html::encode($model->name)]),
+                                    [
+                                        'class' => 'text-bold',
+                                        'target' => '_blank',
+                                    ]);
                             }
 
                             return $ip;
@@ -359,11 +368,13 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'value' => function ($model) {
                     $ips_num = $model->ips_num;
-                    $ips = $ips_num ? Html::a("$ips_num ips", IpController::getSearchUrl(['server' => $model->name])) : 'no ips';
+                    $ips = $ips_num ? Html::a("$ips_num ips",
+                        IpController::getSearchUrl(['server' => $model->name])) : 'no ips';
                     $act_acs_num = $model->acs_num - $model->del_acs_num;
                     $del_acs_num = $model->del_acs_num;
                     $acs_num = $act_acs_num . ($del_acs_num ? "+$del_acs_num" : '');
-                    $acs = $acs_num ? Html::a("$acs_num acc", AccountController::getSearchUrl(['server' => $model->name])) : 'no acc';
+                    $acs = $acs_num ? Html::a("$acs_num acc",
+                        AccountController::getSearchUrl(['server' => $model->name])) : 'no acc';
 
                     return Html::tag('nobr', $ips) . ' ' . Html::tag('nobr', $acs);
                 },
@@ -421,7 +432,7 @@ class ServerGridView extends BoxedGridView
                 'filter' => false,
                 'label' => Yii::t('hipanel:server', 'Hardware Comment'),
             ],
-        ]);
+        ], $columns);
     }
 
     protected function formatTariff($model): string
@@ -438,8 +449,9 @@ class ServerGridView extends BoxedGridView
                     'id' => $sale->tariff_id,
                 ]) : $tariff;
                 $client = $sale->seller ? '(' . Html::a($client, [
-                        '@client/view', 'id' => $sale->seller_id,
-                ]) . ')' : '';
+                        '@client/view',
+                        'id' => $sale->seller_id,
+                    ]) . ')' : '';
 
                 $html .= Html::tag('li', $tariff . '&nbsp;' . $client);
             }
@@ -530,10 +542,12 @@ class ServerGridView extends BoxedGridView
             $data[] = [
                 'tariff' => '(' . $tariff . ')',
                 'client' => $model->seller ? Html::a(Html::encode($model->seller), [
-                    '@client/view', 'id' => $model->getSellerId(),
+                    '@client/view',
+                    'id' => $model->getSellerId(),
                 ]) : '',
                 'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
-                    '@client/view', 'id' => $model->buyer_id,
+                    '@client/view',
+                    'id' => $model->buyer_id,
                 ]) : '',
                 'start' => Yii::$app->formatter->asDate($model->time),
                 'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
@@ -574,8 +588,9 @@ class ServerGridView extends BoxedGridView
         return $result;
     }
 
-    protected function formatTariffWithoutUnsale(Server $model) {
-        $models = $this->getModelWithUserPermission($model);
+    protected function formatTariffWithoutUnsale(Server $server)
+    {
+        $models = $this->getModelWithUserPermission($server);
 
         foreach ($models as $model) {
             if ($model->tariff && $this->checkHide($model)) {
@@ -586,10 +601,12 @@ class ServerGridView extends BoxedGridView
                             'id' => $model->tariff_id,
                         ]) . ')' : $tariff,
                     'client' => $model->seller ? Html::a(Html::encode($model->seller), [
-                        '@client/view', 'id' => $model->seller_id,
+                        '@client/view',
+                        'id' => $model->seller_id,
                     ]) : '',
                     'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
-                        '@client/view', 'id' => $model->buyer_id,
+                        '@client/view',
+                        'id' => $model->buyer_id,
                     ]) : '',
                     'start' => Yii::$app->formatter->asDate($model->time),
                     'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
@@ -632,6 +649,7 @@ class ServerGridView extends BoxedGridView
             ]);
             $result .= Html::tag('br');
         }
+
         return $result;
     }
 
@@ -656,6 +674,7 @@ class ServerGridView extends BoxedGridView
                 'tariff_id' => $model->tariff_id,
             ]);
         }
+
         return $models;
     }
 
@@ -665,6 +684,7 @@ class ServerGridView extends BoxedGridView
         if (self::HIDE_UNSALE) {
             $result = ($model->unsale_time === null || $model->unsale_time > date('Y-m-d H:i:s'));
         }
+
         return $result;
     }
 
@@ -695,7 +715,8 @@ class ServerGridView extends BoxedGridView
         $prices = [];
         if ($model->consumptions) {
             array_walk($model->consumptions, function (Consumption $consumption) use (&$prices) {
-                if ($consumption->type && $consumption->hasFormattedAttributes() && StringHelper::startsWith($consumption->type, 'monthly,')) {
+                if ($consumption->type && $consumption->hasFormattedAttributes() && StringHelper::startsWith($consumption->type,
+                        'monthly,')) {
                     if ($consumption->price) {
                         $consumption->setAttribute('prices', [$consumption->currency => $consumption->price]);
                     }
@@ -747,11 +768,11 @@ class ServerGridView extends BoxedGridView
             'columns' => [
                 [
                     'attribute' => 'typeLabel',
-                    'format' => 'raw'
+                    'format' => 'raw',
                 ],
                 [
                     'attribute' => 'value',
-                    'format' => 'raw'
+                    'format' => 'raw',
                 ],
             ],
         ]);
@@ -817,7 +838,9 @@ class ServerGridView extends BoxedGridView
                         'placement' => 'bottom',
                         'title' => Yii::t('hipanel:server', 'Parts') . ' '
                             . Html::a(
-                                Yii::t('hipanel:server', 'To new tab {icon}', ['icon' => '<i class="fa fa-external-link"></i>']),
+                                Yii::t('hipanel:server',
+                                    'To new tab {icon}',
+                                    ['icon' => '<i class="fa fa-external-link"></i>']),
                                 Url::toSearch('part', ['dst_name_in' => $model->name]),
                                 ['class' => 'pull-right', 'target' => '_blank']
                             ),
@@ -851,10 +874,10 @@ class ServerGridView extends BoxedGridView
                     }
 
                     return Html::a(
-                        $title,
-                        ['@part/view', 'id' => $item['part_id']],
-                        ['class' => 'text-nowrap', 'target' => '_blank']
-                    ) . ($additionalInfo ? " ($additionalInfo)" : '');
+                            $title,
+                            ['@part/view', 'id' => $item['part_id']],
+                            ['class' => 'text-nowrap', 'target' => '_blank']
+                        ) . ($additionalInfo ? " ($additionalInfo)" : '');
                 },
             ]);
         }

@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\modules\finance\helpers\ConsumptionConfigurator;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 
@@ -18,14 +19,16 @@ class ServerRepresentations extends RepresentationCollection
     protected function fillRepresentations(): void
     {
         $hostingExists = class_exists(\hipanel\modules\hosting\Module::class);
+        $user = Yii::$app->user;
+        $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
         $this->representations = array_filter([
-            'short' => Yii::$app->user->can('support') ? [
+            'short' => $user->can('support') ? [
                 'label' => Yii::t('hipanel:server', 'short'),
                 'columns' => array_filter([
                     'checkbox',
                     $hostingExists ? 'ips' : null,
                     'client', 'dc', 'actions', 'server',
-                    Yii::$app->user->can('order.read') ? 'order_no' : null,
+                    $user->can('order.read') ? 'order_no' : null,
                     'hwsummary',
                 ]),
             ] : null,
@@ -39,14 +42,14 @@ class ServerRepresentations extends RepresentationCollection
                     'tariff_and_discount', 'hwsummary',
                 ]),
             ],
-            'hardware' => Yii::$app->user->can('part.read') ? [
+            'hardware' => $user->can('part.read') ? [
                 'label' => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',
                     'rack', 'client', 'dc', 'actions', 'server', 'hwsummary', 'hwcomment',
                 ],
             ] : null,
-            'manager' => Yii::$app->user->can('manage') ? [
+            'manager' => $user->can('manage') ? [
                 'label' => Yii::t('hipanel:server', 'manager'),
                 'columns' => array_filter([
                     'checkbox',
@@ -56,7 +59,7 @@ class ServerRepresentations extends RepresentationCollection
                     $hostingExists ? 'nums': null,
                 ]),
             ] : null,
-            'billing' => Yii::$app->user->can('consumption.read') && Yii::$app->user->can('manage') ? [
+            'billing' => $user->can('consumption.read') && $user->can('manage') ? [
                 'label' => Yii::t('hipanel:server', 'billing'),
                 'columns' => [
                     'checkbox',
@@ -72,12 +75,23 @@ class ServerRepresentations extends RepresentationCollection
                     'hwsummary',
                 ],
             ] : null,
-            'admin' => Yii::$app->user->can('support') ? [
+            'admin' => $user->can('support') ? [
                 'label' => Yii::t('hipanel:server', 'admin'),
                 'columns' => [
                     'checkbox',
                     'dc', 'actions', 'server', 'type',
                     'net', 'kvm', 'ipmi', 'pdu', 'jbod', 'ip', 'mac', 'hwsummary',
+                ],
+            ] : null,
+            'consumption' => $user->can('consumption.read') ? [
+                'label' => Yii::t('hipanel:server', 'consumption'),
+                'columns' => [
+                    'checkbox',
+                    'actions',
+                    'type',
+                    'dc',
+                    'server',
+                    ...$consumptionConfigurator->getColumns('server'),
                 ],
             ] : null,
         ]);
