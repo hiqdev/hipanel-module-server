@@ -1,5 +1,7 @@
 <?php
 
+use hipanel\modules\finance\models\Consumption;
+use hipanel\modules\finance\widgets\ConsumptionViewer;
 use hipanel\modules\server\grid\BindingColumn;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\menus\HubDetailMenu;
@@ -18,6 +20,7 @@ use yii\web\View;
  * @var array $nicMediaOptions
  * @var View $this
  * @var Hub $model
+ * @var Consumption $consumption
  */
 
 $this->title = Html::encode($model->name);
@@ -56,7 +59,8 @@ JS
                     'title' => $model->name,
                     'icon' => 'fa-arrows-alt',
                     'subTitle' => Html::a($model->buyer, ['@client/view', 'id' => $model->buyer_id]),
-                    'menu' => HubDetailMenu::widget(['model' => $model], ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
+                    'menu' => HubDetailMenu::widget(['model' => $model],
+                        ['linkTemplate' => '<a href="{url}" {linkOptions}><span class="pull-right">{icon}</span>&nbsp;{label}</a>']),
                 ]) ?>
             </div>
             <div class="col-md-12">
@@ -129,33 +133,33 @@ JS
         <div class="row">
             <div class="col-md-12">
                 <?php
-                    $box = Box::begin(['renderBody' => false]);
-                        $box->beginHeader();
-                            echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
-                        Box::endHeader();
-                        $box->beginBody();
-                            echo HubGridView::detailView([
-                                'boxed'   => false,
-                                'model'   => $model,
-                                'columns' => [
-                                    'tariff',
-                                    'sale_time',
-                                ],
-                            ]);
-                        $box->endBody();
-                        $box->beginFooter();
-                            if (Yii::$app->user->can('hub.sell')) {
-                                echo SettingsModal::widget([
-                                    'model'    => $model,
-                                    'title'    => Yii::t('hipanel:server', 'Change tariff'),
-                                    'scenario' => 'sell',
-                                    'toggleButton' => [
-                                        'class' => 'btn btn-default',
-                                    ],
-                                ]);
-                            }
-                        $box->endFooter();
-                    Box::end();
+                $box = Box::begin(['renderBody' => false]);
+                $box->beginHeader();
+                echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
+                Box::endHeader();
+                $box->beginBody();
+                echo HubGridView::detailView([
+                    'boxed' => false,
+                    'model' => $model,
+                    'columns' => [
+                        'tariff',
+                        'sale_time',
+                    ],
+                ]);
+                $box->endBody();
+                $box->beginFooter();
+                if (Yii::$app->user->can('hub.sell')) {
+                    echo SettingsModal::widget([
+                        'model' => $model,
+                        'title' => Yii::t('hipanel:server', 'Change tariff'),
+                        'scenario' => 'sell',
+                        'toggleButton' => [
+                            'class' => 'btn btn-default',
+                        ],
+                    ]);
+                }
+                $box->endFooter();
+                Box::end();
                 ?>
             </div>
         </div>
@@ -163,6 +167,13 @@ JS
 </div>
 
 <div class="row">
+    <div class="col-md-12">
+        <?= ConsumptionViewer::widget([
+            'consumption' => $consumption,
+            'mainObject' => $model,
+            'showCharts' => false,
+        ]) ?>
+    </div>
     <div class="col-md-12">
         <?= Configuration::widget(['model' => $model, 'configAttrs' => ['units']]) ?>
     </div>

@@ -21,11 +21,12 @@ use hipanel\actions\RedirectAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\base\Module;
 use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
+use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\BulkSetRackNo;
-use hipanel\modules\server\forms\HubRestoreForm;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\forms\AssignSwitchesForm;
@@ -37,6 +38,16 @@ use yii\web\NotFoundHttpException;
 
 class HubController extends CrudController
 {
+    public function __construct(
+        string $id,
+        Module $module,
+        readonly private ConsumptionsProvider $consumptionsProvider,
+        array $config = []
+    )
+    {
+        parent::__construct($id, $module, $config);
+    }
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -59,6 +70,14 @@ class HubController extends CrudController
         return array_merge(parent::actions(), [
             'index' => [
                 'class' => IndexAction::class,
+                'on beforePerform' => function (Event $event) {
+                    /** @var \hipanel\actions\SearchAction $action */
+                    $action = $event->sender;
+                    $query = $action->getDataProvider()->query;
+                    if ($this->indexPageUiOptionsModel->representation === 'consumption' && Yii::$app->user->can('consumption.read')) {
+                        $query->withResources();
+                    }
+                },
                 'data' => function () {
                     return [
                         'types' => $this->getTypes(),
@@ -96,11 +115,15 @@ class HubController extends CrudController
                         ]);
                 },
                 'class' => ViewAction::class,
-                'data' => function () {
+                'data' => function (ViewAction $action) {
+                    $model = $action->getModel();
+                    $consumption = $this->consumptionsProvider->findById($model->id);
+
                     return [
                         'snmpOptions' => $this->getSnmpOptions(),
                         'digitalCapacityOptions' => $this->getDigitalCapacityOptions(),
                         'nicMediaOptions' => $this->getNicMediaOptions(),
+                        'consumption' => $consumption,
                     ];
                 },
             ],
@@ -308,9 +331,11 @@ class HubController extends CrudController
             $result = ArrayHelper::map(Ref::find()->where([
                 'gtype' => $gtype,
                 'select' => 'full',
-            ])->all(), 'id', function ($model) {
-                return Yii::t('hipanel:server:hub', $model->label);
-            });
+            ])->all(),
+                'id',
+                function ($model) {
+                    return Yii::t('hipanel:server:hub', $model->label);
+                });
 
             return $result;
         }, 86400 * 24); // 24 days

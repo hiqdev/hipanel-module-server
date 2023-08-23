@@ -1,10 +1,10 @@
 <?php
 
 use hipanel\models\IndexPageUiOptions;
+use hipanel\modules\finance\widgets\ConsumptionRepresentationMonthPicker;
 use hipanel\modules\server\grid\ServerGridLegend;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\grid\ServerRepresentations;
-use hipanel\modules\server\models\OsimageSearch;
 use hipanel\modules\server\widgets\PowerManagementDropdown;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
@@ -21,7 +21,6 @@ use yii\web\JsExpression;
 use yii\web\View;
 
 /**
- * @var OsimageSearch
  * @var View $this
  * @var IndexPageUiOptions $uiModel
  * @var ServerRepresentations $representationCollection
@@ -64,6 +63,9 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
     <?php $page->endContent() ?>
     <?php $page->beginContent('representation-actions') ?>
         <?= $page->renderRepresentations($representationCollection) ?>
+        <?php if ($uiModel->representation === 'consumption') : ?>
+            <?= ConsumptionRepresentationMonthPicker::widget() ?>
+        <?php endif ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>

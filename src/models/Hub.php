@@ -14,6 +14,7 @@ use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\behaviors\TaggableBehavior;
 use hipanel\models\TaggableInterface;
+use hipanel\modules\finance\models\proxy\Resource;
 use hipanel\modules\server\models\query\HubQuery;
 use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\server\validators\MacValidator;
@@ -115,6 +116,11 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
         ]);
+    }
+
+    public function getResources(): ActiveQuery
+    {
+        return $this->hasMany(Resource::class, ['object_id' => 'id']);
     }
 
     public function getBindings()

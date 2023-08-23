@@ -27,9 +27,11 @@ use hipanel\actions\ValidateFormAction;
 use hipanel\actions\VariantsAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
+use hipanel\base\Module;
 use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
+use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\BulkPowerManagementAction;
 use hipanel\modules\server\actions\BulkSetRackNo;
 use hipanel\modules\server\cart\ServerRenewProduct;
@@ -42,10 +44,8 @@ use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\models\Osimage;
 use hipanel\modules\server\models\query\ServerQuery;
 use hipanel\modules\server\models\Server;
-use hipanel\modules\server\models\ServerSearch;
 use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
-use hipanel\modules\server\widgets\ResourceConsumption;
 use hiqdev\hiart\Collection;
 use hiqdev\hiart\ResponseErrorException;
 use hiqdev\yii2\cart\actions\AddToCartAction;
@@ -58,6 +58,16 @@ use yii\web\Response;
 
 class ServerController extends CrudController
 {
+    public function __construct(
+        string $id,
+        Module $module,
+        readonly private ConsumptionsProvider $consumptionsProvider,
+        array $config = []
+    )
+    {
+        parent::__construct($id, $module, $config);
+    }
+
     public function behaviors()
     {
         return array_merge(parent::behaviors(), [
@@ -136,6 +146,10 @@ class ServerController extends CrudController
                     }
                     if ($this->indexPageUiOptionsModel->representation === 'billing' && Yii::$app->user->can('consumption.read')) {
                         $query->withConsumptions()->withHardwareSales();
+                    }
+
+                    if ($this->indexPageUiOptionsModel->representation === 'consumption' && Yii::$app->user->can('consumption.read')) {
+                        $query->withUses();
                     }
 
                     $query
@@ -411,7 +425,6 @@ class ServerController extends CrudController
                         ->withBindings()
                         ->withBlocking()
                         ->withUses()
-                        ->withConsumptions()
                         ->withSales()
                         ->joinWith(['switches']);
 
@@ -467,6 +480,7 @@ class ServerController extends CrudController
                     }
 
                     $blockReasons = $controller->getBlockReasons();
+                    $consumption = $this->consumptionsProvider->findById($model->id);
 
                     return [
                         'model' => $model,
@@ -475,6 +489,7 @@ class ServerController extends CrudController
                         'groupedOsimages' => $groupedOsimages,
                         'panels' => $panels,
                         'blockReasons' => $blockReasons,
+                        'consumption' => $consumption,
                     ];
                 },
             ],

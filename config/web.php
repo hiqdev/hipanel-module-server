@@ -9,6 +9,7 @@
  */
 
 use hipanel\modules\finance\models\ServerResource;
+use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\Server;
 
 return [
@@ -78,11 +79,18 @@ return [
             \hipanel\modules\finance\helpers\ConsumptionConfigurator::class => [
                 'class' => \hipanel\modules\finance\helpers\ConsumptionConfigurator::class,
                 'configurations' => [
-                    'device' => [
+                    'server' => [
                         'label' => ['hipanel:finance', 'Server resources'],
                         'columns' => ['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in', 'power', 'ip_num'],
                         'groups' => [['server_traf', 'server_traf_in'], ['server_traf95', 'server_traf95_in']],
                         'model' => Server::class,
+                        'resourceModel' => ServerResource::class,
+                    ],
+                    'switch' => [
+                        'label' => ['hipanel:finance', 'Hub resources'],
+                        'columns' => ['server_traf', 'server_traf_in', 'server_traf95', 'server_traf95_in', 'power'],
+                        'groups' => [['server_traf', 'server_traf_in'], ['server_traf95', 'server_traf95_in']],
+                        'model' => Hub::class,
                         'resourceModel' => ServerResource::class,
                     ],
                 ]
