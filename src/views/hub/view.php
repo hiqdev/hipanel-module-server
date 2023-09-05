@@ -167,14 +167,18 @@ JS
 </div>
 
 <div class="row">
-    <div class="col-md-12">
-        <?= ConsumptionViewer::widget([
-            'consumption' => $consumption,
-            'mainObject' => $model,
-            'showCharts' => false,
-        ]) ?>
-    </div>
-    <div class="col-md-12">
-        <?= Configuration::widget(['model' => $model, 'configAttrs' => ['units']]) ?>
-    </div>
+    <?php if (Yii::$app->user->can('consumption.read')): ?>
+        <div class="col-md-12">
+            <?= ConsumptionViewer::widget([
+                'consumption' => $consumption,
+                'mainObject' => $model,
+                'showCharts' => false,
+            ]) ?>
+        </div>
+    <?php endif ?>
+    <?php if (Yii::$app->user->can('part.read')) : ?>
+        <div class="col-md-12">
+            <?= Configuration::widget(['model' => $model, 'configAttrs' => ['units']]) ?>
+        </div>
+    <?php endif ?>
 </div>
