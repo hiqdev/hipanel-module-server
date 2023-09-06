@@ -35,6 +35,7 @@ class HubSearch extends Hub
             'with_servers',
             'name_inilike',
             'rack_ilike',
+            'rack_inilike',
             'order_no_ilike',
             'state_in',
             'tags',
@@ -45,6 +46,7 @@ class HubSearch extends Hub
     {
         return array_merge(parent::attributeLabels(), [
             'name_inilike' => Yii::t('hipanel:server', 'Switch'),
+            'rack_inilike' => Yii::t('hipanel:server', 'List of racks'),
             'rack_ilike' => Yii::t('hipanel:server', 'Rack'),
             'order_no_ilike' => Yii::t('hipanel:server:hub', 'Order No.'),
             'state_in' => Yii::t('hipanel:server:hub', 'State'),

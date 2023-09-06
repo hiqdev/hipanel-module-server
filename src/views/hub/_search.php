@@ -56,6 +56,10 @@ use hiqdev\combo\StaticCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
+    <?= $search->field('rack_inilike') ?>
+</div>
+
+<div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('state_in')->widget(StaticCombo::class, [
         'multiple' => true,
         'type' => 'server/hub',
