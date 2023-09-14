@@ -10,10 +10,10 @@
 
 namespace hipanel\modules\server\grid;
 
+use hipanel\grid\DataColumn;
 use hipanel\helpers\StringHelper;
 use hipanel\modules\server\models\Binding;
 use Yii;
-use yii\grid\DataColumn;
 use yii\helpers\Html;
 
 class BindingColumn extends DataColumn
