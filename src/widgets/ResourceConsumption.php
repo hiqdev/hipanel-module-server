@@ -32,14 +32,7 @@ class ResourceConsumption extends TrafficConsumption
 
     public function init()
     {
-        foreach ($this->data as $k => $item) {
-            $this->data[$k] = array_map(function ($n) {
-                return (int)Yii::$app->formatter->asShortSize($n, 2);
-            }, $item);
-        }
-
         parent::init();
-
         $this->emptyMessage = array_merge($this->emptyMessage, [
             'ip_num' => Yii::t('hipanel:server', 'IP number history is not available for this server.'),
             'server_du' => Yii::t('hipanel:server', 'Server usage consumption history is not available for this server.'),
@@ -50,7 +43,6 @@ class ResourceConsumption extends TrafficConsumption
             'server_ssd' => Yii::t('hipanel:server', ' consumption history is not available for this server.'),
             'power' => Yii::t('hipanel:server', ' power consumption history is not available for this server.'),
         ]);
-
         $this->legends = array_merge($this->legends, [
             'ip_num' => Yii::t('hipanel:server', 'Total of IP, PC'),
             'server_du' => Yii::t('hipanel:server', 'Total incoming traffic, Gb'),
