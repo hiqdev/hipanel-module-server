@@ -483,7 +483,7 @@ if ($model->running_task) {
             'model' => $model,
             'configAttrs' => array_filter([
                 'summary',
-                Yii::$app->user->can('order.read') ? 'order_no' : null,
+                Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff') ? 'order_no' : null,
                 'units',
                 'comment',
             ]),

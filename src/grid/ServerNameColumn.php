@@ -40,9 +40,10 @@ class ServerNameColumn extends MainColumn
 
     private function prepareNotes(): void
     {
-        $canSeeLabel = Yii::$app->user->can('server.see-label');
-        $canSetLabel = Yii::$app->user->can('server.set-label');
-        $canSetNote = Yii::$app->user->can('server.set-note');
+        $user = Yii::$app->user;
+        $canSeeLabel = $user->can('server.see-label') && $user->can('owner-stuff');
+        $canSetLabel = $user->can('server.set-label');
+        $canSetNote = $user->can('server.set-note');
 
         $this->note = array_filter(['note', $canSeeLabel ? 'label' : null]);
         $this->noteOptions = array_filter([

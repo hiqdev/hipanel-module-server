@@ -12,6 +12,7 @@ use yii\widgets\DetailView;
 /** @var Server|Hub $model */
 /** @var array $configAttrs */
 /** @var bool $loadAjax */
+/** @var array $totalData */
 
 ?>
 
@@ -41,7 +42,7 @@ use yii\widgets\DetailView;
                     <?= GridView::widget([
                         'dataProvider' => new ArrayDataProvider([
                             'pagination' => false,
-                            'allModels' => $this->context->getTotalsData(),
+                            'allModels' => $totalData,
                             'sort' => false,
                         ]),
                         'summary' => false,

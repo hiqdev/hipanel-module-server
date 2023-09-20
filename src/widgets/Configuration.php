@@ -44,6 +44,7 @@ class Configuration extends Widget
             'model' => $this->model,
             'configAttrs' => $this->configAttrs,
             'loadAjax' => $this->loadAjax,
+            'totalData' => $this->getTotalData(),
         ]);
     }
 
@@ -58,7 +59,7 @@ class Configuration extends Widget
         return $controller->renderPartial('_objectParts', ['parts' => $parts]);
     }
 
-    public function getTotalsData(): array
+    public function getTotalData(): array
     {
         $result = [];
         foreach (ArrayHelper::index($this->model->parts, 'id', 'company') as $company => $parts) {
