@@ -28,7 +28,7 @@ class ServerRepresentations extends RepresentationCollection
                     'checkbox',
                     $hostingExists ? 'ips' : null,
                     'client', 'dc', 'actions', 'server',
-                    $user->can('order.read') ? 'order_no' : null,
+                    $user->can('order.read') && $user->can('owner-staff') ? 'order_no' : null,
                     'hwsummary',
                 ]),
             ] : null,

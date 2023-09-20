@@ -83,6 +83,7 @@ class ServerGridView extends BoxedGridView
         $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
         $consumptionColumns = $consumptionConfigurator->getColumnsWithLabels('server');
         $columns = ResourceHelper::buildGridColumns($consumptionColumns, date("Y-m"));
+        $user = Yii::$app->user;
 
         return array_merge(parent::columns(), [
             'server' => [
@@ -91,7 +92,7 @@ class ServerGridView extends BoxedGridView
                     'tags',
                     'export_name',
                     'export_note',
-                    Yii::$app->user->can('server.see-label') ? 'export_internal_note' : null,
+                    $user->can('server.see-label') && $user->can('owner-staff') ? 'export_internal_note' : null,
                 ]),
             ],
             'export_name' => [
@@ -306,7 +307,7 @@ class ServerGridView extends BoxedGridView
                 ],
                 'visible' => Yii::$app->user->can('server.set-note'),
             ],
-            'label' => Yii::$app->user->can('server.set-label') ? [
+            'label' => [
                 'class' => XEditableColumn::class,
                 'pluginOptions' => [
                     'url' => Url::to('set-label'),
@@ -316,9 +317,7 @@ class ServerGridView extends BoxedGridView
                         'data-type' => 'textarea',
                     ],
                 ],
-                'visible' => Yii::$app->user->can('server.see-label'),
-            ] : [
-                'visible' => Yii::$app->user->can('server.see-label'),
+                'visible' => Yii::$app->user->can('server.see-label') && Yii::$app->user->can('owner-staff'),
             ],
             'type' => [
                 'class' => RefColumn::class,
