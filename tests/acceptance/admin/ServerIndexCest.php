@@ -112,7 +112,6 @@ class ServerIndexCest
             'Client',
             'DC',
             'Name',
-            'Order',
             'Hardware Summary',
         ], 'short');
         $this->index->containsColumns([
