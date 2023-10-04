@@ -41,7 +41,7 @@ class ServerNameColumn extends MainColumn
     private function prepareNotes(): void
     {
         $user = Yii::$app->user;
-        $canSeeLabel = $user->can('server.see-label') && $user->can('owner-stuff');
+        $canSeeLabel = $user->can('server.see-label') && $user->can('owner-staff');
         $canSetLabel = $user->can('server.set-label');
         $canSetNote = $user->can('server.set-note');
 
