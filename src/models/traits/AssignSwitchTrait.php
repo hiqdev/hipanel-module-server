@@ -35,6 +35,7 @@ trait AssignSwitchTrait
             'uplink1,uplink2,uplink3,total' => 'net,rack,location',
             'stock' => 'location',
             'chwbox' => 'rack',
+            'nic' => 'net,pdu',
         ],
     ];
 
