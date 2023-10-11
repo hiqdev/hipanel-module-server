@@ -36,6 +36,9 @@ class Configuration extends Widget
 
     public function run()
     {
+        if (!Yii::$app->user->can('part.read')) {
+            return '';
+        }
         if ($this->loadAjax) {
             $this->registerClientScript();
         }
