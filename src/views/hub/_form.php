@@ -80,7 +80,7 @@ use yii\helpers\Html;
                                 <?= $form->field($model, "[$i]model") ?>
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, "[$i]order_no")->widget(OrderCombo::class) ?>
+                                <?= $form->field($model, "[$i]order_no") ?>
                             </div>
                         </div>
                         <?= $form->field($model, "[$i]note")->textarea() ?>
