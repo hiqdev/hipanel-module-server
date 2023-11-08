@@ -46,7 +46,11 @@ class HubQuery extends ActiveQuery
 
     public function withDeleted(): self
     {
-        $this->andWhere(['state_in' => [HubSearch::STATE_OK, HubSearch::STATE_DELETED]]);
+        $this->andWhere(['state_in' => [
+            HubSearch::STATE_OK,
+            HubSearch::STATE_DELETED,
+            HubSearch::STATE_DISABLED,
+        ]]);
 
         return $this;
     }

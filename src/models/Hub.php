@@ -30,6 +30,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
     const SCENARIO_UPDATE = 'update';
     const SCENARIO_OPTIONS = 'options';
     public const STATE_OK = 'ok';
+    public const STATE_DISABLED = 'disabled';
     public const STATE_DELETED = 'deleted';
 
     public function behaviors()
@@ -42,14 +43,14 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'access_id', 'type_id', 'state_id', 'buyer_id', 'units', 'tariff_id', 'client_id'], 'integer'],
+            [['id', 'access_id', 'type_id', 'server_type_id', 'state_id', 'buyer_id', 'units', 'tariff_id', 'client_id'], 'integer'],
             [['tariff'], 'safe'],
             [[
-                'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'buyer', 'note', 'inn', 'model',
+                'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'server_type_label', 'buyer', 'note', 'inn', 'model',
                 'community', 'traf_server_id', 'order_no', 'ports_num', 'traf_server_id',
                 'login', 'password', 'user_login', 'user_password',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
-                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'state', 'state_label',
+                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'server_type', 'state', 'state_label',
                 'stat_device', 'stat_domain',
             ], 'string'],
             [['virtual'], 'boolean'],
@@ -84,6 +85,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
     {
         return array_merge(parent::attributeLabels(), [
             'type_id' => Yii::t('hipanel', 'Type'),
+            'server_type_id' => Yii::t('hipanel:server:hub', 'Server type'),
             'tariff_id' => Yii::t('hipanel', 'Tariff'),
             'buyer_id' => Yii::t('hipanel:server:hub', 'Buyer'),
             'buyer' => Yii::t('hipanel:server:hub', 'Buyer'),
@@ -167,5 +169,20 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
     public function isDeleted(): bool
     {
         return isset($this->state) && $this->state === self::STATE_DELETED;
+    }
+
+    public function isVirtual(): bool
+    {
+        return $this->virtual;
+    }
+
+    public function isServer(): bool
+    {
+        return (bool) $this->server_type_id;
+    }
+
+    public function isVirtualServer(): bool
+    {
+        return $this->isVirtual() && $this->isServer();
     }
 }
