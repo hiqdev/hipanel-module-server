@@ -40,13 +40,13 @@ class HubActionsMenu extends Menu
                 'label' => Yii::t('hipanel', 'Update'),
                 'icon' => 'fa-pencil',
                 'url' => ['@hub/update', 'id' => $this->model->id],
-                'visible' => $user->can('hub.update'),
+                'visible' => $user->can('hub.update') && !$this->model->isServer(),
             ],
             [
                 'label' => Yii::t('hipanel:server:hub', 'Options'),
                 'icon' => 'fa-cogs',
                 'url' => ['@hub/options', 'id' => $this->model->id],
-                'visible' => $user->can('hub.update'),
+                'visible' => $user->can('hub.update') && !$this->model->isServer(),
             ],
             'assign-switches' => [
                 'label' => Yii::t('hipanel:server', 'Switches'),

@@ -136,6 +136,30 @@ class HubGridView extends BoxedGridView
                     return Html::encode($model->type_label);
                 },
             ],
+            'server_type' => [
+                'class' => RefColumn::class,
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'enableSorting' => false,
+                'findOptions' => [
+                    'select' => 'full',
+                    'mapOptions' => ['from' => 'id', 'to' => 'label'],
+                ],
+                'attribute' => 'server_type_id',
+                'i18nDictionary' => 'hipanel:server',
+                'gtype' => 'type,device,server',
+                'value' => function ($model) {
+                    return Yii::t('hipanel:server', Html::encode($model->server_type_label));
+                },
+            ],
+            'server_type_label' => [
+                'class' => RefColumn::class,
+                'filter' => false,
+                'format' => 'raw',
+                'i18nDictionary' => 'hipanel:server',
+                'value' => function ($model) {
+                    return Html::encode($model->server_type_label);
+                },
+            ],
             'tariff' => [
                 'format' => 'raw',
                 'filterAttribute' => 'tariff_like',

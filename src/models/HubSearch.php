@@ -58,6 +58,7 @@ class HubSearch extends Hub
         return [
             self::STATE_OK => Yii::t('hipanel:server:hub', 'OK'),
             self::STATE_DELETED => Yii::t('hipanel:server:hub', 'Deleted'),
+            self::STATE_DISABLED => Yii::t('hipanel:server:hub', 'Disabled'),
         ];
     }
 }
