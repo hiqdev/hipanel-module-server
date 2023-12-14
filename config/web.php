@@ -20,6 +20,7 @@ return [
         '@pre-order' => '/server/pre-order',
         '@hub' => '/server/hub',
         '@config' => '/server/config',
+        '@device' => '/server/device',
     ],
     'modules' => [
         'server' => [

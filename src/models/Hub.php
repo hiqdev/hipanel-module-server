@@ -150,6 +150,11 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
         return $this->hasOne(MonitoringSettings::class, ['id' => 'id']);
     }
 
+    public function getDeviceProperties(): ActiveQuery
+    {
+        return $this->hasOne(DeviceProperties::class, ['id' => 'id']);
+    }
+
     /**
      * {@inheritdoc}
      * @return HubQuery

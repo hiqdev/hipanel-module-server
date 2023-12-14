@@ -16,6 +16,8 @@ use Yii;
 
 class HubQuery extends ActiveQuery
 {
+    use WithDeviceProperties;
+
     public function withBindings(): self
     {
         if (Yii::$app->user->can('hub.read')) {

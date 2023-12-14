@@ -15,6 +15,8 @@ use Yii;
 
 class ServerQuery extends ActiveQuery
 {
+    use WithDeviceProperties;
+
     public function withIps(): self
     {
         $this->joinWith('ips');

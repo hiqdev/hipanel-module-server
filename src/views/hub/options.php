@@ -60,6 +60,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'nic_media')->dropDownList($nicMediaOptions, ['prompt' => '--']) ?>
                         <?= $form->field($model, 'base_port_no') ?>
                     </div>
+                    <div class="col-md-6">
+                        <?= $form->field($model->deviceProperties, 'average_power_consumption') ?>
+                    </div>
                     <div class="col-md-12">
                         <?= $form->field($model, 'oob_key') ?>
                     </div>
