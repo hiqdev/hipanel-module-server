@@ -24,8 +24,8 @@ $this->registerJs("$('.server-parts').load('$url', function () { $(this).closest
                 'options' => ['style' => ['margin-bottom' => '1em']],
             ]) ?>
             <?= Html::activeHiddenInput($model->deviceProperties, 'id') ?>
-            <?= $form->field($model->deviceProperties, 'average_power_consumption') ?>
-            <?= Html::submitButton('Save', ['class' => 'btn btn-success', 'style' => 'display: inline-block']) ?>
+            <?= $form->field($model->deviceProperties, 'average_power_consumption')->input('number', ['step' => 0.001]) ?>
+            <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success', 'style' => 'display: inline-block']) ?>
             <?php ActiveForm::end() ?>
         </div>
         <div class="col-md-12">

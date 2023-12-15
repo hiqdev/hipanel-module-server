@@ -125,7 +125,7 @@ JS
                         'base_port_no',
                         [
                             'attribute' => 'deviceProperties.average_power_consumption',
-                            'label' => 'Average Power Consumption',
+                            'label' => Yii::t('hipanel:server', 'Average Power Consumption'),
                         ],
                     ],
                 ]);

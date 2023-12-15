@@ -61,7 +61,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         <?= $form->field($model, 'base_port_no') ?>
                     </div>
                     <div class="col-md-6">
-                        <?= $form->field($model->deviceProperties, 'average_power_consumption') ?>
+                        <?= $form->field($model->deviceProperties, 'average_power_consumption')->input('number', ['step' => 0.001]) ?>
                     </div>
                     <div class="col-md-12">
                         <?= $form->field($model, 'oob_key') ?>
