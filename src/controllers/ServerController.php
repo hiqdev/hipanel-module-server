@@ -34,6 +34,7 @@ use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\BulkPowerManagementAction;
 use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\actions\CreateDeviceRangeAction;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\ServerForm;
@@ -841,6 +842,26 @@ class ServerController extends CrudController
                 'view' => 'modal/bulkPowerManagement',
                 'success' => Yii::t('hipanel:server', 'Boot via network task has been successfully added to queue'),
                 'error' => Yii::t('hipanel:server', 'Error during the turning boot via network'),
+            ],
+            'create-by-range' => [
+                'class' => CreateDeviceRangeAction::class,
+                'payloadLoader' => function (string $range): array {
+                    $models = [];
+                    foreach (explode(',', $range) as $deviceName) {
+                        $model = new ServerForm([
+                            'server' => $deviceName,
+                            'dc' => $deviceName,
+                            'ips' => null,
+                        ]);
+                        $model->setScenario('create');
+                        $models[] = $model;
+                    }
+
+                    return [
+                        'models' => $models,
+                        'model' => reset($models),
+                    ];
+                },
             ],
         ]);
     }

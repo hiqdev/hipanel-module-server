@@ -5,6 +5,7 @@ use hipanel\modules\finance\widgets\ConsumptionRepresentationMonthPicker;
 use hipanel\modules\server\grid\ServerGridLegend;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\grid\ServerRepresentations;
+use hipanel\modules\server\widgets\CreateDeviceRangeButton;
 use hipanel\modules\server\widgets\PowerManagementDropdown;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
@@ -46,7 +47,12 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
 
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('server.create')) : ?>
-            <?= Html::a(Yii::t('hipanel:server', 'Create server'), ['@server/create'], ['class' => 'btn btn-sm btn-success']) ?>
+            <?= CreateDeviceRangeButton::widget([
+                'context' => $this->context,
+                'createLink' => Html::a(Yii::t('hipanel:server', 'Create server'),
+                    ['@server/create'],
+                    ['class' => 'btn btn-sm btn-success']),
+            ]) ?>
         <?php endif ?>
         <?php if (Yii::$app->user->can('server.pay') && $orderIsAllowed) : ?>
             <?= Html::a(Yii::t('hipanel:server:order', 'Buy server'), ['/server/order/index'], ['class' => 'btn btn-sm btn-primary']) ?>

@@ -6,6 +6,7 @@ use hipanel\modules\server\grid\HubGridLegend;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\HubRepresentations;
 use hipanel\modules\server\models\HubSearch;
+use hipanel\modules\server\widgets\CreateDeviceRangeButton;
 use hipanel\widgets\AjaxModal;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
 use hipanel\widgets\gridLegend\GridLegend;
@@ -46,7 +47,12 @@ $this->registerCss('
 
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('hub.create')) : ?>
-            <?= Html::a(Yii::t('hipanel:server:hub', 'Create switch'), ['@hub/create'], ['class' => 'btn btn-sm btn-success']) ?>
+            <?= CreateDeviceRangeButton::widget([
+                'context' => $this->context,
+                'createLink' => Html::a(Yii::t('hipanel:server:hub', 'Create switch'),
+                    ['@hub/create'],
+                    ['class' => 'btn btn-sm btn-success']),
+            ]) ?>
         <?php endif; ?>
     <?php $page->endContent() ?>
 

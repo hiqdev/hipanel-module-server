@@ -27,7 +27,9 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\actions\CreateDeviceRangeAction;
 use hipanel\modules\server\models\HardwareSettings;
+use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\forms\HubSellForm;
@@ -300,6 +302,26 @@ class HubController extends CrudController
                 'view' => 'modal/_bulkSetNote',
                 'success' => Yii::t('hipanel:server', 'Note changed'),
                 'error' => Yii::t('hipanel:server', 'Failed to change note'),
+            ],
+            'create-by-range' => [
+                'class' => CreateDeviceRangeAction::class,
+                'payloadLoader' => function (string $range): array {
+                    $models = [];
+                    foreach (explode(',', $range) as $deviceName) {
+                        $model = new Hub([
+                            'name' => $deviceName,
+                            'inn' => $deviceName,
+                        ]);
+                        $model->setScenario('create');
+                        $models[] = $model;
+                    }
+
+                    return [
+                        'models' => $models,
+                        'model' => reset($models),
+                        'types' => $this->controller->getTypes(),
+                    ];
+                },
             ],
         ]);
     }
