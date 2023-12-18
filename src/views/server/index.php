@@ -48,7 +48,6 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('server.create')) : ?>
             <?= CreateDeviceRangeButton::widget([
-                'context' => $this->context,
                 'createLink' => Html::a(Yii::t('hipanel:server', 'Create server'),
                     ['@server/create'],
                     ['class' => 'btn btn-sm btn-success']),

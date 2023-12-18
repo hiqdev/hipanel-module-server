@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace hipanel\modules\server\widgets;
 
-use hipanel\base\Controller;
 use hipanel\helpers\Url;
 use hipanel\modules\server\forms\DeviceRangeForm;
 use Yii;
@@ -21,7 +20,6 @@ use yii\web\View;
  */
 class CreateDeviceRangeButton extends Widget
 {
-    public Controller $context;
     public string $createLink;
 
     public function init(): void
@@ -31,7 +29,7 @@ class CreateDeviceRangeButton extends Widget
             Modal::begin([
                 'id' => $this->getId(),
                 'size' => Modal::SIZE_SMALL,
-                'header' => Html::tag('h4', Yii::t('hipanel:finance', 'Create devices by range'), ['class' => 'modal-title']),
+                'header' => Html::tag('h4', Yii::t('hipanel:server', 'Create devices by range'), ['class' => 'modal-title']),
                 'toggleButton' => false,
             ]);
 

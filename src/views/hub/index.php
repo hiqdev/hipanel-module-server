@@ -48,7 +48,6 @@ $this->registerCss('
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('hub.create')) : ?>
             <?= CreateDeviceRangeButton::widget([
-                'context' => $this->context,
                 'createLink' => Html::a(Yii::t('hipanel:server:hub', 'Create switch'),
                     ['@hub/create'],
                     ['class' => 'btn btn-sm btn-success']),
