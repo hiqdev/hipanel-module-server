@@ -51,15 +51,15 @@ class CreateDeviceRangeButton extends Widget
 
     public function run(): string
     {
-        $html = Html::beginTag('div', ['class' => 'btn-group']);
-        $html .= $this->createLink;
-        if (Yii::$app->user->can('test.alpha')) {
-            $html .= Html::button(
+        return implode("", [
+            Html::beginTag('div', ['class' => 'btn-group']),
+            $this->createLink,
+            Html::button(
                 Html::tag('span', null, ['class' => 'caret']) .
                 Html::tag('span', Yii::t('hipanel', 'Toggle dropdown'), ['class' => 'sr-only']),
                 ['class' => 'btn btn-success btn-sm dropdown-toggle', 'data-toggle' => 'dropdown']
-            );
-            $html .= Dropdown::widget([
+            ),
+            Dropdown::widget([
                 'items' => [
                     [
                         'label' => Yii::t('hipanel:server', 'Create by range'),
@@ -72,10 +72,8 @@ class CreateDeviceRangeButton extends Widget
                         ],
                     ],
                 ],
-            ]);
-        }
-        $html .= Html::endTag('div');
-
-        return $html;
+            ]),
+            Html::endTag('div'),
+        ]);
     }
 }
