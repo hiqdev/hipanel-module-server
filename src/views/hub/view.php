@@ -123,6 +123,10 @@ JS
                         'digit_capacity_id',
                         'nic_media',
                         'base_port_no',
+                        [
+                            'attribute' => 'deviceProperties.average_power_consumption',
+                            'label' => Yii::t('hipanel:server', 'Average Power Consumption'),
+                        ],
                     ],
                 ]);
                 $box->endBody();

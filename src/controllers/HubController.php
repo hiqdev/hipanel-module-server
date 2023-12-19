@@ -27,6 +27,7 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\models\DeviceProperties;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\forms\AssignSwitchesForm;
@@ -108,6 +109,7 @@ class HubController extends CrudController
                     ]);
                     $dataProvider->query
                         ->withDeleted()
+                        ->withDeviceProperties()
                         ->andWhere([
                             'with_bindings' => 1,
                             'with_servers' => 1,
@@ -157,6 +159,20 @@ class HubController extends CrudController
                         'digitalCapacityOptions' => $this->getDigitalCapacityOptions(),
                         'nicMediaOptions' => $this->getNicMediaOptions(),
                     ];
+                },
+                'on beforeFetch' => function (Event $event) {
+                    $action = $event->sender;
+                    $query = $action->getDataProvider()->query;
+                    $query->withDeviceProperties();
+                },
+                'on beforeSave' => function (Event $event) {
+                    $action = $event->sender;
+                    $model = new DeviceProperties(['scenario' => 'set-properties']);
+                    $model->load($this->request->post());
+                    if ($model->validate()) {
+                        $model->id = $action->collection->model->id;
+                        $model->save();
+                    }
                 },
             ],
             'sell' => [
