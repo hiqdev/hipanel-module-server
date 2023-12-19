@@ -23,6 +23,7 @@ use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\stock\models\Part;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
+use hiqdev\hiart\ActiveQuery;
 use Yii;
 use yii\base\NotSupportedException;
 
@@ -321,6 +322,11 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
     public function getHardwareSettings()
     {
         return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
+    }
+
+    public function getDeviceProperties(): ActiveQuery
+    {
+        return $this->hasOne(DeviceProperties::class, ['id' => 'id']);
     }
 
     public function getHardwareSales()

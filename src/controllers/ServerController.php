@@ -295,12 +295,17 @@ class ServerController extends CrudController
                 'class' => SmartUpdateAction::class,
                 'success' => Yii::t('hipanel:server', 'Hardware properties was changed'),
                 'view' => 'modal/hardwareSettings',
+                'collection' => [
+                    'class' => Collection::class,
+                    'model' => new HardwareSettings(),
+                    'scenario' => 'set-properties',
+                ],
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
                     /** @var ServerQuery $query */
                     $query = $action->getDataProvider()->query;
-                    $query->withHardwareSettings();
+                    $query->withHardwareSettings()->withDeviceProperties();
                 },
                 'on beforeLoad' => function (Event $event) {
                     /** @var Action $action */
