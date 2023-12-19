@@ -1,11 +1,15 @@
 <?php
-/** @var array $types */
+
 use hipanel\helpers\Url;
-use hipanel\modules\stock\widgets\combo\OrderCombo;
+use hipanel\modules\server\models\Hub;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
+
+/** @var array $types */
+/** @var array $models */
+/** @var Hub $model */
 
 ?>
 
@@ -27,10 +31,11 @@ use yii\helpers\Html;
         'model' => $model,
         'formId' => 'dynamic-form',
         'formFields' => [
-            'inn',
             'name',
             'type_id',
             'mac',
+            'inn',
+            'ip',
             'note',
             'model',
             'order_no',
@@ -39,7 +44,7 @@ use yii\helpers\Html;
 
     <div class="container-items">
         <?php foreach ($models as $i => $model) : ?>
-            <div class="item col-md-6">
+            <div class="item col-md-12">
                 <?php if (!$model->isNewRecord) : ?>
                     <?= Html::activeHiddenInput($model, "[$i]id") ?>
                 <?php endif; ?>
@@ -48,42 +53,47 @@ use yii\helpers\Html;
                         <div class="box-header with-border">
                             <h3 class="box-title"></h3>
                             <div class="box-tools pull-right">
-                                <button type="button" class="btn btn-success btn-sm add-item">
-                                    <i class="fa fa-plus"></i>
-                                </button>
-                                <?= DynamicFormCopyButton::widget() ?>
-                                <button type="button" class="btn btn-danger btn-sm remove-item">
-                                    <i class="fa fa-minus"></i>
-                                </button>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-success btn-sm add-item">
+                                        <i class="fa fa-plus"></i>
+                                    </button>
+                                    <?= DynamicFormCopyButton::widget() ?>
+                                    <button type="button" class="btn btn-danger btn-sm remove-item">
+                                        <i class="fa fa-minus"></i>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     <?php endif; ?>
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <?= $form->field($model, "[$i]name") ?>
                             </div>
-                            <div class="col-md-6">
-                                <?= $form->field($model, "[$i]type_id")->dropDownList($types, ['prompt' => '--']) ?>
-                            </div>
-                            <div class="col-md-12">
-                                <?= $form->field($model, "[$i]mac")
-                                    ->hint(Yii::t('hipanel:server:hub', 'Example: {0}', ['00:27:0e:2a:b9:aa, 00-27-0E-2A-B9-AA, 0.27.e.2a.b9.aa ...'])) ?>
-                            </div>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <?= $form->field($model, "[$i]inn") ?>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
+                                <?= $form->field($model, "[$i]type_id")->dropDownList($types, ['prompt' => '--']) ?>
+                            </div>
+                            <div class="col-md-3">
+                                <?= $form->field($model, "[$i]mac")->hint(Yii::t('hipanel:server:hub', 'Example: {0}', ['00:27:0e:2a:b9:aa, 00-27-0E-2A-B9-AA, 0.27.e.2a.b9.aa ...'])) ?>
+                            </div>
+                            <div class="col-md-3">
                                 <?= $form->field($model, "[$i]ip") ?>
                             </div>
-                            <div class="col-md-6">
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
                                 <?= $form->field($model, "[$i]model") ?>
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-2">
                                 <?= $form->field($model, "[$i]order_no") ?>
                             </div>
+                            <div class="col-md-8">
+                                <?= $form->field($model, "[$i]note") ?>
+                            </div>
                         </div>
-                        <?= $form->field($model, "[$i]note")->textarea() ?>
                     </div>
                 </div>
             </div>
@@ -92,11 +102,10 @@ use yii\helpers\Html;
 
     <?php DynamicFormWidget::end() ?>
 
-    <div class="col-md-12">
+    <div class="col-md-12 space-sm">
         <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
-        &nbsp;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 
-    <?php $form->end() ?>
+    <?php ActiveForm::end() ?>
 </div>

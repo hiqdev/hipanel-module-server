@@ -1,20 +1,25 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\forms\ServerForm;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
-/** @var \hipanel\modules\server\forms\ServerForm $model */
-/** @var \hipanel\modules\server\forms\ServerForm[] $models */
+/** @var ServerForm $model */
+/** @var ServerForm[] $models */
+
 $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
+
 ?>
+
 <?php $form = ActiveForm::begin([
     'id' => 'server-dynamic-form',
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
+    'action' => $model->scenario,
     'validationUrl' => Url::toRoute(['validate-crud-form', 'scenario' => $model->scenario]),
 ]) ?>
 
@@ -70,10 +75,10 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                     <div class="row">
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <?= $model->isNewRecord ? $form->field($model, "[$i]server") : $form->field($model, "[$i]new_server_name") ?>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-2">
                                     <?= $form->field($model, "[$i]dc") ?>
                                 </div>
                                 <div class="col-md-1">
@@ -85,27 +90,23 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                 <div class="col-md-2">
                                     <?= $form->field($model, "[$i]mac") ?>
                                 </div>
+                                <div class="col-md-2">
+                                    <?= $form->field($model, "[$i]order_no") ?>
+                                </div>
                             </div>
                         </div>
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <?= $form->field($model, "[$i]order_no") ?>
-                                </div>
                                 <div class="col-md-3">
                                     <?= $form->field($model, "[$i]label") ?>
                                 </div>
                                 <div class="col-md-1">
                                     <?= $form->field($model, "[$i]state")->dropDownList($model->getStateOptions()) ?>
                                 </div>
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <?= $form->field($model, "[$i]hwsummary") ?>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12">
-                            <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-4">
                                     <?= $form->field($model, "[$i]hwcomment") ?>
                                 </div>
                             </div>
@@ -121,9 +122,8 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
 <?php DynamicFormWidget::end() ?>
 
 <div class="row">
-    <div class="col-md-12 no">
+    <div class="col-md-12 no space-sm">
         <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
-        &nbsp;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 </div>

@@ -5,11 +5,14 @@ namespace hipanel\modules\server\actions;
 use hipanel\actions\Action;
 use hipanel\actions\RenderJsonAction;
 use hipanel\actions\SmartUpdateAction;
-use hipanel\helpers\ArrayHelper;
 use hipanel\modules\server\forms\PowerManagementForm;
 use hiqdev\hiart\Collection;
 use Yii;
 
+/**
+ *
+ * @property-read array $defaultRules
+ */
 class BulkPowerManagementAction extends SmartUpdateAction
 {
     public function init(): void
@@ -33,7 +36,7 @@ class BulkPowerManagementAction extends SmartUpdateAction
         parent::init();
     }
 
-    public function beforeSave()
+    public function beforeSave(): void
     {
         /** @var Action $action */
         $action = $this->controller->action;
@@ -50,7 +53,7 @@ class BulkPowerManagementAction extends SmartUpdateAction
         $action->collection->set($models);
     }
 
-    protected function getDefaultRules()
+    protected function getDefaultRules(): array
     {
         return array_merge(parent::getDefaultRules(), [
             'POST ajax' => [
