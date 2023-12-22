@@ -443,11 +443,11 @@ class ServerGridView extends BoxedGridView
             if ($sale->tariff) {
                 $tariff = Html::encode($sale->tariff);
                 $client = Html::encode($sale->seller);
-                $tariff = $sale->tariff_id ? Html::a($tariff, [
+                $tariff = $sale->tariff_id && $this->user->can('plan.read') ? Html::a($tariff, [
                     '@plan/view',
                     'id' => $sale->tariff_id,
                 ]) : $tariff;
-                $client = $sale->seller ? '(' . Html::a($client, [
+                $client = $sale->seller && $this->user->can('client.read') ? '(' . Html::a($client, [
                         '@client/view',
                         'id' => $sale->seller_id,
                     ]) . ')' : '';
@@ -457,7 +457,7 @@ class ServerGridView extends BoxedGridView
         }
 
         return Html::tag('ul', $html, [
-            'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
+            'class' => 'tariff-chain',
             'style' => 'margin: 0; padding: 0;',
         ]);
     }
