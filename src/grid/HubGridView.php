@@ -50,27 +50,30 @@ class HubGridView extends BoxedGridView
                     }
 
                     return null;
-                }
+                },
             ];
         }
 
         return array_merge(parent::columns(), $extraColumns, [
             'inn' => [
-                'enableSorting'     => false,
-                'filterOptions'     => ['class' => 'narrow-filter'],
-                'filterAttribute'   => 'inn_ilike',
+                'enableSorting' => false,
+                'filterOptions' => ['class' => 'narrow-filter'],
+                'filterAttribute' => 'inn_ilike',
             ],
             'model' => [
                 'enableSorting' => false,
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'filterAttribute' => 'model_ilike',
             ],
             'ip' => [
                 'enableSorting' => false,
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'filterAttribute' => 'ip_ilike',
             ],
             'mac' => [
                 'enableSorting' => false,
                 'filterOptions' => ['class' => 'narrow-filter'],
+                'filterAttribute' => 'mac_ilike',
             ],
             'actions' => [
                 'class' => MenuColumn::class,
@@ -162,9 +165,10 @@ class HubGridView extends BoxedGridView
             ],
             'tariff' => [
                 'format' => 'raw',
-                'filterAttribute' => 'tariff_like',
+                'filterAttribute' => 'tariff_ilike',
                 'value' => function (Hub $model): ?string {
                     $tariff = Html::encode($model->tariff);
+
                     return Yii::$app->user->can('plan.read')
                         ? Html::a($tariff, ['@plan/view', 'id' => $model->tariff_id])
                         : $tariff;
@@ -184,7 +188,7 @@ class HubGridView extends BoxedGridView
             ],
             'password' => [
                 'visible' => Yii::$app->user->can('server.manage-settings'),
-            ]
+            ],
         ], $columns);
     }
 }

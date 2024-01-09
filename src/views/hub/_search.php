@@ -22,15 +22,15 @@ use hiqdev\combo\StaticCombo;
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('ip') ?>
+    <?= $search->field('ip_ilike') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('mac') ?>
+    <?= $search->field('mac_ilike') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('model') ?>
+    <?= $search->field('model_ilike') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
@@ -48,7 +48,7 @@ use hiqdev\combo\StaticCombo;
 <?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
-    <?= $search->field('tariff') ?>
+    <?= $search->field('tariff_ilike') ?>
 </div>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
