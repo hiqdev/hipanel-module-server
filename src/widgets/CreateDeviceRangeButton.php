@@ -6,6 +6,8 @@ namespace hipanel\modules\server\widgets;
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\forms\DeviceRangeForm;
+use hipanel\modules\server\forms\ServerForm;
+use hipanel\modules\server\models\Hub;
 use Yii;
 use yii\base\Widget;
 use yii\bootstrap\ActiveForm;
@@ -21,6 +23,9 @@ use yii\web\View;
 class CreateDeviceRangeButton extends Widget
 {
     public string $createLink;
+    public ServerForm|Hub $deviceForm;
+    public array $deviceAttributes = [];
+    public ?array $typeOptions = null;
 
     public function init(): void
     {
@@ -39,6 +44,15 @@ class CreateDeviceRangeButton extends Widget
             ]);
 
             echo $form->field($model, 'range');
+
+            foreach ($this->deviceAttributes as $attribute) {
+                if (str_starts_with($attribute, 'type')) {
+                    echo $form->field($this->deviceForm, $attribute)->dropDownList($this->typeOptions ?? $this->deviceForm->typeOptions, ['prompt' => '--']);
+                } else {
+                    echo $form->field($this->deviceForm, $attribute);
+                }
+            }
+
             echo Html::submitButton(Yii::t('hipanel:server', 'Generate devices'), ['class' => 'btn btn-success btn-block']);
 
             ActiveForm::end();

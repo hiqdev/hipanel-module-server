@@ -858,6 +858,7 @@ class ServerController extends CrudController
                             'dc' => $deviceName,
                             'ips' => null,
                         ]);
+                        $model->load($this->controller->request->post());
                         $model->setScenario('create');
                         $models[] = $model;
                     }

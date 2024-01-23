@@ -5,6 +5,7 @@ use hipanel\modules\finance\widgets\ConsumptionRepresentationMonthPicker;
 use hipanel\modules\server\grid\HubGridLegend;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\HubRepresentations;
+use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\HubSearch;
 use hipanel\modules\server\widgets\CreateDeviceRangeButton;
 use hipanel\widgets\AjaxModal;
@@ -48,6 +49,9 @@ $this->registerCss('
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('hub.create')) : ?>
             <?= CreateDeviceRangeButton::widget([
+                'deviceForm' => new Hub(['scenario' => 'create']),
+                'deviceAttributes' => ['type_id', 'order_no', 'model', 'note'],
+                'typeOptions' => $types,
                 'createLink' => Html::a(Yii::t('hipanel:server:hub', 'Create switch'),
                     ['@hub/create'],
                     ['class' => 'btn btn-sm btn-success']),
