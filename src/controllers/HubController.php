@@ -328,6 +328,7 @@ class HubController extends CrudController
                             'name' => $deviceName,
                             'inn' => $deviceName,
                         ]);
+                        $model->load($this->controller->request->post());
                         $model->setScenario('create');
                         $models[] = $model;
                     }

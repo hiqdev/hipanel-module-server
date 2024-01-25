@@ -2,6 +2,7 @@
 
 use hipanel\models\IndexPageUiOptions;
 use hipanel\modules\finance\widgets\ConsumptionRepresentationMonthPicker;
+use hipanel\modules\server\forms\ServerForm;
 use hipanel\modules\server\grid\ServerGridLegend;
 use hipanel\modules\server\grid\ServerGridView;
 use hipanel\modules\server\grid\ServerRepresentations;
@@ -48,6 +49,8 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
     <?php $page->beginContent('main-actions') ?>
         <?php if (Yii::$app->user->can('server.create')) : ?>
             <?= CreateDeviceRangeButton::widget([
+                'deviceForm' => new ServerForm(['scenario' => 'create']),
+                'deviceAttributes' => ['type', 'order_no', 'label', 'hwsummary', 'hwcomment'],
                 'createLink' => Html::a(Yii::t('hipanel:server', 'Create server'),
                     ['@server/create'],
                     ['class' => 'btn btn-sm btn-success']),
