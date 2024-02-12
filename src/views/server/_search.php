@@ -20,12 +20,6 @@ use hipanel\widgets\TagsInput;
     </div>
 <?php endif ?>
 
-<?php if (Yii::$app->user->can('server.update')) : ?>
-    <div class="col-md-4 col-sm-6 col-xs-12">
-        <?= $search->field('tags')->widget(TagsInput::class) ?>
-    </div>
-<?php endif ?>
-
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('name_dc') ?>
 </div>
@@ -81,6 +75,12 @@ use hipanel\widgets\TagsInput;
         'multiple' => true,
     ]) ?>
 </div>
+
+<?php if (Yii::$app->user->can('server.update')) : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('tags')->widget(TagsInput::class) ?>
+    </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('state')->widget(ServerStateRefCombo::class, [
