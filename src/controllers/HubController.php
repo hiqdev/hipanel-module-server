@@ -58,6 +58,7 @@ class HubController extends CrudController
                 'class' => EasyAccessControl::class,
                 'actions' => [
                     'create' => 'hub.create',
+                    'create-by-range' => 'hub.create',
                     'update,options' => 'hub.update',
                     'monitoring-settings' => 'server.manage-settings',
                     'set-rack-no' => 'hub.update',
