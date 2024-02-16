@@ -46,13 +46,13 @@ class ServerNameColumn extends MainColumn
         $canSetNote = $user->can('server.set-note');
 
         $this->note = array_filter(['note', $canSeeLabel ? 'label' : null]);
-        $this->noteOptions = array_filter([
+        $this->noteOptions = array_merge(array_filter([
             'note' => [
                 'url' => $canSetNote ? Url::to('set-note') : null,
             ],
             'label' => [
                 'url' => $canSetLabel ? Url::to('set-label') : null,
             ],
-        ]);
+        ]), $this->noteOptions);
     }
 }
