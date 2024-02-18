@@ -53,7 +53,7 @@ class HubSearch extends Hub
             'ip_ilike' => Yii::t('hipanel:server', 'IP'),
             'mac_ilike' => Yii::t('hipanel:server:hub', 'MAC address'),
             'model_ilike' => Yii::t('hipanel:server:hub', 'Model'),
-            'tariff_ilike' => Yii::t('hipanel', 'Model'),
+            'tariff_ilike' => Yii::t('hipanel', 'Tariff'),
         ]);
     }
 

@@ -31,9 +31,6 @@ abstract class Hub extends AbstractServerForm
                 case in_array($field, ['type_id', 'nic_media', 'digit_capacity_id']):
                     (new Dropdown($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
                     break;
-                case in_array($field, ['note']):
-                    (new Textarea($I, "textarea[name$=\"[{$field}]\"]"))->setValue($value);
-                    break;
                 case in_array($field, ['net_id', 'kvm_id', 'pdu_id', 'rack_id', 'pdu2_id', 'net2_id', 'ipmi_id', 'location_id']):
                     (new Select2($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
                     break;

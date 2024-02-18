@@ -197,7 +197,6 @@ class HubCest
                 'pdu_port'      => 'port' . uniqid(),
                 'rack_id'       => 'TEST-SW-02',
                 'rack_port'     => 'port' . uniqid(),
-                'location_id'   => 'TEST-SW-03',
             ],
         ];
     }
