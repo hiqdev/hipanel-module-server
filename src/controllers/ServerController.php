@@ -185,6 +185,7 @@ class ServerController extends CrudController
 
                     'hide_nic'  => 'server.server.hide_hic',
                     'hide_vds' => 'server.server.hide_vds',
+                    'show_deleted' => 'server.server.show_deleted',
                 ],
             ],
             'search' => [
