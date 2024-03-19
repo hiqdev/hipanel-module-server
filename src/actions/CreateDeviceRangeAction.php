@@ -26,15 +26,15 @@ class CreateDeviceRangeAction extends Action
     private function expandRange(string $range): string
     {
         return preg_replace_callback(
-            '/([A-Z]+)(\d+)-(\1)?(\d+)/',
-            static function ($m): string {
+            '/([A-Z0]+)(\d+)-(\1)?(\d+)/',
+            static function ($matches): string {
                 $names = [];
                 // Fixed the situation when the user has entered something like: DS9026-32
-                if (($right = strlen($m[4])) < ($left = strlen($m[2]))) {
-                    $m[4] = substr($m[2], 0, $left - $right) . $m[4];
+                if (($right = strlen($matches[4])) < ($left = strlen($matches[2]))) {
+                    $matches[4] = substr($matches[2], 0, $left - $right) . $matches[4];
                 }
-                for ($i = min($m[2], $m[4]), $iMax = max($m[2], $m[4]); $i <= $iMax; ++$i) {
-                    $names[] = $m[1] . sprintf("%'.04d", $i);
+                for ($i = min($matches[2], $matches[4]), $iMax = max($matches[2], $matches[4]); $i <= $iMax; ++$i) {
+                    $names[] = $matches[1] . sprintf("%'.04d", $i);
                 }
 
                 return implode(',', $names);
