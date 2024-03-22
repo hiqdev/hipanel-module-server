@@ -781,7 +781,7 @@ class ServerGridView extends BoxedGridView
     {
         $html = '';
         $badgeColors = [
-            'leasing' => 'bg-orange',
+            'installment' => 'bg-orange',
             'rent' => 'bg-purple',
             'sold' => 'bg-olive',
         ];
@@ -791,7 +791,7 @@ class ServerGridView extends BoxedGridView
         }
 
         $salesByType = [
-            HardwareSale::USAGE_TYPE_LEASING => [],
+            HardwareSale::USAGE_TYPE_INSTALLMENT => [],
             HardwareSale::USAGE_TYPE_COLO => [],
             HardwareSale::USAGE_TYPE_RENT => [],
         ];
@@ -815,16 +815,16 @@ class ServerGridView extends BoxedGridView
                 'visibleCount' => 0,
                 'button' => [
                     'label' => (function () use ($usageType, $sales) {
-                        if ($usageType === HardwareSale::USAGE_TYPE_LEASING) {
-                            /** @var \DateTime $maxLeasingDate */
-                            $maxLeasingDate = array_reduce($sales, function (\DateTime $max, HardwareSale $item) {
+                        if ($usageType === HardwareSale::USAGE_TYPE_INSTALLMENT) {
+                            /** @var \DateTime $maxInstallmentDate */
+                            $maxInstallmentDate = array_reduce($sales, function (\DateTime $max, HardwareSale $item) {
                                 $date = $item->saleTime();
 
                                 return $date > $max ? $date : $max;
                             }, new \DateTime());
 
                             return Yii::t('hipanel:server', $usageType) . ' ' . \count($sales)
-                                . '<br />' . $maxLeasingDate->format('d.m.Y');
+                                . '<br />' . $maxInstallmentDate->format('d.m.Y');
                         }
 
                         return Yii::t('hipanel:server', $usageType) . ' ' . \count($sales);
@@ -859,10 +859,10 @@ class ServerGridView extends BoxedGridView
                         $title .= ': ' . Html::encode($item->serialno);
                     }
 
-                    if (isset($item->leasing_till)) {
+                    if (isset($item->installment_till)) {
                         $additionalInfo = Yii::t('hipanel:server', '{since} &mdash; {till}', [
-                            'since' => Yii::$app->formatter->asDate($item->leasing_since, 'short'),
-                            'till' => Yii::$app->formatter->asDate($item->leasing_till, 'short'),
+                            'since' => Yii::$app->formatter->asDate($item->installment_since, 'short'),
+                            'till' => Yii::$app->formatter->asDate($item->installment_till, 'short'),
                         ]);
                     }
 

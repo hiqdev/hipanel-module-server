@@ -306,6 +306,7 @@ return [
     'rent' => 'аренда',
     'sold' => 'выкуп',
     'leasing' => 'лизинг',
+    'installment' => 'рассрочка',
     'Monthly fee' => 'Ежемесячная плата',
     'Traffic' => 'Трафик',
     'Additional services' => 'Доп. услуги',
