@@ -21,13 +21,14 @@ namespace hipanel\modules\server\models;
  * @property string $part
  * @property string|null $serialno
  * @property string $usage_type
- * @property string $leasing_since
- * @property string $leasing_till
+ * @property string $installment_since
+ * @property string $installment_till
  * @property array|null $data
  */
 class HardwareSale extends \hipanel\base\Model
 {
     public const USAGE_TYPE_LEASING = 'leasing';
+    public const USAGE_TYPE_INSTALLMENT = 'installment';
     public const USAGE_TYPE_RENT = 'rent';
     public const USAGE_TYPE_COLO = 'colo';
 
@@ -35,7 +36,7 @@ class HardwareSale extends \hipanel\base\Model
     {
         return [
             [['id', 'tariff_id', 'price_id', 'part_id'], 'integer'],
-            [['scenario', 'sale_time', 'serialno', 'part', 'usage_type', 'leasing_till', 'leasing_since'], 'string'],
+            [['scenario', 'sale_time', 'serialno', 'part', 'usage_type', 'installment_till', 'installment_since'], 'string'],
             [['data'], 'safe'],
         ];
     }
