@@ -341,8 +341,25 @@ class ServerGridView extends BoxedGridView
                     return GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions('actions');
                 },
             ],
+            'export_switch_inn' => [
+                'label' => Yii::t('hipanel:server', 'Switch INN'),
+                'value' => fn(Server $server): ?string => $server->bindings['rack']->switch_inn,
+            ],
+            'export_rack_name' => [
+                'label' => Yii::t('hipanel:server', 'Rack name'),
+                'value' => fn(Server $server): ?string => $server->bindings['rack']->switch,
+            ],
+            'export_rack_description' => [
+                'label' => Yii::t('hipanel:server', 'Rack descriptions'),
+                'value' => fn(Server $server): ?string => $server->bindings['rack']->switch_label,
+            ],
             'rack' => [
                 'class' => BindingColumn::class,
+                'exportedColumns' => [
+                    'export_switch_inn',
+                    'export_rack_name',
+                    'export_rack_description',
+                ],
             ],
             'net' => [
                 'class' => BindingColumn::class,
