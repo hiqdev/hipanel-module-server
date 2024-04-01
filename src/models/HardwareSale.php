@@ -27,7 +27,6 @@ namespace hipanel\modules\server\models;
  */
 class HardwareSale extends \hipanel\base\Model
 {
-    public const USAGE_TYPE_LEASING = 'leasing';
     public const USAGE_TYPE_INSTALLMENT = 'installment';
     public const USAGE_TYPE_RENT = 'rent';
     public const USAGE_TYPE_COLO = 'colo';
