@@ -79,7 +79,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
                     'ip', 'ips_num', 'mac',
                     'acs_num', 'del_acs_num', 'wizzarded',
                     'vnc',
-                    'note', 'label', 'hwsummary', 'order_no', 'hwcomment',
+                    'note', 'label', 'hwsummary', 'order_no', 'hwcomment', 'hwsummary_auto'
                 ],
                 'safe',
             ],
@@ -390,6 +390,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
             'os' => Yii::t('hipanel:server', 'OS'),
             'comment' => Yii::t('hipanel:server', 'Comment'),
             'hwsummary' => Yii::t('hipanel:server', 'Hardware Summary'),
+            'hwsummary_auto' => Yii::t('hipanel:server', 'Auto Hardware Summary'),
             'hwcomment' => Yii::t('hipanel:server', 'Hardware Comment'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
             'expires' => Yii::t('hipanel:server', 'Expires'),
