@@ -347,7 +347,11 @@ class ServerGridView extends BoxedGridView
             ],
             'export_rack_name' => [
                 'label' => Yii::t('hipanel:server', 'Rack name'),
-                'value' => fn(Server $server): ?string => $server->bindings['rack']->switch,
+                'value' => function (Server $server): ?string {
+                    $binding = $server->bindings['rack'];
+
+                    return $binding->switch . ($binding->port ? ':' . $binding->port : '');
+                },
             ],
             'export_rack_description' => [
                 'label' => Yii::t('hipanel:server', 'Rack descriptions'),
