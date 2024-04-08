@@ -24,6 +24,9 @@ use hipanel\modules\stock\models\Part;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
 use hiqdev\hiart\ActiveQuery;
+use Jfcherng\Diff\DiffHelper;
+use Jfcherng\Diff\Factory\RendererFactory;
+use Jfcherng\Diff\Renderer\RendererConstant;
 use Yii;
 use yii\base\NotSupportedException;
 
@@ -50,6 +53,19 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
     const SVDS_TYPES = ['avds', 'svds'];
 
     const DEFAULT_PANEL = 'rcp';
+
+    private array $differOptions = [
+        'ignoreWhitespace' => true,
+        'lengthLimit' => 5000,
+    ];
+    private array $diffRendererOptions = [
+        'detailLevel' => 'char',
+        'language' => 'eng',
+        'lineNumbers' => false,
+        'spacesToNbsp' => true,
+        'resultForIdenticals' => true,
+        'wrapperClasses' => ['diff-wrapper'],
+    ];
 
     public function behaviors()
     {
@@ -79,7 +95,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
                     'ip', 'ips_num', 'mac',
                     'acs_num', 'del_acs_num', 'wizzarded',
                     'vnc',
-                    'note', 'label', 'hwsummary', 'order_no', 'hwcomment', 'hwsummary_auto'
+                    'note', 'label', 'hwsummary', 'order_no', 'hwcomment', 'hwsummary_auto',
                 ],
                 'safe',
             ],
@@ -366,6 +382,21 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
         return self::DEFAULT_PANEL;
     }
 
+    public function getSummaryDiff(?string $hwsummary, ?string $hwsummary_auto): ?string
+    {
+        if (empty($hwsummary) || empty($hwsummary_auto)) {
+            return '';
+        }
+        $jsonResult = DiffHelper::calculate(
+            explode('/', $hwsummary),
+            explode('/', $hwsummary_auto),
+            'Json',
+            $this->differOptions
+        );
+        $htmlRenderer = RendererFactory::make('Inline', $this->diffRendererOptions);
+        return $htmlRenderer->renderArray(json_decode($jsonResult, true));
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -391,6 +422,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
             'comment' => Yii::t('hipanel:server', 'Comment'),
             'hwsummary' => Yii::t('hipanel:server', 'Hardware Summary'),
             'hwsummary_auto' => Yii::t('hipanel:server', 'Auto Hardware Summary'),
+            'hwsummary_diff' => Yii::t('hipanel:server', 'Summary diff'),
             'hwcomment' => Yii::t('hipanel:server', 'Hardware Comment'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
             'expires' => Yii::t('hipanel:server', 'Expires'),

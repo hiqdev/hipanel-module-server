@@ -324,6 +324,7 @@ return [
     'Summary' => 'Итог',
     'Hardware Summary' => 'Конфигурация оборудования',
     'Auto Hardware Summary' => 'Автоматическая конфигурация оборудования',
+    'Summary diff' => 'Разница конфигураций',
     'Hardware Comment' => 'Комментарий к конфигурации оборудования',
     'Motherboard' => 'Материнская плата',
     'Order number' => 'Номер заказа',

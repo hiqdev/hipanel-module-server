@@ -46,7 +46,8 @@
         "yiisoft/yii2": "2.*",
         "hiqdev/hipanel-module-client": "<2.0 || dev-master",
         "hiqdev/hipanel-module-finance": "<2.0 || dev-master",
-        "omnilight/yii2-bootstrap-daterangepicker": "*"
+        "omnilight/yii2-bootstrap-daterangepicker": "*",
+        "jfcherng/php-diff": "v6.x-dev"
     },
     "require-dev": {
         "hiqdev/hidev-php": "dev-master",

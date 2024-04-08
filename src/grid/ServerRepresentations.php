@@ -49,6 +49,13 @@ class ServerRepresentations extends RepresentationCollection
                     'rack', 'client', 'dc', 'actions', 'server', 'hwsummary', 'hwcomment',
                 ],
             ] : null,
+            'summary' => $user->can('part.read') ? [
+                'label' => Yii::t('hipanel:server', 'hwsummary'),
+                'columns' => [
+                    'checkbox',
+                    'server', 'hwsummary_auto', 'hwsummary_diff'
+                ],
+            ] : null,
             'manager' => $user->can('manage') ? [
                 'label' => Yii::t('hipanel:server', 'manager'),
                 'columns' => array_filter([
