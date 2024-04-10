@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace hipanel\modules\server\grid;
 
 
@@ -31,7 +33,7 @@ class SummaryDiffColumn extends DataColumn
     public function init()
     {
         parent::init();
-        $this->grid->layout = $this->getCss() . $this->grid->layout;
+        $this->grid->getView()->registerCss($this->getCss());
         $this->getSummaryDiff();
     }
 
