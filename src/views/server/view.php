@@ -482,10 +482,9 @@ if ($model->running_task) {
         <?= Configuration::widget([
             'model' => $model,
             'configAttrs' => array_filter([
-                'summary',
+                'summary', 'summary_auto', 'comment',
                 Yii::$app->user->can('order.read') && Yii::$app->user->can('owner-staff') ? 'order_no' : null,
                 'units',
-                'comment',
             ]),
         ]) ?>
     </div>

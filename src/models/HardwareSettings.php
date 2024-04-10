@@ -49,6 +49,7 @@ class HardwareSettings extends \hipanel\base\Model
             [
                 [
                     'summary',
+                    'summary_auto',
                     'order_no',
                     'brand',
                     'box',
@@ -76,6 +77,7 @@ class HardwareSettings extends \hipanel\base\Model
     {
         return $this->mergeAttributeLabels([
             'summary' => Yii::t('hipanel:server', 'Hardware Summary'),
+            'summary_auto' => Yii::t('hipanel:server', 'Auto Hardware Summary'),
             'order_no' => Yii::t('hipanel:server', 'Order number'),
             'units' => Yii::t('hipanel:server', 'Units'),
             'motherboard' => Yii::t('hipanel:server', 'Motherboard'),

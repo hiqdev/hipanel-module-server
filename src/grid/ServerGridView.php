@@ -31,6 +31,7 @@ use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\modules\server\widgets\State;
+use hipanel\modules\server\grid\SummaryDiffColumn;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\gridLegend\ColorizeGrid;
 use hipanel\widgets\gridLegend\GridLegend;
@@ -447,6 +448,13 @@ class ServerGridView extends BoxedGridView
             'hwsummary' => [
                 'filterAttribute' => 'hwsummary_like',
                 'label' => Yii::t('hipanel:server', 'Hardware Summary'),
+            ],
+            'hwsummary_auto' => [
+                'filter' => false,
+                'label' => Yii::t('hipanel:server', 'Auto Hardware Summary'),
+            ],
+            'hwsummary_diff' => [
+                'class' => SummaryDiffColumn::class,
             ],
             'hwcomment' => [
                 'filter' => false,
