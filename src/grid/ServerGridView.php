@@ -31,7 +31,7 @@ use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\modules\server\widgets\State;
-use hipanel\modules\stock\grid\SummaryDiffColumn;
+use hipanel\modules\server\grid\SummaryDiffColumn;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\gridLegend\ColorizeGrid;
 use hipanel\widgets\gridLegend\GridLegend;
