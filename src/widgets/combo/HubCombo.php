@@ -44,17 +44,26 @@ class HubCombo extends Combo
 
     public $hubType;
 
+    public $showDeleted;
+
     /** {@inheritdoc} */
     public function getFilter()
     {
+        $filters = parent::getFilter();
         if ($this->hubType) {
-            return ArrayHelper::merge(parent::getFilter(), [
+            $filters = ArrayHelper::merge($filters, [
                 'type' => ['format' => $this->getHubType()],
                 'limit' => ['format' => '50'],
             ]);
         }
 
-        return parent::getFilter();
+        if ($this->showDeleted) {
+            $filters = ArrayHelper::merge($filters, [
+                'show_deleted' => ['format' => true],
+            ]);
+        }
+
+        return $filters;
     }
 
     private function getHubType()
