@@ -31,6 +31,7 @@ class HubSearch extends Hub
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [
+            'show_deleted',
             'with_bindings',
             'with_servers',
             'name_inilike',
