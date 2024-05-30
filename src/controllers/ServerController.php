@@ -585,9 +585,9 @@ class ServerController extends CrudController
 
                     if ($request->isPost) {
                         $values = [];
-                        foreach (['client_id', 'tariff_id', 'sale_time', 'move_accounts'] as $attribute) {
+                        foreach (['client_id', 'tariff_id', 'sale_time', 'move_accounts', 'reduce_charges_after_unsale'] as $attribute) {
                             $value = $request->post($attribute);
-                            if (!empty($value)) {
+                            if ($value !== null) {
                                 $values[$attribute] = $value;
                             }
                         }

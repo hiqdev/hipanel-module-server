@@ -14,7 +14,7 @@ use yii\helpers\Html;
 use yii\web\View;
 
 /**
- * @var View
+ * @var View $this
  * @var Server|HubSellForm $model
  * @var Server[]|HubSellForm[] $models
  * @var DateTime $defaultDateTime
@@ -110,6 +110,12 @@ use yii\web\View;
                         <?= $form->field($model, 'move_accounts')->checkbox(['name' => 'move_accounts']) ?>
                     <?php endif; ?>
 
+                    <?php if ($model->reduce_charges_after_unsale === null): ?>
+                        <?php $model->reduce_charges_after_unsale = true; ?>
+                    <?php endif; ?>
+                    <?= $form->field($model, 'reduce_charges_after_unsale')
+                        ->checkbox(['name' => 'reduce_charges_after_unsale'])
+                        ->hint(Yii::t('hipanel:server', 'When checked, the previous client charges in the unsale month will be reduced proportionally to the usage time. When not checked, the charges will remain the same.'))?>
                     <hr>
                     <?= Html::submitButton(Yii::t('hipanel:server', 'Sell'), [
                         'class' => 'btn btn-success', 'id' => 'save-button',

@@ -127,7 +127,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
 
             [['tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
-            [['move_accounts'], 'safe', 'on' => ['sale']],
+            [['move_accounts', 'reduce_charges_after_unsale'], 'boolean', 'on' => ['sale']],
             [['id', 'type'], 'required', 'on' => ['set-type']],
         ];
     }
