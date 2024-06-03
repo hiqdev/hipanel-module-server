@@ -100,9 +100,11 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                 <div class="col-md-3">
                                     <?= $form->field($model, "[$i]label") ?>
                                 </div>
-                                <div class="col-md-1">
-                                    <?= $form->field($model, "[$i]state")->dropDownList($model->getStateOptions()) ?>
-                                </div>
+                                <?php if (!$model->isDeleted()) : ?>
+                                    <div class="col-md-1">
+                                        <?= $form->field($model, "[$i]state")->dropDownList($model->getStateOptions()) ?>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="col-md-4">
                                     <?= $form->field($model, "[$i]hwsummary") ?>
                                 </div>

@@ -55,7 +55,15 @@ class ServerForm extends Server
     {
         return array_merge(parent::rules(), [
             // Create/update servers
-            [['server', 'type', 'state'], 'required', 'on' => ['create', 'update']],
+            [['server', 'type'], 'required', 'on' => ['update']],
+            [
+                ['state'], 'required', 'on' => ['update'], 'when' => function () {
+                    $existing = self::find()->byId($this->id)->includeDeleted()->one();
+
+                    return $existing && !$existing->isDeleted();
+                },
+            ],
+            [['server', 'type', 'state'], 'required', 'on' => ['create']],
             [['new_server_name'], 'required', 'on' => 'update'],
             [['server', 'dc'], 'unique', 'on' => ['create']],
             [

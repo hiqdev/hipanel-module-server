@@ -210,10 +210,13 @@ class ServerController extends CrudController
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
+                    /** @var ServerQuery $query */
+                    $query = $action->getDataProvider()->query;
+
                     if (Yii::getAlias('@ip', false)) {
-                        $dataProvider->query->joinWith('ips');
+                        $query->joinWith('ips');
                     }
+                    $query->includeDeleted();
                 },
                 'data' => function (Action $action, array $data) {
                     $result = [];
