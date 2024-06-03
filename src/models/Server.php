@@ -442,4 +442,9 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
 
         return $powerManagementAllowed || $userCanControlPower;
     }
+
+    public function isDeleted(): bool
+    {
+        return isset($this->state) && $this->state === self::STATE_DELETED;
+    }
 }
