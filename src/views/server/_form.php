@@ -33,19 +33,19 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
     'deleteButton' => '.remove-item', // css class
     'model' => $model,
     'formId' => 'server-dynamic-form',
-    'formFields' => [
+    'formFields' => array_filter([
         'id',
         'server',
         'new_server_name',
         'dc',
         'type',
-        'state',
+        !$model->isDeleted() ? 'state' : null,
         'ips',
         'mac',
         'order_no',
         'label',
         'hwsummary',
-    ],
+    ]),
 ]) ?>
 
 <div class="container-items">
