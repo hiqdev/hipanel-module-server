@@ -41,4 +41,12 @@ export default class ServerForm {
   async seeSuccessUpdatedAlert() {
     await Alert.on(this.page).hasText("Server has been updated");
   }
+
+  async seeStateField() {
+    await expect(this.page.locator('#serverform-0-state')).toBeVisible();
+  }
+
+  async dontSeeStateField() {
+    await expect(this.page.locator('#serverform-0-state')).not.toBeVisible();
+  }
 }

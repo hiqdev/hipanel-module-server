@@ -265,6 +265,7 @@ if ($model->running_task) {
                             'contentOptions' => ['class' => 'text-bold'],
                         ],
                         'detailed_type',
+                        'state',
                         'ip',
                         'note',
                         'label',
