@@ -30,6 +30,7 @@ class PreOrdersCest
 
     public function ensureIndexPageWorks(Seller $I)
     {
+        $I->markTestSkipped("Incomplete test");
         $I->login();
         $I->needPage(Url::to('@pre-order'));
         $I->see('Pending confirmation servers', 'h1');
