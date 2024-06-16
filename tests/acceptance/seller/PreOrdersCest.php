@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Server module for HiPanel
  *
@@ -11,9 +11,11 @@
 namespace hipanel\modules\server\tests\acceptance\seller;
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\tests\_support\Helper\OrderServerHelper;
 use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Dropdown;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
+use hipanel\tests\_support\Step\Acceptance\Manager;
 use hipanel\tests\_support\Step\Acceptance\Seller;
 
 class PreOrdersCest
@@ -23,14 +25,23 @@ class PreOrdersCest
      */
     private $index;
 
-    public function _before(Seller $I)
+    private OrderServerHelper $orderServerHelper;
+
+    protected function _inject(OrderServerHelper $orderServerHelper): void
     {
+        $this->orderServerHelper = $orderServerHelper;
+    }
+
+    public function _before(Manager $I, $scenario): void
+    {
+        if (!$this->orderServerHelper->canSeeOrderServer()) {
+            $scenario->skip($this->orderServerHelper->getDisabledMessage());
+        }
         $this->index = new IndexPage($I);
     }
 
     public function ensureIndexPageWorks(Seller $I)
     {
-        $I->markTestSkipped("Incomplete test");
         $I->login();
         $I->needPage(Url::to('@pre-order'));
         $I->see('Pending confirmation servers', 'h1');
