@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\finance\grid\HistorySalesGridView;
 use hipanel\modules\finance\models\Consumption;
 use hipanel\modules\finance\widgets\ConsumptionViewer;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
@@ -294,7 +295,7 @@ if ($model->running_task) {
                 echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
                 Box::endHeader();
                 $box->beginBody();
-                echo ServerGridView::detailView([
+                echo HistorySalesGridView::detailView([
                     'boxed' => false,
                     'model' => $model,
                     'columns' => [
