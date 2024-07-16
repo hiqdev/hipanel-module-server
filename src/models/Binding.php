@@ -22,7 +22,7 @@ class Binding extends \hipanel\base\Model
     public function rules()
     {
         return [
-            [['device_id', 'switch_id', 'no', 'base_device_id'], 'integer'],
+            [['device_id', 'switch_id', 'no', 'base_device_id', 'obj_id'], 'integer'],
             [
                 [
                     'switch_name', 'device_name', 'base_device_name', 'port', 'type', 'switch', 'switch_label',
