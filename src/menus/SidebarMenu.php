@@ -27,38 +27,43 @@ class SidebarMenu extends Menu
 
         return [
             'servers' => [
-                'label'     => Yii::t('hipanel:server', 'Servers'),
-                'url'       => ['/server/server/index'],
-                'icon'      => 'fa-server',
-                'visible'   => $user->can('server.read'),
+                'label' => Yii::t('hipanel:server', 'Servers'),
+                'url' => ['/server/server/index'],
+                'icon' => 'fa-server',
+                'visible' => $user->can('server.read'),
                 'items' => [
                     'servers' => [
                         'label' => Yii::t('hipanel:server', 'Servers'),
-                        'url'   => ['/server/server/index'],
+                        'url' => ['/server/server/index'],
                     ],
                     'switch' => [
-                        'label'   => Yii::t('hipanel:server', 'Switches'),
-                        'url'     => ['/server/hub/index'],
+                        'label' => Yii::t('hipanel:server', 'Switches'),
+                        'url' => ['/server/hub/index'],
                         'visible' => $user->can('hub.read'),
                     ],
                     'buy-server' => [
-                        'label'   => Yii::t('hipanel:server:order', 'Order server'),
-                        'url'     => ['/server/order/index'],
+                        'label' => Yii::t('hipanel:server:order', 'Order server'),
+                        'url' => ['/server/order/index'],
                         'visible' => $user->can('server.pay') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
+                    'irs' => [
+                        'label' => Yii::t('hipanel.server.irs', 'Instant rent servers'),
+                        'url' => ['@irs/index'],
+                        'visible' => $user->can('owner-staff') || ($user->can('server.pay') && $module->hasServersForRent()),
+                    ],
                     'pre-order' => [
-                        'label'   => Yii::t('hipanel:server', 'Pre-orders'),
-                        'url'     => ['/server/pre-order/index'],
+                        'label' => Yii::t('hipanel:server', 'Pre-orders'),
+                        'url' => ['/server/pre-order/index'],
                         'visible' => $user->can('resell') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
                     'refuse' => [
-                        'label'   => Yii::t('hipanel:server', 'Refuses'),
-                        'url'     => ['/server/refuse/index'],
+                        'label' => Yii::t('hipanel:server', 'Refuses'),
+                        'url' => ['/server/refuse/index'],
                         'visible' => $user->can('resell') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
                     'config' => [
-                        'label'   => Yii::t('hipanel:server:config', 'Config'),
-                        'url'     => ['/server/config/index'],
+                        'label' => Yii::t('hipanel:server:config', 'Config'),
+                        'url' => ['/server/config/index'],
                         'visible' => $user->can('config.read'),
                     ],
                 ],

@@ -21,6 +21,7 @@ return [
         '@hub' => '/server/hub',
         '@config' => '/server/config',
         '@device' => '/server/device',
+        '@irs' => '/server/irs',
     ],
     'modules' => [
         'server' => [
@@ -69,6 +70,10 @@ return [
                     'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel:server:config' => [
+                    'class' => \yii\i18n\PhpMessageSource::class,
+                    'basePath' => dirname(__DIR__) . '/src/messages',
+                ],
+                'hipanel.server.irs' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => dirname(__DIR__) . '/src/messages',
                 ],

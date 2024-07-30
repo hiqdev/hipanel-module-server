@@ -146,6 +146,8 @@ class ServerGridView extends BoxedGridView
             'os' => [
                 'attribute' => 'os',
                 'format' => 'raw',
+                'filter' => false,
+                'enableSorting' => false,
                 'value' => function ($model) {
                     return OSFormatter::widget([
                         'osimages' => $this->osImages,
@@ -333,6 +335,7 @@ class ServerGridView extends BoxedGridView
             ],
             'rack' => [
                 'class' => BindingColumn::class,
+                'enableSorting' => false,
                 'exportedColumns' => [
                     'export_switch_inn',
                     'export_rack_name',
