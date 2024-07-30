@@ -22,6 +22,12 @@ class BindingColumn extends DataColumn
 
     public $filter = false;
 
+    public $encodeLabel = false;
+
+    public ?string $serverName = null;
+
+    public ?int $deviceId = null;
+
     public function init()
     {
         parent::init();
@@ -66,8 +72,19 @@ class BindingColumn extends DataColumn
     {
         $defaultLabel = $this->getHeaderCellLabel();
         $addColon = preg_replace('/(\d+)/', ':${1}', $defaultLabel);
-        $replaceName = preg_replace(['/Net/', '/Pdu/'], ['Switch', 'APC'], $addColon);
+        $label = (string)preg_replace(['/Net/', '/Pdu/'], ['Switch', 'APC'], $addColon);
 
-        return (string) $replaceName;
+        return $label . $this->getIpmiOrNic2LinkToLabel($this->attribute, $this->deviceId, $this->serverName);
+    }
+
+    private function getIpmiOrNic2LinkToLabel(string $type, ?int $deviceId, ?string $serverName = null): string
+    {
+        $link = '';
+        if ($type === 'ipmi' && $deviceId && $serverName) {
+            $link = '<br/>' . Html::a($serverName . $type, ['@hub/view', 'id' => $deviceId]);
+        } elseif ($type === 'net2' && $deviceId && $serverName) {
+            $link = '<br/>' . Html::a($serverName . $type, ['@server/view', 'id' => $deviceId]);
+        }
+        return $link;
     }
 }

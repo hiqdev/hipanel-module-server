@@ -386,11 +386,13 @@ if ($model->running_task) {
                         <?= ServerGridView::detailView([
                             'model' => $model,
                             'boxed' => false,
-                            'columns' => array_map(function ($binding) {
+                            'columns' => array_map(function ($binding) use ($model) {
                                 /** @var Binding $binding */
                                 return [
                                     'class' => BindingColumn::class,
                                     'attribute' => $binding->typeWithNo,
+                                    'serverName' => $model->name,
+                                    'deviceId' => $binding->obj_id,
                                 ];
                             }, $model->bindings),
                         ]) ?>
