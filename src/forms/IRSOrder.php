@@ -30,7 +30,7 @@ class IRSOrder extends Model
     public string $comment = '';
     public string $currency = '';
     public string $price = '';
-    private ?Irs $server = null;
+    private ?Irs $irs = null;
     private array $pricingAttributes = ['ip', 'administration', 'os', 'ram', 'raid', 'ssd', 'hdd', 'ipmi', 'traffic_tb', 'traffic_mbps'];
 
     public function rules(): array
@@ -97,25 +97,25 @@ class IRSOrder extends Model
 
     public function getItems(string $attribute): array
     {
-        return ArrayHelper::map($this->server->irsOptions[$attribute] ?? [], 'Dropdowns', 'Dropdowns');
+        return ArrayHelper::map($this->irs->irsOptions[$attribute] ?? [], 'Dropdowns', 'Dropdowns');
     }
 
-    public function setServer(?Irs $server): void
+    public function setIrs(Irs $irs): void
     {
-        $this->server = $server;
-        $this->config = $this->server->hwsummary_auto;
-        $this->location = $this->server->locationName;
-        $this->currency = $this->server->getActualSale()->currency ?? 'USD';
-        $this->price = $this->server->getActualSale()->fee ?? '0';
+        $this->irs = $irs;
+        $this->config = $this->irs->hwsummary_auto;
+        $this->location = $this->irs->locationName;
+        $this->currency = $this->irs->getActualSale()->currency ?? 'USD';
+        $this->price = $this->irs->getActualSale()->fee ?? '0';
         foreach ($this->pricingAttributes as $attribute) {
             $this->{$attribute} = $this->getFirstValue($attribute);
         }
         $this->administration = $this->setAdministrationValue();
     }
 
-    public function getServer(): ?Irs
+    public function getIrs(): ?Irs
     {
-        return $this->server;
+        return $this->irs;
     }
 
     private function getFirstValue(string $attribute): string
@@ -144,11 +144,11 @@ class IRSOrder extends Model
         foreach ($this->pricingAttributes as $attribute) {
             $discount = 0;
             if (in_array($attribute, ['ram', 'hdd', 'ssd', 'administration'], true)) {
-                foreach ($this->server->irsOptions['prices'][$attribute] ?? [] as $price) {
+                foreach ($this->irs->irsOptions['prices'][$attribute] ?? [] as $price) {
                     $discount += $price['price'];
                 }
             }
-            foreach ($this->server->irsOptions[$attribute] as $row) {
+            foreach ($this->irs->irsOptions[$attribute] as $row) {
                 if (isset($row['AH price'])) {
                     $price = $row['AH price'] === 'Included' ? $row['AH price'] : preg_replace('/[^0-9.]/', '', (string)$row['AH price']);
                 } else {
@@ -168,11 +168,13 @@ class IRSOrder extends Model
     private function setAdministrationValue(): string
     {
         $options = $this->getItems('administration');
-        $value = $this->server->getAdministrationLabel();
+        $value = $this->irs->getAdministrationLabel();
         foreach ($options as $option) {
             if (str_contains($option, $value)) {
                 return $option;
             }
         }
+
+        return '';
     }
 }

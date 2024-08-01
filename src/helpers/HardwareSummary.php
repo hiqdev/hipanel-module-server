@@ -42,7 +42,8 @@ class HardwareSummary
     private function parseSummary(string $summaryString): array
     {
         $configParts = [];
-        $summaryString = substr_replace($summaryString, ' / @ ', strpos($summaryString, ' @ '), strlen(' @ '));
+        $summaryString = str_contains($summaryString, '@') ?
+            substr_replace($summaryString, ' / @ ', strpos($summaryString, ' @ '), strlen(' @ ')) : $summaryString;
         foreach (explode(' / ', $summaryString) as $key => $part) {
             $keyType = null;
             foreach ($this->configPatterns as $type => $patterns) {

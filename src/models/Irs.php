@@ -20,7 +20,7 @@ class Irs extends Server
 
     public static function tableName()
     {
-        return Server::tableName();
+        return 'irs';
     }
 
     public function rules()
@@ -37,14 +37,11 @@ class Irs extends Server
 
     public function getActualSale(): ?Sale
     {
-        if ($this->isRelationPopulated('sales')) {
-            $sale = new Sale();
-            $sale->setAttributes($this->actualSale);
+        $sale = new Sale();
+        $sale->setAttributes($this->actualSale);
 
-            return $sale;
-        }
+        return $sale;
 
-        return null;
     }
 
     public function getLocationName(): string

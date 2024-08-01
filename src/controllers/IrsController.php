@@ -10,8 +10,11 @@ use hipanel\modules\server\helpers\HardwareSummary;
 use hipanel\modules\server\forms\IRSOrder;
 use hipanel\modules\server\helpers\HardwareType;
 use hipanel\modules\server\models\Irs;
+use hipanel\modules\server\models\Server;
+use Yii;
 use yii\base\Event;
 use yii\helpers\Url;
+use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class IrsController extends CrudController
@@ -22,7 +25,7 @@ class IrsController extends CrudController
             [
                 'class' => EasyAccessControl::class,
                 'actions' => [
-                    '*' => 'hub.read',
+                    '*' => 'server.pay',
                 ],
             ],
         ]);
@@ -36,8 +39,7 @@ class IrsController extends CrudController
                 'on beforePerform' => function (Event $event) {
                     /** @var SearchAction $action */
                     $action = $event->sender;
-                    $query = $action->getDataProvider()->query;
-                    $query->withBindings()->withSales()->withIRSOptions();
+                    $action->getDataProvider()->query->joinWith(['bindings']);
                 },
                 'data' => function () {
                     return [];
@@ -48,13 +50,22 @@ class IrsController extends CrudController
 
     public function actionOrder(string $id): string|Response
     {
-        $irsServer = Irs::find()->where(['id' => $id])->withBindings()->withSales()->withIRSOptions()->one();
+        /** @var Irs $irsServer */
+        $irsServer = Irs::find()->where(['id' => $id])->joinWith(['bindings'])->one();
+        if (!$irsServer) {
+            throw new NotFoundHttpException('IRS for order not found');
+        }
         $order = new IRSOrder();
-        $order->setServer($irsServer);
-        $c = new HardwareSummary($irsServer->hwsummary_auto);
+        $order->setIrs($irsServer);
 
         if ($this->request->isAjax && $order->load($this->request->post()) && $order->validate()) {
             $ticket = $order->createTicket();
+            $resp = Server::perform('sell', [
+                'id' => $irsServer->id,
+                'tariff_id' => $order->irs->getActualSale()->tariff_id,
+                'client_id' => Yii::$app->user->id,
+                'sale_time' => '',
+            ]);
 
             return $this->asJson([
                 'ticketLink' => Url::toRoute(['@ticket/view', 'id' => $ticket->id]),
@@ -71,7 +82,7 @@ class IrsController extends CrudController
     public function actionGenerateSummary()
     {
         $order = new IRSOrder();
-        if ($this->request->isAjax && $order->load($this->request->post())) {
+        if ($this->request->isAjax && $order->load($this->request->post(), '')) {
             $summary = new HardwareSummary($order->config);
             foreach (['ram', 'hdd', 'ssd'] as $type) {
                 if (!str_contains($order->{$type}, 'Included')) {

@@ -20,19 +20,19 @@ class Module extends \hipanel\base\Module
      */
     public bool $orderIsAllowed = true;
 
-    public function __construct($id, $parent, private CacheInterface $cache, $config = [])
+    public function __construct($id, $parent, readonly private CacheInterface $cache, $config = [])
     {
         parent::__construct($id, $parent, $config);
     }
 
     public function hasServersForRent(): bool
     {
-        $count = $this->cache->getOrSet(
+        $rows = $this->cache->getOrSet(
             ['client-has-servers-for-rent', $this->user->id],
-            fn() => Irs::perform('for-rent-count', ['client_id' => $this->user->id]),
+            fn() => Irs::perform('for-rent', ['client_id' => $this->user->id]),
             14_400 // 4 hours
         );
 
-        return $count > 0;
+        return is_array($rows) && count($rows) > 0;
     }
 }

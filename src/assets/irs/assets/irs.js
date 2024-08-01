@@ -73,8 +73,9 @@ Vue.createApp({
       });
       if (needToGetSummary && this.order.upgrade === true) {
         const _this = this;
+        const formData = new FormData();
+        Object.keys(this.order).forEach(key => formData.append(key, this.order[key]));
         this.$nextTick(() => {
-          const formData = new FormData(this.$refs.orderForm);
           this.send("generate-summary", formData, function (rsp) {
             _this.order.config = rsp.summary;
           });
