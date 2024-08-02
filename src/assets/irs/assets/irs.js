@@ -13,7 +13,10 @@ Vue.createApp({
       isIPMIDisabled: orderModel.administration === "Unmanaged (Included)",
       innerTotal: 0,
       originalConfig: orderModel.config,
-      administrationInitValue: orderModel.administration,
+      init: {
+        administration: orderModel.administration,
+        os: orderModel.os,
+      }
     };
   },
   computed: {
@@ -61,7 +64,8 @@ Vue.createApp({
     "order.upgrade"(newValue) {
       if (newValue === false) {
         this.order.ip = "2 (Included)";
-        this.order.administration = this.administrationInitValue;
+        this.order.administration = this.init.administration;
+        this.order.os = this.init.os;
       }
     },
     changeSummary(attributes) {
@@ -100,7 +104,7 @@ Vue.createApp({
       return new Intl.NumberFormat("en-US", {
         style: "currency",
         currency: this.order.currency.toUpperCase(),
-        maximumFractionDigits: 20,
+        maximumFractionDigits: 2,
       }).format(amount);
     },
     scrollToTop() {

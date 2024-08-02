@@ -63,13 +63,29 @@ class Irs extends Server
     public function getIpCount(): int
     {
         $count = 0;
-        foreach ($this->irsOptions['prices']['server'] ?? [] as $row) {
+        $prices = $this->irsOptions['prices']['server'] ?? $this->irsOptions['prices']['switch'] ?? [];
+        foreach ($prices as $row) {
             if ($row['type'] === 'overuse,ip_num') {
                 $count = (int)$row['quantity'] ?? 0;
             }
         }
 
         return $count;
+    }
+
+    public function getOsLabel(): string
+    {
+        $options = [];
+        foreach ($this->irsOptions['os'] ?? [] as $item) {
+            $value = str_replace(' (Included)', '', $item['Dropdowns']);
+            $label = $item['Dropdowns'];
+            $options[] = ['value' => $value, 'label' => $label];
+        }
+
+        return match ($this->osimage) {
+            '' => $options[1]['value'],
+            default => $this->osimage ?? $this->os ?? '',
+        };
     }
 
     public function getAdministrationLabel(): string
@@ -86,5 +102,10 @@ class Irs extends Server
             100 => Yii::t('hipanel.server.irs', 'Advanced Managed'),
             default => Yii::t('hipanel.server.irs', 'Unmanaged')
         };
+    }
+
+    public function getOs(): string
+    {
+        return $this->os ?? $this->osimage ?? '';
     }
 }

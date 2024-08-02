@@ -62,6 +62,13 @@ class IrsGridView extends ServerGridView
                 'filter' => false,
                 'enableSorting' => false,
             ],
+            'os' => [
+                'class' => DataColumn::class,
+                'attribute' => 'os',
+                'value' => static fn($model) => $model->getOsLabel(),
+                'filter' => false,
+                'enableSorting' => false,
+            ],
             'administration' => [
                 'class' => DataColumn::class,
                 'attribute' => 'administration',

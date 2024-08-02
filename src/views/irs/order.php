@@ -106,7 +106,8 @@ $this->params['breadcrumbs'][] = $this->title;
                         <div class="text"><?= "{{ showPrice('administration') }}" ?></div>
                     </li>
                     <li class="list-group-item">
-                        <?= $form->field($order, 'os')->dropDownList($order->getItems('os'), ['v-model' => 'order.os']) ?>
+                        <?= $form->field($order, 'os')->dropDownList($order->getItems('os'),
+                            ['v-model' => 'order.os', ':disabled' => '!order.upgrade']) ?>
                         <div class="text"><?= "{{ showPrice('os') }}" ?></div>
                     </li>
                     <transition name="list">

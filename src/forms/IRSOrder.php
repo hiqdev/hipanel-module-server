@@ -111,6 +111,7 @@ class IRSOrder extends Model
             $this->{$attribute} = $this->getFirstValue($attribute);
         }
         $this->administration = $this->setAdministrationValue();
+        $this->os = $this->setOsValue();
     }
 
     public function getIrs(): ?Irs
@@ -176,5 +177,17 @@ class IRSOrder extends Model
         }
 
         return '';
+    }
+
+    private function setOsValue(): string
+    {
+        $options = $this->getItems('os');
+        foreach ($options as $option) {
+            if (str_starts_with($option, $this->irs->getOs())) {
+                return $option;
+            }
+        }
+
+        return $options[array_key_first($options)] ?? '';
     }
 }
