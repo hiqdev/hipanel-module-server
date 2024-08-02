@@ -51,7 +51,7 @@ class IrsController extends CrudController
     public function actionOrder(string $id): string|Response
     {
         /** @var Irs $irsServer */
-        $irsServer = Irs::findOne($id);
+        $irsServer = Irs::find()->where(['id' => $id])->joinWith(['bindings'])->one();
         if (!$irsServer) {
             throw new NotFoundHttpException('IRS for order not found');
         }
