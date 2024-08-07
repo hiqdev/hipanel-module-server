@@ -2,6 +2,7 @@
 
 namespace hipanel\modules\server\controllers;
 
+use Exception;
 use hipanel\actions\IndexAction;
 use hipanel\actions\SearchAction;
 use hipanel\base\CrudController;
@@ -59,18 +60,24 @@ class IrsController extends CrudController
         $order->setIrs($irsServer);
 
         if ($this->request->isAjax && $order->load($this->request->post()) && $order->validate()) {
+            try {
+                $resp = Irs::perform('sell', [
+                    'id' => $irsServer->id,
+                    'tariff_id' => $order->irs->getActualSale()->tariff_id,
+                    'client_id' => Yii::$app->user->id,
+                    'sale_time' => '',
+                ]);
+            } catch (Exception $e) {
+                return $this->asJson([
+                    'error' => $e->getMessage(),
+                ]);
+            }
             $ticket = $order->createTicket();
-            $resp = Server::perform('sell', [
-                'id' => $irsServer->id,
-                'tariff_id' => $order->irs->getActualSale()->tariff_id,
-                'client_id' => Yii::$app->user->id,
-                'sale_time' => '',
-            ]);
 
-            return $this->asJson([
+            return $this->asJson($ticket ? [
                 'ticketLink' => Url::toRoute(['@ticket/view', 'id' => $ticket->id]),
                 'ticketId' => $ticket->id,
-            ]);
+            ] : []);
         }
 
         return $this->render('order', [

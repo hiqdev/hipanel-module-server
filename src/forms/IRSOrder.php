@@ -83,7 +83,7 @@ class IRSOrder extends Model
         ];
     }
 
-    public function createTicket(): Thread
+    public function createTicket(): ?Thread
     {
         $thread = new Thread();
         $thread->subject = 'IRS NEW Order';

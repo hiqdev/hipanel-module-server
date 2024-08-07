@@ -26,6 +26,9 @@ class HardwareSummary
     {
         $summary = '';
         foreach ($this->configParts as $key => $value) {
+            if (empty($value)) {
+                continue;
+            }
             $summary .= ($key === HardwareType::RAID->value ? ' @ ' : ' / ') . $value;
         }
 
@@ -44,7 +47,8 @@ class HardwareSummary
         $configParts = [];
         $summaryString = str_contains($summaryString, '@') ?
             substr_replace($summaryString, ' / @ ', strpos($summaryString, ' @ '), strlen(' @ ')) : $summaryString;
-        foreach (explode(' / ', $summaryString) as $key => $part) {
+        $parts = explode(' / ', $summaryString);
+        foreach ($parts as $key => $part) {
             $keyType = null;
             foreach ($this->configPatterns as $type => $patterns) {
                 foreach ($patterns as $pattern) {
@@ -54,6 +58,11 @@ class HardwareSummary
                 }
             }
             $configParts[$keyType ?? $key] = trim(ltrim($part, ' @'));
+        }
+        foreach (array_keys($this->configPatterns) as $missedKey) {
+            if (!isset($configParts[$missedKey])) {
+                $configParts[$missedKey] = '';
+            }
         }
 
         return $configParts;

@@ -34,11 +34,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
 
                     <div class="box-body">
-                        <p>
-                            <?= Yii::t('hipanel.server.irs', 'Your ticket number is') ?> <a :href="linkToTicket">#{{ ticketId }}</a>
+                        <p v-if="ticketId">
+                            <?= Yii::t('hipanel.server.irs', 'Your ticket number is') ?>
+                            <a :href="linkToTicket">#{{ ticketId }}</a>
                         </p>
                         <p><?= Yii::t('hipanel.server.irs', 'Thank you!') ?></p>
-                        <br>
                         <p><?= Yii::t('hipanel.server.irs', 'Our Client Service Manager will contact you soon.') ?></p>
                     </div>
 

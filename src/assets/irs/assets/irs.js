@@ -118,17 +118,18 @@ Vue.createApp({
       event.preventDefault();
       const _this = this;
       const form = this.$refs.orderForm;
-      const btn = $(form).find("[type=submit]").button("loading");
       const formData = new FormData(form);
       this.send(window.location.href, formData, function (rsp) {
-        _this.ticketId = rsp.ticketId;
-        _this.ticketLink = rsp.ticketLink;
+        if (rsp.hasOwnProperty('ticketId') && rsp.hasOwnProperty('ticketLink')) {
+          _this.ticketId = rsp.ticketId;
+          _this.ticketLink = rsp.ticketLink;
+        }
         _this.submitted = true;
         _this.scrollToTop();
-        btn.button("reset");
       });
     },
     send(url, formData, success) {
+      const btn = $(this.$refs.orderForm).find("[type=submit]").button("loading");
       $.ajax({
         url: url,
         method: "POST",
@@ -136,10 +137,15 @@ Vue.createApp({
         processData: false,
         contentType: false,
         success: function (rsp) {
-          success(rsp);
+          if (rsp.error) {
+            hipanel.notify.error(rsp.error);
+          } else {
+            success(rsp);
+          }
+          btn.button("reset");
         },
         error: function (xhr, status, error) {
-          alert("Your order was not sent successfully.");
+          hipanel.notify.error("Your order was not sent successfully.\n" + error);
         },
       });
     },
