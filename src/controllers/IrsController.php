@@ -61,7 +61,7 @@ class IrsController extends CrudController
 
         if ($this->request->isAjax && $order->load($this->request->post()) && $order->validate()) {
             try {
-                $resp = Irs::perform('sell', [
+                Irs::perform('sell', [
                     'id' => $irsServer->id,
                     'tariff_id' => $order->irs->getActualSale()->tariff_id,
                     'client_id' => Yii::$app->user->id,
