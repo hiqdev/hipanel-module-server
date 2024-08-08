@@ -54,6 +54,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
                 'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'server_type', 'state', 'state_label',
                 'stat_device', 'stat_domain',
             ], 'string'],
+            [['name'], 'string', 'min' => 1, 'max' => 63],
             [['virtual'], 'boolean'],
 
             [['tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
