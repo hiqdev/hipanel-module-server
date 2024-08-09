@@ -86,7 +86,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                     <?= $form->field($model, "[$i]type")->dropDownList($model->typeOptions, ['prompt' => '--']) ?>
                                 </div>
                                 <div class="col-md-2">
-                                    <?= $form->field($model, 'order_no')->widget(OrderCombo::class) ?>
+                                    <?= $form->field($model, "[$i]order_no")->widget(OrderCombo::class) ?>
                                 </div>
                                 <div class="col-md-2">
                                     <?= $form->field($model, "[$i]ips") ?>
