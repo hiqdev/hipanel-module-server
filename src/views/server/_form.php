@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\forms\ServerForm;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -91,7 +92,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                     <?= $form->field($model, "[$i]mac") ?>
                                 </div>
                                 <div class="col-md-2">
-                                    <?= $form->field($model, "[$i]order_no") ?>
+                                    <?= $form->field($model, "[$i]order_no")->widget(OrderCombo::class) ?>
                                 </div>
                             </div>
                         </div>
