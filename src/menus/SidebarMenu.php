@@ -49,7 +49,7 @@ class SidebarMenu extends Menu
                     'irs' => [
                         'label' => Yii::t('hipanel.server.irs', 'Instant rent servers'),
                         'url' => ['@irs/index'],
-                        'visible' => $user->can('test.beta') || $user->can('owner-staff'),
+                        'visible' => $user->can('test.beta') || $user->can('owner-staff') || ($user->can('server.pay') && $module->hasServersForRent()),
 //                        'visible' => $user->can('owner-staff') || ($user->can('server.pay') && $module->hasServersForRent()),
                     ],
                     'pre-order' => [

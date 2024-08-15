@@ -89,7 +89,7 @@ class IRSOrder extends Model
         $thread->subject = 'IRS NEW Order';
         $thread->message = $this->createMessage();
         $thread->priority = 'high';
-        $thread->topics = 'technical'; // todo: irs
+        $thread->topics = 'technical,irs';
         $thread->save();
 
         return $thread;
