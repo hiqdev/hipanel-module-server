@@ -24,6 +24,7 @@ $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle'] = Yii::t('hipanel.server.irs', 'that are already installed in DCs');
 
 $infoHeader = Html::beginTag('ul', ['class' => 'list-unstyled text-muted text-sm', 'style' => 'padding: 0 1em 1em;']);
+$infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'The servers available for rental are pre-mounted in our racks and cannot be relocated. However, it is possible to connect newly rented servers to existing ones through VXLAN.'));
 $infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'Delivery time - 4h*'));
 $infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'Any changes and upgrades are possible but with extended delivery time.'));
 $infoHeader .= Html::tag('li',
