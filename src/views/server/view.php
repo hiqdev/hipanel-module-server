@@ -272,6 +272,7 @@ if ($model->running_task) {
                         'label',
                         'blocking',
                         'mails_num',
+                        'tags'
                     ],
                 ]);
                 if (!empty($model->softwareSettings->failure_contacts)) {

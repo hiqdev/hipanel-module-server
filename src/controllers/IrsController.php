@@ -11,7 +11,6 @@ use hipanel\modules\server\helpers\HardwareSummary;
 use hipanel\modules\server\forms\IRSOrder;
 use hipanel\modules\server\helpers\HardwareType;
 use hipanel\modules\server\models\Irs;
-use hipanel\modules\server\models\Server;
 use Yii;
 use yii\base\Event;
 use yii\helpers\Url;
@@ -67,12 +66,13 @@ class IrsController extends CrudController
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
                 ]);
+                $irsServer->removeIrsTag();
+                $ticket = $order->createTicket();
             } catch (Exception $e) {
                 return $this->asJson([
                     'error' => $e->getMessage(),
                 ]);
             }
-            $ticket = $order->createTicket();
 
             return $this->asJson($ticket ? [
                 'ticketLink' => Url::toRoute(['@ticket/view', 'id' => $ticket->id]),

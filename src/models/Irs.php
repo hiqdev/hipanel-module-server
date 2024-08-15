@@ -108,4 +108,12 @@ class Irs extends Server
     {
         return $this->os ?? $this->osimage ?? '';
     }
+
+    public function removeIrsTag(): void
+    {
+        $server = new Server();
+        $tags = implode(',', array_diff($this->getTags(), ['irs']));
+        $server->setAttributes($this->getAttributes());
+        $server->saveTags($tags);
+    }
 }
