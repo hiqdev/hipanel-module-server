@@ -65,8 +65,8 @@ class IrsController extends CrudController
                     'tariff_id' => $order->irs->getActualSale()->tariff_id,
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
+                    'tags' => implode(',', array_diff($irsServer->getTags(), ['irs'])),
                 ]);
-                $irsServer->removeIrsTag();
                 $ticket = $order->createTicket();
             } catch (Exception $e) {
                 return $this->asJson([
