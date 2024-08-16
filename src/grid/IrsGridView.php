@@ -25,6 +25,7 @@ class IrsGridView extends ServerGridView
             ],
             'server' => [
                 'class' => DataColumn::class,
+                'label' => Yii::t('hipanel:server', 'Server'),
                 'attribute' => 'server',
                 'format' => 'raw',
                 'value' => static fn($model) => implode("<br>",
