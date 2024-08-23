@@ -128,7 +128,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
 
             [['tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
-            [['move_accounts'], 'safe', 'on' => ['sale']],
+            [['move_accounts', 'reduce_charges_after_unsale'], 'boolean', 'on' => ['sale']],
             [['id', 'type'], 'required', 'on' => ['set-type']],
         ];
     }
@@ -442,5 +442,10 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
             Yii::$app->user->can('server.control-power'));
 
         return $powerManagementAllowed || $userCanControlPower;
+    }
+
+    public function isDeleted(): bool
+    {
+        return isset($this->state) && $this->state === self::STATE_DELETED;
     }
 }

@@ -44,7 +44,7 @@ class HubSellForm extends Hub
             [['tariff_id', 'sale_time'], 'required'],
             [['id', 'client_id', 'tariff_id'], 'integer', 'on' => 'sell'],
             [['sale_time'], 'date', 'format'  => 'php:Y-m-d H:i:s', 'on' => 'sell'],
-            [['move_accounts'], 'boolean', 'on' => ['sell']],
+            [['move_accounts', 'reduce_charges_after_unsale'], 'boolean', 'on' => ['sell']],
         ]);
     }
 }

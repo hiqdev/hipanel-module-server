@@ -146,6 +146,8 @@ class ServerGridView extends BoxedGridView
             'os' => [
                 'attribute' => 'os',
                 'format' => 'raw',
+                'filter' => false,
+                'enableSorting' => false,
                 'value' => function ($model) {
                     return OSFormatter::widget([
                         'osimages' => $this->osImages,
@@ -209,33 +211,6 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'value' => function ($model) {
                     return $this->formatTariffWithoutUnsale($model);
-                },
-            ],
-            'active_sales' => [
-                'label' => Yii::t('hipanel:server', 'Active sales'),
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $this->formatSales($this->getActiveSales($model));
-                },
-            ],
-            'finished_sales' => [
-                'label' => Yii::t('hipanel:server', 'Finished sales'),
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $this->formatSales($this->getHistoricalSales($model));
-                },
-                'visible' => function ($model) {
-                    return !empty($this->getHistoricalSales());
-                },
-            ],
-            'future_sales' => [
-                'label' => Yii::t('hipanel:server', 'Future sales'),
-                'format' => 'raw',
-                'value' => function ($model) {
-                    return $this->formatSales($this->getFutureSales($model));
-                },
-                'visible' => function ($model) {
-                    return !empty($this->getFutureSales($model));
                 },
             ],
             'ip' => [
@@ -360,6 +335,7 @@ class ServerGridView extends BoxedGridView
             ],
             'rack' => [
                 'class' => BindingColumn::class,
+                'enableSorting' => false,
                 'exportedColumns' => [
                     'export_switch_inn',
                     'export_rack_name',
@@ -508,40 +484,6 @@ class ServerGridView extends BoxedGridView
         return $data ?? [];
     }
 
-    protected function getHistoricalSales(Server $model)
-    {
-        $sales = $this->getAndFilterServerSalesByVisibility($model);
-
-        if (empty($sales)) {
-            return [];
-        }
-
-        foreach ($sales as $sale) {
-            if ($sale->time <= date("Y-m-d H:i:s") && $sale->unsale_time !== null && $sale->unsale_time <= date("Y-m-d H:i:s")) {
-                $data[] = $sale;
-            }
-        }
-
-        return $data ?? [];
-    }
-
-    protected function getFutureSales(Server $model)
-    {
-        $sales = $this->getAndFilterServerSalesByVisibility($model);
-
-        if (empty($sales)) {
-            return [];
-        }
-
-        foreach ($sales as $sale) {
-            if ($sale->time > date("Y-m-d H:i:s") && ($sale->unsale_time === null || $sale->unsale_time > date("Y-m-d H:i:s"))) {
-                $data[] = $sale;
-            }
-        }
-
-        return $data ?? [];
-    }
-
     protected function getAndFilterServerSalesByVisibility(Server $model): array
     {
         $models = $this->getModelWithUserPermission($model);
@@ -557,63 +499,6 @@ class ServerGridView extends BoxedGridView
         }
 
         return $sales ?? [];
-    }
-
-    protected function formatSales(array $models): string
-    {
-        foreach ($models ?? [] as $model) {
-            $tariff = Html::encode($model->tariff);
-            $visibleTariffData = $this->user->can('access-reseller') && $this->user->identity->hasOwnSeller($model->getSeller());
-            if ($model->tariff_id && $visibleTariffData) {
-                $tariff = Html::a($tariff, ['@plan/view', 'id' => $model->tariff_id]);
-            }
-            $data[] = [
-                'tariff' => '(' . $tariff . ')',
-                'client' => $model->seller ? Html::a(Html::encode($model->seller), [
-                    '@client/view',
-                    'id' => $model->getSellerId(),
-                ]) : '',
-                'buyer' => $model->buyer ? Html::a(Html::encode($model->buyer), [
-                    '@client/view',
-                    'id' => $model->buyer_id,
-                ]) : '',
-                'start' => Yii::$app->formatter->asDate($model->time),
-                'finish' => $model->unsale_time ? Yii::$app->formatter->asDate($model->unsale_time) : '',
-                'id' => $model->id,
-                'visible' => $visibleTariffData,
-            ];
-        }
-
-        if (empty($data)) {
-            return '';
-        }
-
-        $result = '';
-        foreach ($data as &$sale) {
-            $html = '';
-            $html .= $sale['visible'] ? Html::tag('li', $sale['client']) : '';
-            $html .= Html::tag('li', $sale['tariff'] . '&nbsp;' . $sale['buyer']);
-            if (empty($sale['finish'])) {
-                $sale['finish'] = '&#8734;';
-            }
-
-            $result .= Html::tag('ul', $html, [
-                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
-                'style' => 'margin: 0; padding: 0;',
-            ]);
-
-            $html = Html::tag('li',
-                Html::a($sale['start'] . ' - ' . $sale['finish'], ['@sale/view', 'id' => $sale['id']])
-            );
-            $result .= Html::tag('ul', $html, [
-                'class' => 'tariff-chain ' . ($this->user->can('support') ?: 'inactiveLink'),
-                'style' => 'margin: 0; padding: 0;',
-            ]);
-
-            $result .= Html::tag('br');
-        }
-
-        return $result;
     }
 
     protected function formatTariffWithoutUnsale(Server $server)

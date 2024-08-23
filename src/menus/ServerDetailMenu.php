@@ -56,7 +56,9 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
             ],
             [
                 'label' => BlockModalButton::widget(['model' => $this->model]),
-                'visible' => ($user->can('server.enable-block') || ($user->can('server.disable-block'))) && $user->not($this->model->client_id),
+                'visible' => ($user->can('server.enable-block') || ($user->can('server.disable-block')))
+                    && $user->not($this->model->client_id)
+                    && !$this->model->isDeleted(),
                 'encode' => false,
             ],
             [
@@ -73,7 +75,7 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                     'modalFooterClass' => 'btn btn-danger',
                 ]),
                 'encode' => false,
-                'visible' => Yii::$app->user->can('server.delete'),
+                'visible' => Yii::$app->user->can('server.delete') && !$this->model->isDeleted(),
             ],
         ]);
         unset($items['view']);

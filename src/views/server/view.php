@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\finance\grid\HistorySalesGridView;
 use hipanel\modules\finance\models\Consumption;
 use hipanel\modules\finance\widgets\ConsumptionViewer;
 use hipanel\modules\server\assets\ServerTaskCheckerAsset;
@@ -265,11 +266,13 @@ if ($model->running_task) {
                             'contentOptions' => ['class' => 'text-bold'],
                         ],
                         'detailed_type',
+                        'state',
                         'ip',
                         'note',
                         'label',
                         'blocking',
                         'mails_num',
+                        'tags'
                     ],
                 ]);
                 if (!empty($model->softwareSettings->failure_contacts)) {
@@ -293,7 +296,7 @@ if ($model->running_task) {
                 echo $box->renderTitle(Yii::t('hipanel:server', 'Financial information'));
                 Box::endHeader();
                 $box->beginBody();
-                echo ServerGridView::detailView([
+                echo HistorySalesGridView::detailView([
                     'boxed' => false,
                     'model' => $model,
                     'columns' => [
@@ -384,11 +387,13 @@ if ($model->running_task) {
                         <?= ServerGridView::detailView([
                             'model' => $model,
                             'boxed' => false,
-                            'columns' => array_map(function ($binding) {
+                            'columns' => array_map(function ($binding) use ($model) {
                                 /** @var Binding $binding */
                                 return [
                                     'class' => BindingColumn::class,
                                     'attribute' => $binding->typeWithNo,
+                                    'serverName' => $model->name,
+                                    'deviceId' => $binding->obj_id,
                                 ];
                             }, $model->bindings),
                         ]) ?>

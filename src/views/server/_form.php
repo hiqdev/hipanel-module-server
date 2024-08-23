@@ -2,6 +2,7 @@
 
 use hipanel\helpers\Url;
 use hipanel\modules\server\forms\ServerForm;
+use hipanel\modules\stock\widgets\combo\OrderCombo;
 use hipanel\widgets\DynamicFormCopyButton;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
@@ -33,19 +34,19 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
     'deleteButton' => '.remove-item', // css class
     'model' => $model,
     'formId' => 'server-dynamic-form',
-    'formFields' => [
+    'formFields' => array_filter([
         'id',
         'server',
         'new_server_name',
         'dc',
         'type',
-        'state',
+        !$model->isDeleted() ? 'state' : null,
         'ips',
         'mac',
         'order_no',
         'label',
         'hwsummary',
-    ],
+    ]),
 ]) ?>
 
 <div class="container-items">
@@ -91,7 +92,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                     <?= $form->field($model, "[$i]mac") ?>
                                 </div>
                                 <div class="col-md-2">
-                                    <?= $form->field($model, "[$i]order_no") ?>
+                                    <?= $form->field($model, "[$i]order_no")->widget(OrderCombo::class) ?>
                                 </div>
                             </div>
                         </div>
@@ -100,9 +101,11 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                 <div class="col-md-3">
                                     <?= $form->field($model, "[$i]label") ?>
                                 </div>
-                                <div class="col-md-1">
-                                    <?= $form->field($model, "[$i]state")->dropDownList($model->getStateOptions()) ?>
-                                </div>
+                                <?php if (!$model->isDeleted()) : ?>
+                                    <div class="col-md-1">
+                                        <?= $form->field($model, "[$i]state")->dropDownList($model->getStateOptions()) ?>
+                                    </div>
+                                <?php endif; ?>
                                 <div class="col-md-4">
                                     <?= $form->field($model, "[$i]hwsummary") ?>
                                 </div>

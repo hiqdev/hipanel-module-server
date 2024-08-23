@@ -59,7 +59,9 @@ class ServerActionsMenu extends Menu
                 'label' => Yii::t('hipanel:server', 'Assign hubs'),
                 'icon' => 'fa-plug',
                 'url' => ['@server/assign-hubs', 'id' => $this->model->id],
-                'visible' => $user->can('server.update') && $user->can('hub.read'),
+                'visible' => $user->can('server.update')
+                    && $user->can('hub.read')
+                    && !$this->model->isDeleted(),
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
@@ -101,7 +103,9 @@ class ServerActionsMenu extends Menu
             ],
         ];
 
-        array_splice($items, 9, 0, $this->getSettingsItems());
+        if (!$this->model->isDeleted()) {
+            array_splice($items, 9, 0, $this->getSettingsItems());
+        }
 
         return $items;
     }

@@ -120,4 +120,16 @@ class ServerQuery extends ActiveQuery
 
         return $this;
     }
+
+    public function byId($id): self
+    {
+        return $this->andWhere(['id' => $id]);
+    }
+
+    public function includeDeleted(): self
+    {
+        $this->andWhere(['show_deleted' => true]);
+
+        return $this;
+    }
 }

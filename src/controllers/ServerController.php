@@ -210,10 +210,13 @@ class ServerController extends CrudController
                 'on beforeFetch' => function (Event $event) {
                     /** @var \hipanel\actions\SearchAction $action */
                     $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
+                    /** @var ServerQuery $query */
+                    $query = $action->getDataProvider()->query;
+
                     if (Yii::getAlias('@ip', false)) {
-                        $dataProvider->query->joinWith('ips');
+                        $query->joinWith('ips');
                     }
+                    $query->includeDeleted();
                 },
                 'data' => function (Action $action, array $data) {
                     $result = [];
@@ -585,9 +588,9 @@ class ServerController extends CrudController
 
                     if ($request->isPost) {
                         $values = [];
-                        foreach (['client_id', 'tariff_id', 'sale_time', 'move_accounts'] as $attribute) {
+                        foreach (['client_id', 'tariff_id', 'sale_time', 'move_accounts', 'reduce_charges_after_unsale'] as $attribute) {
                             $value = $request->post($attribute);
-                            if (!empty($value)) {
+                            if ($value !== null) {
                                 $values[$attribute] = $value;
                             }
                         }
