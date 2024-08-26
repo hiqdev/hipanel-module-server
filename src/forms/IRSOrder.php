@@ -166,6 +166,15 @@ class IRSOrder extends Model
         return $options;
     }
 
+    public function getServerType(): IrsOrderType
+    {
+        return match (true) {
+            $this->upgrade => IrsOrderType::SETUP,
+            !$this->upgrade && str_starts_with($this->administration, 'Unmanaged') => IrsOrderType::UNMANAGED,
+            !$this->upgrade && !str_starts_with($this->administration, 'Unmanaged') => IrsOrderType::DEDICATED,
+        };
+    }
+
     private function setAdministrationValue(): string
     {
         $options = $this->getItems('administration');

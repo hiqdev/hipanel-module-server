@@ -52,20 +52,22 @@ class IrsController extends CrudController
     {
         /** @var Irs $irsServer */
         $irsServer = Irs::find()->where(['id' => $id])->joinWith(['bindings'])->one();
-        if (!$irsServer) {
-            throw new NotFoundHttpException('IRS for order not found');
-        }
+//        if (!$irsServer) {
+//            throw new NotFoundHttpException('IRS for order not found');
+//        }
         $order = new IRSOrder();
-        $order->setIrs($irsServer);
+        if ($irsServer) {
+            $order->setIrs($irsServer);
+        }
 
         if ($this->request->isAjax && $order->load($this->request->post()) && $order->validate()) {
             try {
                 Irs::perform('sell', [
                     'id' => $irsServer->id,
+                    'type' => $order->getServerType()->value,
                     'tariff_id' => $order->irs->getActualSale()->tariff_id,
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
-                    'tags' => implode(',', array_diff($irsServer->getTags(), ['irs'])),
                 ]);
                 $ticket = $order->createTicket();
             } catch (Exception $e) {

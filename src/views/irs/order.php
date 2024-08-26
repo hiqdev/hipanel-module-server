@@ -22,8 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= Html::hiddenInput('order-form-model', Json::encode($order->toArray()), ['id' => 'order-form-model']) ?>
 <?= Html::hiddenInput('order-form-options', Json::encode($order->toOptions()), ['id' => 'order-form-options']) ?>
 
-<div id="irs-app" v-cloak test="hello world">
-    <transition name="slide-down" mode="out-in">
+<div id="irs-app" v-cloak>
+    <p class="bg-warning" v-if="orderOptions.length === 0" style="padding: 15px;"><?= Yii::t('hipanel.server.irs', 'There are no suitable servers at the moment') ?></p>
+    <transition name="slide-down" mode="out-in" v-else>
         <div class="row" v-if="submitted">
             <div class="col-md-3 col-md-offset-4">
                 <div class="box box-success box-solid">
