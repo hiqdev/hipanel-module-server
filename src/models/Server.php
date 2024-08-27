@@ -65,6 +65,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
             [['id', 'tariff_id', 'client_id', 'seller_id', 'mails_num'], 'integer'],
             [['osimage'], EidValidator::class],
             [['panel'], RefValidator::class],
+            [['name'], 'string', 'min' => 1, 'max' => 63],
             [
                 [
                     'name', 'dc',

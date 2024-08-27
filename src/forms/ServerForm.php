@@ -65,6 +65,7 @@ class ServerForm extends Server
             ],
             [['server', 'type', 'state'], 'required', 'on' => ['create']],
             [['new_server_name'], 'required', 'on' => 'update'],
+            [['server', 'new_server_name'], 'string', 'max' => 63, 'min' => 1],
             [['server', 'dc'], 'unique', 'on' => ['create']],
             [
                 ['new_server_name'], 'unique', 'on' => ['update'], 'when' => function () {
