@@ -16,7 +16,7 @@ Vue.createApp({
       init: {
         administration: orderModel.administration,
         os: orderModel.os,
-      }
+      },
     };
   },
   computed: {
@@ -111,8 +111,8 @@ Vue.createApp({
       window.scroll({
         top: 0,
         left: 0,
-        behavior: 'smooth'
-      })
+        behavior: "smooth",
+      });
     },
     handleSubmit(event) {
       event.preventDefault();
@@ -120,7 +120,7 @@ Vue.createApp({
       const form = this.$refs.orderForm;
       const formData = new FormData(form);
       this.send(window.location.href, formData, function (rsp) {
-        if (rsp.hasOwnProperty('ticketId') && rsp.hasOwnProperty('ticketLink')) {
+        if (rsp.hasOwnProperty("ticketId") && rsp.hasOwnProperty("ticketLink")) {
           _this.ticketId = rsp.ticketId;
           _this.ticketLink = rsp.ticketLink;
         }
@@ -142,6 +142,8 @@ Vue.createApp({
           } else {
             success(rsp);
           }
+        },
+        complete: function () {
           btn.button("reset");
         },
         error: function (xhr, status, error) {

@@ -59,8 +59,9 @@ class IrsController extends CrudController
         if ($irsServer) {
             $order->setIrs($irsServer);
         }
+        $formData = $this->request->post($order->formName());
 
-        if ($this->request->isAjax && $order->load($this->request->post()) && $order->validate()) {
+        if ($this->request->isAjax && $order->load($formData, '') && $order->validate()) {
             try {
                 Irs::perform('sell', [
                     'id' => $irsServer->id,
@@ -69,7 +70,7 @@ class IrsController extends CrudController
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
                 ]);
-                $ticket = $order->createTicket();
+                $ticket = $order->createTicket($formData);
             } catch (Exception $e) {
                 return $this->asJson([
                     'error' => $e->getMessage(),

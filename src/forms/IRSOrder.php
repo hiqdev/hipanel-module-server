@@ -83,11 +83,11 @@ class IRSOrder extends Model
         ];
     }
 
-    public function createTicket(): ?Thread
+    public function createTicket(array $referenceValues): ?Thread
     {
         $thread = new Thread();
         $thread->subject = 'IRS NEW Order';
-        $thread->message = $this->createMessage();
+        $thread->message = $this->createMessage($referenceValues);
         $thread->priority = 'high';
         $thread->topics = 'technical,irs';
         $thread->save();
@@ -126,11 +126,18 @@ class IRSOrder extends Model
         return $items[array_key_first($items)] ?? '';
     }
 
-    private function createMessage(): string
+    private function createMessage(array $referenceValues): string
     {
         $output = [];
-        foreach ($this->getAttributes() as $attribute => $value) {
+        $attributes = $this->getAttributes();
+        foreach ($attributes as $attribute => $value) {
             if ($value === '' || $attribute === 'currency') {
+                continue;
+            }
+            if ($this->upgrade === false && in_array($attribute, ['ram', 'raid', 'hdd', 'ssd'])) {
+                continue;
+            }
+            if (in_array($attribute, ['traffic_tb', 'traffic_mbps'], true) && !isset($referenceValues[$attribute])) {
                 continue;
             }
             $output[] = '**' . $this->getAttributeLabel($attribute) . ':** ' . (is_bool($value) ? ($value ? 'Yes' : 'No') : nl2br(Html::encode($value)));
