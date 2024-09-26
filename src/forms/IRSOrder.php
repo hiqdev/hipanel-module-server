@@ -14,6 +14,7 @@ class IRSOrder extends Model
     public string $location = '';
     public string $config = '';
     public bool $upgrade = false;
+    public bool $monitoring = false;
     public string $ram = '';
     public string $raid = '';
     public string $hdd = '';
@@ -36,7 +37,7 @@ class IRSOrder extends Model
     public function rules(): array
     {
         return [
-            [['upgrade'], 'boolean'],
+            [['upgrade', 'monitoring'], 'boolean'],
             [
                 [
                     'comment',
@@ -80,6 +81,7 @@ class IRSOrder extends Model
             'traffic_tb' => Yii::t('hipanel.server.irs', 'Traffic TB'),
             'traffic_mbps' => Yii::t('hipanel.server.irs', 'Traffic Mbps/Gbps'),
             'price' => Yii::t('hipanel.server.irs', 'Total price'),
+            'monitoring' => Yii::t('hipanel.server.irs', 'Enable server monitoring via ICMP (ping)'),
         ];
     }
 
@@ -100,6 +102,11 @@ class IRSOrder extends Model
         return ArrayHelper::map($this->irs->irsOptions[$attribute] ?? [], 'Dropdowns', 'Dropdowns');
     }
 
+    public function needToIgnoreIpMonitoring(): bool
+    {
+        return $this->monitoring === false;
+    }
+
     public function setIrs(Irs $irs): void
     {
         $this->irs = $irs;
@@ -112,6 +119,7 @@ class IRSOrder extends Model
         }
         $this->administration = $this->setAdministrationValue();
         $this->os = $this->setOsValue();
+        $this->monitoring = !str_starts_with($this->administration, 'Unmanaged');
     }
 
     public function getIrs(): ?Irs

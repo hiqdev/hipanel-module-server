@@ -11,6 +11,7 @@ Vue.createApp({
       order: orderModel,
       orderOptions: orderOptions,
       isIPMIDisabled: orderModel.administration === "Unmanaged (Included)",
+      isMonitoringDisabled: orderModel.administration !== "Unmanaged (Included)",
       innerTotal: 0,
       originalConfig: orderModel.config,
       init: {
@@ -55,11 +56,14 @@ Vue.createApp({
   },
   watch: {
     "order.administration"(newValue) {
-      const isDisabled = newValue === "Unmanaged (Included)";
-      if (isDisabled) {
+      const isUnmanaged = newValue === "Unmanaged (Included)";
+      if (isUnmanaged) {
         this.order.ipmi = "Yes";
+      } else {
+        this.order.monitoring = true;
       }
-      this.isIPMIDisabled = isDisabled;
+      this.isIPMIDisabled = isUnmanaged;
+      this.isMonitoringDisabled = !isUnmanaged;
     },
     "order.upgrade"(newValue) {
       if (newValue === false) {

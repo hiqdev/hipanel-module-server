@@ -69,6 +69,7 @@ class IrsController extends CrudController
                     'tariff_id' => $order->irs->getActualSale()->tariff_id,
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
+                    'ignoreIpMonitoring' => $order->needToIgnoreIpMonitoring(),
                 ]);
                 $ticket = $order->createTicket($formData);
             } catch (Exception $e) {

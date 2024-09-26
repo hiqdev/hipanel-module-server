@@ -174,6 +174,9 @@ TXT
                         </transition>
                     </li>
                     <li class="list-group-item">
+                        <?= $form->field($order, 'monitoring')->checkbox([':disabled' => 'isMonitoringDisabled', 'v-model' => 'order.monitoring']) ?>
+                    </li>
+                    <li class="list-group-item">
                         <?= $form->field($order, 'ipmi')->dropDownList($order->getItems('ipmi'), [
                             ':disabled' => 'isIPMIDisabled',
                             'v-model' => 'order.ipmi',
