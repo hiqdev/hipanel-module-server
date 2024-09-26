@@ -17,13 +17,13 @@ use Yii;
 class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
 {
     public $model;
-
     public $blockReasons;
 
     public function items()
     {
         $actions = ServerActionsMenu::create([
             'model' => $this->model,
+            'isDetailedView' => true,
         ])->items();
 
         $user = Yii::$app->user;

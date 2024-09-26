@@ -11,12 +11,13 @@ Vue.createApp({
       order: orderModel,
       orderOptions: orderOptions,
       isIPMIDisabled: orderModel.administration === "Unmanaged (Included)",
+      isMonitoringDisabled: orderModel.administration !== "Unmanaged (Included)",
       innerTotal: 0,
       originalConfig: orderModel.config,
       init: {
         administration: orderModel.administration,
         os: orderModel.os,
-      }
+      },
     };
   },
   computed: {
@@ -55,11 +56,14 @@ Vue.createApp({
   },
   watch: {
     "order.administration"(newValue) {
-      const isDisabled = newValue === "Unmanaged (Included)";
-      if (isDisabled) {
+      const isUnmanaged = newValue === "Unmanaged (Included)";
+      if (isUnmanaged) {
         this.order.ipmi = "Yes";
+      } else {
+        this.order.monitoring = true;
       }
-      this.isIPMIDisabled = isDisabled;
+      this.isIPMIDisabled = isUnmanaged;
+      this.isMonitoringDisabled = !isUnmanaged;
     },
     "order.upgrade"(newValue) {
       if (newValue === false) {
@@ -111,8 +115,8 @@ Vue.createApp({
       window.scroll({
         top: 0,
         left: 0,
-        behavior: 'smooth'
-      })
+        behavior: "smooth",
+      });
     },
     handleSubmit(event) {
       event.preventDefault();
@@ -120,7 +124,7 @@ Vue.createApp({
       const form = this.$refs.orderForm;
       const formData = new FormData(form);
       this.send(window.location.href, formData, function (rsp) {
-        if (rsp.hasOwnProperty('ticketId') && rsp.hasOwnProperty('ticketLink')) {
+        if (rsp.hasOwnProperty("ticketId") && rsp.hasOwnProperty("ticketLink")) {
           _this.ticketId = rsp.ticketId;
           _this.ticketLink = rsp.ticketLink;
         }
@@ -142,6 +146,8 @@ Vue.createApp({
           } else {
             success(rsp);
           }
+        },
+        complete: function () {
           btn.button("reset");
         },
         error: function (xhr, status, error) {

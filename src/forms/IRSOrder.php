@@ -14,6 +14,7 @@ class IRSOrder extends Model
     public string $location = '';
     public string $config = '';
     public bool $upgrade = false;
+    public bool $monitoring = false;
     public string $ram = '';
     public string $raid = '';
     public string $hdd = '';
@@ -36,7 +37,7 @@ class IRSOrder extends Model
     public function rules(): array
     {
         return [
-            [['upgrade'], 'boolean'],
+            [['upgrade', 'monitoring'], 'boolean'],
             [
                 [
                     'comment',
@@ -80,14 +81,15 @@ class IRSOrder extends Model
             'traffic_tb' => Yii::t('hipanel.server.irs', 'Traffic TB'),
             'traffic_mbps' => Yii::t('hipanel.server.irs', 'Traffic Mbps/Gbps'),
             'price' => Yii::t('hipanel.server.irs', 'Total price'),
+            'monitoring' => Yii::t('hipanel.server.irs', 'Enable server monitoring via ICMP (ping)'),
         ];
     }
 
-    public function createTicket(): ?Thread
+    public function createTicket(array $referenceValues): ?Thread
     {
         $thread = new Thread();
         $thread->subject = 'IRS NEW Order';
-        $thread->message = $this->createMessage();
+        $thread->message = $this->createMessage($referenceValues);
         $thread->priority = 'high';
         $thread->topics = 'technical,irs';
         $thread->save();
@@ -98,6 +100,11 @@ class IRSOrder extends Model
     public function getItems(string $attribute): array
     {
         return ArrayHelper::map($this->irs->irsOptions[$attribute] ?? [], 'Dropdowns', 'Dropdowns');
+    }
+
+    public function needToIgnoreIpMonitoring(): bool
+    {
+        return $this->monitoring === false;
     }
 
     public function setIrs(Irs $irs): void
@@ -112,6 +119,7 @@ class IRSOrder extends Model
         }
         $this->administration = $this->setAdministrationValue();
         $this->os = $this->setOsValue();
+        $this->monitoring = !str_starts_with($this->administration, 'Unmanaged');
     }
 
     public function getIrs(): ?Irs
@@ -126,11 +134,18 @@ class IRSOrder extends Model
         return $items[array_key_first($items)] ?? '';
     }
 
-    private function createMessage(): string
+    private function createMessage(array $referenceValues): string
     {
         $output = [];
-        foreach ($this->getAttributes() as $attribute => $value) {
+        $attributes = $this->getAttributes();
+        foreach ($attributes as $attribute => $value) {
             if ($value === '' || $attribute === 'currency') {
+                continue;
+            }
+            if ($this->upgrade === false && in_array($attribute, ['ram', 'raid', 'hdd', 'ssd'])) {
+                continue;
+            }
+            if (in_array($attribute, ['traffic_tb', 'traffic_mbps'], true) && !isset($referenceValues[$attribute])) {
                 continue;
             }
             $output[] = '**' . $this->getAttributeLabel($attribute) . ':** ' . (is_bool($value) ? ($value ? 'Yes' : 'No') : nl2br(Html::encode($value)));
