@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Server module for HiPanel
  *
@@ -17,12 +17,17 @@ use Yii;
 use yii\bootstrap\Modal;
 use yii\helpers\Html;
 
+/**
+ *
+ * @property-read array $settingsItems
+ */
 class ServerActionsMenu extends Menu
 {
     /**
      * @var Server
      */
     public $model;
+    public bool $isDetailedView = false;
 
     public function items(): array
     {
@@ -99,7 +104,7 @@ class ServerActionsMenu extends Menu
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],
-                'visible' => $user->can('account.read') && (bool)Yii::getAlias('@account', false),
+                'visible' => $user->can('account.read') && Yii::getAlias('@account', false),
             ],
         ];
 
@@ -137,8 +142,8 @@ class ServerActionsMenu extends Menu
             $items[] = [
                 'label' => AjaxModalWithTemplatedButton::widget([
                     'ajaxModalOptions' => [
-                        'id' => "{$key}-modal-{$this->model->id}",
-                        'bulkPage' => true,
+                        'id' => "$key-modal-{$this->model->id}",
+                        'bulkPage' => !$this->isDetailedView,
                         'header' => Html::tag('h4', $item['label'], ['class' => 'modal-title']),
                         'scenario' => 'default',
                         'actionUrl' => $item['url'],
