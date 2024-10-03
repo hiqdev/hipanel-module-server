@@ -2,6 +2,7 @@
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
 use hipanel\modules\client\widgets\combo\SellerCombo;
+use hipanel\modules\finance\widgets\ConsumptionRepresentationMonthPicker;
 use hipanel\modules\server\widgets\combo\ServerStateRefCombo;
 use hipanel\modules\server\widgets\combo\ServerTypeRefCombo;
 use hipanel\widgets\AdvancedSearch;
@@ -18,6 +19,12 @@ use hipanel\widgets\TagsInput;
         <?= $search->field('hide_nic', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
         <?= $search->field('hide_vds', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
         <?= $search->field('show_deleted', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
+    </div>
+<?php endif ?>
+
+<?php if ($this->context->indexPageUiOptionsModel->representation === 'consumption') : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= ConsumptionRepresentationMonthPicker::widget(['model' => $search->model]) ?>
     </div>
 <?php endif ?>
 
