@@ -71,9 +71,6 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
     <?php $page->endContent() ?>
     <?php $page->beginContent('representation-actions') ?>
         <?= $page->renderRepresentations($representationCollection) ?>
-        <?php if ($uiModel->representation === 'consumption') : ?>
-            <?= ConsumptionRepresentationMonthPicker::widget() ?>
-        <?php endif ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>

@@ -31,7 +31,6 @@ use hipanel\modules\server\widgets\Expires;
 use hipanel\modules\server\widgets\OSFormatter;
 use hipanel\modules\server\widgets\ResourceConsumptionTable;
 use hipanel\modules\server\widgets\State;
-use hipanel\modules\server\grid\SummaryDiffColumn;
 use hipanel\widgets\ArraySpoiler;
 use hipanel\widgets\gridLegend\ColorizeGrid;
 use hipanel\widgets\gridLegend\GridLegend;
@@ -83,7 +82,7 @@ class ServerGridView extends BoxedGridView
         $canSupport = Yii::$app->user->can('support');
         $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
         $consumptionColumns = $consumptionConfigurator->getColumnsWithLabels('server');
-        $columns = ResourceHelper::buildGridColumns($consumptionColumns, date("Y-m"));
+        $columns = ResourceHelper::buildGridColumns($consumptionColumns);
         $user = Yii::$app->user;
 
         return array_merge(parent::columns(), [
