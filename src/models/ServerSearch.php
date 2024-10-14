@@ -16,7 +16,7 @@ use Yii;
 
 class ServerSearch extends Server
 {
-    use SearchModelTrait {
+    use ConsumptionSearchAttributes, SearchModelTrait {
         searchAttributes as defaultSearchAttributes;
         rules as defaultSearchRules;
     }
@@ -31,7 +31,7 @@ class ServerSearch extends Server
      */
     public function searchAttributes()
     {
-        return ArrayHelper::merge($this->defaultSearchAttributes(), [
+        return ArrayHelper::merge($this->defaultSearchAttributes(), $this->consumptionAttributes(), [
             'with_requests',
             'show_deleted',
             'with_discounts',
@@ -50,15 +50,12 @@ class ServerSearch extends Server
 
     public function rules()
     {
-        $rules = $this->defaultSearchRules();
-        $rules[] = [['uses_month'], 'match', 'pattern' => '/^[A-Z][a-z]{2} \d{4}$/'];
-
-        return $rules;
+        return array_merge($this->defaultSearchRules(), $this->consumptionSearchRules());
     }
 
     public function attributeLabels()
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::attributeLabels(), $this->consumptionAttributeLabels(), [
             'wizzarded_eq' => Yii::t('hipanel:server', 'Is wizzarded'),
             'name_dc' => Yii::t('hipanel:server', 'Name or DC'),
             'hide_nic' => Yii::t('hipanel:server', 'Hide additional network interfaces'),

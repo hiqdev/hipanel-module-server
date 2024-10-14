@@ -1,7 +1,6 @@
 <?php
 
 use hipanel\models\IndexPageUiOptions;
-use hipanel\modules\finance\widgets\ConsumptionRepresentationMonthPicker;
 use hipanel\modules\server\grid\HubGridLegend;
 use hipanel\modules\server\grid\HubGridView;
 use hipanel\modules\server\grid\HubRepresentations;
@@ -69,9 +68,6 @@ $this->registerCss('
 
     <?php $page->beginContent('representation-actions') ?>
         <?= $page->renderRepresentations($representationCollection) ?>
-        <?php if ($uiModel->representation === 'consumption') : ?>
-            <?= ConsumptionRepresentationMonthPicker::widget() ?>
-        <?php endif ?>
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>

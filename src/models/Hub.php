@@ -13,7 +13,6 @@ namespace hipanel\modules\server\models;
 use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\behaviors\TaggableBehavior;
-use hipanel\models\Ref;
 use hipanel\models\TaggableInterface;
 use hipanel\modules\finance\models\proxy\Resource;
 use hipanel\modules\server\models\query\HubQuery;

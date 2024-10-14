@@ -16,8 +16,9 @@ use Yii;
 
 class HubSearch extends Hub
 {
-    use SearchModelTrait {
+    use ConsumptionSearchAttributes, SearchModelTrait {
         searchAttributes as defaultSearchAttributes;
+        rules as defaultSearchRules;
     }
 
     public static function tableName()
@@ -25,12 +26,17 @@ class HubSearch extends Hub
         return Hub::tableName();
     }
 
+    public function rules()
+    {
+        return array_merge($this->defaultSearchRules(), $this->consumptionSearchRules());
+    }
+
     /**
      * {@inheritdoc}
      */
     public function searchAttributes()
     {
-        return ArrayHelper::merge($this->defaultSearchAttributes(), [
+        return ArrayHelper::merge($this->defaultSearchAttributes(), $this->consumptionAttributes(), [
             'show_deleted',
             'with_bindings',
             'with_servers',
@@ -45,7 +51,7 @@ class HubSearch extends Hub
 
     public function attributeLabels()
     {
-        return array_merge(parent::attributeLabels(), [
+        return array_merge(parent::attributeLabels(), $this->consumptionAttributeLabels(), [
             'name_inilike' => Yii::t('hipanel:server', 'Switch'),
             'rack_inilike' => Yii::t('hipanel:server', 'List of racks'),
             'rack_ilike' => Yii::t('hipanel:server', 'Rack'),
