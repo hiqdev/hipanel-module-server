@@ -1,6 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 use hipanel\modules\client\widgets\combo\ClientCombo;
+use hipanel\modules\finance\widgets\ConsumptionRepresentationMonthPicker;
 use hipanel\widgets\AdvancedSearch;
 use hipanel\widgets\TagsInput;
 use hiqdev\combo\StaticCombo;
@@ -12,6 +13,12 @@ use hiqdev\combo\StaticCombo;
 
 
 ?>
+
+<?php if ($this->context->indexPageUiOptionsModel->representation === 'consumption') : ?>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= ConsumptionRepresentationMonthPicker::widget(['model' => $search->model]) ?>
+    </div>
+<?php endif ?>
 
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('name_inilike') ?>
