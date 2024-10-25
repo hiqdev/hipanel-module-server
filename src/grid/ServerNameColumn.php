@@ -27,7 +27,7 @@ class ServerNameColumn extends MainColumn
     {
         $this->badges = function (Server $model): string {
             $badges = '';
-            if (Yii::$app->user->can('support')) {
+            if (Yii::$app->user->can('server.wizzard-read')) {
                 if ($model->wizzarded) {
                     $badges .= Label::widget(['label' => 'W', 'tag' => 'sup', 'color' => 'success']);
                 }

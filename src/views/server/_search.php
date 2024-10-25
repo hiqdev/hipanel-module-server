@@ -14,7 +14,7 @@ use hipanel\widgets\TagsInput;
 
 ?>
 
-<?php if (Yii::$app->user->can('support')) : ?>
+<?php if (Yii::$app->user->can('server.read-all')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('hide_nic', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
         <?= $search->field('hide_vds', ['options' => ['class' => 'form-group checkbox']])->checkbox(['class' => 'option-input']) ?>
@@ -46,7 +46,7 @@ use hipanel\widgets\TagsInput;
     </div>
 <?php endif; ?>
 
-<?php if (Yii::$app->user->can('manage')) : ?>
+<?php if (Yii::$app->user->can('order.read')) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('order_no') ?>
     </div>

@@ -15,7 +15,7 @@ $this->registerJs("$('.server-parts').load('$url', function () { $(this).closest
 
 ?>
 
-<?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('support')) : ?>
+<?php if (Yii::getAlias('@part', false) && Yii::$app->user->can('server.update')) : ?>
     <div class="row">
         <div class="col-md-12">
             <?php $form = ActiveForm::begin([

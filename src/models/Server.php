@@ -437,9 +437,9 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
     {
         $powerManagementAllowed = Yii::$app->params['module.server.power.management.allowed'];
 
-        $userCanControlPower = Yii::$app->user->can('support') &&
-            (Yii::$app->user->can('server.control-system') ||
-            Yii::$app->user->can('server.control-power'));
+        $userCanControlPower = Yii::$app->user->can('server.control-system')
+            ||  Yii::$app->user->can('server.control-power')
+        ;
 
         return $powerManagementAllowed || $userCanControlPower;
     }

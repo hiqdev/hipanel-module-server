@@ -40,7 +40,7 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
 
 <?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider]) ?>
 
-    <?php if (Yii::$app->user->can('support')) : ?>
+    <?php if (Yii::$app->user->can('server.read-legend')) : ?>
         <?php $page->beginContent('legend') ?>
             <?= GridLegend::widget(['legendItem' => new ServerGridLegend($model)]) ?>
         <?php $page->endContent() ?>
@@ -65,7 +65,7 @@ $orderIsAllowed = $this->context->module->orderIsAllowed;
         <?= $page->renderSorter([
             'attributes' => array_filter([
                 'name', 'tariff', 'ip',
-                Yii::$app->user->can('support') ? 'client' : null,
+                Yii::$app->user->can('client.read') ? 'client' : null,
             ]),
         ]) ?>
     <?php $page->endContent() ?>
@@ -101,10 +101,11 @@ JS
         <div class="dropdown" style="display: inline-block">
             <?php if (
                     Yii::$app->user->can('server.update')
+                ||  Yii::$app->user->can('server.delete')
                 ||  Yii::$app->user->can('server.set-note')
                 ||  Yii::$app->user->can('server.enable-block')
                 ||  Yii::$app->user->can('server.disable-block')
-                || Yii::$app->user->can('manage')
+                ||  Yii::$app->user->can('consumption.delete')
             ) : ?>
                 <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <?= Yii::t('hipanel', 'Basic actions') ?>
@@ -209,7 +210,7 @@ JS
                             'ajaxModalOptions' => [
                                 'bulkPage' => true,
                                 'id' => 'servers-set-note',
-                                'scenario' => Yii::$app->user->can('support') ? 'set-label' : 'set-note',
+                                'scenario' => Yii::$app->user->can('server.set-label') ? 'set-label' : 'set-note',
                                 'size' => Modal::SIZE_LARGE,
                                 'header' => Html::tag('h4', Yii::t('hipanel:server', 'Set notes'), ['class' => 'modal-title']),
                                 'toggleButton' => [
