@@ -56,7 +56,7 @@ class ServerRepresentations extends RepresentationCollection
                     'server', 'hwsummary_auto', 'hwsummary_diff'
                 ],
             ] : null,
-            'manager' => $user->can('manage') ? [
+            'manager' => $user->can('server.read-billing') ? [
                 'label' => Yii::t('hipanel:server', 'manager'),
                 'columns' => array_filter([
                     'checkbox',
@@ -66,7 +66,7 @@ class ServerRepresentations extends RepresentationCollection
                     $hostingExists ? 'nums': null,
                 ]),
             ] : null,
-            'billing' => $user->can('consumption.read') && $user->can('manage') ? [
+            'billing' => $user->can('consumption.read') && $user->can('server.read-billing') ? [
                 'label' => Yii::t('hipanel:server', 'billing'),
                 'columns' => [
                     'checkbox',
