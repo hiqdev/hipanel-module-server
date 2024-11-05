@@ -14,6 +14,7 @@ use DateTime;
 use hipanel\base\Model;
 use hipanel\components\User;
 use hipanel\grid\BoxedGridView;
+use hipanel\grid\DataColumn;
 use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\StringHelper;
@@ -41,11 +42,9 @@ use Tuck\Sort\Sort;
 use Yii;
 use yii\data\ArrayDataProvider;
 use yii\db\ActiveRecordInterface;
-use yii\grid\DataColumn;
 use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use function count;
 
 class ServerGridView extends BoxedGridView
 {
@@ -605,27 +604,38 @@ class ServerGridView extends BoxedGridView
         return $result;
     }
 
-    private function getFormattedConsumptionFor(Consumption $consumption): string
+    /**
+     * @param array $limitAndPrice
+     * @return string
+     */
+    private function formatIncludedAndPrice(array $limitAndPrice): string
     {
         $result = [];
+        foreach ($limitAndPrice as $name => $value) {
+            if ($value) {
+                $result[] = Html::tag(
+                    'span',
+                    sprintf('%s: %s', Html::tag('b', Yii::t('hipanel:server', $name)), $value),
+                    ['style' => 'white-space: nowrap;']
+                );
+            }
+        }
+
+        return implode("\n", $result);
+    }
+
+    #[ArrayShape(['included' => "mixed", 'price' => "string"])]
+    private function getIncludedAndPrice(?Consumption $consumption): array
+    {
+        if ($consumption === null) {
+            return [];
+        }
         $widget = Yii::createObject(['class' => ResourceConsumptionTable::class, 'model' => $consumption]);
 
-        if ($limit = $widget->getFormatted($consumption, $consumption->limit)) {
-            $result[] = Html::tag(
-                'span',
-                sprintf('%s: %s<br />', Html::tag('b', Yii::t('hipanel:server', 'included')), $limit),
-                ['style' => 'white-space: nowrap;']
-            );
-        }
-        if ($price = $consumption->getFormattedPrice()) {
-            $result[] = Html::tag(
-                'span',
-                sprintf('%s: %s', Html::tag('b', Yii::t('hipanel:server', 'price')), $price),
-                ['style' => 'white-space: nowrap;']
-            );
-        }
-
-        return implode("", $result);
+        return [
+            'included' => $widget->getFormatted($consumption, $consumption->limit),
+            'price' => $consumption->getFormattedPrice(),
+        ];
     }
 
     private function getMonthlyFee($model): string
@@ -669,9 +679,10 @@ class ServerGridView extends BoxedGridView
             if (isset($model->consumptions[$type]) && $model->consumptions[$type]->hasFormattedAttributes()) {
                 $consumption = $model->consumptions[$type];
                 $prefix = str_starts_with($consumption->type, 'monthly,') ? 'monthly' : 'overuse';
+                $v = $this->getIncludedAndPrice($consumption);
                 $models[] = new $additional([
                     'typeLabel' => Yii::t('hipanel.server.consumption.type', $consumption->typeLabel),
-                    'value' => $this->getFormattedConsumptionFor($consumption),
+                    'value' => $this->formatIncludedAndPrice($this->getIncludedAndPrice($consumption)),
                     'prefix' => $prefix,
                 ]);
             }
@@ -688,7 +699,11 @@ class ServerGridView extends BoxedGridView
             ],
             'dataProvider' => new ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
             'columns' => [
-                ['attribute' => 'typeLabel', 'format' => 'raw', 'contentOptions' => ['class' => 'text-nowrap', 'style' => 'background-color: inherit;']],
+                [
+                    'attribute' => 'typeLabel',
+                    'format' => 'raw',
+                    'contentOptions' => ['class' => 'text-nowrap', 'style' => 'background-color: inherit;'],
+                ],
                 ['attribute' => 'prefix', 'format' => 'raw', 'contentOptions' => ['class' => 'text-nowrap']],
                 ['attribute' => 'value', 'format' => 'raw', 'contentOptions' => ['class' => 'text-nowrap']],
             ],
@@ -805,17 +820,36 @@ class ServerGridView extends BoxedGridView
     private function getTrafficColumns(): array
     {
         $columns = [];
-        foreach (self::$trafficColumns as $attribute => $label) {
-            $value = fn($model
-            ) => isset($model->consumptions[$attribute]) ? $this->getFormattedConsumptionFor($model->consumptions[$attribute]) : '';
-            $columns[$attribute] = [
+        foreach (self::$trafficColumns as $columnName => $label) {
+            $columns[$columnName] = [
                 'class' => DataColumn::class,
                 'label' => Yii::t('hipanel:server', $label),
                 'format' => 'raw',
                 'filter' => false,
-                'value' => fn($model) => $value($model),
+                'value' => function ($model) use ($columnName): string {
+                    $limitAndPrice = isset($model->consumptions[$columnName]) ? $this->getIncludedAndPrice($model->consumptions[$columnName]) : [];
+
+                    return $this->formatIncludedAndPrice($limitAndPrice);
+                },
                 'visible' => Yii::$app->user->can('consumption.read'),
+                'exportedValue' => fn($model) => $this->getIncludedAndPrice($model->consumptions[$columnName])['price'],
             ];
+            if (str_contains($columnName, 'overuse')) {
+                $extraColumnName = $columnName . ',included';
+                $columns[$columnName]['exportedColumns'] = [$extraColumnName, $columnName];
+                $columns[$extraColumnName] = [
+                    'class' => DataColumn::class,
+                    'label' => Yii::t('hipanel:server', str_replace(' overuse', ' included', $label)),
+                    'format' => 'raw',
+                    'filter' => false,
+                    'value' => function ($model) use ($columnName): ?string {
+                        $limitAndPrice = isset($model->consumptions[$columnName]) ? $this->getIncludedAndPrice($model->consumptions[$columnName]) : [];
+
+                        return $limitAndPrice['included'] ?? null;
+                    },
+                    'visible' => Yii::$app->user->can('consumption.read'),
+                ];
+            }
         }
 
         return $columns;
