@@ -22,7 +22,7 @@ class ServerRepresentations extends RepresentationCollection
         $user = Yii::$app->user;
         $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
         $this->representations = array_filter([
-            'short' => $user->can('server.read-all') ? [
+            'short' => ($user->can('server.read-financial-info') || $user->can('server.read-system-info')) ? [
                 'label' => Yii::t('hipanel:server', 'short'),
                 'columns' => array_filter([
                     'checkbox',
@@ -82,7 +82,7 @@ class ServerRepresentations extends RepresentationCollection
                     'hwsummary',
                 ],
             ] : null,
-            'admin' => $user->can('server.read-all') ? [
+            'admin' => $user->can('server.read-system-info') ? [
                 'label' => Yii::t('hipanel:server', 'admin'),
                 'columns' => [
                     'checkbox',

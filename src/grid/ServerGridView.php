@@ -79,7 +79,8 @@ class ServerGridView extends BoxedGridView
 
     public function columns()
     {
-        $canReadAll = Yii::$app->user->can('server.read-all');
+        $canReadFinancial = Yii::$app->user->can('server.read-financial-info');
+        $canReadSystem = Yii::$app->user->can('server.read-system-info');
         $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
         $consumptionColumns = $consumptionConfigurator->getColumnsWithLabels('server');
         $columns = ResourceHelper::buildGridColumns($consumptionColumns);
@@ -117,7 +118,7 @@ class ServerGridView extends BoxedGridView
                 'i18nDictionary' => 'hipanel:server',
                 'format' => 'raw',
                 'gtype' => 'state,device',
-                'visible' => $canReadAll,
+                'visible' => $canReadSystem || $canReadFinancial,
                 'value' => function ($model) {
                     $html = State::widget(compact('model'));
                     if (isset($model->status_time)) {
@@ -131,9 +132,9 @@ class ServerGridView extends BoxedGridView
                 'attribute' => 'panel',
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-uppercase'],
-                'value' => function ($model) use ($canReadAll) {
+                'value' => function ($model) use ($canReadSystem) {
                     $value = $model->getPanel() ? Yii::t('hipanel:server:panel', $model->getPanel()) : Yii::t('hipanel:server:panel', 'No control panel');
-                    if ($canReadAll) {
+                    if ($canReadSystem) {
                         $value .= $model->wizzarded ? Label::widget([
                             'label' => 'W', 'tag' => 'sup', 'color' => 'success',
                         ]) : '';
@@ -183,7 +184,7 @@ class ServerGridView extends BoxedGridView
                 'filter' => false,
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
-                'visible' => $canReadAll,
+                'visible' => $canReadFinancial,
                 'value' => function ($model) {
                     return Expires::widget(compact('model'));
                 },
@@ -547,7 +548,7 @@ class ServerGridView extends BoxedGridView
                 }
             }
             $result .= Html::tag('ul', $html, [
-                'class' => 'tariff-chain ' . ($this->user->can('server.read-all') ?: 'inactiveLink'),
+                'class' => 'tariff-chain ' . ($this->user->can('server.read-financial-info') ?: 'inactiveLink'),
                 'style' => 'margin: 0; padding: 0;',
             ]);
 
@@ -556,7 +557,7 @@ class ServerGridView extends BoxedGridView
             );
 
             $result .= Html::tag('ul', $html, [
-                'class' => 'tariff-chain ' . ($this->user->can('server.read-all') ?: 'inactiveLink'),
+                'class' => 'tariff-chain ' . ($this->user->can('server.read-financial-info') ?: 'inactiveLink'),
                 'style' => 'margin: 0; padding: 0;',
             ]);
             $result .= Html::tag('br');
