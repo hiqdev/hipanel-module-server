@@ -11,10 +11,8 @@ use hipanel\modules\server\helpers\HardwareSummary;
 use hipanel\modules\server\forms\IRSOrder;
 use hipanel\modules\server\helpers\HardwareType;
 use hipanel\modules\server\models\Irs;
-use Yii;
 use yii\base\Event;
 use yii\helpers\Url;
-use yii\web\NotFoundHttpException;
 use yii\web\Response;
 
 class IrsController extends CrudController
@@ -52,9 +50,6 @@ class IrsController extends CrudController
     {
         /** @var Irs $irsServer */
         $irsServer = Irs::find()->where(['id' => $id])->joinWith(['bindings'])->one();
-//        if (!$irsServer) {
-//            throw new NotFoundHttpException('IRS for order not found');
-//        }
         $order = new IRSOrder();
         if ($irsServer) {
             $order->setIrs($irsServer);
@@ -63,6 +58,7 @@ class IrsController extends CrudController
 
         if ($this->request->isAjax && $order->load($formData, '') && $order->validate()) {
             try {
+                $this->syncTrafficPrices($irsServer, $order, $formData);
                 Irs::perform('sell', [
                     'id' => $irsServer->id,
                     'type' => $order->getServerType()->value,
@@ -73,21 +69,16 @@ class IrsController extends CrudController
                 ]);
                 $ticket = $order->createTicket($formData);
             } catch (Exception $e) {
-                return $this->asJson([
-                    'error' => $e->getMessage(),
-                ]);
+                return $this->asJson(['error' => $e->getMessage()]);
             }
 
-            return $this->asJson($ticket ? [
+            return $this->asJson(isset($ticket) ? [
                 'ticketLink' => Url::toRoute(['@ticket/view', 'id' => $ticket->id]),
                 'ticketId' => $ticket->id,
             ] : []);
         }
 
-        return $this->render('order', [
-            'order' => $order,
-            'ticket' => null,
-        ]);
+        return $this->render('order', ['order' => $order, 'ticket' => null]);
     }
 
     public function actionGenerateSummary()
@@ -101,9 +92,32 @@ class IrsController extends CrudController
                 }
             }
 
-            return $this->asJson([
-                'summary' => $summary->getSummary(),
-            ]);
+            return $this->asJson(['summary' => $summary->getSummary()]);
+        }
+    }
+
+    private function syncTrafficPrices(Irs $irsServer, IRSOrder $order, mixed $formData): void
+    {
+        $is95 = array_key_exists('traffic_mbps', $formData);
+        $key = 'traffic_' . ($is95 ? 'mbps' : 'tb');
+        $searchValue = $formData[$key];
+        $trafficOptions = array_filter($irsServer->irsOptions[$key], function ($item) use ($searchValue) {
+            return in_array($searchValue, $item);
+        });
+        $traffic = reset($trafficOptions);
+        $payload = [
+            'id' => $irsServer->id,
+            'tariff_id' => $order->irs->getActualSale()->tariff_id,
+            'unit' => $is95 ? 'mbps' : 'tb',
+            'currency' => $order->currency,
+            'included' => preg_match('/\d+(\.\d+)?/', $traffic['Dropdowns'], $matches) ? $matches[0] : null,
+            'overuse_price' => preg_match('/\d+(\.\d+)?/', $traffic['Hint'], $matches) ? $matches[0] : null,
+            'monthly_price' => $traffic['AH price'] !== 'Included' ? $traffic['AH price'] : 0,
+        ];
+        try {
+            Irs::perform('sync-traffic-prices', $payload);
+        } catch (Exception $e) {
+            throw new Exception($e->getMessage());
         }
     }
 }
