@@ -42,9 +42,9 @@ class IrsGridView extends ServerGridView
                 'class' => DataColumn::class,
                 'attribute' => 'price',
                 'format' => 'raw',
-                'value' => function (Irs $server) use ($user): string {
+                'value' => function (Irs $model) use ($user): string {
                     /** @var Sale $lastSale */
-                    $lastSale = $server->getActualSale();
+                    $lastSale = $model->getActualSale();
                     if ($lastSale) {
                         $label = Yii::t('hipanel.server.irs', 'From {0} / Month', $this->formatter->asCurrency($lastSale->fee ?? 0, $lastSale->currency));
 
@@ -59,14 +59,14 @@ class IrsGridView extends ServerGridView
             'ip' => [
                 'class' => DataColumn::class,
                 'attribute' => 'ip',
-                'value' => static fn($model) => $model->getIpCount(),
+                'value' => static fn(Irs $model) => $model->getIpCount(),
                 'filter' => false,
                 'enableSorting' => false,
             ],
             'os' => [
                 'class' => DataColumn::class,
                 'attribute' => 'os',
-                'value' => static fn($model) => $model->getOsLabel(),
+                'value' => static fn(Irs $model) => $model->getOsLabel(),
                 'filter' => false,
                 'enableSorting' => false,
             ],

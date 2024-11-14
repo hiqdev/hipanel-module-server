@@ -11,6 +11,7 @@ use hipanel\modules\server\helpers\HardwareSummary;
 use hipanel\modules\server\forms\IRSOrder;
 use hipanel\modules\server\helpers\HardwareType;
 use hipanel\modules\server\models\Irs;
+use Yii;
 use yii\base\Event;
 use yii\helpers\Url;
 use yii\web\Response;
