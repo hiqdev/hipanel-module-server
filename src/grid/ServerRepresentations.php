@@ -76,7 +76,7 @@ class ServerRepresentations extends RepresentationCollection
                     'client_like',
                     'tariff',
                     'monthly_fee',
-                    'traffic',
+                    ...array_keys(ServerGridView::$trafficColumns),
                     'additional_services',
                     'type_of_sale',
                     'hwsummary',
