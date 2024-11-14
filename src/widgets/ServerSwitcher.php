@@ -20,8 +20,8 @@ class ServerSwitcher extends Widget
 
     public function run()
     {
-        if (!Yii::$app->user->can('support')) {
-            return null;
+        if (!Yii::$app->user->can('server.read')) {
+            return "";
         }
 
         $this->initClientScript();

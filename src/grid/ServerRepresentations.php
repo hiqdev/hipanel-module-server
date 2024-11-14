@@ -22,7 +22,7 @@ class ServerRepresentations extends RepresentationCollection
         $user = Yii::$app->user;
         $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
         $this->representations = array_filter([
-            'short' => $user->can('support') ? [
+            'short' => ($user->can('server.read-financial-info') || $user->can('server.read-system-info')) ? [
                 'label' => Yii::t('hipanel:server', 'short'),
                 'columns' => array_filter([
                     'checkbox',
@@ -56,7 +56,7 @@ class ServerRepresentations extends RepresentationCollection
                     'server', 'hwsummary_auto', 'hwsummary_diff'
                 ],
             ] : null,
-            'manager' => $user->can('manage') ? [
+            'manager' => $user->can('server.read-billing') ? [
                 'label' => Yii::t('hipanel:server', 'manager'),
                 'columns' => array_filter([
                     'checkbox',
@@ -66,7 +66,7 @@ class ServerRepresentations extends RepresentationCollection
                     $hostingExists ? 'nums': null,
                 ]),
             ] : null,
-            'billing' => $user->can('consumption.read') && $user->can('manage') ? [
+            'billing' => $user->can('consumption.read') && $user->can('server.read-billing') ? [
                 'label' => Yii::t('hipanel:server', 'billing'),
                 'columns' => [
                     'checkbox',
@@ -82,7 +82,7 @@ class ServerRepresentations extends RepresentationCollection
                     'hwsummary',
                 ],
             ] : null,
-            'admin' => $user->can('support') ? [
+            'admin' => $user->can('server.read-system-info') ? [
                 'label' => Yii::t('hipanel:server', 'admin'),
                 'columns' => [
                     'checkbox',
