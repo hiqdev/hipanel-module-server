@@ -63,7 +63,13 @@ class Irs extends Server
     public function getIpCount(): int
     {
         $count = 0;
-        $prices = $this->irsOptions['prices']['server'] ?? $this->irsOptions['prices']['switch'] ?? [];
+        $prices = [];
+        if (isset($this->irsOptions['prices']['server'])) {
+            $prices = [...$prices, ...$this->irsOptions['prices']['server']];
+        }
+        if (isset($this->irsOptions['prices']['switch'])) {
+            $prices = [...$prices, ...$this->irsOptions['prices']['switch']];
+        }
         foreach ($prices as $row) {
             if ($row['type'] === 'overuse,ip_num') {
                 $count = (int)$row['quantity'] ?? 0;
