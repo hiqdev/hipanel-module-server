@@ -25,7 +25,7 @@ $this->params['subtitle'] = Yii::t('hipanel.server.irs', 'that are already insta
 
 $infoHeader = Html::beginTag('ul', ['class' => 'list-unstyled text-muted text-sm', 'style' => 'padding: 0 1em 1em;']);
 $infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'Delivery time - 4h*'));
-$infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'The servers available for rental are pre-mounted in our racks and cannot be relocated. However, it is possible to connect newly rented servers to existing ones through VXLAN.'));
+$infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'The servers available for rental are pre-mounted in our racks and cannot be relocated. However, it is possible to connect newly rented servers to existing ones through VXLAN if applicable.'));
 $infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'Any changes and upgrades are possible but with extended delivery time.'));
 $infoHeader .= Html::tag('li',
     Yii::t('hipanel.server.irs',
@@ -36,7 +36,6 @@ $infoHeader .= Html::endTag('ul');
 
 <?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider, 'layout' => 'noSearch']) ?>
 
-    <?php $page->content('sorter-actions', $page->renderSorter(['attributes' => ['id']])) ?>
     <?php $page->content('representation-actions', $page->renderRepresentations($representationCollection)) ?>
 
     <?php $page->beginContent('table') ?>

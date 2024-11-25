@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <a :href="linkToTicket">#{{ ticketId }}</a>
                         </p>
                         <p><?= Yii::t('hipanel.server.irs', 'Thank you!') ?></p>
-                        <p><?= Yii::t('hipanel.server.irs', 'Our Client Service Manager will contact you soon.') ?></p>
+                        <p><?= Yii::t('hipanel.server.irs', 'Our Manager will contact you soon.') ?></p>
                     </div>
 
                 </div>
