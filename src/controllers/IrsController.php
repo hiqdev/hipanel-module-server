@@ -79,7 +79,7 @@ class IrsController extends CrudController
         return $this->render('order', ['order' => $order, 'ticket' => null]);
     }
 
-    public function actionGenerateSummary()
+    public function actionGenerateSummary(): Response
     {
         $order = new IRSOrder();
         if ($this->request->isAjax && $order->load($this->request->post(), '')) {
@@ -108,7 +108,7 @@ class IrsController extends CrudController
         $payload = [
             'id' => $irsServer->id,
             'tariff_id' => $order->irs->getActualSale()->tariff_id,
-            'unit' => $is95 ? 'mbps' : 'tb',
+            'unit' => $this->identifyUnitBySelectedOption($traffic['Dropdowns']),
             'currency' => $order->currency,
             'included' => preg_match('/\d+(\.\d+)?/', $traffic['Dropdowns'], $matches) ? $matches[0] : null,
             'overuse_price' => preg_match('/\d+(\.\d+)?/', $traffic['Hint'], $matches) ? $matches[0] : null,
@@ -121,5 +121,14 @@ class IrsController extends CrudController
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    private function identifyUnitBySelectedOption(string $option): string
+    {
+        return match(true) {
+            str_contains($option, 'Mbps') => 'mbps',
+            str_contains($option, 'Gbps') => 'gbps',
+            str_contains($option, 'TB') => 'tb',
+        };
     }
 }
