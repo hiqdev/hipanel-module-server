@@ -9,6 +9,10 @@ use Yii;
 use yii\base\Model;
 use yii\helpers\Html;
 
+/**
+ *
+ * @property-read IrsOrderType $serverType
+ */
 class IRSOrder extends Model
 {
     public string $location = '';
@@ -89,7 +93,7 @@ class IRSOrder extends Model
     {
         $thread = new Thread();
         $thread->subject = 'IRS NEW Order';
-        $thread->message = $this->createMessage($referenceValues);
+        $thread->message = $this->composeMessage($referenceValues);
         $thread->priority = 'high';
         $thread->topics = 'technical,irs';
         $thread->save();
@@ -105,6 +109,11 @@ class IRSOrder extends Model
     public function needToIgnoreIpMonitoring(): bool
     {
         return $this->monitoring === false;
+    }
+
+    public function needUpgrade(): bool
+    {
+        return $this->upgrade;
     }
 
     public function setIrs(Irs $irs): void
@@ -134,10 +143,11 @@ class IRSOrder extends Model
         return $items[array_key_first($items)] ?? '';
     }
 
-    private function createMessage(array $referenceValues): string
+    private function composeMessage(array $referenceValues): string
     {
-        $output = [];
+        $parts = [];
         $attributes = $this->getAttributes();
+        array_splice($attributes, 2, 0, ['name' => $this->irs->name]);
         foreach ($attributes as $attribute => $value) {
             if ($value === '' || $attribute === 'currency') {
                 continue;
@@ -148,10 +158,14 @@ class IRSOrder extends Model
             if (in_array($attribute, ['traffic_tb', 'traffic_mbps'], true) && !isset($referenceValues[$attribute])) {
                 continue;
             }
-            $output[] = '**' . $this->getAttributeLabel($attribute) . ':** ' . (is_bool($value) ? ($value ? 'Yes' : 'No') : nl2br(Html::encode($value)));
+            if (is_int($attribute)) {
+                $parts[] = Yii::t('hipanel:server', '**Server name:** {0}', $value);
+            } else {
+                $parts[] = '**' . $this->getAttributeLabel($attribute) . ':** ' . (is_bool($value) ? ($value ? 'Yes' : 'No') : nl2br(Html::encode($value)));
+            }
         }
 
-        return implode("\n\n", $output);
+        return implode("\n\n", $parts);
     }
 
     public function toOptions(): array

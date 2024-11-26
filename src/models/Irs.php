@@ -26,7 +26,7 @@ class Irs extends Server
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['irsOptions', 'actualSale'], 'safe'],
+            [['irsOptions', 'actualSale', 'vxlan'], 'safe'],
         ]);
     }
 
@@ -107,6 +107,15 @@ class Irs extends Server
             50 => Yii::t('hipanel.server.irs', 'Standard Managed'),
             100 => Yii::t('hipanel.server.irs', 'Advanced Managed'),
             default => Yii::t('hipanel.server.irs', 'Unmanaged')
+        };
+    }
+
+    public function getVxlanCellValue(): string
+    {
+        return match(true) {
+            $this->vxlan === "1" => Yii::t('hipanel', 'Yes'),
+            $this->vxlan === "0" => Yii::t('hipanel', 'No'),
+            default => Yii::t('hipanel:server:hub', 'Not specified')
         };
     }
 

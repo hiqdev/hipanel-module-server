@@ -62,6 +62,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     </div>
                     <div class="col-md-6">
                         <?= $form->field($model->deviceProperties, 'average_power_consumption')->input('number', ['step' => 0.001]) ?>
+                        <?php if ($model->type === 'rack') : ?>
+                            <?= $form->field($model, 'vxlan')->dropDownList($model->getVxlanOptions()) ?>
+                        <?php endif ?>
                     </div>
                     <div class="col-md-12">
                         <?= $form->field($model, 'oob_key') ?>

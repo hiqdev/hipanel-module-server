@@ -42,6 +42,7 @@ class IrsGridView extends ServerGridView
                 'class' => DataColumn::class,
                 'attribute' => 'price',
                 'format' => 'raw',
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
                 'value' => function (Irs $model) use ($user): string {
                     /** @var Sale $lastSale */
                     $lastSale = $model->getActualSale();
@@ -62,6 +63,7 @@ class IrsGridView extends ServerGridView
                 'value' => static fn(Irs $model) => $model->getIpCount(),
                 'filter' => false,
                 'enableSorting' => false,
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
             ],
             'os' => [
                 'class' => DataColumn::class,
@@ -69,11 +71,22 @@ class IrsGridView extends ServerGridView
                 'value' => static fn(Irs $model) => $model->getOsLabel(),
                 'filter' => false,
                 'enableSorting' => false,
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
             ],
             'administration' => [
                 'class' => DataColumn::class,
                 'attribute' => 'administration',
                 'value' => fn(Irs $model) => $model->getAdministrationLabel(),
+                'filter' => false,
+                'enableSorting' => false,
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
+            ],
+            'vxlan' => [
+                'class' => DataColumn::class,
+                'attribute' => 'vxlan',
+                'label' => Yii::t('hipanel:server:hub', 'VXLAN'),
+                'value' => fn(Irs $model): string => $model->getVxlanCellValue(),
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
                 'filter' => false,
                 'enableSorting' => false,
             ],
@@ -83,6 +96,7 @@ class IrsGridView extends ServerGridView
                 'value' => static fn() => '4h',
                 'filter' => false,
                 'enableSorting' => false,
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
             ],
             'actions' => [
                 'class' => ActionColumn::class,

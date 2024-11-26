@@ -54,7 +54,8 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
                 'stat_device', 'stat_domain',
             ], 'string'],
             [['name'], 'string', 'min' => 1, 'max' => 63],
-            [['virtual'], 'boolean'],
+            [['virtual', 'vxlan'], 'boolean'],
+            [['vxlan'], 'default', 'value' => ""],
 
             [['tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
 
@@ -119,6 +120,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
             'location' => Yii::t('hipanel:server:hub', 'Location'),
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
+            'vxlan' => Yii::t('hipanel:server:hub', 'VXLAN'),
         ]);
     }
 
@@ -184,11 +186,20 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
 
     public function isServer(): bool
     {
-        return (bool) $this->server_type_id;
+        return (bool)$this->server_type_id;
     }
 
     public function isVirtualServer(): bool
     {
         return $this->isVirtual() && $this->isServer();
+    }
+
+    public function getVxlanOptions(): array
+    {
+        return [
+            '' => Yii::t('hipanel:server:hub', 'Not specified'),
+            '0' => Yii::t('hipanel:server:hub', 'No'),
+            '1' => Yii::t('hipanel:server:hub', 'Yes'),
+        ];
     }
 }

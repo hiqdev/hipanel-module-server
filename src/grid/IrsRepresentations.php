@@ -19,6 +19,7 @@ class IrsRepresentations extends RepresentationCollection
                     'os',
                     'ip',
                     'administration',
+                    'vxlan',
                     'delivery',
                     'actions'
                 ],

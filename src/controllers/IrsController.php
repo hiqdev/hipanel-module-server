@@ -40,9 +40,6 @@ class IrsController extends CrudController
                     $action = $event->sender;
                     $action->getDataProvider()->query->joinWith(['bindings']);
                 },
-                'data' => function () {
-                    return [];
-                },
             ],
         ]);
     }
@@ -63,7 +60,7 @@ class IrsController extends CrudController
                 Irs::perform('sell', [
                     'id' => $irsServer->id,
                     'type' => $order->getServerType()->value,
-                    'tariff_id' => $order->irs->getActualSale()->tariff_id,
+                    'tariff_id' => $order->needUpgrade() ? null : $order->getIrs()?->getActualSale()->tariff_id,
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
                     'ignoreIpMonitoring' => $order->needToIgnoreIpMonitoring(),
@@ -95,6 +92,8 @@ class IrsController extends CrudController
 
             return $this->asJson(['summary' => $summary->getSummary()]);
         }
+
+        return $this->asJson([]);
     }
 
     private function syncTrafficPrices(Irs $irsServer, IRSOrder $order, mixed $formData): void
@@ -116,7 +115,9 @@ class IrsController extends CrudController
             'monthly_price' => $traffic['AH price'] !== 'Included' ? $traffic['AH price'] : 0,
         ];
         try {
-            Irs::perform('sync-traffic-prices', $payload);
+            if (!$order->needUpgrade()) {
+                Irs::perform('sync-traffic-prices', $payload);
+            }
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
