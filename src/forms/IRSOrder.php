@@ -113,7 +113,7 @@ class IRSOrder extends Model
 
     public function needUpgrade(): bool
     {
-        return $this->upgrade === true;
+        return $this->upgrade;
     }
 
     public function setIrs(Irs $irs): void
