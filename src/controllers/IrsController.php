@@ -56,15 +56,16 @@ class IrsController extends CrudController
 
         if ($this->request->isAjax && $order->load($formData, '') && $order->validate()) {
             try {
-                $this->syncTrafficPrices($irsServer, $order, $formData);
-                Irs::perform('sell', [
+                $payload = [
                     'id' => $irsServer->id,
                     'type' => $order->getServerType()->value,
                     'tariff_id' => $order->needUpgrade() ? null : $order->getIrs()?->getActualSale()->tariff_id,
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
                     'ignoreIpMonitoring' => $order->needToIgnoreIpMonitoring(),
-                ]);
+                ];
+                $this->syncTrafficPrices($irsServer, $order, $formData);
+                Irs::perform('sell', $payload);
                 $ticket = $order->createTicket($formData);
             } catch (Exception $e) {
                 return $this->asJson(['error' => $e->getMessage()]);
