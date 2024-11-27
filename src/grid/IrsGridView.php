@@ -22,6 +22,7 @@ class IrsGridView extends ServerGridView
                 'value' => static fn($model) => $model->locationName,
                 'filter' => false,
                 'enableSorting' => false,
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
             ],
             'server' => [
                 'class' => DataColumn::class,
@@ -30,7 +31,8 @@ class IrsGridView extends ServerGridView
                 'format' => 'raw',
                 'value' => static fn($model) => implode("<br>",
                     [
-                        $user->can('owner-staff') ? Html::a($model->hwsummary_auto, ['@server/view', 'id' => $model->id]) : $model->hwsummary_auto,
+                        $user->can('owner-staff') ? Html::a($model->hwsummary_auto,
+                            ['@server/view', 'id' => $model->id]) : $model->hwsummary_auto,
                         Html::tag('small', 'Changes are possible in the next step', ['class' => 'text-success']),
                     ]
                 ),
@@ -47,7 +49,9 @@ class IrsGridView extends ServerGridView
                     /** @var Sale $lastSale */
                     $lastSale = $model->getActualSale();
                     if ($lastSale) {
-                        $label = Yii::t('hipanel.server.irs', 'From {0} / Month', $this->formatter->asCurrency($lastSale->fee ?? 0, $lastSale->currency));
+                        $label = Yii::t('hipanel.server.irs',
+                            'From {0} / Month',
+                            $this->formatter->asCurrency($lastSale->fee ?? 0, $lastSale->currency));
 
                         return $user->can('owner-staff') ? Html::a($label, ['@plan/view', 'id' => $lastSale->tariff_id]) : $label;
                     }
@@ -103,11 +107,18 @@ class IrsGridView extends ServerGridView
                 'rawTemplate' => true,
                 'template' => '{order}',
                 'header' => false,
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
                 'buttons' => [
                     'order' => static fn($url, $model) => Html::a(
                         Yii::t('hipanel.server.irs', 'Order'),
                         ['@irs/order', 'id' => $model->id],
-                        ['class' => 'btn btn-sm btn-success btn-block', 'style' => ['text-transform' => 'uppercase', 'min-width' => '10rem']],
+                        [
+                            'class' => 'btn btn-sm btn-success btn-block',
+                            'style' => [
+                                'text-transform' => 'uppercase',
+                                'min-width' => '10rem',
+                            ],
+                        ],
                     ),
                 ],
             ],
