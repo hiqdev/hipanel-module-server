@@ -102,7 +102,7 @@ class IrsController extends CrudController
         $is95 = array_key_exists('traffic_mbps', $formData);
         $key = 'traffic_' . ($is95 ? 'mbps' : 'tb');
         $searchValue = $formData[$key];
-        $trafficOptions = array_filter($irsServer->irsOptions[$key], fn($item) => in_array($searchValue, $item));
+        $trafficOptions = array_filter($irsServer->irsOptions[$key], static fn($item) => in_array($searchValue, $item));
         $traffic = reset($trafficOptions);
         $payload = [
             'id' => $irsServer->id,
