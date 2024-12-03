@@ -27,7 +27,7 @@ class ServerRepresentations extends RepresentationCollection
                 'columns' => array_filter([
                     'checkbox',
                     $hostingExists ? 'ips' : null,
-                    'client', 'last_client', 'dc', 'actions', 'server',
+                    'last_client', 'dc', 'actions', 'server',
                     $user->can('order.read') && $user->can('owner-staff') ? 'order_no' : null,
                     'hwsummary',
                 ]),
@@ -37,7 +37,7 @@ class ServerRepresentations extends RepresentationCollection
                 'columns' => array_filter([
                     'checkbox',
                     'actions',
-                    'server', 'client_like', 'last_client', 'seller_id',
+                    'server', 'last_client', 'seller_id',
                     $hostingExists ? 'ips' : null,
                     'tariff_and_discount', 'hwsummary',
                 ]),
@@ -46,7 +46,7 @@ class ServerRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel:server', 'hardware'),
                 'columns' => [
                     'checkbox',
-                    'rack', 'client', 'last_client', 'dc', 'actions', 'server', 'hwsummary', 'hwcomment',
+                    'rack', 'last_client', 'dc', 'actions', 'server', 'hwsummary', 'hwcomment',
                 ],
             ] : null,
             'summary' => $user->can('owner-staff') ? [
@@ -60,7 +60,7 @@ class ServerRepresentations extends RepresentationCollection
                 'label' => Yii::t('hipanel:server', 'manager'),
                 'columns' => array_filter([
                     'checkbox',
-                    'client_like', 'last_client',
+                    'last_client',
                     'rack', 'actions', 'server', 'tariff',
                     'hwsummary', 'hwcomment',
                     $hostingExists ? 'nums': null,
@@ -73,7 +73,7 @@ class ServerRepresentations extends RepresentationCollection
                     'rack',
                     'actions',
                     'server',
-                    'client_like', 'last_client',
+                    'last_client',
                     'tariff',
                     'monthly_fee',
                     ...array_keys(ServerGridView::$trafficColumns),
