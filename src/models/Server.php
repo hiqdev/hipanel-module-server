@@ -44,6 +44,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
     const STATE_DISABLED = 'disabled';
     const STATE_BLOCKED = 'blocked';
     const STATE_DELETED = 'deleted';
+    const STATE_NEW = 'new';
 
     const VIRTUAL_DEVICES = ['avds', 'svds', 'ovds'];
 
@@ -415,6 +416,7 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
         return [
             self::STATE_DISABLED    => Yii::t('hipanel:server', 'Ok, panel OFF'),
             self::STATE_OK          => Yii::t('hipanel:server', 'Ok'),
+            self::STATE_NEW         => Yii::t('hipanel:server', 'New'),
             self::STATE_BLOCKED     => Yii::t('hipanel:server', 'Blocked'),
         ];
     }
