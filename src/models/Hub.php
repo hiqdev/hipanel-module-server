@@ -43,10 +43,10 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'access_id', 'type_id', 'server_type_id', 'state_id', 'buyer_id', 'units', 'tariff_id', 'client_id'], 'integer'],
+            [['id', 'access_id', 'type_id', 'server_type_id', 'state_id', 'buyer_id', 'last_buyer_id', 'units', 'tariff_id', 'client_id', 'last_client_id'], 'integer'],
             [['tariff'], 'safe'],
             [[
-                'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'server_type_label', 'buyer', 'note', 'inn', 'model',
+                'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'server_type_label', 'buyer', 'last_buyer', 'note', 'inn', 'model',
                 'community', 'traf_server_id', 'order_no', 'ports_num', 'traf_server_id',
                 'login', 'password', 'user_login', 'user_password',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
@@ -91,6 +91,8 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
             'tariff_id' => Yii::t('hipanel', 'Tariff'),
             'buyer_id' => Yii::t('hipanel:server:hub', 'Buyer'),
             'buyer' => Yii::t('hipanel:server:hub', 'Buyer'),
+            'last_buyer_id' => Yii::t('hipanel:server:hub', 'Final buyer'),
+            'last_buyer' => Yii::t('hipanel:server:hub', 'Final buyer'),
             'inn' => Yii::t('hipanel:server:hub', 'INN'),
             'inn_ilike' => Yii::t('hipanel:server:hub', 'INN'),
             'model' => Yii::t('hipanel:server:hub', 'Model'),
@@ -186,7 +188,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
 
     public function isServer(): bool
     {
-        return (bool)$this->server_type_id;
+        return (bool) $this->server_type_id;
     }
 
     public function isVirtualServer(): bool
