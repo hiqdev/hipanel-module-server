@@ -54,7 +54,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
                 'stat_device', 'stat_domain',
             ], 'string'],
             [['name'], 'string', 'min' => 1, 'max' => 63],
-            [['virtual'], 'boolean'],
+            [['virtual', 'vxlan'], 'boolean'],
             [['vxlan'], 'default', 'value' => ""],
 
             [['tariff_id', 'sale_time'], 'required', 'on' => ['sale']],
