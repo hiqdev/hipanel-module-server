@@ -1,6 +1,9 @@
 <?php
 
+/** @var Server $model */
+
 use hipanel\helpers\Url;
+use hipanel\modules\server\models\Server;
 use yii\bootstrap\ActiveForm;
 use yii\bootstrap\Html;
 
@@ -19,6 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?= $form->field($model->softwareSettings, 'os') ?>
 <?= $form->field($model->softwareSettings, 'version') ?>
+<?= $form->field($model->softwareSettings, 'delivery_time')
+    ->input('number', ['step' => 1, 'min' => 0])
+    ->hint(Yii::t('hipanel:server', 'The unit of measurement is an hour.')) ?>
 <?= $form->field($model->softwareSettings, 'virtual_switch')->checkbox() ?>
 <?= $form->field($model->softwareSettings, 'ignore_ip_mon')->checkbox() ?>
 <?= $form->field($model->softwareSettings, 'ip_mon_comment') ?>
