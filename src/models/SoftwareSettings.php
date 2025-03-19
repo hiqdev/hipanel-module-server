@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Server module for HiPanel
  *
@@ -34,7 +35,7 @@ class SoftwareSettings extends \hipanel\base\Model
     public function rules()
     {
         return [
-            [['id'], 'integer'],
+            [['id', 'delivery_time'], 'integer'],
             [['virtual_switch', 'ignore_ip_mon'], 'boolean'],
             [['os', 'version', 'ip_mon_comment', 'bw_limit', 'bw_group', 'failure_contacts', 'info'], 'string'],
         ];

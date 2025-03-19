@@ -38,7 +38,7 @@ class IrsController extends CrudController
                 'on beforePerform' => function (Event $event) {
                     /** @var SearchAction $action */
                     $action = $event->sender;
-                    $action->getDataProvider()->query->joinWith(['bindings']);
+                    $action->getDataProvider()->query->withBindings()->withSoftwareSettings();
                 },
             ],
         ]);

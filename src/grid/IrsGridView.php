@@ -97,7 +97,12 @@ class IrsGridView extends ServerGridView
             'delivery' => [
                 'class' => DataColumn::class,
                 'attribute' => 'delivery',
-                'value' => static fn() => '4h',
+                'label' => Yii::t('hipanel.server.irs', 'Delivery time'),
+                'value' => static fn(Irs $model): ?string => $model->softwareSettings?->delivery_time ? Yii::t(
+                    'hipanel.server.irs',
+                    '{0}h',
+                    [$model->softwareSettings?->delivery_time]
+                ) : null,
                 'filter' => false,
                 'enableSorting' => false,
                 'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
