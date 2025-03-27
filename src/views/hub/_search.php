@@ -70,7 +70,7 @@ use hiqdev\combo\StaticCombo;
     <?= $search->field('state_in')->widget(StaticCombo::class, [
         'multiple' => true,
         'type' => 'server/hub',
-        'data' => $search->model->getStateOptions(),
+        'data' => $search->model->getStates(),
     ]) ?>
 </div>
 
