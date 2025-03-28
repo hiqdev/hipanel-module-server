@@ -94,12 +94,6 @@ use yii\web\View;
                     ]) ?>
 
                     <?= $form->field($model, 'sale_time')->widget(DateTimePicker::class, [
-                        'clientOptions' => [
-                            'autoclose' => true,
-                            'format' => 'yyyy-mm-dd hh:ii:ss',
-                            'pickerPosition' => 'top-right',
-                            'todayBtn' => true,
-                        ],
                         'options' => [
                             'value' => Yii::$app->formatter->asDatetime($defaultDateTime, 'php:Y-m-d H:i:s'),
                             'name' => 'sale_time',
@@ -179,11 +173,6 @@ use yii\web\View;
                                             </div>
                                             <div class="col-md-4">
                                                 <?= $form->field($model, "[$model->id]sale_time")->widget(DateTimePicker::class, [
-                                                    'clientOptions' => [
-                                                        'autoclose' => true,
-                                                        'format' => 'yyyy-mm-dd hh:ii:ss',
-                                                        'todayBtn' => true,
-                                                    ],
                                                     'options' => [
                                                         'value' => Yii::$app->formatter->asDatetime($defaultDateTime, 'php:Y-m-d H:i:s'),
                                                         'ref' => 'sale-time-combo',
