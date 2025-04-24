@@ -21,8 +21,11 @@ use Yii;
  * Class Consumption.
  *
  * @property string $type
+ * @property string $currency
+ * @property float $price
  * @property float[] $value
  * @property float[] $overuse
+ * @property float[] $prices
  */
 class Consumption extends \hipanel\base\Model
 {

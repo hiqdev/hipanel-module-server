@@ -32,6 +32,7 @@ use yii\base\NotSupportedException;
  *
  * @property int $id
  * @property string $name
+ * @property Consumption[] $consumptions
  *
  * @property-read HardwareSale[] $hardwareSales
  * @property-read HardwareSettings $hardwareSettings
