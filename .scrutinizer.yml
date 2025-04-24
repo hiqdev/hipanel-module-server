@@ -10,8 +10,5 @@ tools:
 build:
     nodes:
         analysis:
-            project_setup:
-                override:
-                    - composer self-update --2
             tests:
                 override: [php-scrutinizer-run]
