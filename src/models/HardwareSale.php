@@ -42,6 +42,6 @@ class HardwareSale extends \hipanel\base\Model
 
     public function saleTime(): \DateTime
     {
-        return new \DateTime($this->sale_time);
+        return new \DateTime($this->sale_time ?? 'now');
     }
 }
