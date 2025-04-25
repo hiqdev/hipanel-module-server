@@ -331,23 +331,31 @@ class ServerGridView extends BoxedGridView
             ],
             'export_switch_inn' => [
                 'label' => Yii::t('hipanel:server', 'Switch INN'),
-                'value' => fn(Server $server): ?string => $server->bindings['rack']->switch_inn,
+                'value' => function (Server $server): ?string {
+                    $binding = $server->bindings['rack'] ?? null;
+
+                    return $binding ? $binding->switch_inn : '';
+                },
             ],
             'export_rack_name' => [
                 'label' => Yii::t('hipanel:server', 'Rack name'),
                 'value' => function (Server $server): ?string {
-                    if (!isset($server->bindings['rack'])) {
-                        return '';
+                    $binding = $server->bindings['rack'] ?? null;
+
+                    if ($binding) {
+                        return $binding->switch . ($binding->port ? ':' . $binding->port : '');
                     }
 
-                    $binding = $server->bindings['rack'];
-
-                    return $binding->switch . ($binding->port ? ':' . $binding->port : '');
+                    return '';
                 },
             ],
             'export_rack_description' => [
                 'label' => Yii::t('hipanel:server', 'Rack descriptions'),
-                'value' => fn(Server $server): ?string => $server->bindings['rack']->switch_label,
+                'value' => function (Server $server): ?string {
+                    $binding = $server->bindings['rack'] ?? null;
+
+                    return $binding ? $binding->switch_label : '';
+                }
             ],
             'rack' => [
                 'class' => BindingColumn::class,
