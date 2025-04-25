@@ -636,7 +636,12 @@ class ServerGridView extends BoxedGridView
         return implode("\n", $result);
     }
 
-    #[ArrayShape(['included' => "mixed", 'price' => "string"])]
+    /**
+     * @param Consumption|null $consumption
+     * @return array
+     * @psalm-return array{included: mixed, price: string}
+     * @throws \yii\base\InvalidConfigException
+     */
     private function getIncludedAndPrice(?Consumption $consumption): array
     {
         if ($consumption === null) {
@@ -838,13 +843,17 @@ class ServerGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:server', $label),
                 'format' => 'raw',
                 'filter' => false,
-                'value' => function ($model) use ($columnName): string {
-                    $limitAndPrice = isset($model->consumptions[$columnName]) ? $this->getIncludedAndPrice($model->consumptions[$columnName]) : [];
+                'value' => function (Server $model) use ($columnName): string {
+                    $limitAndPrice = $this->getIncludedAndPrice($model->consumptions[$columnName] ?? null);
 
                     return $this->formatIncludedAndPrice($limitAndPrice);
                 },
                 'visible' => Yii::$app->user->can('consumption.read'),
-                'exportedValue' => fn($model) => $this->getIncludedAndPrice($model->consumptions[$columnName])['price'],
+                'exportedValue' => function (Server $model) use ($columnName): ?string {
+                    $limitAndPrice = $this->getIncludedAndPrice($model->consumptions[$columnName] ?? null);
+
+                    return $limitAndPrice['price'] ?? null;
+                },
             ];
             if (str_contains($columnName, 'overuse')) {
                 $extraColumnName = $columnName . ',included';
@@ -854,8 +863,8 @@ class ServerGridView extends BoxedGridView
                     'label' => Yii::t('hipanel:server', str_replace(' overuse', ' included', $label)),
                     'format' => 'raw',
                     'filter' => false,
-                    'value' => function ($model) use ($columnName): ?string {
-                        $limitAndPrice = isset($model->consumptions[$columnName]) ? $this->getIncludedAndPrice($model->consumptions[$columnName]) : [];
+                    'value' => function (Server $model) use ($columnName): ?string {
+                        $limitAndPrice = $this->getIncludedAndPrice($model->consumptions[$columnName] ?? null);
 
                         return $limitAndPrice['included'] ?? null;
                     },
