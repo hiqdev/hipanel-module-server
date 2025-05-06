@@ -638,12 +638,12 @@ class ServerGridView extends BoxedGridView
         ];
     }
 
-    private function getMonthlyFee($model): string
+    private function getMonthlyFee(Server $model): string
     {
         $unionConsumption = new Consumption();
         $prices = [];
         if ($model->consumptions) {
-            array_walk($model->consumptions, function (Consumption $consumption) use (&$prices) {
+            foreach ($model->consumptions as $consumption) {
                 if ($consumption->type && $consumption->hasFormattedAttributes() && StringHelper::startsWith($consumption->type,
                         'monthly,')) {
                     if ($consumption->price) {
@@ -654,7 +654,7 @@ class ServerGridView extends BoxedGridView
                         $prices[$currency] += $price;
                     }
                 }
-            });
+            }
         }
         $unionConsumption->setAttribute('prices', $prices);
 
