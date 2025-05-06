@@ -11,6 +11,7 @@
 namespace hipanel\modules\server\forms;
 
 use hipanel\helpers\StringHelper;
+use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\validators\MacValidator;
 use Yii;
@@ -39,13 +40,34 @@ class ServerForm extends Server
      */
     public static function fromServer(Server $server): ServerForm
     {
-        $ips = self::setMainIpToBegining(ArrayHelper::getColumn($server->ips, 'ip'), $server->getAttribute('ip'));
+        $ips = [];
+        if (is_iterable($server->ips)) {
+            $ips = self::setMainIpToBegining(self::getIpsFomServer($server->ips), $server->getAttribute('ip'));
+        }
 
         return new self(array_merge(
             $server->getAttributes(),
             ['server' => $server->name, 'new_server_name' => $server->name, 'scenario' => 'update'],
             ['ips' => implode(',', $ips)]
         ));
+    }
+
+    /**
+     * @param Ip[]|string[] $ips
+     * @return string[]
+     */
+    private static function getIpsFomServer(array $ips): array
+    {
+        $items = [];
+        foreach ($ips as $ip) {
+            if ($ip instanceof Ip) {
+                $items[] = $ip->ip;
+            } else {
+                $items[] = $ip;
+            }
+        }
+
+        return $items;
     }
 
     /**
