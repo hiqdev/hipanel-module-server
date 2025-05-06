@@ -31,6 +31,8 @@ use yii\base\NotSupportedException;
  * Class Server.
  *
  * @property int $id
+ * @property array<string, Binding> $bindings
+ * @property array<string, Consumption> $consumptions
  * @property string $name
  * @property Consumption[] $consumptions
  * @property Ip[]|string[] $ips

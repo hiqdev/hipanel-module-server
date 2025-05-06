@@ -13,6 +13,23 @@ namespace hipanel\modules\server\models;
 /**
  * Class Binding.
  *
+ * @property int $device_id
+ * @property int $switch_id
+ * @property int $no
+ * @property int $base_device_id
+ * @property int $obj_id
+ * @property string $switch_name
+ * @property string $device_name
+ * @property string $base_device_name
+ * @property string $port
+ * @property string $type
+ * @property string $switch
+ * @property string $switch_label
+ * @property string $switch_inn
+ * @property string $device_ip
+ * @property string $switch_ip
+ * @property string $web_iface_only
+ *
  * @author Dmytro Naumenko <d.naumenko.a@gmail.com>
  */
 class Binding extends \hipanel\base\Model
@@ -33,7 +50,7 @@ class Binding extends \hipanel\base\Model
         ];
     }
 
-    public function getTypeWithNo()
+    public function getTypeWithNo(): string
     {
         return $this->type . $this->no;
     }
