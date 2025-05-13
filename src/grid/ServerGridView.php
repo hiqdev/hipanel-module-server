@@ -128,14 +128,17 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'gtype' => 'state,device',
                 'visible' => $canReadSystem || $canReadFinancial,
-                'value' => function ($model) {
-                    $html = State::widget(compact('model'));
-                    if (isset($model->status_time)) {
-                        $html .= ' ' . Html::tag('nobr',
-                                Yii::t('hipanel:server', 'since {date}', ['date' => Yii::$app->formatter->asDate($model->status_time)]));
+                'value' => function (Server $model): string {
+                    $html[] = State::widget(compact('model'));
+                    if (!empty($model->status_time)) {
+                        $html[] = Yii::t('hipanel:server', 'since {date}', ['date' => $this->formatter->asDate($model->status_time)]);
                     }
 
-                    return $html;
+                    return Html::tag(
+                        'div',
+                        implode(" ", $html),
+                        ['style' => 'white-space: nowrap; display: inline-flex; gap: 1rem; align-items: center;']
+                    );
                 },
             ],
             'panel' => [

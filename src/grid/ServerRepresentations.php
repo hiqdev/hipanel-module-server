@@ -27,7 +27,7 @@ class ServerRepresentations extends RepresentationCollection
                 'columns' => array_filter([
                     'checkbox',
                     $hostingExists ? 'ips' : null,
-                    'client', 'dc', 'actions', 'server',
+                    'client', 'dc', 'actions', 'server', 'state',
                     $user->can('order.read') && $user->can('owner-staff') ? 'order_no' : null,
                     'hwsummary',
                 ]),
@@ -37,7 +37,7 @@ class ServerRepresentations extends RepresentationCollection
                 'columns' => array_filter([
                     'checkbox',
                     'actions',
-                    'server', 'client_like', 'seller_id',
+                    'server', 'state', 'client_like', 'seller_id',
                     $hostingExists ? 'ips' : null,
                     'tariff_and_discount', 'hwsummary',
                 ]),
