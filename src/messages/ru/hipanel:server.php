@@ -136,6 +136,7 @@ return [
     'Server was blocked successfully' => 'Сервер заблокирован',
     'Server was unblocked successfully' => 'Сервер разблокирован',
     'Servers' => 'Серверы',
+    'Dedicated Servers' => 'Выделенные Серверы',
     'Shutdown' => 'Отключить',
     'Shutdown task has been successfully added to queue' => 'Сервер будет отключен',
     'Shutdown will interrupt all processes on the server. Are you sure you want to shutdown the server?' => 'Выключение немедленно прервет все процессы на сервере. Вы уверены, что хотите выключить сервер?',

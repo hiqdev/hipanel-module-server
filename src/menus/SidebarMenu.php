@@ -27,13 +27,13 @@ class SidebarMenu extends Menu
 
         return [
             'servers' => [
-                'label' => Yii::t('hipanel:server', 'Servers'),
+                'label' => Yii::t('hipanel:server', 'Dedicated Servers'),
                 'url' => ['/server/server/index'],
                 'icon' => 'fa-server',
                 'visible' => $user->can('server.read'),
                 'items' => [
                     'servers' => [
-                        'label' => Yii::t('hipanel:server', 'Servers'),
+                        'label' => Yii::t('hipanel:server', 'Dedicated Servers'),
                         'url' => ['/server/server/index'],
                     ],
                     'switch' => [
