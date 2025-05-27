@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace hipanel\modules\server\controllers;
 
@@ -7,8 +9,8 @@ use hipanel\actions\IndexAction;
 use hipanel\actions\SearchAction;
 use hipanel\base\CrudController;
 use hipanel\filters\EasyAccessControl;
-use hipanel\modules\server\helpers\HardwareSummary;
 use hipanel\modules\server\forms\IRSOrder;
+use hipanel\modules\server\helpers\HardwareSummary;
 use hipanel\modules\server\helpers\HardwareType;
 use hipanel\modules\server\models\Irs;
 use Yii;
@@ -59,12 +61,11 @@ class IrsController extends CrudController
                 $payload = [
                     'id' => $irsServer->id,
                     'type' => $order->getServerType()->value,
-                    'tariff_id' => $order->needUpgrade() ? null : $order->getIrs()?->getActualSale()->tariff_id,
+                    'tariff_id' => null,
                     'client_id' => Yii::$app->user->id,
                     'sale_time' => '',
                     'ignoreIpMonitoring' => $order->needToIgnoreIpMonitoring(),
                 ];
-                $this->syncTrafficPrices($irsServer, $order, $formData);
                 Irs::perform('sell', $payload);
                 $ticket = $order->createTicket($formData);
             } catch (Exception $e) {
@@ -95,39 +96,5 @@ class IrsController extends CrudController
         }
 
         return $this->asJson([]);
-    }
-
-    private function syncTrafficPrices(Irs $irsServer, IRSOrder $order, mixed $formData): void
-    {
-        $is95 = array_key_exists('traffic_mbps', $formData);
-        $key = 'traffic_' . ($is95 ? 'mbps' : 'tb');
-        $searchValue = $formData[$key];
-        $trafficOptions = array_filter($irsServer->irsOptions[$key], static fn($item) => in_array($searchValue, $item));
-        $traffic = reset($trafficOptions);
-        $payload = [
-            'id' => $irsServer->id,
-            'tariff_id' => $order->irs->getActualSale()->tariff_id,
-            'unit' => $this->identifyUnitBySelectedOption($traffic['Dropdowns']),
-            'currency' => $order->currency,
-            'included' => preg_match('/\d+(\.\d+)?/', $traffic['Dropdowns'], $matches) ? $matches[0] : null,
-            'overuse_price' => preg_match('/\d+(\.\d+)?/', $traffic['Hint'], $matches) ? $matches[0] : null,
-            'monthly_price' => $traffic['AH price'] !== 'Included' ? $traffic['AH price'] : 0,
-        ];
-        try {
-            if (!$order->needUpgrade()) {
-                Irs::perform('sync-traffic-prices', $payload);
-            }
-        } catch (Exception $e) {
-            throw new Exception($e->getMessage());
-        }
-    }
-
-    private function identifyUnitBySelectedOption(string $option): string
-    {
-        return match(true) {
-            str_contains($option, 'Mbps') => 'mbps',
-            str_contains($option, 'Gbps') => 'gbps',
-            str_contains($option, 'TB') => 'tb',
-        };
     }
 }

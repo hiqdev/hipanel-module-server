@@ -19,18 +19,9 @@ use yii\helpers\Html;
  * @var IrsRepresentations $representationCollection
  */
 
-$this->title = Yii::t('hipanel.server.irs', 'Instant rent servers');
+$this->title = Yii::t('hipanel.server.irs', 'Servers in sotck');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle'] = Yii::t('hipanel.server.irs', 'that are already installed in DCs');
-
-$infoHeader = Html::beginTag('ul', ['class' => 'list-unstyled text-muted text-sm', 'style' => 'padding: 0 1em 1em;']);
-$infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'Delivery time - 4h*'));
-$infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'The servers available for rental are pre-mounted in our racks and cannot be relocated. However, it is possible to connect newly rented servers to existing ones through VXLAN if applicable.'));
-$infoHeader .= Html::tag('li', Yii::t('hipanel.server.irs', 'Any changes and upgrades are possible but with extended delivery time.'));
-$infoHeader .= Html::tag('li',
-    Yii::t('hipanel.server.irs',
-        '*For initial orders placed at this location, there may be a slight delay as we verify customer information and process the order for acceptance.'));
-$infoHeader .= Html::endTag('ul');
 
 ?>
 
@@ -47,9 +38,6 @@ $infoHeader .= Html::endTag('ul');
                     <div class='row'>
                         <div class='col-xs-11'>
                             {sorter}
-                        </div>
-                        <div class="col-xs-12">
-                            $infoHeader
                         </div>
                     </div>
                     <div class='table-responsive'>{items}</div>

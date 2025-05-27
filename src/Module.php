@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Server module for HiPanel
  *
@@ -10,9 +12,6 @@
 
 namespace hipanel\modules\server;
 
-use hipanel\modules\server\models\Irs;
-use yii\caching\CacheInterface;
-
 class Module extends \hipanel\base\Module
 {
     /**
@@ -20,19 +19,8 @@ class Module extends \hipanel\base\Module
      */
     public bool $orderIsAllowed = true;
 
-    public function __construct($id, $parent, readonly private CacheInterface $cache, $config = [])
+    public function __construct($id, $parent, $config = [])
     {
         parent::__construct($id, $parent, $config);
-    }
-
-    public function hasServersForRent(): bool
-    {
-        $rows = $this->cache->getOrSet(
-            ['client-has-servers-for-rent', $this->user->id],
-            fn() => Irs::perform('for-rent', ['client_id' => $this->user->id]),
-            14_400 // 4 hours
-        );
-
-        return is_array($rows) && count($rows) > 0;
     }
 }
