@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace hipanel\modules\server\grid;
 
@@ -20,7 +22,7 @@ class IrsRepresentations extends RepresentationCollection
                     'ip',
                     'administration',
                     'vxlan',
-                    'delivery',
+//                    'delivery',
                     'actions'
                 ],
             ],

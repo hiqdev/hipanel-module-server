@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * Server module for HiPanel
  *
@@ -47,9 +49,9 @@ class SidebarMenu extends Menu
                         'visible' => $user->can('server.pay') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
                     'irs' => [
-                        'label' => Yii::t('hipanel.server.irs', 'Instant rent servers'),
+                        'label' => Yii::t('hipanel.server.irs', 'Servers in stock'),
                         'url' => ['@irs/index'],
-                        'visible' => $user->can('test.beta') || $user->can('owner-staff') || ($user->can('server.pay') && $module->hasServersForRent()),
+                        'visible' => $user->can('test.beta') || $user->can('owner-staff') || $user->can('server.pay'),
 //                        'visible' => $user->can('owner-staff') || ($user->can('server.pay') && $module->hasServersForRent()),
                     ],
                     'pre-order' => [

@@ -14,7 +14,7 @@ use yii\helpers\Json;
 IRSAsset::register($this);
 
 $this->title = Yii::t('hipanel.server.irs', 'Order form');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.server.irs', 'Instant rent servers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.server.irs', 'Servers in stock'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
@@ -23,7 +23,8 @@ $this->params['breadcrumbs'][] = $this->title;
 <?= Html::hiddenInput('order-form-options', Json::encode($order->toOptions()), ['id' => 'order-form-options']) ?>
 
 <div id="irs-app" v-cloak>
-    <p class="bg-warning" v-if="orderOptions.length === 0" style="padding: 15px;"><?= Yii::t('hipanel.server.irs', 'There are no suitable servers at the moment') ?></p>
+    <p class="bg-warning" v-if="orderOptions.length === 0" style="padding: 15px;"><?= Yii::t('hipanel.server.irs',
+            'There are no suitable servers at the moment') ?></p>
     <transition name="slide-down" mode="out-in" v-else>
         <div class="row" v-if="submitted">
             <div class="col-md-3 col-md-offset-4">
@@ -174,7 +175,10 @@ TXT
                         </transition>
                     </li>
                     <li class="list-group-item">
-                        <?= $form->field($order, 'monitoring')->checkbox([':disabled' => 'isMonitoringDisabled', 'v-model' => 'order.monitoring']) ?>
+                        <?= $form->field($order, 'monitoring')->checkbox([
+                            ':disabled' => 'isMonitoringDisabled',
+                            'v-model' => 'order.monitoring',
+                        ]) ?>
                     </li>
                     <li class="list-group-item">
                         <?= $form->field($order, 'ipmi')->dropDownList($order->getItems('ipmi'), [
@@ -240,7 +244,7 @@ TXT
                 </h3>
                 <p class="text-muted"><?= Yii::t('hipanel.server.irs', 'Free setup') ?></p>
                 <p class="text-muted text-sm">
-                    <?= Yii::t('hipanel.server.irs', 'Delivery time: 4h*') ?><br>
+                    <?php // Yii::t('hipanel.server.irs', 'Delivery time: 4h*') ?><br>
                     <?= Yii::t(
                         'hipanel.server.irs',
                         '*For initial orders placed at this location, there may be a slight delay as we verify customer information and process the order for acceptance.')
