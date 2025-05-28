@@ -19,7 +19,7 @@ use yii\helpers\Html;
  * @var IrsRepresentations $representationCollection
  */
 
-$this->title = Yii::t('hipanel.server.irs', 'Servers in sotck');
+$this->title = Yii::t('hipanel.server.irs', 'Servers in stock');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle'] = Yii::t('hipanel.server.irs', 'that are already installed in DCs');
 
