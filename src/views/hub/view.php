@@ -70,16 +70,17 @@ JS
                 echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
                 Box::endHeader();
                 $box->beginBody();
-                echo HubGridView::detailView([
-                    'model' => $model,
-                    'boxed' => false,
-                    'columns' => array_map(function (Binding $binding) {
-                        return [
-                            'class' => BindingColumn::class,
-                            'attribute' => $binding->typeWithNo,
-                        ];
-                    }, $model->bindings),
-                ]);
+                $bindingColumns = array_map(
+                    static fn(Binding $binding): array => ['class' => BindingColumn::class, 'attribute' => $binding->typeWithNo],
+                    $model->bindings
+                );
+                if (!empty($bindingColumns)) {
+                    echo HubGridView::detailView([
+                        'model' => $model,
+                        'boxed' => false,
+                        'columns' => $bindingColumns,
+                    ]);
+                }
                 $box->endBody();
                 Box::end();
                 ?>
