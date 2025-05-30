@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace hipanel\modules\server\menus;
 
+use hipanel\components\User;
 use hipanel\modules\server\Module;
 use hiqdev\yii2\menus\Menu;
 use Yii;
@@ -29,13 +30,13 @@ class SidebarMenu extends Menu
 
         return [
             'servers' => [
-                'label' => Yii::t('hipanel:server', 'Dedicated Servers'),
+                'label' => Yii::t('hipanel:server', 'Servers'),
                 'url' => ['/server/server/index'],
                 'icon' => 'fa-server',
                 'visible' => $user->can('server.read'),
                 'items' => [
                     'servers' => [
-                        'label' => Yii::t('hipanel:server', 'Dedicated Servers'),
+                        'label' => Yii::t('hipanel:server', 'Servers'),
                         'url' => ['/server/server/index'],
                     ],
                     'switch' => [
