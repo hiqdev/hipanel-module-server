@@ -46,7 +46,7 @@ class Consumption extends \hipanel\base\Model
     {
         return [
             [['id', 'object_id'], 'integer'],
-            [['value', 'overuse', 'prices'], 'safe'],
+            [['value', 'overuse', 'prices', 'tariff_price'], 'safe'],
             [['type', 'limit', 'time', 'unit', 'action_unit', 'currency'], 'string'],
             [['price'], 'number'],
         ];

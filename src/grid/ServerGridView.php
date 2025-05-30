@@ -11,7 +11,6 @@
 namespace hipanel\modules\server\grid;
 
 use DateTime;
-use hipanel\base\Model;
 use hipanel\components\User;
 use hipanel\grid\BoxedGridView;
 use hipanel\grid\DataColumn;
@@ -22,6 +21,7 @@ use hipanel\helpers\Url;
 use hipanel\modules\finance\helpers\ConsumptionConfigurator;
 use hipanel\modules\finance\helpers\ResourceHelper;
 use hipanel\modules\finance\models\Sale;
+use hipanel\modules\finance\providers\BillTypesProvider;
 use hipanel\modules\hosting\controllers\AccountController;
 use hipanel\modules\hosting\controllers\IpController;
 use hipanel\modules\server\menus\ServerActionsMenu;
@@ -40,9 +40,7 @@ use hipanel\widgets\Label;
 use hiqdev\yii2\menus\grid\MenuColumn;
 use Tuck\Sort\Sort;
 use Yii;
-use yii\data\ArrayDataProvider;
 use yii\db\ActiveRecordInterface;
-use yii\grid\GridView;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -53,10 +51,15 @@ class ServerGridView extends BoxedGridView
     public string $controllerUrl = '@server';
     public array $osImages = [];
     public static array $trafficColumns = [
-        'monthly,server_traf_max' => 'Server traffic monthly fee',
-        'overuse,server_traf_max' => 'Server traffic overuse',
-        'monthly,server_traf95_max' => 'Server traffic 95% monthly fee',
-        'overuse,server_traf95_max' => 'Server traffic 95% overuse',
+        'monthly,server_traf_max',
+        'overuse,server_traf_max',
+        'monthly,server_traf95_max',
+        'overuse,server_traf95_max',
+        'monthly,support_time',
+        'overuse,support_time',
+        'monthly,backup_du',
+        'overuse,backup_du',
+        'monthly,win_license',
     ];
     private const HIDE_UNSALE = false;
     private User $user;
@@ -146,7 +149,8 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'contentOptions' => ['class' => 'text-uppercase'],
                 'value' => function ($model) use ($canReadSystem) {
-                    $value = $model->getPanel() ? Yii::t('hipanel:server:panel', $model->getPanel()) : Yii::t('hipanel:server:panel', 'No control panel');
+                    $value = $model->getPanel() ? Yii::t('hipanel:server:panel', $model->getPanel()) : Yii::t('hipanel:server:panel',
+                        'No control panel');
                     if ($canReadSystem) {
                         $value .= $model->wizzarded ? Label::widget([
                             'label' => 'W',
@@ -200,16 +204,13 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'headerOptions' => ['style' => 'width: 1em'],
                 'visible' => $canReadFinancial,
-                'value' => function ($model) {
-                    return Expires::widget(compact('model'));
-                },
+                'value' => fn($model) => Expires::widget(compact('model')),
             ],
             'tariff' => [
                 'format' => 'raw',
                 'filterAttribute' => 'tariff_like',
-                'value' => function ($model) {
-                    return $this->formatTariff($model);
-                },
+                'value' => fn($model) => $this->formatTariff($model),
+                'exportedValue' => fn($model) => end($model->sales)->tariff ?? '',
             ],
             'tariff_and_discount' => [
                 'attribute' => 'tariff',
@@ -224,9 +225,7 @@ class ServerGridView extends BoxedGridView
             ],
             'tariff_without_unsale' => [
                 'format' => 'raw',
-                'value' => function ($model) {
-                    return $this->formatTariffWithoutUnsale($model);
-                },
+                'value' => fn($model) => $this->formatTariffWithoutUnsale($model),
             ],
             'ip' => [
                 'filter' => false,
@@ -325,12 +324,8 @@ class ServerGridView extends BoxedGridView
                 'format' => 'raw',
                 'filter' => false,
                 'i18nDictionary' => 'hipanel:server',
-                'value' => function ($model) {
-                    return Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']);
-                },
-                'contentOptions' => function ($model) {
-                    return GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions('actions');
-                },
+                'value' => fn($model) => Html::tag('span', Html::encode($model->type_label), ['class' => 'label label-default']),
+                'contentOptions' => fn($model) => GridLegend::create($this->findOrFailGridLegend($model))->gridColumnOptions('actions'),
             ],
             'export_switch_inn' => [
                 'label' => Yii::t('hipanel:server', 'Switch INN'),
@@ -358,7 +353,7 @@ class ServerGridView extends BoxedGridView
                     $binding = $server->bindings['rack'] ?? null;
 
                     return $binding ? $binding->switch_label : '';
-                }
+                },
             ],
             'rack' => [
                 'class' => BindingColumn::class,
@@ -407,28 +402,16 @@ class ServerGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:finance', 'Monthly fee'),
                 'format' => 'raw',
                 'filter' => false,
-                'value' => function ($model) {
-                    return $this->getMonthlyFee($model);
-                },
-                'visible' => Yii::$app->user->can('consumption.read'),
-            ],
-            'additional_services' => [
-                'label' => Yii::t('hipanel:server', 'Additional services'),
-                'format' => 'raw',
-                'filter' => false,
-                'contentOptions' => ['class' => 'no-padding'],
-                'value' => function ($model) {
-                    return $this->getAdditionalServices($model);
-                },
+                'headerOptions' => ['style' => 'white-space:nowrap;'],
+                'value' => fn($model) => $this->getMonthlyFee($model),
                 'visible' => Yii::$app->user->can('consumption.read'),
             ],
             'type_of_sale' => [
                 'label' => Yii::t('hipanel:server', 'Type of sale'),
                 'format' => 'raw',
                 'filter' => false,
-                'value' => function (Server $model) {
-                    return $this->getTypeOfSale($model);
-                },
+                'headerOptions' => ['style' => 'white-space:nowrap;'],
+                'value' => fn(Server $model) => $this->getTypeOfSale($model),
                 'visible' => Yii::$app->user->can('consumption.read'),
             ],
             'actions' => [
@@ -454,7 +437,7 @@ class ServerGridView extends BoxedGridView
                 'filter' => false,
                 'label' => Yii::t('hipanel:server', 'Hardware Comment'),
             ],
-        ], $this->getTrafficColumns(), $columns);
+        ], $this->getConsumptionColumns(), $columns);
     }
 
     protected function formatTariff($model): string
@@ -681,55 +664,6 @@ class ServerGridView extends BoxedGridView
         return $unionConsumption->getFormattedPrice();
     }
 
-    private function getAdditionalServices($model): string
-    {
-        $additional = new class() extends Model {
-            public string $typeLabel;
-            public string $value;
-            public string $prefix;
-        };
-        $models = [];
-        foreach ([
-                     'monthly,support_time',
-                     'overuse,support_time',
-                     'monthly,backup_du',
-                     'overuse,backup_du',
-                     'monthly,win_license',
-                 ] as $type) {
-            if (isset($model->consumptions[$type]) && $model->consumptions[$type]->hasFormattedAttributes()) {
-                $consumption = $model->consumptions[$type];
-                $prefix = str_starts_with($consumption->type, 'monthly,') ? 'monthly' : 'overuse';
-                $v = $this->getIncludedAndPrice($consumption);
-                $models[] = new $additional([
-                    'typeLabel' => Yii::t('hipanel.server.consumption.type', $consumption->typeLabel),
-                    'value' => $this->formatIncludedAndPrice($this->getIncludedAndPrice($consumption)),
-                    'prefix' => $prefix,
-                ]);
-            }
-        }
-
-
-        return GridView::widget([
-            'layout' => '{items}',
-            'showOnEmpty' => false,
-            'emptyText' => '',
-            'tableOptions' => ['class' => 'table table-condensed'],
-            'headerRowOptions' => [
-                'style' => 'display: none;',
-            ],
-            'dataProvider' => new ArrayDataProvider(['allModels' => $models, 'pagination' => false]),
-            'columns' => [
-                [
-                    'attribute' => 'typeLabel',
-                    'format' => 'raw',
-                    'contentOptions' => ['class' => 'text-nowrap', 'style' => 'background-color: inherit;'],
-                ],
-                ['attribute' => 'prefix', 'format' => 'raw', 'contentOptions' => ['class' => 'text-nowrap']],
-                ['attribute' => 'value', 'format' => 'raw', 'contentOptions' => ['class' => 'text-nowrap']],
-            ],
-        ]);
-    }
-
     private function getTypeOfSale(Server $model): string
     {
         $html = '';
@@ -837,15 +771,22 @@ class ServerGridView extends BoxedGridView
         return $html;
     }
 
-    private function getTrafficColumns(): array
+    private function getConsumptionColumns(): array
     {
+        $billTypes = Yii::$container->get(BillTypesProvider::class)->getTypesList();
         $columns = [];
-        foreach (self::$trafficColumns as $columnName => $label) {
+        foreach (self::$trafficColumns as $columnName) {
+            $label = $billTypes[$columnName] ?? '';
+            $label = match (true) {
+                str_contains($label, 'monthly') || str_contains($columnName, 'monthly') => $label,
+                default => $label,
+            };
             $columns[$columnName] = [
                 'class' => DataColumn::class,
-                'label' => Yii::t('hipanel:server', $label),
+                'label' => str_contains($label, 'monthly') || str_contains($columnName, 'monthly') ? $label : $label . " overuse cost",
                 'format' => 'raw',
                 'filter' => false,
+                'headerOptions' => ['style' => 'white-space: nowrap;'],
                 'value' => function (Server $model) use ($columnName): string {
                     $limitAndPrice = $this->getIncludedAndPrice($model->consumptions[$columnName] ?? null);
 
@@ -861,9 +802,14 @@ class ServerGridView extends BoxedGridView
             if (str_contains($columnName, 'overuse')) {
                 $extraColumnName = $columnName . ',included';
                 $columns[$columnName]['exportedColumns'] = [$extraColumnName, $columnName];
+                if (str_contains($label, 'included')) {
+                    $extraColumnLabel = str_replace(' overuse', ' included', $label);
+                } else {
+                    $extraColumnLabel = $label . ' included';
+                }
                 $columns[$extraColumnName] = [
                     'class' => DataColumn::class,
-                    'label' => Yii::t('hipanel:server', str_replace(' overuse', ' included', $label)),
+                    'label' => $extraColumnLabel,
                     'format' => 'raw',
                     'filter' => false,
                     'value' => function (Server $model) use ($columnName): ?string {
