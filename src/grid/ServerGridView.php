@@ -779,7 +779,6 @@ class ServerGridView extends BoxedGridView
             $label = $billTypes[$columnName] ?? '';
             $label = match (true) {
                 str_contains($label, 'monthly') || str_contains($columnName, 'monthly') => $label,
-                str_contains($billTypes[$columnName], 'monthly') || str_contains($columnName, 'monthly') => $label,
                 default => $label,
             };
             $columns[$columnName] = [
