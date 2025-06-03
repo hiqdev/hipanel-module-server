@@ -4,23 +4,23 @@ declare(strict_types=1);
 
 namespace hipanel\modules\server\grid;
 
-
+use hipanel\grid\DataColumn;
 use hipanel\modules\server\models\Server;
 use Jfcherng\Diff\DiffHelper;
 use Jfcherng\Diff\Factory\RendererFactory;
-use yii\grid\DataColumn;
 use yii\helpers\Html;
 
+/**
+ *
+ * @property-read string $css
+ * @property-read void $summaryDiff
+ */
 class SummaryDiffColumn extends DataColumn
 {
     public $format = 'html';
     public $filter = false;
     public $attribute = 'hwsummary_diff';
-
-    private array $differOptions = [
-        'ignoreWhitespace' => true,
-        'lengthLimit' => 5000,
-    ];
+    private array $differOptions = ['ignoreWhitespace' => true, 'lengthLimit' => 5000];
     private array $diffRendererOptions = [
         'detailLevel' => 'char',
         'language' => 'eng',
@@ -39,8 +39,7 @@ class SummaryDiffColumn extends DataColumn
 
     private function getSummaryDiff(): void
     {
-        $this->value = function (Server $model): string
-        {
+        $this->value = function (Server $model): string {
             $hwsummary = $model->getAttribute('hwsummary');
             $hwsummary_auto = $model->getAttribute('hwsummary_auto');
             if (!$model->isTagsHidden()) {
@@ -56,6 +55,7 @@ class SummaryDiffColumn extends DataColumn
                 $this->differOptions
             );
             $htmlRenderer = RendererFactory::make('Inline', $this->diffRendererOptions);
+
             return $htmlRenderer->renderArray(json_decode($jsonResult, true));
         };
     }
