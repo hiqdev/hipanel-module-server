@@ -7,7 +7,6 @@ use hipanel\modules\server\grid\IrsRepresentations;
 use hipanel\modules\server\models\IrsSearch;
 use hipanel\widgets\IndexPage;
 use hiqdev\hiart\ActiveDataProvider;
-use yii\helpers\Html;
 
 /**
  * @var View $this
@@ -19,7 +18,7 @@ use yii\helpers\Html;
  * @var IrsRepresentations $representationCollection
  */
 
-$this->title = Yii::t('hipanel.server.irs', 'Servers in stock');
+$this->title = Yii::t('hipanel.server.irs', 'Available dedicated servers');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle'] = Yii::t('hipanel.server.irs', 'that are already installed in DCs');
 

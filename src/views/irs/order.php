@@ -14,7 +14,7 @@ use yii\helpers\Json;
 IRSAsset::register($this);
 
 $this->title = Yii::t('hipanel.server.irs', 'Order form');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.server.irs', 'Servers in stock'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel.server.irs', 'Available dedicated servers'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
