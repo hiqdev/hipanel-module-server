@@ -63,6 +63,7 @@ class ServerGridView extends BoxedGridView
     ];
     private const HIDE_UNSALE = false;
     private User $user;
+    private ?array $gridColumns = null;
 
     public function init()
     {
@@ -93,9 +94,7 @@ class ServerGridView extends BoxedGridView
     {
         $canReadFinancial = Yii::$app->user->can('server.read-financial-info');
         $canReadSystem = Yii::$app->user->can('server.read-system-info');
-        $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
-        $consumptionColumns = $consumptionConfigurator->getColumnsWithLabels('server');
-        $columns = ResourceHelper::buildGridColumns($consumptionColumns);
+        $columns = $this->buildGridColumns();
         $user = Yii::$app->user;
 
         return array_merge(parent::columns(), [
@@ -438,6 +437,17 @@ class ServerGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:server', 'Hardware Comment'),
             ],
         ], $this->getConsumptionColumns(), $columns);
+    }
+
+    private function buildGridColumns(): array
+    {
+        if ($this->gridColumns === null) {
+            $consumptionConfigurator = Yii::$container->get(ConsumptionConfigurator::class);
+            $consumptionColumns = $consumptionConfigurator->getColumnsWithLabels('server');
+            $this->gridColumns = ResourceHelper::buildGridColumns($consumptionColumns);
+        }
+
+        return $this->gridColumns;
     }
 
     protected function formatTariff($model): string
