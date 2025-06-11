@@ -67,14 +67,14 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
     {
         return [
             [['show_last_sale'], 'boolean'],
-            [['id', 'tariff_id', 'client_id', 'seller_id', 'mails_num'], 'integer'],
+            [['id', 'tariff_id', 'client_id', 'last_client_id', 'seller_id', 'mails_num'], 'integer'],
             [['osimage'], EidValidator::class],
             [['panel'], RefValidator::class],
             [['name'], 'string', 'min' => 1, 'max' => 63],
             [
                 [
                     'name', 'dc',
-                    'client', 'seller',
+                    'client', 'last_client', 'seller',
                     'os', 'panel', 'rcp',
                     'parent_tariff', 'tariff', 'tariff_note', 'discounts',
                     'request_state', 'request_state_label',
