@@ -18,6 +18,7 @@ use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\StringHelper;
 use hipanel\helpers\Url;
+use hipanel\modules\client\grid\ClientColumn;
 use hipanel\modules\finance\helpers\ConsumptionConfigurator;
 use hipanel\modules\finance\helpers\ResourceHelper;
 use hipanel\modules\finance\models\Sale;
@@ -435,6 +436,10 @@ class ServerGridView extends BoxedGridView
             'hwcomment' => [
                 'filter' => false,
                 'label' => Yii::t('hipanel:server', 'Hardware Comment'),
+            ],
+            'last_client' => [
+                'class' => ClientColumn::class,
+                'attribute' => 'last_client_id',
             ],
         ], $this->getConsumptionColumns(), $columns);
     }
