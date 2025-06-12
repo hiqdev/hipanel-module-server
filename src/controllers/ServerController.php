@@ -919,7 +919,7 @@ class ServerController extends CrudController
             'id' => $post['id'],
             'from' => $post['from'] ?? date('Y-m-d', strtotime('-1year')),
             'till' => $post['till'] ?? date('Y-m-d'),
-            'aggregation' => $post['aggregation'],
+            'aggregation' => $post['aggregation'] ?? null,
             'limit' => 'ALL',
         ];
         $searchModel = new ServerUseSearch();
