@@ -915,12 +915,18 @@ class ServerController extends CrudController
     {
         $post = $this->request->post();
         $type = $post['type'];
-        $post['type'] = 'overuse,' . $type;
+        $where = [
+            'id' => $post['id'],
+            'from' => $post['from'] ?? date('Y-m-d', strtotime('-1year')),
+            'till' => $post['till'] ?? date('Y-m-d'),
+            'aggregation' => $post['aggregation'],
+            'limit' => 'ALL',
+        ];
         $searchModel = new ServerUseSearch();
         $dataProvider = $searchModel->search([]);
         $dataProvider->pagination = false;
         $dataProvider->query->action('get-uses');
-        $dataProvider->query->andWhere($post);
+        $dataProvider->query->andWhere($where);
         $models = $dataProvider->getModels();
 
         [$labels, $data] = ServerHelper::groupUsesForChart($models);
