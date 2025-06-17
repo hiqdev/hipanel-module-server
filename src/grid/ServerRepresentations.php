@@ -10,7 +10,7 @@
 
 namespace hipanel\modules\server\grid;
 
-use hipanel\modules\finance\helpers\ConsumptionConfigurator;
+use hipanel\modules\finance\helpers\ConsumptionConfigurator\ConsumptionConfigurator;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 
