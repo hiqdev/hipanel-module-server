@@ -18,7 +18,7 @@ use hipanel\grid\RefColumn;
 use hipanel\grid\XEditableColumn;
 use hipanel\helpers\StringHelper;
 use hipanel\helpers\Url;
-use hipanel\modules\finance\helpers\ConsumptionConfigurator;
+use hipanel\modules\finance\module\ConsumptionConfiguration\Application\ConsumptionConfigurator;
 use hipanel\modules\finance\helpers\ResourceHelper;
 use hipanel\modules\finance\models\Sale;
 use hipanel\modules\finance\providers\BillTypesProvider;

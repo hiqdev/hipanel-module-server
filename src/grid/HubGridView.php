@@ -14,7 +14,7 @@ use hipanel\grid\BoxedGridView;
 use hipanel\grid\MainColumn;
 use hipanel\grid\RefColumn;
 use hipanel\modules\client\grid\ClientColumn;
-use hipanel\modules\finance\helpers\ConsumptionConfigurator;
+use hipanel\modules\finance\module\ConsumptionConfiguration\Application\ConsumptionConfigurator;
 use hipanel\modules\finance\helpers\ResourceHelper;
 use hipanel\modules\server\menus\HubActionsMenu;
 use hipanel\modules\server\models\Hub;
