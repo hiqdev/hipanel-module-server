@@ -61,8 +61,7 @@ use hipanel\widgets\TagsInput;
 <div class="col-md-4 col-sm-6 col-xs-12">
     <?= $search->field('ip_like') ?>
 </div>
-
-<?php if (Yii::$app->user->can('access-subclients')) : ?>
+<?php if (Yii::$app->user->canHasSubclients()) : ?>
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('last_client_id')->widget(ClientCombo::class) ?>
     </div>
