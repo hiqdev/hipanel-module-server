@@ -10,6 +10,7 @@
 
 namespace hipanel\modules\server\menus;
 
+use hipanel\widgets\AuditButton;
 use hipanel\widgets\BlockModalButton;
 use hipanel\widgets\SimpleOperation;
 use Yii;
@@ -77,6 +78,10 @@ class ServerDetailMenu extends \hipanel\menus\AbstractDetailMenu
                 'encode' => false,
                 'visible' => Yii::$app->user->can('server.delete') && !$this->model->isDeleted(),
             ],
+            [
+                'label' => AuditButton::widget(['model' => $this->model]),
+                'encode' => false,
+            ]
         ]);
         unset($items['view']);
 
