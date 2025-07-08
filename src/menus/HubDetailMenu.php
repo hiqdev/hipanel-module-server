@@ -12,6 +12,7 @@ namespace hipanel\modules\server\menus;
 
 use hipanel\menus\AbstractDetailMenu;
 use hipanel\widgets\AjaxModalWithTemplatedButton;
+use hipanel\widgets\AuditButton;
 use Yii;
 use yii\helpers\Html;
 
@@ -82,6 +83,10 @@ class HubDetailMenu extends AbstractDetailMenu
                 'encode' => false,
                 'visible' => Yii::$app->user->can('server.manage-settings'),
             ],
+            [
+                'label' => AuditButton::widget(['model' => $this->model, 'rightIcon' => true]),
+                'encode' => false,
+            ]
         ]);
         unset($items['view']);
 
