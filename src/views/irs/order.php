@@ -223,6 +223,7 @@ TXT
                         {{ order.config }}
                         <?= Html::activeHiddenInput($order, 'config', ['v-model' => 'order.config']) ?>
                     </div>
+                    <?php /**
                     <div class="panel-body" style="border-top: 1px solid #ddd;">
                         <?= $form->field($order, 'upgrade')
                             ->checkbox(['v-model' => 'order.upgrade'])
@@ -234,6 +235,7 @@ TXT
                             )
                         ?>
                     </div>
+                     */ ?>
                 </div>
 
             </div>
@@ -244,7 +246,7 @@ TXT
                 </h3>
                 <p class="text-muted"><?= Yii::t('hipanel.server.irs', 'Free setup') ?></p>
                 <p class="text-muted text-sm">
-                    <?php // Yii::t('hipanel.server.irs', 'Delivery time: 4h*') ?><br>
+                    <?php // Yii::t('hipanel.server.irs', 'Delivery time: 4h*') ?>
                     <?= Yii::t(
                         'hipanel.server.irs',
                         '*For initial orders placed at this location, there may be a slight delay as we verify customer information and process the order for acceptance.')
