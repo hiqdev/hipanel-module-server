@@ -22,6 +22,11 @@ $this->title = Yii::t('hipanel.server.irs', 'Available dedicated servers');
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['subtitle'] = Yii::t('hipanel.server.irs', 'that are already installed in DCs');
 
+$additionalInfo = Yii::t(
+    'hipanel.server.irs',
+    'In case of termination of your server rental within the first year, an additional <b>€80 setup fee</b> will be charged.'
+);
+
 ?>
 
 <?php $page = IndexPage::begin(['model' => $model, 'dataProvider' => $dataProvider, 'layout' => 'noSearch']) ?>
@@ -35,8 +40,11 @@ $this->params['subtitle'] = Yii::t('hipanel.server.irs', 'that are already insta
                 'resizableColumns' => false,
                 'layout' => <<<"HTML"
                     <div class='row'>
-                        <div class='col-xs-11'>
+                        <div class='col-xs-12'>
                             {sorter}
+                        </div>
+                        <div class='col-xs-12' style="color: #8a6d3b; text-decoration: underline;">
+                            <p style="padding: 0 15px">$additionalInfo</p>
                         </div>
                     </div>
                     <div class='table-responsive'>{items}</div>

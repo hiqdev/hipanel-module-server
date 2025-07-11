@@ -29,16 +29,14 @@ class IrsGridView extends ServerGridView
                 'label' => Yii::t('hipanel:server', 'Server'),
                 'attribute' => 'server',
                 'format' => 'raw',
+                'contentOptions' => ['style' => 'text-align: center; vertical-align: middle;'],
                 'value' => static function (Irs $model) use ($user): string {
                     $output = $model->hwsummary_auto;
                     if ($user->can('owner-staff')) {
                          $output = Html::a($model->name . ': ' . $model->hwsummary_auto, ['@server/view', 'id' => $model->id]);
                     }
 
-                    return implode("<br>", [
-                        $output,
-                        Html::tag('small', 'Changes are possible in the next step', ['class' => 'text-success']),
-                    ]);
+                    return $output;
                 },
                 'filter' => false,
                 'enableSorting' => false,
