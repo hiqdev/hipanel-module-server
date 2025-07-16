@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace hipanel\modules\server\grid;
 
-use hipanel\modules\finance\helpers\ConsumptionConfigurator;
+use hipanel\modules\finance\module\ConsumptionConfiguration\Application\ConsumptionConfigurator;
 use hiqdev\higrid\representations\RepresentationCollection;
 use Yii;
 

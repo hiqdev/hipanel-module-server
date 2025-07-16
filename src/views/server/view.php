@@ -456,6 +456,7 @@ if ($model->running_task) {
                     ]);
                 } else {
                     echo ChartOptions::widget([
+                        'autoload' => true,
                         'id' => $name,
                         'form' => [
                             'action' => 'draw-chart',
