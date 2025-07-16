@@ -7,4 +7,5 @@ enum IrsOrderType: string
     case SETUP = 'setup';
     case DEDICATED = 'dedicated';
     case UNMANAGED = 'unmanaged';
+    case RSVD_CONFIRMED = 'rsvd_confirmed';
 }

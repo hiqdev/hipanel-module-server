@@ -92,7 +92,7 @@ class IRSOrder extends Model
     public function createTicket(array $referenceValues): ?Thread
     {
         $thread = new Thread();
-        $thread->subject = 'IRS NEW Order';
+        $thread->subject = 'ADS NEW Order';
         $thread->message = $this->composeMessage($referenceValues);
         $thread->priority = 'high';
         $thread->topics = 'technical,irs';
@@ -199,7 +199,7 @@ class IRSOrder extends Model
     {
         return match (true) {
             $this->upgrade => IrsOrderType::SETUP,
-            !$this->upgrade && str_starts_with($this->administration, 'Unmanaged') => IrsOrderType::UNMANAGED,
+            !$this->upgrade && str_starts_with($this->administration, 'Unmanaged') => IrsOrderType::RSVD_CONFIRMED,
             !$this->upgrade && !str_starts_with($this->administration, 'Unmanaged') => IrsOrderType::DEDICATED,
         };
     }
