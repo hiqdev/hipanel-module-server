@@ -79,7 +79,7 @@ class Irs extends Server
         return $count;
     }
 
-    public function getOsLabel(): string
+    public function getOsLabel(): ?string
     {
         $options = [];
         foreach ($this->irsOptions['os'] ?? [] as $item) {

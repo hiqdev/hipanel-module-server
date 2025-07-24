@@ -1,15 +1,21 @@
 <?php
 
 /**
- * @var \hipanel\widgets\AdvancedSearch
+ * @var AdvancedSearch $search
+ * @var Rrd $model
  */
+
+use hipanel\modules\server\models\Rrd;
+use hipanel\widgets\AdvancedSearch;
+
 ?>
+
 <?= $search->field('id')->hiddenInput()->label(false) ?>
 
     <div class="col-md-2">
         <?= $search->field('graph')->dropDownList(
             array_merge(['' => Yii::t('hipanel:server:rrd', 'Index')],
-                array_combine((array) $model->graphs, (array) $model->graphs)),
+                array_combine((array)$model->graphs, (array)$model->graphs)),
             ['class' => 'form-control input-sm']
         ) ?>
     </div>
@@ -34,7 +40,8 @@
 <?php
 $widgetId = $search->getDivId();
 
-$this->registerJs(<<<JS
+$this->registerJs(
+    <<<JS
     $('#form-$widgetId').on('change', 'select', function (event) {
         $(this).submit();
     });

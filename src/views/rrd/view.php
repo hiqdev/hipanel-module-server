@@ -1,22 +1,21 @@
 <?php
 
 use hipanel\helpers\Url;
+use hipanel\modules\server\models\Rrd;
 use hipanel\modules\server\models\RrdSearch;
 use hipanel\widgets\IndexPage;
 use hiqdev\hiart\ActiveDataProvider;
+use yii\data\ArrayDataProvider;
 use yii\grid\GridView;
 use yii\helpers\Html;
 use yii\web\View;
 
 /**
  * @var View $this
- * @var RrdSearch $model
+ * @var RrdSearch $searchModel
+ * @var Rrd $model
  * @var ActiveDataProvider $dataProvider
  */
-
-$searchModel = $model;
-$models = $dataProvider->getModels();
-$model = reset($models);
 
 $this->title = Yii::t('hipanel:server', '{server} - RRD', ['server' => $model->server->name]);
 $this->params['breadcrumbs'][] = Html::a(Yii::t('hipanel:server', 'Servers'), ['@server']);
@@ -39,7 +38,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'RRD');
     ]) ?>
     <?php $page->beginContent('table') ?>
     <?php $page->beginBulkForm() ?>
-        <?= GridView::widget([
+        <?= $model->isRelationPopulated('images') ? GridView::widget([
             'showHeader' => false,
             'options' => [
                 'class' => 'table-responsive',
@@ -48,7 +47,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'RRD');
                 'class' => 'table',
             ],
             'summary' => false,
-            'dataProvider' => new \yii\data\ArrayDataProvider([
+            'dataProvider' => new ArrayDataProvider([
                 'allModels' => $model->images,
                 'pagination' => false,
                 'sort' => false,
@@ -67,7 +66,7 @@ $this->params['breadcrumbs'][] = Yii::t('hipanel:server', 'RRD');
                     },
                 ],
             ],
-        ]) ?>
+        ]) : '' ?>
     <?php $page->endBulkForm() ?>
     <?php $page->endContent() ?>
 <?php $page->end() ?>
