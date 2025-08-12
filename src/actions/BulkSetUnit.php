@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace hipanel\modules\server\actions;
 
 use hipanel\actions\SmartUpdateAction;
-use hipanel\modules\server\models\HardwareSettings;
+use hipanel\modules\server\models\HubHardwareSettings;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\query\ServerQuery;
 use Yii;
@@ -35,7 +35,7 @@ class BulkSetUnit extends SmartUpdateAction
         foreach ($switches as $id => $switch) {
             $switches[$id]['units'] = $units;
         }
-        $settingsModel = new HardwareSettings;
+        $settingsModel = new HubHardwareSettings;
         $settingsModel->scenario = 'set-units';
         $action->collection->setModel($settingsModel);
         $action->collection->load($switches);
