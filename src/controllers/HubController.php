@@ -35,7 +35,6 @@ use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\MonitoringSettings;
 use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\forms\HubSellForm;
-use hipanel\modules\server\models\query\ServerQuery;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\Event;

@@ -4,14 +4,12 @@ declare(strict_types=1);
 
 namespace hipanel\modules\server\actions;
 
-use hipanel\actions\Action;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\query\ServerQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\NotFoundHttpException;
 
 class BulkSetUnit extends SmartUpdateAction
 {
