@@ -7,7 +7,7 @@ namespace hipanel\modules\server\actions;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\modules\server\models\HubHardwareSettings;
 use hipanel\modules\server\models\Hub;
-use hipanel\modules\server\models\query\ServerQuery;
+use hipanel\modules\server\models\query\HubQuery;
 use Yii;
 use yii\helpers\ArrayHelper;
 
@@ -21,7 +21,7 @@ class BulkSetUnit extends SmartUpdateAction
 
     public function beforeFetch(): void
     {
-        /** @var ServerQuery $query */
+        /** @var HubQuery $query */
         $query = $this->getDataProvider()->query;
         $query->withHardwareSettings();
     }

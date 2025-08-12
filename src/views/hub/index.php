@@ -102,11 +102,11 @@ $this->registerCss('
                         'linkOptions' => ['data-action' => 'set-rack-no'],
                         'visible' => Yii::$app->user->can('hub.update'),
                     ],
-                    Yii::$app->user->can('server.update') ? [
+                    Yii::$app->user->can('hub.update') ? [
                             'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set units'),
                             'url' => '#',
                             'linkOptions' => ['data-action' => 'set-units'],
-                            'visible' => Yii::$app->user->can('server.update'),
+                            'visible' => Yii::$app->user->can('hub.update'),
                     ] : null,
                     AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [

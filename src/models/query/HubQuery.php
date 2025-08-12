@@ -48,7 +48,7 @@ class HubQuery extends ActiveQuery
 
     public function withHardwareSettings(): self
     {
-        if (Yii::$app->user->can('server.update')) {
+        if (Yii::$app->user->can('hub.update')) {
             $this->joinWith(['hardwareSettings']);
             $this->andWhere(['with_hardwareSettings' => 1]);
         }

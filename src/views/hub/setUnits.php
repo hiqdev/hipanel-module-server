@@ -10,7 +10,7 @@ use yii\helpers\Url;
 /** @var Hub[] $models */
 $model->hardwareSettings->scenario = 'set-units';
 $this->title = Yii::t('hipanel:server', 'Set units');
-$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
