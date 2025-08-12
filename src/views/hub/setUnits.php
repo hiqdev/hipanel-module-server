@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,
-    'validationUrl' => Url::toRoute(['validate-hw-form', 'scenario' => $model->scenario]),
+    'validationUrl' => Url::toRoute(['validate-hw-form', 'scenario' => $model->hardwareSettings->scenario]),
 ]) ?>
 
 <?php
