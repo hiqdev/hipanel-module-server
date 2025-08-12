@@ -46,6 +46,16 @@ class HubQuery extends ActiveQuery
         return $this;
     }
 
+    public function withHardwareSettings(): self
+    {
+        if (Yii::$app->user->can('server.update')) {
+            $this->joinWith(['hardwareSettings']);
+            $this->andWhere(['with_hardwareSettings' => 1]);
+        }
+
+        return $this;
+    }
+
     public function withDeleted(): self
     {
         $this->andWhere(['state_in' => [
