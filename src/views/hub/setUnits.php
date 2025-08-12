@@ -25,9 +25,9 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php
 
-$unitsCount = $model->hardwareSettings->units;
+$unitsCount = $model->hardwareSettings->units ?? 0;
 $unitsEqual = array_reduce($models, static function (bool $result, Hub $hub) use ($unitsCount): bool {
-    return $result && $hub->hardwareSettings->units === $unitsCount;
+    return $result && ($hub->hardwareSettings->units ?? 0) === $unitsCount;
 }, true);
 
 ?>
