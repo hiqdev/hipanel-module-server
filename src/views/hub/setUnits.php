@@ -42,7 +42,7 @@ $unitsEqual = array_reduce($models, static function (bool $result, Hub $hub) use
                             <div class="panel-heading"><?= Yii::t('hipanel:server', 'Selected switches') ?></div>
                             <div class="panel-body">
                                 <?php if (!$unitsEqual) : ?>
-                                    <div class="callout callout-info"><?= Yii::t('hipanel:server', 'Servers have different height!') ?></div>
+                                    <div class="callout callout-info"><?= Yii::t('hipanel:server', 'Switches have different height!') ?></div>
                                 <?php endif ?>
                                 <?= ArraySpoiler::widget([
                                     'data' => $models,
