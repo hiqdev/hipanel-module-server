@@ -12,4 +12,7 @@ return [
     'AHnames panel' => 'HiPanel control panel',
     'rcp' => 'HiPanel',
     'clear' => 'Clear OS image',
+    'Selected switches' => 'Selected switches',
+    'Switches have different height!' => 'HiPanel control panel height',
+    'Switches' => 'Switches',
 ];

@@ -27,6 +27,7 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\actions\BulkSetUnit;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
 use hipanel\modules\server\models\DeviceProperties;
 use hipanel\modules\server\models\HardwareSettings;
@@ -257,6 +258,24 @@ class HubController extends CrudController
                     'class' => Collection::class,
                     'model' => new AssignSwitchesForm(),
                     'scenario' => 'default',
+                ],
+            ],
+            'set-units' => [
+                'class' => BulkSetUnit::class,
+                'success' => Yii::t('hipanel:server', 'Units property was changed'),
+                'view' => 'setUnits',
+                'POST html' => [
+                    'save' => true,
+                    'success' => [
+                        'class' => RedirectAction::class,
+                        'url' => function () {
+                            $rows = Yii::$app->request->post('HardwareSettings');
+                            unset($rows['units']);
+                            $row = reset($rows);
+
+                            return count($rows) === 1 && isset($row['id']) ? ['@hub/view', 'id' => $row['id']] : ['@hub/index'];
+                        },
+                    ],
                 ],
             ],
             'validate-switches-form' => [

@@ -128,6 +128,13 @@ JS
                             'attribute' => 'deviceProperties.average_power_consumption',
                             'label' => Yii::t('hipanel:server', 'Average Power Consumption'),
                         ],
+                        [
+                            'attribute' => 'hardwareSettings.units',
+                            'label' => Yii::t('hipanel:server', 'Units (height)'),
+                            'value' => function ($model) {
+                                return Yii::t('hipanel:server', '{0}U', $model->hardwareSettings->units);
+                            }
+                        ],
                     ],
                 ]);
                 $box->endBody();
