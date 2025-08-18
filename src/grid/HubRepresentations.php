@@ -53,6 +53,19 @@ class HubRepresentations extends RepresentationCollection
                     ...$consumptionConfigurator->getColumns('switch'),
                 ],
             ] : null,
+            'manager' => [
+                'label' => Yii::t('hipanel', 'manager'),
+                'columns' => [
+                    'checkbox',
+                    'actions',
+                    'rack',
+                    'switch',
+                    'model',
+                    'inn',
+                    'client',
+                    'tariff',
+                ],
+            ],
         ]);
     }
 }
