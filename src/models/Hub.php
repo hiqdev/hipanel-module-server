@@ -123,7 +123,8 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
             'vxlan' => Yii::t('hipanel:server:hub', 'VXLAN'),
-            'tags' => Yii::t('hipanel:server:hub', 'Tags'),
+            'rack' => Yii::t('hipanel:server:hub', 'Rack'),
+            'client' => Yii::t('hipanel:server:hub', 'Client'),
         ]);
     }
 
