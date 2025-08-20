@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace hipanel\modules\server\models;
@@ -12,9 +13,6 @@ class DeviceSearch extends Device
         searchAttributes as defaultSearchAttributes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function searchAttributes()
     {
         return ArrayHelper::merge($this->defaultSearchAttributes(), [

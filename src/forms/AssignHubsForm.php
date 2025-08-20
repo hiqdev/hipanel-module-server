@@ -11,44 +11,260 @@
 namespace hipanel\modules\server\forms;
 
 use hipanel\base\ModelTrait;
+use hipanel\helpers\ArrayHelper;
+use hipanel\modules\server\models\AssignSwitchInterface;
+use hipanel\modules\server\models\Binding;
+use hipanel\modules\server\models\Device;
+use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\Server;
+use hipanel\modules\server\widgets\combo\HubCombo;
 use Yii;
 
 /**
  * Class AssignHubsForm.
  */
-class AssignHubsForm extends Server
+class AssignHubsForm extends Device
 {
     use ModelTrait;
 
-    /**
-     * {@inheritdoc}
-     */
-    public static function tableName()
-    {
-        return 'server';
-    }
+    private const string DEFAULT = 'default';
+    private const int MAX_HUBS_COUNT = 8;
+    private static string $modelClass = Server::class;
+    private array $sets = [
+        Hub::class => [
+            self::DEFAULT => 'net,kvm,pdu,rack,console,location',
+            'kvm' => 'net,rack,kvm,pdu',
+            'rack,region' => '',
+            'location' => 'region,location',
+        ],
+        Server::class => [
+            self::DEFAULT => 'net,kvm,rack,pdu,ipmi,jbod',
+            'uplink1,uplink2,uplink3,total' => 'net,rack,location',
+            'stock' => 'location',
+            'chwbox' => 'rack',
+            'nic' => 'net,pdu',
+        ],
+    ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function rules()
+    public function rules(): array
     {
+        static $defaultSwitchRules = null;
+        static $uniqueValidators = null;
+
+        if ($defaultSwitchRules === null) {
+            $defaultSwitchRules = $this->defaultHubRules();
+        }
+        if ($uniqueValidators === null) {
+            $uniqueValidators = $this->generateUniqueValidators();
+        }
+
         return array_merge(
             parent::rules(),
-            $this->defaultSwitchRules(),
-            $this->generateUniqueValidators(),
+            $defaultSwitchRules,
+            $uniqueValidators,
             [
                 [['switch'], 'string'],
             ],
         );
     }
 
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return array_merge(parent::attributeLabels(), [
-            'pdu2' => Yii::t('hipanel:server', 'APC 2'),
-            'net2' => Yii::t('hipanel:server', 'Switch 2'),
+            'rack_id' => Yii::t('hipanel:server', 'Rack'),
+            'net' => Yii::t('hipanel:server', 'Switch'),
+            'kvm' => Yii::t('hipanel:server', 'KVM'),
+            'pdu' => Yii::t('hipanel:server', 'APC'),
         ]);
+    }
+
+    public static function fromOriginalModel(AssignSwitchInterface $originalModel): AssignSwitchInterface
+    {
+        $bindings = [];
+        self::$modelClass = $originalModel::class;
+        $attributes = array_merge($originalModel->getAttributes(), []);
+        /** @var Hub $model */
+        $model = new static();
+        foreach ($originalModel->bindings as $hub) {
+            $attribute = $hub->typeWithNo . '_id';
+            if ($model->hasAttribute($attribute)) {
+                $attributes[$hub->typeWithNo . '_id'] = $hub->switch_id;
+                $attributes[$hub->typeWithNo . '_port'] = $hub->port;
+                $bindings[$hub->typeWithNo] = $hub;
+            }
+        }
+        $model->populateRelation('bindings', $bindings);
+        $model->setAttributes($attributes);
+
+        return $model;
+    }
+
+    /**
+     * For compatibility with [[hiqdev\hiart\Collection]].
+     *
+     * @param $defaultScenario
+     * @param array $data
+     * @param array $options
+     *
+     * @return mixed
+     */
+//    public function batchQuery($defaultScenario, $data = [], array $options = []): mixed
+//    {
+//        $map = [
+//            'update' => 'assign-hubs',
+//        ];
+//        $scenario = $map[$defaultScenario] ?? $defaultScenario;
+//
+//        return parent::batchQuery($scenario, $data, $options);
+//    }
+
+    public function scenarioActions()
+    {
+        return [
+            'assign-hubs' => 'set-password',
+        ];
+    }
+
+    /**
+     * This method decides which `assigns` will be offered in the form based on the type of the current model
+     *
+     * @return array
+     */
+    public function getHubVariants(): array
+    {
+        $bindings = [];
+        $sets = $this->getActualSets();
+        foreach ($sets as $commaSeparatedTypes => $commaSeparatedBindings) {
+            if (isset($this->type) && in_array($this->type, ArrayHelper::csplit($commaSeparatedTypes))) {
+                $bindings = empty($commaSeparatedBindings) ? [] : ArrayHelper::csplit($commaSeparatedBindings);
+                break;
+            }
+            $bindings = ArrayHelper::csplit($sets[self::DEFAULT]);
+        }
+
+        return $bindings;
+    }
+
+    private function defaultHubRules(): array
+    {
+        $variantIds = [];
+        $variantPorts = [];
+        $allPossibleBindings = [];
+        $sets = $this->getActualSets();
+
+        foreach ($sets as $commaSeparatedBindings) {
+            $allPossibleBindings = [...$allPossibleBindings, ...ArrayHelper::csplit($commaSeparatedBindings)];
+        }
+
+        foreach (array_unique($allPossibleBindings) as $variant) {
+            $variantIds[] = $variant . '_id';
+            $variantPorts[] = $variant . '_port';
+        }
+
+        return [
+            [['id'], 'required'],
+            [$variantIds, 'integer'],
+            [$variantPorts, 'string'],
+        ];
+    }
+
+    private function expandHubsList(array $uniqueVariants): array
+    {
+        // Ensure we work on a copy and keep the original order while avoiding duplicates
+        $result = $uniqueVariants;
+        $keys = array_flip($result);
+
+        // For each base hub that needs extras, add base{n} for n = 2..MAX_HUBS_COUNT
+        foreach (['net', 'pdu'] as $base) {
+            if (in_array($base, $uniqueVariants, true)) {
+                for ($i = 2; $i <= self::MAX_HUBS_COUNT; $i++) {
+                    $extra = $base . $i;
+                    if (!isset($keys[$extra])) {
+                        $result[] = $extra;
+                        $keys[$extra] = true;
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    private function getActualSets(): array
+    {
+        $result = [];
+        $baseSet = $this->sets[self::$modelClass];
+        foreach ($baseSet as $commaSeparatedTypes => $commaSeparatedBindings) {
+            $possibleBindings = ArrayHelper::csplit($commaSeparatedBindings);
+            $result[$commaSeparatedTypes] = implode(", ", $this->expandHubsList(array_unique($possibleBindings)));
+        }
+
+        return $result;
+    }
+
+    /**
+     * Added to the model's rules list of switch pairs.
+     */
+    private function generateUniqueValidators(): array
+    {
+        return array_map(
+            function ($variant) {
+                if ($variant === HubCombo::JBOD) {
+                    return [
+                        [$variant . '_id'],
+                        function ($attribute) use ($variant) {
+                            if ($this->{$variant . '_id'} !== $this->id) {
+                                return;
+                            }
+                            $this->addError(
+                                $attribute,
+                                Yii::t('hipanel:server', "Can't connect jbod to himself")
+                            );
+                        },
+                    ];
+                }
+
+                return [
+                    [$variant . '_port'],
+                    fn($attribute, $params, $validator) => $this->validateSwitchVariants($attribute, $variant),
+                ];
+            },
+            $this->getHubVariants(),
+        );
+    }
+
+    private function validateSwitchVariants($attribute, $variant): void
+    {
+        if (empty($this->{$attribute}) || empty($this->{$variant . '_id'})) {
+            return;
+        }
+
+        /** @var Binding $binding */
+        $binding = Binding::find()
+            ->andWhere(['port' => $this->{$attribute}])
+            ->andWhere(['switch_id' => $this->{$variant . '_id'}])
+//            ->andWhere(['ne', 'base_device_id', $this->id])
+            ->one();
+
+        if (empty($binding)) {
+            return;
+        }
+
+        if ($isSameBaseDevice = (string)$binding->base_device_id !== (string)$this->id) {
+            return;
+        }
+
+        if ($isDuplicateDevice = !strcmp((string)$this->id, (string)$binding->device_id)) {
+            return;
+        }
+
+        $this->addError(
+            $attribute,
+            Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
+                'switch' => $binding->switch_name ?? null,
+                'port' => $binding->port ?? null,
+                'device' => $binding->device_name ?? null,
+            ])
+        );
     }
 }

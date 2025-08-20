@@ -26,6 +26,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
+use hipanel\modules\server\actions\AssignHubsAction;
 use hipanel\modules\server\actions\BulkSetRackNo;
 use hipanel\modules\server\actions\BulkSetUnit;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
@@ -219,32 +220,32 @@ class HubController extends CrudController
                 },
             ],
             'assign-switches' => [
-                'class' => SmartUpdateAction::class,
+                'class' => AssignHubsAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Switches have been edited'),
                 'view' => 'assign-switches',
-                'on beforeFetch' => function (Event $event) {
-                    /** @var \hipanel\actions\SearchAction $action */
-                    $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->select(['*']);
-                },
+//                'on beforeFetch' => function (Event $event) {
+//                    /** @var \hipanel\actions\SearchAction $action */
+//                    $action = $event->sender;
+//                    $dataProvider = $action->getDataProvider();
+//                    $dataProvider->query->withBindings()->select(['*']);
+//                },
                 'collection' => [
                     'class' => Collection::class,
                     'model' => new AssignSwitchesForm(),
                     'scenario' => 'default',
                 ],
-                'data' => function (Action $action, array $data) {
-                    $result = [];
-                    foreach ($data['models'] as $model) {
-                        $result['models'][] = AssignSwitchesForm::fromOriginalModel($model);
-                    }
-                    if (!$result['models']) {
-                        throw new NotFoundHttpException('There are no entries available for the selected operation.');
-                    }
-                    $result['model'] = reset($result['models']);
-
-                    return $result;
-                },
+//                'data' => function (Action $action, array $data) {
+//                    $result = [];
+//                    foreach ($data['models'] as $model) {
+//                        $result['models'][] = AssignSwitchesForm::fromOriginalModel($model);
+//                    }
+//                    if (!$result['models']) {
+//                        throw new NotFoundHttpException('There are no entries available for the selected operation.');
+//                    }
+//                    $result['model'] = reset($result['models']);
+//
+//                    return $result;
+//                },
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,

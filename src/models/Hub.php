@@ -10,21 +10,19 @@
 
 namespace hipanel\modules\server\models;
 
-use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\behaviors\TaggableBehavior;
 use hipanel\models\TaggableInterface;
 use hipanel\modules\finance\models\proxy\Resource;
 use hipanel\modules\server\models\query\HubQuery;
-use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\server\validators\MacValidator;
 use hipanel\modules\stock\models\Part;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
-class Hub extends Model implements AssignSwitchInterface, TaggableInterface
+class Hub extends Device implements TaggableInterface
 {
-    use ModelTrait, AssignSwitchTrait;
+    use ModelTrait;
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
@@ -113,7 +111,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
             'mac' => Yii::t('hipanel:server:hub', 'MAC address'),
             'name' => Yii::t('hipanel:server:hub', 'Name'),
             'note' => Yii::t('hipanel:server:hub', 'Note'),
-            'net' => Yii::t('hipanel:server', 'Switch'),
+        'net' => Yii::t('hipanel:server', 'Switch'),
             'kvm' => Yii::t('hipanel:server', 'KVM'),
             'pdu' => Yii::t('hipanel:server', 'APC'),
             'rack_like' => Yii::t('hipanel:server', 'Rack'),
@@ -129,20 +127,6 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
     public function getResources(): ActiveQuery
     {
         return $this->hasMany(Resource::class, ['object_id' => 'id']);
-    }
-
-    public function getBindings()
-    {
-        return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
-    }
-
-    public function getBinding($type)
-    {
-        if (!isset($this->bindings[$type])) {
-            return null;
-        }
-
-        return $this->bindings[$type];
     }
 
     public function getHardwareSettings(): ActiveQuery

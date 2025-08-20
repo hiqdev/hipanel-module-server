@@ -1,7 +1,7 @@
 <?php
 
 use hipanel\modules\server\forms\AssignHubsForm;
-use hipanel\modules\server\widgets\AssignSwitchesPage;
+use hipanel\modules\server\widgets\AssignHubsPage;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\widgets\ApplyToAllWidget;
 use hipanel\widgets\DynamicFormWidget;
@@ -13,13 +13,22 @@ use yii\web\View;
 /**
  * @var View $this
  * @var AssignHubsForm[] $models
- * @var AssignSwitchesPage $context
+ * @var AssignHubsForm $model
+ * @var AssignHubsPage $context
  * @var ActiveForm $form
- * @var AssignSwitchesPage $context
+ * @var AssignHubsPage $context
  */
 
 $renderedAttributes = [];
 $context = $this->context;
+//$this->registerCss(
+//    <<<"CSS"
+//#$form->id .item {
+//    background-color: red;
+//}
+//
+//CSS
+//);
 
 ?>
 
@@ -46,24 +55,26 @@ $context = $this->context;
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <?php foreach (array_chunk($model->getSwitchVariants(), 4) as $rows) : ?>
-                            <?php foreach ($rows as $variant) : ?>
+                        <?php $variantChunks = $context->splitIntoGroups($model) ?>
+                        <?php foreach ($variantChunks as $variants) : ?>
+                            <?php foreach ($variants as $variant) : ?>
                                 <?php $renderedAttributes[] = $variant ?>
                                 <div class="col-md-3">
                                     <div class="row">
-                                        <div class="<?= implode(" ",
+                                        <div class="<?= implode(
+                                            " ",
                                             array_filter([
                                                 'col-md-12',
                                                 $context->hasPort($variant) ? 'col-lg-8' : null,
-                                            ])) ?>">
-                                            <?= $form->field($model,
-                                                "[$i]{$variant}_id")->widget(HubCombo::class,
-                                                array_filter([
-                                                    'name' => $variant,
-                                                    'url' => $variant === HubCombo::JBOD ? '/server/server/index' : null,
-                                                    'type' => $variant === HubCombo::JBOD ? '/server/server' : null,
-                                                    'hubType' => $context->variantMap[$variant] ?? $variant,
-                                                ]))->label($model->getAttributeLabel($variant)) ?>
+                                            ])
+                                        ) ?>">
+                                            <?= $form->field(
+                                                $model,
+                                                "[$i]{$variant}_id"
+                                            )->widget(
+                                                HubCombo::class,
+                                                $context->prepareHubComboOptions($variant)
+                                            )->label($model->getAttributeLabel($variant)) ?>
                                         </div>
                                         <?php if ($context->hasPort($variant)) : ?>
                                             <div class="col-lg-4 col-md-12">
@@ -71,7 +82,7 @@ $context = $this->context;
                                                     <?= $form->field($model, "[$i]{$variant}_port")->label("&nbsp;") ?>
                                                 </td>
                                             </div>
-                                        <?php endif; ?>
+                                        <?php endif ?>
                                     </div>
                                 </div>
                             <?php endforeach ?>
@@ -90,12 +101,12 @@ $context = $this->context;
     <div class="col-md-12">
         <?= Html::submitButton(Yii::t('hipanel', 'Save'), ['class' => 'btn btn-success']) ?>
         &nbsp;
-        <?= Html::button(Yii::t('hipanel', 'Cancel'),
-            ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
+        <?= Html::button(
+            Yii::t('hipanel', 'Cancel'),
+            ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']
+        ) ?>
     </div>
 </div>
-
-<?php ActiveForm::end() ?>
 
 <?= ApplyToAllWidget::widget([
     'models' => $models,

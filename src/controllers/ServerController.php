@@ -32,6 +32,7 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
+use hipanel\modules\server\actions\AssignHubsAction;
 use hipanel\modules\server\actions\BulkPowerManagementAction;
 use hipanel\modules\server\actions\BulkSetRackNo;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
@@ -230,32 +231,32 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Server has been updated'),
             ],
             'assign-hubs' => [
-                'class' => SmartUpdateAction::class,
+                'class' => AssignHubsAction::class,
                 'success' => Yii::t('hipanel:server', 'Hubs have been assigned'),
                 'view' => 'assign-hubs',
-                'on beforeFetch' => function (Event $event) {
-                    /** @var \hipanel\actions\SearchAction $action */
-                    $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->select(['*']);
-                },
+//                'on beforeFetch' => function (Event $event) {
+//                    /** @var \hipanel\actions\SearchAction $action */
+//                    $action = $event->sender;
+//                    $dataProvider = $action->getDataProvider();
+//                    $dataProvider->query->withBindings()->select(['*']);
+//                },
                 'collection' => [
                     'class' => Collection::class,
                     'model' => new AssignHubsForm(),
-                    'scenario' => 'default',
+                    'scenario' => 'assign-hubs',
                 ],
-                'data' => function (Action $action, array $data) {
-                    $result = [];
-                    foreach ($data['models'] as $model) {
-                        $result['models'][] = AssignHubsForm::fromOriginalModel($model);
-                    }
-                    if (!$result['models']) {
-                        throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
-                    }
-                    $result['model'] = reset($result['models']);
-
-                    return $result;
-                },
+//                'data' => function (Action $action, array $data) {
+//                    $result = [];
+//                    foreach ($data['models'] as $model) {
+//                        $result['models'][] = AssignHubsForm::fromOriginalModel($model);
+//                    }
+//                    if (!$result['models']) {
+//                        throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
+//                    }
+//                    $result['model'] = reset($result['models']);
+//
+//                    return $result;
+//                },
             ],
             'set-units' => [
                 'class' => SmartUpdateAction::class,

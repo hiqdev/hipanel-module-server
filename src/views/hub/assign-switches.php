@@ -1,7 +1,7 @@
 <?php
 
 use hipanel\modules\server\models\AssignSwitchInterface;
-use hipanel\modules\server\widgets\AssignSwitchesPage;
+use hipanel\modules\server\widgets\AssignHubsPage;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Url;
 
@@ -25,4 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
     'validationUrl' => Url::toRoute(['validate-switches-form', 'scenario' => 'default']),
 ]) ?>
 
-<?= AssignSwitchesPage::widget(['models' => $models, 'form' => $form]) ?>
+<?= AssignHubsPage::widget(['models' => $models, 'form' => $form]) ?>
+
+<?php ActiveForm::end() ?>
