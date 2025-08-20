@@ -51,7 +51,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
                 'login', 'password', 'user_login', 'user_password',
                 'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
                 'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'server_type', 'state', 'state_label',
-                'stat_device', 'stat_domain',
+                'stat_device', 'stat_domain', 'rack', 'client'
             ], 'string'],
             [['name'], 'string', 'min' => 1, 'max' => 63],
             [['virtual', 'vxlan'], 'boolean'],
@@ -123,6 +123,8 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
             'vxlan' => Yii::t('hipanel:server:hub', 'VXLAN'),
+            'rack' => Yii::t('hipanel:server:hub', 'Rack'),
+            'client' => Yii::t('hipanel:server:hub', 'Client'),
         ]);
     }
 
