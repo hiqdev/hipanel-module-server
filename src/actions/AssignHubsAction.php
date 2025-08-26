@@ -8,6 +8,7 @@ namespace hipanel\modules\server\actions;
 use hipanel\actions\Action;
 use hipanel\actions\SmartUpdateAction;
 use hipanel\modules\server\models\AssignSwitchInterface;
+use yii\base\InvalidArgumentException;
 use yii\web\NotFoundHttpException;
 
 class AssignHubsAction extends SmartUpdateAction
@@ -38,5 +39,27 @@ class AssignHubsAction extends SmartUpdateAction
         $dataProvider = $this->getDataProvider();
         $dataProvider->query->withBindings()->select(['*']);
         parent::beforeFetch();
+    }
+
+    public function beforeSave(): void
+    {
+        $form = $this->collection->getModel();
+        $hubs = $this->controller->request->post($form->formName());
+        foreach ($hubs as &$hub) {
+            $model = clone $form;
+            if ($model->load($hub, '') && $model->validate()) {
+                foreach ($model->toArray() as $key => $value) {
+                    if (str_contains($key, '_')) {
+                        $hub['hubs'][$key] = $value;
+//                    unset($hub[$key]);
+                    }
+                }
+            } else {
+                throw new InvalidArgumentException(implode(', ', $model->getFirstErrors()));
+            }
+        }
+
+        $this->collection->load($hubs);
+        parent::beforeSave();
     }
 }

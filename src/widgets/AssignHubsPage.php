@@ -49,11 +49,42 @@ class AssignHubsPage extends Widget
         return !in_array($variant, ['location', 'region'], true);
     }
 
-    public function splitIntoGroups(AssignHubsForm $model): array
+    public function splitIntoGroups(array $hubVariants): array
     {
-        $hubVariants = $model->getHubVariants();
+        $nets = [];
+        $pdus = [];
+        $others = [];
 
-        return array_chunk($hubVariants, 4);
+        foreach ($hubVariants as $v) {
+            // put plain 'net' into nets group, plain 'pdu' into pdus group
+            if ($v === 'net' || preg_match('/^net\d+$/', $v)) {
+                $nets[] = $v;
+                continue;
+            }
+            if ($v === 'pdu' || preg_match('/^pdu\d+$/', $v)) {
+                $pdus[] = $v;
+                continue;
+            }
+            $others[] = $v;
+        }
+
+        // Sort net/pdu groups by their numeric suffix (plain 'net'/'pdu' go first), others alphabetically
+        $sortBySuffix = static function (string $a, string $b): int {
+            // plain names without digits should come first
+            preg_match('/\d+$/', $a, $ma);
+            preg_match('/\d+$/', $b, $mb);
+            $na = isset($ma[0]) ? (int)$ma[0] : 0;
+            $nb = isset($mb[0]) ? (int)$mb[0] : 0;
+
+            // ensure plain 'net'/'pdu' (na=0) come before numbered ones
+            return $na <=> $nb;
+        };
+
+        usort($nets, $sortBySuffix);
+        usort($pdus, $sortBySuffix);
+        sort($others, SORT_NATURAL | SORT_FLAG_CASE);
+
+        return [$nets, $pdus, $others];
     }
 
     public function prepareHubComboOptions(string $variant): array
@@ -68,5 +99,14 @@ class AssignHubsPage extends Widget
             'type' => $variant === HubCombo::JBOD ? 'server/server' : null,
             'hubType' => $renameMap[$variant] ?? preg_replace('/[0-9]+/', '', $variant),
         ]);
+    }
+
+    public function getAttributeLabel(AssignHubsForm $model, string $variant): string|false
+    {
+        if (str_starts_with($variant, 'net') || str_starts_with($variant, 'pdu') || str_ends_with($variant, '_port')) {
+            return false;
+        }
+
+        return $model->getAttributeLabel($variant);
     }
 }
