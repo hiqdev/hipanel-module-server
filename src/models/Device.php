@@ -35,4 +35,20 @@ class Device extends Model implements AssignSwitchInterface
     {
         return $this->bindings[$type] ?? null;
     }
+
+    public function getHardwareSettings(): ActiveQuery
+    {
+        return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
+    }
+
+    public function getMonitoringSettings()
+    {
+        return $this->hasOne(MonitoringSettings::class, ['id' => 'id']);
+    }
+
+    public function getDeviceProperties(): ActiveQuery
+    {
+        return $this->hasOne(DeviceProperties::class, ['id' => 'id']);
+    }
+
 }

@@ -41,16 +41,65 @@ class Hub extends Device implements TaggableInterface
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'access_id', 'type_id', 'server_type_id', 'state_id', 'buyer_id', 'last_buyer_id', 'units', 'tariff_id', 'client_id', 'last_client_id'], 'integer'],
+            [
+                [
+                    'id',
+                    'access_id',
+                    'type_id',
+                    'server_type_id',
+                    'state_id',
+                    'buyer_id',
+                    'last_buyer_id',
+                    'units',
+                    'tariff_id',
+                    'client_id',
+                    'last_client_id',
+                ],
+                'integer',
+            ],
             [['tariff'], 'safe'],
-            [[
-                'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'server_type_label', 'buyer', 'last_buyer', 'note', 'inn', 'model',
-                'community', 'traf_server_id', 'order_no', 'ports_num', 'traf_server_id',
-                'login', 'password', 'user_login', 'user_password',
-                'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
-                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'server_type', 'state', 'state_label',
-                'stat_device', 'stat_domain',
-            ], 'string'],
+            [
+                [
+                    'name',
+                    'dc',
+                    'mac',
+                    'remoteid',
+                    'note',
+                    'ip',
+                    'type_label',
+                    'server_type_label',
+                    'buyer',
+                    'last_buyer',
+                    'note',
+                    'inn',
+                    'model',
+                    'community',
+                    'traf_server_id',
+                    'order_no',
+                    'ports_num',
+                    'traf_server_id',
+                    'login',
+                    'password',
+                    'user_login',
+                    'user_password',
+                    'vlan_server_id',
+                    'community',
+                    'snmp_version_id',
+                    'digit_capacity_id',
+                    'nic_media',
+                    'base_port_no',
+                    'oob_key',
+                    'traf_server_id_label',
+                    'vlan_server_id_label',
+                    'type',
+                    'server_type',
+                    'state',
+                    'state_label',
+                    'stat_device',
+                    'stat_domain',
+                ],
+                'string',
+            ],
             [['name'], 'string', 'min' => 1, 'max' => 63],
             [['virtual', 'vxlan'], 'boolean'],
             [['vxlan'], 'default', 'value' => ""],
@@ -59,19 +108,39 @@ class Hub extends Device implements TaggableInterface
 
             // Create and update
             [['type_id', 'name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
-            [['name', 'mac', 'ip'], 'unique', 'filter' => function ($query) {
-                $query->andWhere(['ne', 'id', $this->id]);
-            }, 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [
+                ['name', 'mac', 'ip'],
+                'unique',
+                'filter' => function ($query) {
+                    $query->andWhere(['ne', 'id', $this->id]);
+                },
+                'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE],
+            ],
             [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
             [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['name', 'order_no'], 'filter', 'filter' => 'trim', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
 
             // set Options
-            [[
-                'id', 'inn', 'model', 'login', 'password', 'ports_num', 'community',
-                'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no', 'base_port_no',
-                'user_login', 'user_password',
-            ], 'safe', 'on' => 'options'],
+            [
+                [
+                    'id',
+                    'inn',
+                    'model',
+                    'login',
+                    'password',
+                    'ports_num',
+                    'community',
+                    'snmp_version_id',
+                    'digit_capacity_id',
+                    'nic_media',
+                    'base_port_no',
+                    'base_port_no',
+                    'user_login',
+                    'user_password',
+                ],
+                'safe',
+                'on' => 'options',
+            ],
             [['traf_server_id', 'vlan_server_id'], 'integer', 'on' => self::SCENARIO_OPTIONS],
 
             [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
@@ -111,7 +180,7 @@ class Hub extends Device implements TaggableInterface
             'mac' => Yii::t('hipanel:server:hub', 'MAC address'),
             'name' => Yii::t('hipanel:server:hub', 'Name'),
             'note' => Yii::t('hipanel:server:hub', 'Note'),
-        'net' => Yii::t('hipanel:server', 'Switch'),
+            'net' => Yii::t('hipanel:server', 'Switch'),
             'kvm' => Yii::t('hipanel:server', 'KVM'),
             'pdu' => Yii::t('hipanel:server', 'APC'),
             'rack_like' => Yii::t('hipanel:server', 'Rack'),
@@ -127,21 +196,6 @@ class Hub extends Device implements TaggableInterface
     public function getResources(): ActiveQuery
     {
         return $this->hasMany(Resource::class, ['object_id' => 'id']);
-    }
-
-    public function getHardwareSettings(): ActiveQuery
-    {
-        return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
-    }
-
-    public function getMonitoringSettings()
-    {
-        return $this->hasOne(MonitoringSettings::class, ['id' => 'id']);
-    }
-
-    public function getDeviceProperties(): ActiveQuery
-    {
-        return $this->hasOne(DeviceProperties::class, ['id' => 'id']);
     }
 
     /**
@@ -172,7 +226,7 @@ class Hub extends Device implements TaggableInterface
 
     public function isServer(): bool
     {
-        return (bool) $this->server_type_id;
+        return (bool)$this->server_type_id;
     }
 
     public function isVirtualServer(): bool

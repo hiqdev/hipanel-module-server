@@ -54,6 +54,11 @@ class AssignHubsForm extends Device
         return self::$modelClass::tableName();
     }
 
+    public static function setModelClass(string $modelClass): void
+    {
+        self::$modelClass = $modelClass;
+    }
+
     public static function fromOriginalModel(AssignSwitchInterface $originalModel): AssignSwitchInterface
     {
         $bindings = [];

@@ -76,12 +76,12 @@ class HubCest
             $this->hubData['name']
         );
         $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
-        $this->indexPage->chooseRowMenuOption('Switches');
+        $this->indexPage->chooseRowMenuOption('Assign hubs');
 
         $assignPage->fillForm($data)
                    ->hasNotErrors()
                    ->submitForm();
-        $I->closeNotification('Switches have been edited');
+        $I->closeNotification('Hubs have been assigned');
         $I->seeInCurrentUrl(Url::to(['@hub/view']));
         $this->viewPage->check($data);
     }
