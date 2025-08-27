@@ -7,7 +7,9 @@ namespace hipanel\modules\server\actions;
 
 use hipanel\actions\Action;
 use hipanel\actions\SmartUpdateAction;
+use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\models\AssignSwitchInterface;
+use hiqdev\hiart\Collection;
 use yii\base\InvalidArgumentException;
 use yii\web\NotFoundHttpException;
 
@@ -15,6 +17,11 @@ class AssignHubsAction extends SmartUpdateAction
 {
     public function init(): void
     {
+        $this->collection = [
+            'class' => Collection::class,
+            'model' => new AssignHubsForm(),
+            'scenario' => 'default',
+        ];
         $this->data = function (Action $action, array $data): array {
             $result = [];
             foreach ($data['models'] as $model) {

@@ -49,9 +49,9 @@ class HubActionsMenu extends Menu
                 'visible' => $user->can('hub.update') && !$this->model->isServer(),
             ],
             'assign-switches' => [
-                'label' => Yii::t('hipanel:server', 'Switches'),
+                'label' => Yii::t('hipanel:server', 'Assgin hubs'),
                 'icon' => 'fa-plug',
-                'url' => ['@hub/assign-switches', 'id' => $this->model->id],
+                'url' => ['@hub/assign-hubs', 'id' => $this->model->id],
                 'linkOptions' => [
                     'data-pjax' => 0,
                 ],

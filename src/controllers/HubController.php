@@ -219,33 +219,10 @@ class HubController extends CrudController
                     }
                 },
             ],
-            'assign-switches' => [
+            'assign-hubs' => [
                 'class' => AssignHubsAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Switches have been edited'),
-                'view' => 'assign-switches',
-//                'on beforeFetch' => function (Event $event) {
-//                    /** @var \hipanel\actions\SearchAction $action */
-//                    $action = $event->sender;
-//                    $dataProvider = $action->getDataProvider();
-//                    $dataProvider->query->withBindings()->select(['*']);
-//                },
-                'collection' => [
-                    'class' => Collection::class,
-                    'model' => new AssignSwitchesForm(),
-                    'scenario' => 'default',
-                ],
-//                'data' => function (Action $action, array $data) {
-//                    $result = [];
-//                    foreach ($data['models'] as $model) {
-//                        $result['models'][] = AssignSwitchesForm::fromOriginalModel($model);
-//                    }
-//                    if (!$result['models']) {
-//                        throw new NotFoundHttpException('There are no entries available for the selected operation.');
-//                    }
-//                    $result['model'] = reset($result['models']);
-//
-//                    return $result;
-//                },
+                'success' => Yii::t('hipanel:server:hub', 'Hubs have been assgined'),
+                'view' => 'assign-hubs',
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,

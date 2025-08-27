@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /** @var AssignSwitchInterface $model */
 /** @var AssignSwitchInterface[] $models */
 
-$this->title = Yii::t('hipanel:server:hub', 'Edit switches');
+$this->title = Yii::t('hipanel:server:hub', 'Assing hubs');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Switches'), 'url' => ['index']];
 if (count($models) === 1) {
     $this->params['breadcrumbs'][] = ['label' => $model->name, 'url' => ['view', 'id' => $model->id]];

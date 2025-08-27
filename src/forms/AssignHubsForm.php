@@ -22,6 +22,9 @@ use Yii;
 
 /**
  * Class AssignHubsForm.
+ *
+ * @property-read array $actualSets
+ * @property-read array $hubVariants
  */
 class AssignHubsForm extends Device
 {
@@ -32,13 +35,13 @@ class AssignHubsForm extends Device
     private static string $modelClass = Server::class;
     private array $sets = [
         Hub::class => [
-            self::DEFAULT => 'net,kvm,pdu,rack,console,location',
-            'kvm' => 'net,rack,kvm,pdu',
+            self::DEFAULT => 'net,kvm,pdu,pdu*,rack,console,location',
+            'kvm' => 'net,rack,kvm,pdu,pdu*',
             'rack,region' => '',
             'location' => 'region,location',
         ],
         Server::class => [
-            self::DEFAULT => 'net,kvm,rack,pdu,ipmi,jbod',
+            self::DEFAULT => 'net,net*,kvm,rack,pdu,pdu*,ipmi,jbod',
             'uplink1,uplink2,uplink3,total' => 'net,rack,location',
             'stock' => 'location',
             'chwbox' => 'rack',
@@ -55,7 +58,7 @@ class AssignHubsForm extends Device
     {
         $bindings = [];
         self::$modelClass = $originalModel::class;
-        $attributes = array_merge($originalModel->getAttributes(), []);
+        $attributes = $originalModel->getAttributes();
         /** @var Hub $model */
         $model = new static();
         foreach ($originalModel->bindings as $hub) {
@@ -74,15 +77,8 @@ class AssignHubsForm extends Device
 
     public function rules(): array
     {
-        static $defaultSwitchRules = null;
-        static $uniqueValidators = null;
-
-        if ($defaultSwitchRules === null) {
-            $defaultSwitchRules = $this->buildDefaultRules();
-        }
-        if ($uniqueValidators === null) {
-            $uniqueValidators = $this->buildUniqueValidators();
-        }
+        $defaultSwitchRules = $this->buildDefaultRules();
+        $uniqueValidators = $this->buildUniqueValidators();
 
         return array_merge(
             parent::rules(),
@@ -142,10 +138,20 @@ class AssignHubsForm extends Device
         $keys = array_flip($result);
 
         // For each base hub that needs extras, add base{n} for n = 2..MAX_HUBS_COUNT
-        foreach (['net', 'pdu'] as $base) {
+        foreach (['net*', 'pdu*'] as $base) {
             if (in_array($base, $uniqueVariants, true)) {
+                // remove the wildcard entry (e.g. 'net*' or 'pdu*') from the main list
+                if (isset($keys[$base])) {
+                    // remove from keys map
+                    unset($keys[$base]);
+                    // remove from result preserving order
+                    $result = array_values(array_filter($result, fn($v) => $v !== $base));
+                }
+
+                $baseName = rtrim($base, '*'); // 'net*' -> 'net'
+                // expand to base2..baseN (keep base (without number) as-is if present in original array)
                 for ($i = 2; $i <= self::MAX_HUBS_COUNT; $i++) {
-                    $extra = $base . $i;
+                    $extra = $baseName . $i;
                     if (!isset($keys[$extra])) {
                         $result[] = $extra;
                         $keys[$extra] = true;
@@ -186,12 +192,12 @@ class AssignHubsForm extends Device
         }
 
         return [
-            [['id', 'hubs'], 'required', 'on' => ['assign-hubs']],
+            [['id'], 'required', 'on' => ['assign-hubs']],
             [['hubs'], 'safe', 'on' => ['assign-hubs']],
             [$variantIds, 'integer'],
-            [$variantIds, 'default', 'value' => null],
+            [$variantIds, 'default', 'value' => ''],
             [$variantPorts, 'string'],
-            [$variantPorts, 'default', 'value' => null],
+            [$variantPorts, 'default', 'value' => ''],
         ];
     }
 

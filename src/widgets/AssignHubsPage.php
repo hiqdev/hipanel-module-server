@@ -97,7 +97,7 @@ class AssignHubsPage extends Widget
             'name' => $variant,
             'url' => $variant === HubCombo::JBOD ? '/server/server/index' : null,
             'type' => $variant === HubCombo::JBOD ? 'server/server' : null,
-            'hubType' => $renameMap[$variant] ?? preg_replace('/[0-9]+/', '', $variant),
+            'hubType' => $renameMap[$variant] ?? preg_replace('/[\d+]+/', '', $variant),
         ]);
     }
 
