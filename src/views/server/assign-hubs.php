@@ -1,12 +1,12 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\modules\server\models\AssignSwitchInterface;
+use hipanel\modules\server\models\AssignHubsInterface;
 use hipanel\modules\server\widgets\AssignHubsPage;
 use yii\bootstrap\ActiveForm;
 
-/** @var AssignSwitchInterface $model */
-/** @var AssignSwitchInterface[] $models */
+/** @var AssignHubsInterface $model */
+/** @var AssignHubsInterface[] $models */
 
 $this->title = Yii::t('hipanel:server', 'Assign hubs');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];

@@ -3,18 +3,18 @@
 namespace hipanel\modules\server\widgets;
 
 
-use hipanel\modules\server\models\AssignSwitchInterface;
+use hipanel\modules\server\models\AssignHubsInterface;
 use yii\base\Widget;
 use yii\widgets\ActiveForm;
 
 class SetRackNo extends Widget
 {
     /**
-     * @var AssignSwitchInterface[]
+     * @var AssignHubsInterface[]
      */
     public array $models;
 
-    public AssignSwitchInterface $model;
+    public AssignHubsInterface $model;
 
     public ActiveForm $form;
 

@@ -34,7 +34,7 @@ use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\AssignHubsAction;
 use hipanel\modules\server\actions\BulkPowerManagementAction;
-use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\actions\BulkSetRackNoAction;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
@@ -264,14 +264,9 @@ class ServerController extends CrudController
                 },
             ],
             'set-rack-no' => [
-                'class' => BulkSetRackNo::class,
+                'class' => BulkSetRackNoAction::class,
                 'success' => Yii::t('hipanel:server', 'Rack No. has been assigned'),
                 'view' => 'setRackNo',
-                'collection' => [
-                    'class' => Collection::class,
-                    'model' => new AssignHubsForm(),
-                    'scenario' => 'default',
-                ],
             ],
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,

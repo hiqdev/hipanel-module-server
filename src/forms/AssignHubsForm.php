@@ -12,7 +12,7 @@ namespace hipanel\modules\server\forms;
 
 use hipanel\base\ModelTrait;
 use hipanel\helpers\ArrayHelper;
-use hipanel\modules\server\models\AssignSwitchInterface;
+use hipanel\modules\server\models\AssignHubsInterface;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Device;
 use hipanel\modules\server\models\Hub;
@@ -59,7 +59,7 @@ class AssignHubsForm extends Device
         self::$modelClass = $modelClass;
     }
 
-    public static function fromOriginalModel(AssignSwitchInterface $originalModel): AssignSwitchInterface
+    public static function fromOriginalModel(AssignHubsInterface $originalModel): AssignHubsInterface
     {
         $bindings = [];
         self::$modelClass = $originalModel::class;

@@ -27,11 +27,10 @@ use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
 use hipanel\modules\server\actions\AssignHubsAction;
-use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\actions\BulkSetRackNoAction;
 use hipanel\modules\server\actions\BulkSetUnit;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
 use hipanel\modules\server\forms\AssignHubsForm;
-use hipanel\modules\server\forms\AssignSwitchesForm;
 use hipanel\modules\server\forms\HubSellForm;
 use hipanel\modules\server\models\DeviceProperties;
 use hipanel\modules\server\models\HardwareSettings;
@@ -229,14 +228,9 @@ class HubController extends CrudController
                 'success' => Yii::t('hipanel:server:hub', 'Switches have been deleted'),
             ],
             'set-rack-no' => [
-                'class' => BulkSetRackNo::class,
+                'class' => BulkSetRackNoAction::class,
                 'success' => Yii::t('hipanel:server', 'Rack No. has been assigned'),
                 'view' => 'setRackNo',
-                'collection' => [
-                    'class' => Collection::class,
-                    'model' => new AssignSwitchesForm(),
-                    'scenario' => 'default',
-                ],
             ],
             'set-units' => [
                 'class' => BulkSetUnit::class,

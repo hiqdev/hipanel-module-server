@@ -12,7 +12,7 @@ use hiqdev\hiart\ActiveQuery;
  *
  * @property-read ActiveQuery $bindings
  */
-class Device extends Model implements AssignSwitchInterface
+class Device extends Model implements AssignHubsInterface
 {
     use ModelTrait;
 

@@ -10,7 +10,7 @@
 
 namespace hipanel\modules\server\models;
 
-interface AssignSwitchInterface
+interface AssignHubsInterface
 {
     public function getBindings();
 }
