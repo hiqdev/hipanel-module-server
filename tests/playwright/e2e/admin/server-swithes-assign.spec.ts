@@ -3,7 +3,7 @@ import SwitchAssign from "@hipanel-module-server/model/SwitchAssign";
 import SwitchHelper from "@hipanel-module-server/helper/SwitchHelper";
 import SwitchAssignForm from "@hipanel-module-server/page/SwitchAssignForm";
 
-const switchName = "SW-TEST-00";
+const switchName = "TEST-SW-00";
 
 const switchAssign: SwitchAssign = {
   switch: "TEST-SW-05",

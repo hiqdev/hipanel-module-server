@@ -1,4 +1,4 @@
-import { test, expect } from "@hipanel-core/fixtures";
+import { test } from "@hipanel-core/fixtures";
 import Switch from "@hipanel-module-server/model/Switch";
 import SwitchForm from "@hipanel-module-server/page/SwitchForm";
 import SwitchHelper from "@hipanel-module-server/helper/SwitchHelper";
@@ -44,4 +44,3 @@ test("Test update switch @hipanel-module-server @admin", async ({ page }) => {
 
   await switchForm.seeSuccessUpdatedAlert();
 });
-

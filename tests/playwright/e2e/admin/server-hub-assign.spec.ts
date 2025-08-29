@@ -7,10 +7,8 @@ import ServerAssignHubForm from "@hipanel-module-server/page/ServerAssignHubForm
 const serverName = "TEST-DS-01";
 
 const assignHub: ServerAssignHub = {
-  switch: "SW-TEST-00",
+  switch: "TEST-SW-05",
   swPort: "432",
-  switch2: "TEST-SW-05",
-  sw2Port: "234",
   kvm: "TEST-SW-04",
   kvmPort: "11",
   rack: "TEST-SW-02",

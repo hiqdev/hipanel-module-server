@@ -14,8 +14,6 @@ export default class ServerAssignHubForm {
   async fill(assignHub: ServerAssignHub) {
     await Select2.field(this.page, "#assignhubsform-0-net_id").setValue(assignHub.switch);
     await Input.field(this.page, "#assignhubsform-0-net_port").fill(assignHub.swPort);
-    await Select2.field(this.page, "#assignhubsform-0-net2_id").setValue(assignHub.switch2);
-    await Input.field(this.page, "#assignhubsform-0-net2_port").fill(assignHub.sw2Port);
     await Select2.field(this.page, "#assignhubsform-0-kvm_id").setValue(assignHub.kvm);
     await Input.field(this.page, "#assignhubsform-0-kvm_port").fill(assignHub.kvmPort);
     await Select2.field(this.page, "#assignhubsform-0-rack_id").setValue(assignHub.rack);

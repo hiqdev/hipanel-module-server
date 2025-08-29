@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { expect, Page } from "@playwright/test";
 import Alert from "@hipanel-core/ui/Alert";
 import Index from "@hipanel-core/page/Index";
 import Input from "@hipanel-core/input/Input";
@@ -18,7 +18,6 @@ export default class ServerForm {
     await Input.field(this.page, '#serverform-0-server').fill(server.serverName);
     await Input.field(this.page, '#serverform-0-dc').fill(server.dc);
     await Dropdown.field(this.page, '#serverform-0-type').setValue(server.type);
-    await Input.field(this.page, '#serverform-0-order_no').fill(server.order);
     await Input.field(this.page, '#serverform-0-label').fill(server.internalNote);
     await Dropdown.field(this.page, '#serverform-0-state').setValue(server.status);
     await Input.field(this.page, '#serverform-0-hwsummary').fill(server.hardwareSummary);
@@ -26,7 +25,6 @@ export default class ServerForm {
   }
 
   async updateServer(server) {
-    await Dropdown.field(this.page, '#serverform-0-state').setValue(server.status);
     await Input.field(this.page, '#serverform-0-hwcomment').fill(server.hardwareComment);
   }
 
