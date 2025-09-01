@@ -1,5 +1,4 @@
 import { expect, Locator, Page } from "@playwright/test";
-import Select2 from "@hipanel-core/input/Select2";
 import Index from "@hipanel-core/page/Index";
 import Input from "@hipanel-core/input/Input";
 import Alert from "@hipanel-core/ui/Alert";
@@ -13,7 +12,7 @@ export default class SwitchHelper {
         this.index = new Index(page);
     }
 
-    async gotoIndexSwitch() {
+    async gotoIndexPage() {
         await this.page.goto('/server/hub/index');
         await expect(this.page).toHaveTitle("Switches");
     }
@@ -30,7 +29,7 @@ export default class SwitchHelper {
     async gotoAssignSwitchPage(switchName: string) {
         await Input.filterBy(this.page, 'Name').setValue(switchName);
         await this.index.chooseNumberRowOnTable(1);
-        await this.index.clickBulkButton('Switches');
+        await this.index.clickBulkButton('Assign hubs');
     }
 
     async deleteSwitch(serverName: string) {

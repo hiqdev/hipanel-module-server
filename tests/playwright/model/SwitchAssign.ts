@@ -7,5 +7,4 @@ export default class SwitchAssign {
     public rackPort: string;
     public apc: string;
     public apcPort: string;
-    public location: string;
 }

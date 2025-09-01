@@ -200,9 +200,7 @@ class AssignHubsForm extends Device
             [['id'], 'required', 'on' => ['assign-hubs']],
             [['hubs'], 'safe', 'on' => ['assign-hubs']],
             [$variantIds, 'integer'],
-            [$variantIds, 'default', 'value' => ''],
             [$variantPorts, 'string'],
-            [$variantPorts, 'default', 'value' => ''],
         ];
     }
 

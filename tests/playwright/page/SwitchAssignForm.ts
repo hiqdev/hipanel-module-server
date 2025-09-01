@@ -12,15 +12,14 @@ export default class SwitchAssignForm {
   }
 
   async fill(assignSwitch: SwitchAssign) {
-    await Select2.field(this.page, "#assignswitchesform-0-net_id").setValue(assignSwitch.switch);
-    await Input.field(this.page, "#assignswitchesform-0-net_port").fill(assignSwitch.swPort);
-    await Select2.field(this.page, "#assignswitchesform-0-kvm_id").setValue(assignSwitch.kvm);
-    await Input.field(this.page, "#assignswitchesform-0-kvm_port").fill(assignSwitch.kvmPort);
-    await Select2.field(this.page, "#assignswitchesform-0-pdu_id").setValue(assignSwitch.apc);
-    await Input.field(this.page, "#assignswitchesform-0-pdu_port").fill(assignSwitch.apcPort);
-    await Select2.field(this.page, "#assignswitchesform-0-rack_id").setValue(assignSwitch.rack);
-    await Input.field(this.page, "#assignswitchesform-0-rack_port").fill(assignSwitch.rackPort);
-    await Select2.field(this.page, "#assignswitchesform-0-location_id").setValue(assignSwitch.location);
+    await Select2.field(this.page, "#assignhubsform-0-net_id").setValue(assignSwitch.switch);
+    await Input.field(this.page, "#assignhubsform-0-net_port").fill(assignSwitch.swPort);
+    await Select2.field(this.page, "#assignhubsform-0-kvm_id").setValue(assignSwitch.kvm);
+    await Input.field(this.page, "#assignhubsform-0-kvm_port").fill(assignSwitch.kvmPort);
+    await Select2.field(this.page, "#assignhubsform-0-pdu_id").setValue(assignSwitch.apc);
+    await Input.field(this.page, "#assignhubsform-0-pdu_port").fill(assignSwitch.apcPort);
+    await Select2.field(this.page, "#assignhubsform-0-rack_id").setValue(assignSwitch.rack);
+    await Input.field(this.page, "#assignhubsform-0-rack_port").fill(assignSwitch.rackPort);
   }
 
   async save() {

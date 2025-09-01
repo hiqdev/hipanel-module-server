@@ -33,14 +33,16 @@
     let lastToShow;
     if (lastFilled === -1) {
       lastToShow = 0;
-    } else if (lastFilled < items.length - 1) {
-      lastToShow = lastFilled + 1;
+    // } else if (lastFilled < items.length - 1) {
+    //   lastToShow = lastFilled;
     } else {
       lastToShow = lastFilled;
     }
 
     items.forEach((el, i) => {
-      $(el).toggle(i <= lastToShow);
+      let isVisible = i <= lastToShow;
+      $(el).toggle(isVisible);
+      $(el).find('input').prop("disabled", !isVisible)
     });
   };
 
@@ -71,7 +73,9 @@
 
       $btn.on("click", () => {
         const $next = $col.find("ol:first>li:hidden").first();
-        if ($next.length) $next.show();
+        if ($next.length) {
+          $next.show().find('input').prop("disabled", false);
+        }
         if ($col.find("ol:first>li:hidden").length === 0) {
           $wrap.remove();
           $col.removeData("wrap").removeData("btn");

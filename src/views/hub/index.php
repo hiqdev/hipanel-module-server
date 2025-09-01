@@ -85,7 +85,7 @@ $this->registerCss('
         <?php endif; ?>
         <?php if (Yii::$app->user->can('hub.update')) : ?>
             <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
-            <?= $page->renderBulkButton('assign-switches', '<i class="fa fa-plug"></i>&nbsp;&nbsp;' . Yii::t('hipanel:server:hub', 'Switches')) ?>
+            <?= $page->renderBulkButton('assign-hubs', '<i class="fa fa-plug"></i>&nbsp;&nbsp;' . Yii::t('hipanel:server:hub', 'Assign hubs')) ?>
         <?php endif ?>
         <div class="dropdown">
             <button type="button" class="btn btn-sm btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
