@@ -17,7 +17,7 @@ use yii\widgets\ActiveForm;
 
 /**
  *
- * @property-read array $formFields
+ * @property-read array $allPossibleFormFieldNames
  */
 class AssignHubsPage extends Widget
 {
@@ -33,20 +33,22 @@ class AssignHubsPage extends Widget
         ]);
     }
 
-    public function getFormFields(): array
+    public function getAllPossibleFormFieldNames(): array
     {
         $fields = [];
-        foreach (reset($this->models)->getHubVariants() as $name) {
-            $fields[] = $name . '_id';
-            $fields[] = $name . '_port';
+        foreach ($this->models as $model) {
+            foreach ($model->getHubVariants() as $name) {
+                $fields[] = $name . '_id';
+                $fields[] = $name . '_port';
+            }
         }
 
-        return array_merge(['id'], $fields);
+        return ['id', ...array_unique($fields)];
     }
 
     public function hasPort(string $variant): bool
     {
-        return !in_array($variant, ['location', 'region'], true);
+        return !in_array($variant, ['location', 'region', 'rack', 'jbod'], true);
     }
 
     public function splitIntoGroups(array $hubVariants): array

@@ -8,7 +8,6 @@ use hipanel\widgets\ApplyToAllWidget;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
-use yii\helpers\Inflector;
 use yii\web\View;
 
 /**
@@ -58,8 +57,8 @@ AssignHubsColumnReveal::register($this);
     'insertButton' => '.add-item', // css class
     'deleteButton' => '.remove-item', // css class
     'model' => reset($models),
-    'formId' => Inflector::camel2id(reset($models)->formName()) . '-form',
-    'formFields' => $context->getFormFields(),
+    'formId' => $form->id,
+    'formFields' => $context->getAllPossibleFormFieldNames(),
 ]) ?>
 
 <div class="container-items">

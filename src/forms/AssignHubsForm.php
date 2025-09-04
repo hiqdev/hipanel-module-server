@@ -123,17 +123,14 @@ class AssignHubsForm extends Device
      */
     public function getHubVariants(): array
     {
-        $bindings = [];
         $sets = $this->getActualSets();
         foreach ($sets as $commaSeparatedTypes => $commaSeparatedBindings) {
             if (isset($this->type) && in_array($this->type, ArrayHelper::csplit($commaSeparatedTypes))) {
-                $bindings = empty($commaSeparatedBindings) ? [] : ArrayHelper::csplit($commaSeparatedBindings);
-                break;
+                return empty($commaSeparatedBindings) ? [] : ArrayHelper::csplit($commaSeparatedBindings);
             }
-            $bindings = ArrayHelper::csplit($sets[self::DEFAULT]);
         }
 
-        return $bindings;
+        return ArrayHelper::csplit($sets[self::DEFAULT]); // Fallback to default if no type match found
     }
 
     private function expandHubsList(array $uniqueVariants): array

@@ -17,7 +17,7 @@ use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Admin;
 
-class ServerAssingHubsCest
+class ServerAssignHubsCest
 {
     /**
      * @var string|null
