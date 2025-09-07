@@ -16,7 +16,7 @@ class BindingColumn extends DataColumn
     public $format = 'raw';
     public $filter = false;
     public $encodeLabel = false;
-    public ?string $serverName = null;
+    public ?string $deviceName = null;
     public ?int $deviceId = null;
 
     public function init(): void
@@ -76,7 +76,7 @@ class BindingColumn extends DataColumn
         $switchPortLink = $this->createSwitchPortLink($binding);
         $label = Html::encode($binding->switch_label);
 
-        return "{$inn}<b>{$switchPortLink}</b> {$label}";
+        return "$inn<b>$switchPortLink</b> $label";
     }
 
     /**
@@ -88,7 +88,7 @@ class BindingColumn extends DataColumn
             return '';
         }
 
-        return Html::encode("({$inn}) ");
+        return Html::encode("($inn) ");
     }
 
     /**
@@ -98,7 +98,7 @@ class BindingColumn extends DataColumn
     {
         $switchText = $binding->switch;
         if ($binding->port) {
-            $switchText .= ":{$binding->port}";
+            $switchText .= ":$binding->port";
         }
 
         return Html::a(Html::encode($switchText), ['@hub/view', 'id' => $binding->switch_id]);
@@ -139,9 +139,9 @@ class BindingColumn extends DataColumn
 
         return match (true) {
             $this->attribute === 'ipmi' => $this->createAdditionalLink('@hub/view', 'ipmi'),
-            preg_match('/^net\d+$/', $this->attribute) === 1 => $this->createAdditionalLink(
+            preg_match('/^net|pdu\d+$/', $this->attribute) === 1 => $this->createAdditionalLink(
                 '@server/view',
-                str_replace('net', 'nic', $this->attribute)
+                str_replace(['net', 'pdu'], 'nic', $this->attribute)
             ),
             default => '',
         };
@@ -152,7 +152,7 @@ class BindingColumn extends DataColumn
      */
     private function createAdditionalLink(string $route, string $suffix): string
     {
-        $linkText = $this->serverName . $suffix;
+        $linkText = $this->deviceName . $suffix;
         $link = Html::a($linkText, [$route, 'id' => $this->deviceId]);
 
         return '<br/>' . $link;
@@ -171,6 +171,6 @@ class BindingColumn extends DataColumn
      */
     private function hasRequiredLinkData(): bool
     {
-        return $this->deviceId !== null && $this->serverName !== null;
+        return $this->deviceId !== null && $this->deviceName !== null;
     }
 }
