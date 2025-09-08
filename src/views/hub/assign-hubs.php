@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <?php $form = ActiveForm::begin([
-    'id' => 'assign-switches-form',
+    'id' => 'assign-hubs-form',
     'enableClientValidation' => true,
     'validateOnBlur' => true,
     'enableAjaxValidation' => true,

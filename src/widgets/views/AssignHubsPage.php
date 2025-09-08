@@ -185,6 +185,7 @@ AssignHubsColumnReveal::register($this);
 </div>
 
 <?= ApplyToAllWidget::widget([
-    'models' => $models,
+    'formId' => $form->id,
+    'modelFormName' => reset($models)->formName(),
     'attributes' => array_values(array_unique($renderedAttributes)),
 ]) ?>
