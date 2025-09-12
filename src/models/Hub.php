@@ -97,6 +97,8 @@ class Hub extends Device implements TaggableInterface
                     'state_label',
                     'stat_device',
                     'stat_domain',
+                    'rack',
+                    'client',
                 ],
                 'string',
             ],
@@ -190,6 +192,8 @@ class Hub extends Device implements TaggableInterface
             'name_ilike' => Yii::t('hipanel:server:hub', 'Switch'),
             'sale_time' => Yii::t('hipanel:server', 'Sale time'),
             'vxlan' => Yii::t('hipanel:server:hub', 'VXLAN'),
+            'rack' => Yii::t('hipanel:server:hub', 'Rack'),
+            'client' => Yii::t('hipanel:server:hub', 'Client'),
         ]);
     }
 
