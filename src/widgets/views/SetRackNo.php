@@ -1,30 +1,34 @@
 <?php
 
-use hipanel\modules\server\models\AssignSwitchInterface;
+use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use hipanel\widgets\ArraySpoiler;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /** @var ActiveForm $form */
-/** @var AssignSwitchInterface $model */
-/** @var AssignSwitchInterface[] $models */
+/** @var AssignHubsForm $model */
+/** @var AssignHubsForm[] $models */
 
-$this->registerCss(<<<CSS
-.box-body .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-    align-items: flex-start;
-}
+$this->registerCss(
+    <<<CSS
+    .box-body .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        align-items: flex-start;
+    }
 CSS
 );
+
 ?>
 
 <div class="row">
     <div class="col-md-6">
         <div class="box box-widget">
             <div class="box-header">
-                <?= $form->field($model, 'rack_id')->widget(HubCombo::class, ['hubType' => HubCombo::RACK])->hint(Yii::t('hipanel:server', 'Assign the rack to all selected objects')) ?>
+                <?= $form->field($model, 'rack_id')->widget(HubCombo::class, ['hubType' => HubCombo::RACK])->hint(
+                    Yii::t('hipanel:server', 'Assign the rack to all selected objects')
+                ) ?>
             </div>
             <div class="box-header with-border">
                 <h3 class="box-title"><?= Yii::t('hipanel:server', 'Selected objects:') ?></h3>
@@ -35,7 +39,11 @@ CSS
                         'data' => $models,
                         'visibleCount' => count($models),
                         'formatter' => static fn($model) => Html::a(
-                            ($model->getBinding('rack') ? Html::tag('span', Html::encode($model->getBinding('rack')->switch), ['class' => 'badge bg-purple']) : '') .
+                            ($model->getBinding('rack') ? Html::tag(
+                                'span',
+                                Html::encode($model->getBinding('rack')->switch),
+                                ['class' => 'badge bg-purple']
+                            ) : '') .
                             Html::tag('i', null, ['class' => 'fa fa-server']) .
                             Html::encode($model->name),
                             ['view', 'id' => $model->id],

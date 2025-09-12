@@ -10,21 +10,19 @@
 
 namespace hipanel\modules\server\models;
 
-use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\behaviors\TaggableBehavior;
 use hipanel\models\TaggableInterface;
 use hipanel\modules\finance\models\proxy\Resource;
 use hipanel\modules\server\models\query\HubQuery;
-use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\server\validators\MacValidator;
 use hipanel\modules\stock\models\Part;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
-class Hub extends Model implements AssignSwitchInterface, TaggableInterface
+class Hub extends Device implements TaggableInterface
 {
-    use ModelTrait, AssignSwitchTrait;
+    use ModelTrait;
 
     const SCENARIO_CREATE = 'create';
     const SCENARIO_UPDATE = 'update';
@@ -43,16 +41,67 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
     public function rules()
     {
         return array_merge(parent::rules(), [
-            [['id', 'access_id', 'type_id', 'server_type_id', 'state_id', 'buyer_id', 'last_buyer_id', 'units', 'tariff_id', 'client_id', 'last_client_id'], 'integer'],
+            [
+                [
+                    'id',
+                    'access_id',
+                    'type_id',
+                    'server_type_id',
+                    'state_id',
+                    'buyer_id',
+                    'last_buyer_id',
+                    'units',
+                    'tariff_id',
+                    'client_id',
+                    'last_client_id',
+                ],
+                'integer',
+            ],
             [['tariff'], 'safe'],
-            [[
-                'name', 'dc', 'mac', 'remoteid', 'note', 'ip', 'type_label', 'server_type_label', 'buyer', 'last_buyer', 'note', 'inn', 'model',
-                'community', 'traf_server_id', 'order_no', 'ports_num', 'traf_server_id',
-                'login', 'password', 'user_login', 'user_password',
-                'vlan_server_id', 'community', 'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no',
-                'oob_key', 'traf_server_id_label', 'vlan_server_id_label', 'type', 'server_type', 'state', 'state_label',
-                'stat_device', 'stat_domain', 'rack', 'client'
-            ], 'string'],
+            [
+                [
+                    'name',
+                    'dc',
+                    'mac',
+                    'remoteid',
+                    'note',
+                    'ip',
+                    'type_label',
+                    'server_type_label',
+                    'buyer',
+                    'last_buyer',
+                    'note',
+                    'inn',
+                    'model',
+                    'community',
+                    'traf_server_id',
+                    'order_no',
+                    'ports_num',
+                    'traf_server_id',
+                    'login',
+                    'password',
+                    'user_login',
+                    'user_password',
+                    'vlan_server_id',
+                    'community',
+                    'snmp_version_id',
+                    'digit_capacity_id',
+                    'nic_media',
+                    'base_port_no',
+                    'oob_key',
+                    'traf_server_id_label',
+                    'vlan_server_id_label',
+                    'type',
+                    'server_type',
+                    'state',
+                    'state_label',
+                    'stat_device',
+                    'stat_domain',
+                    'rack',
+                    'client',
+                ],
+                'string',
+            ],
             [['name'], 'string', 'min' => 1, 'max' => 63],
             [['virtual', 'vxlan'], 'boolean'],
             [['vxlan'], 'default', 'value' => ""],
@@ -61,19 +110,39 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
 
             // Create and update
             [['type_id', 'name'], 'required', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
-            [['name', 'mac', 'ip'], 'unique', 'filter' => function ($query) {
-                $query->andWhere(['ne', 'id', $this->id]);
-            }, 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [
+                ['name', 'mac', 'ip'],
+                'unique',
+                'filter' => function ($query) {
+                    $query->andWhere(['ne', 'id', $this->id]);
+                },
+                'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE],
+            ],
             [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
             [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['name', 'order_no'], 'filter', 'filter' => 'trim', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
 
             // set Options
-            [[
-                'id', 'inn', 'model', 'login', 'password', 'ports_num', 'community',
-                'snmp_version_id', 'digit_capacity_id', 'nic_media', 'base_port_no', 'base_port_no',
-                'user_login', 'user_password',
-            ], 'safe', 'on' => 'options'],
+            [
+                [
+                    'id',
+                    'inn',
+                    'model',
+                    'login',
+                    'password',
+                    'ports_num',
+                    'community',
+                    'snmp_version_id',
+                    'digit_capacity_id',
+                    'nic_media',
+                    'base_port_no',
+                    'base_port_no',
+                    'user_login',
+                    'user_password',
+                ],
+                'safe',
+                'on' => 'options',
+            ],
             [['traf_server_id', 'vlan_server_id'], 'integer', 'on' => self::SCENARIO_OPTIONS],
 
             [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
@@ -133,35 +202,6 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
         return $this->hasMany(Resource::class, ['object_id' => 'id']);
     }
 
-    public function getBindings()
-    {
-        return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy('type');
-    }
-
-    public function getBinding($type)
-    {
-        if (!isset($this->bindings[$type])) {
-            return null;
-        }
-
-        return $this->bindings[$type];
-    }
-
-    public function getHardwareSettings(): ActiveQuery
-    {
-        return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
-    }
-
-    public function getMonitoringSettings()
-    {
-        return $this->hasOne(MonitoringSettings::class, ['id' => 'id']);
-    }
-
-    public function getDeviceProperties(): ActiveQuery
-    {
-        return $this->hasOne(DeviceProperties::class, ['id' => 'id']);
-    }
-
     /**
      * {@inheritdoc}
      * @return HubQuery
@@ -190,7 +230,7 @@ class Hub extends Model implements AssignSwitchInterface, TaggableInterface
 
     public function isServer(): bool
     {
-        return (bool) $this->server_type_id;
+        return (bool)$this->server_type_id;
     }
 
     public function isVirtualServer(): bool

@@ -13,11 +13,11 @@ namespace hipanel\modules\server\controllers;
 use hipanel\actions\Action;
 use hipanel\actions\IndexAction;
 use hipanel\actions\PrepareBulkAction;
+use hipanel\actions\RedirectAction;
 use hipanel\actions\SmartCreateAction;
 use hipanel\actions\SmartDeleteAction;
 use hipanel\actions\SmartPerformAction;
 use hipanel\actions\SmartUpdateAction;
-use hipanel\actions\RedirectAction;
 use hipanel\actions\ValidateFormAction;
 use hipanel\actions\ViewAction;
 use hipanel\base\CrudController;
@@ -26,19 +26,19 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\helpers\ArrayHelper;
 use hipanel\models\Ref;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
-use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\actions\AssignHubsAction;
+use hipanel\modules\server\actions\BulkSetRackNoAction;
 use hipanel\modules\server\actions\BulkSetUnit;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
+use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\forms\HubSellForm;
 use hipanel\modules\server\models\DeviceProperties;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\MonitoringSettings;
-use hipanel\modules\server\forms\AssignSwitchesForm;
-use hipanel\modules\server\forms\HubSellForm;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\Event;
-use yii\web\NotFoundHttpException;
 
 class HubController extends CrudController
 {
@@ -218,47 +218,19 @@ class HubController extends CrudController
                     }
                 },
             ],
-            'assign-switches' => [
-                'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Switches have been edited'),
-                'view' => 'assign-switches',
-                'on beforeFetch' => function (Event $event) {
-                    /** @var \hipanel\actions\SearchAction $action */
-                    $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->select(['*']);
-                },
-                'collection' => [
-                    'class' => Collection::class,
-                    'model' => new AssignSwitchesForm(),
-                    'scenario' => 'default',
-                ],
-                'data' => function (Action $action, array $data) {
-                    $result = [];
-                    foreach ($data['models'] as $model) {
-                        $result['models'][] = AssignSwitchesForm::fromOriginalModel($model);
-                    }
-                    if (!$result['models']) {
-                        throw new NotFoundHttpException('There are no entries available for the selected operation.');
-                    }
-                    $result['model'] = reset($result['models']);
-
-                    return $result;
-                },
+            'assign-hubs' => [
+                'class' => AssignHubsAction::class,
+                'success' => Yii::t('hipanel:server:hub', 'Hubs have been assigned'),
+                'view' => 'assign-hubs',
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,
                 'success' => Yii::t('hipanel:server:hub', 'Switches have been deleted'),
             ],
             'set-rack-no' => [
-                'class' => BulkSetRackNo::class,
+                'class' => BulkSetRackNoAction::class,
                 'success' => Yii::t('hipanel:server', 'Rack No. has been assigned'),
                 'view' => 'setRackNo',
-                'collection' => [
-                    'class' => Collection::class,
-                    'model' => new AssignSwitchesForm(),
-                    'scenario' => 'default',
-                ],
             ],
             'set-units' => [
                 'class' => BulkSetUnit::class,
@@ -282,7 +254,7 @@ class HubController extends CrudController
                 'class' => ValidateFormAction::class,
                 'collection' => [
                     'class' => Collection::class,
-                    'model' => new AssignSwitchesForm(),
+                    'model' => new AssignHubsForm(),
                 ],
             ],
             'validate-sell-form' => [
@@ -387,14 +359,16 @@ class HubController extends CrudController
     {
         $callingMethod = debug_backtrace()[1]['function'];
         $result = Yii::$app->get('cache')->getOrSet([$callingMethod], function () use ($gtype) {
-            $result = ArrayHelper::map(Ref::find()->where([
-                'gtype' => $gtype,
-                'select' => 'full',
-            ])->all(),
+            $result = ArrayHelper::map(
+                Ref::find()->where([
+                    'gtype' => $gtype,
+                    'select' => 'full',
+                ])->all(),
                 'id',
                 function ($model) {
                     return Yii::t('hipanel:server:hub', $model->label);
-                });
+                }
+            );
 
             return $result;
         }, 86400 * 24); // 24 days

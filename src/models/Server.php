@@ -10,7 +10,6 @@
 
 namespace hipanel\modules\server\models;
 
-use hipanel\base\Model;
 use hipanel\base\ModelTrait;
 use hipanel\behaviors\TaggableBehavior;
 use hipanel\models\Ref;
@@ -19,11 +18,9 @@ use hipanel\modules\finance\models\Sale;
 use hipanel\modules\hosting\models\Ip;
 use hipanel\modules\server\helpers\ServerHelper;
 use hipanel\modules\server\models\query\ServerQuery;
-use hipanel\modules\server\models\traits\AssignSwitchTrait;
 use hipanel\modules\stock\models\Part;
 use hipanel\validators\EidValidator;
 use hipanel\validators\RefValidator;
-use hiqdev\hiart\ActiveQuery;
 use Yii;
 use yii\base\NotSupportedException;
 
@@ -31,18 +28,16 @@ use yii\base\NotSupportedException;
  * Class Server.
  *
  * @property int $id
- * @property array<string, Binding> $bindings
  * @property array<string, Consumption> $consumptions
  * @property string $name
- * @property Consumption[] $consumptions
  * @property Ip[]|string[] $ips
  *
  * @property-read HardwareSale[] $hardwareSales
  * @property-read HardwareSettings $hardwareSettings
  */
-class Server extends Model implements AssignSwitchInterface, TaggableInterface
+class Server extends Device implements TaggableInterface
 {
-    use ModelTrait, AssignSwitchTrait;
+    use ModelTrait;
 
     const STATE_OK = 'ok';
     const STATE_DISABLED = 'disabled';
@@ -308,31 +303,9 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
         return $this->hasMany(Consumption::class, ['object_id' => 'id'])->indexBy('type');
     }
 
-    public function getBindings()
-    {
-        return $this->hasMany(Binding::class, ['device_id' => 'id'])->indexBy(function ($binding) {
-            return $binding->typeWithNo;
-        });
-    }
-
     public function getSales()
     {
         return $this->hasMany(Sale::class, ['id' => 'object_id']);
-    }
-
-    public function getMonitoringSettings()
-    {
-        return $this->hasOne(MonitoringSettings::class, ['id' => 'id']);
-    }
-
-    public function getHardwareSettings()
-    {
-        return $this->hasOne(HardwareSettings::class, ['id' => 'id']);
-    }
-
-    public function getDeviceProperties(): ActiveQuery
-    {
-        return $this->hasOne(DeviceProperties::class, ['id' => 'id']);
     }
 
     public function getHardwareSales()
@@ -348,15 +321,6 @@ class Server extends Model implements AssignSwitchInterface, TaggableInterface
     public function getMailSettings()
     {
         return $this->hasOne(MailSettings::class, ['id' => 'id']);
-    }
-
-    public function getBinding($type)
-    {
-        if (!isset($this->bindings[$type])) {
-            return null;
-        }
-
-        return $this->bindings[$type];
     }
 
     public function getPanel()

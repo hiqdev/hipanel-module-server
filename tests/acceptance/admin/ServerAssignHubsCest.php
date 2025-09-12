@@ -17,7 +17,7 @@ use hipanel\tests\_support\Page\IndexPage;
 use hipanel\tests\_support\Page\Widget\Input\Select2;
 use hipanel\tests\_support\Step\Acceptance\Admin;
 
-class ServerAssingHubsCest
+class ServerAssignHubsCest
 {
     /**
      * @var string|null
@@ -71,8 +71,8 @@ class ServerAssingHubsCest
         $I->needPage(Url::to('@server/assign-hubs?id=' . $this->serverId));
 
         $assignPage->fillForm($data)
-            ->hasNotErrors()
-            ->submitForm();
+                   ->hasNotErrors()
+                   ->submitForm();
 
         $I->see($data['net_id']);
     }
@@ -91,8 +91,8 @@ class ServerAssingHubsCest
         $I->needPage(Url::to('@server/assign-hubs?id=' . $this->serverId));
 
         $assignPage->fillForm($data)
-            ->hasNotErrors()
-            ->submitForm();
+                   ->hasNotErrors()
+                   ->submitForm();
 
         $I->cantSeeInField('h3[class*="box-title"]', 'Switches');
     }
@@ -104,18 +104,18 @@ class ServerAssingHubsCest
     {
         return [
             [
-                'net_id'        => 'TEST-SW-05',
-                'net_port'      => 'port' . uniqid(),
-                'net2_id'       => 'TEST-SW-05',
-                'net2_port'     => 'port' . uniqid(),
-                'pdu2_id'       => 'TEST-SW-06',
-                'pdu2_port'     => 'port' . uniqid(),
-                'kvm_id'        => 'TEST-SW-04',
-                'kvm_port'      => 'port' . uniqid(),
-                'pdu_id'        => 'TEST-SW-06',
-                'pdu_port'      => 'port' . uniqid(),
-                'rack_id'       => 'TEST-SW-02',
-                'rack_port'     => 'port' . uniqid(),
+                'net_id' => 'TEST-SW-05',
+                'net_port' => 'port' . uniqid(),
+                'net2_id' => 'TEST-SW-05',
+                'net2_port' => 'port' . uniqid(),
+                'pdu2_id' => 'TEST-SW-06',
+                'pdu2_port' => 'port' . uniqid(),
+                'kvm_id' => 'TEST-SW-04',
+                'kvm_port' => 'port' . uniqid(),
+                'pdu_id' => 'TEST-SW-06',
+                'pdu_port' => 'port' . uniqid(),
+                'rack_id' => 'TEST-SW-02',
+                'rack_port' => 'port' . uniqid(),
             ],
         ];
     }
@@ -140,12 +140,12 @@ class ServerAssingHubsCest
     {
         return [
             [
-                'net_id'        => '',
-                'net2_id'       => '',
-                'pdu2_id'       => '',
-                'kvm_id'        => '',
-                'pdu_id'        => '',
-                'rack_id'       => '',
+                'net_id' => '',
+                'net2_id' => '',
+                'pdu2_id' => '',
+                'kvm_id' => '',
+                'pdu_id' => '',
+                'rack_id' => '',
             ],
         ];
     }

@@ -1,12 +1,12 @@
 <?php
 
 use hipanel\helpers\Url;
-use hipanel\modules\server\models\AssignSwitchInterface;
-use hipanel\modules\server\widgets\AssignSwitchesPage;
+use hipanel\modules\server\models\AssignHubsInterface;
+use hipanel\modules\server\widgets\AssignHubsPage;
 use yii\bootstrap\ActiveForm;
 
-/** @var AssignSwitchInterface $model */
-/** @var AssignSwitchInterface[] $models */
+/** @var AssignHubsInterface $model */
+/** @var AssignHubsInterface[] $models */
 
 $this->title = Yii::t('hipanel:server', 'Assign hubs');
 $this->params['breadcrumbs'][] = ['label' => Yii::t('hipanel:server', 'Servers'), 'url' => ['index']];
@@ -14,6 +14,7 @@ if (count($models) === 1) {
     $this->params['breadcrumbs'][] = ['label' => reset($models)->name, 'url' => ['view', 'id' => reset($models)->id]];
 }
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 
 <?php $form = ActiveForm::begin([
@@ -24,4 +25,6 @@ $this->params['breadcrumbs'][] = $this->title;
     'validationUrl' => Url::toRoute(['validate-assign-hubs-form', 'scenario' => 'default']),
 ]) ?>
 
-<?= AssignSwitchesPage::widget(['models' => $models, 'form' => $form]) ?>
+<?= AssignHubsPage::widget(['models' => $models, 'form' => $form]) ?>
+
+<?php ActiveForm::end() ?>

@@ -50,8 +50,8 @@ class HubCest
 
         $I->needPage(Url::to(['@hub/create']));
         $createPage->fillForm($data)
-            ->hasNotErrors()
-            ->submitForm();
+                   ->hasNotErrors()
+                   ->submitForm();
 
         $I->closeNotification('Switch was created');
         $I->seeInCurrentUrl(Url::to(['@hub/view']));
@@ -72,15 +72,16 @@ class HubCest
         $I->needPage(Url::to(['@hub/index']));
 
         $this->indexPage->filterBy(
-            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+            Input::asTableFilter($I, 'Name'),
+            $this->hubData['name']
         );
         $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
-        $this->indexPage->chooseRowMenuOption('Switches');
+        $this->indexPage->chooseRowMenuOption('Assign hubs');
 
         $assignPage->fillForm($data)
-            ->hasNotErrors()
-            ->submitForm();
-        $I->closeNotification('Switches have been edited');
+                   ->hasNotErrors()
+                   ->submitForm();
+        $I->closeNotification('Hubs have been assigned');
         $I->seeInCurrentUrl(Url::to(['@hub/view']));
         $this->viewPage->check($data);
     }
@@ -98,14 +99,15 @@ class HubCest
         $I->needPage(Url::to(['@hub/index']));
 
         $this->indexPage->filterBy(
-            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+            Input::asTableFilter($I, 'Name'),
+            $this->hubData['name']
         );
         $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
         $this->indexPage->chooseRowMenuOption('Options');
 
         $optionsPage->fillForm($data)
-            ->hasNotErrors()
-            ->submitForm();
+                    ->hasNotErrors()
+                    ->submitForm();
         $I->closeNotification('Options was updated');
         $I->seeInCurrentUrl(Url::to(['@hub/view']));
         $this->viewPage->check($data);
@@ -121,15 +123,16 @@ class HubCest
 
         $I->needPage(Url::to(['@hub/index']));
         $this->indexPage->filterBy(
-            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+            Input::asTableFilter($I, 'Name'),
+            $this->hubData['name']
         );
         $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
         $this->indexPage->chooseRowMenuOption('Update');
         $this->updateHubData();
 
         $updatePage->fillForm($this->hubData)
-            ->hasNotErrors()
-            ->submitForm();
+                   ->hasNotErrors()
+                   ->submitForm();
         $I->closeNotification('Switch was updated');
         $I->seeInCurrentUrl(Url::to(['@hub/view']));
         $data = $this->hubData;
@@ -148,7 +151,8 @@ class HubCest
 
         $I->needPage(Url::to(['@hub/index']));
         $this->indexPage->filterBy(
-            Input::asTableFilter($I, 'Name'), $this->hubData['name']
+            Input::asTableFilter($I, 'Name'),
+            $this->hubData['name']
         );
         $this->indexPage->openRowMenuByColumnValue('Name', $this->hubData['name']);
         $this->indexPage->chooseRowMenuOption('View');
@@ -164,11 +168,11 @@ class HubCest
     {
         return [
             [
-                'name'    => 'test_switch' . uniqid(),
+                'name' => 'test_switch' . uniqid(),
                 'type_id' => 'Switch',
-                'inn'     => 'test_inn',
-                'model'   => 'test_model',
-                'note'    => 'test_note',
+                'inn' => 'test_inn',
+                'model' => 'test_model',
+                'note' => 'test_note',
             ],
         ];
     }
@@ -189,14 +193,14 @@ class HubCest
     {
         return [
             [
-                'net_id'        => 'TEST-SW-05',
-                'net_port'      => 'port' . uniqid(),
-                'kvm_id'        => 'TEST-SW-04',
-                'kvm_port'      => 'port' . uniqid(),
-                'pdu_id'        => 'TEST-SW-06',
-                'pdu_port'      => 'port' . uniqid(),
-                'rack_id'       => 'TEST-SW-02',
-                'rack_port'     => 'port' . uniqid(),
+                'net_id' => 'TEST-SW-05',
+                'net_port' => 'port' . uniqid(),
+                'kvm_id' => 'TEST-SW-04',
+                'kvm_port' => 'port' . uniqid(),
+                'pdu_id' => 'TEST-SW-06',
+                'pdu_port' => 'port' . uniqid(),
+                'rack_id' => 'TEST-SW-02',
+                'rack_port' => 'port' . uniqid(),
             ],
         ];
     }
@@ -208,13 +212,13 @@ class HubCest
     {
         return [
             [
-                'inn'               => 'test_inn_option',
-                'model'             => 'test_model_option',
-                'ports_num'         => '42',
-                'community'         => 'hiqdev',
-                'nic_media'         => '100 Gbit/s',
+                'inn' => 'test_inn_option',
+                'model' => 'test_model_option',
+                'ports_num' => '42',
+                'community' => 'hiqdev',
+                'nic_media' => '100 Gbit/s',
                 'digit_capacity_id' => 'vds2',
-                'base_port_no'      => '21',
+                'base_port_no' => '21',
             ],
         ];
     }

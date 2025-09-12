@@ -32,8 +32,9 @@ use hipanel\filters\EasyAccessControl;
 use hipanel\models\Ref;
 use hipanel\modules\finance\models\Tariff;
 use hipanel\modules\finance\providers\ConsumptionsProvider;
+use hipanel\modules\server\actions\AssignHubsAction;
 use hipanel\modules\server\actions\BulkPowerManagementAction;
-use hipanel\modules\server\actions\BulkSetRackNo;
+use hipanel\modules\server\actions\BulkSetRackNoAction;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
 use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
@@ -230,32 +231,9 @@ class ServerController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Server has been updated'),
             ],
             'assign-hubs' => [
-                'class' => SmartUpdateAction::class,
+                'class' => AssignHubsAction::class,
                 'success' => Yii::t('hipanel:server', 'Hubs have been assigned'),
                 'view' => 'assign-hubs',
-                'on beforeFetch' => function (Event $event) {
-                    /** @var \hipanel\actions\SearchAction $action */
-                    $action = $event->sender;
-                    $dataProvider = $action->getDataProvider();
-                    $dataProvider->query->withBindings()->select(['*']);
-                },
-                'collection' => [
-                    'class' => Collection::class,
-                    'model' => new AssignHubsForm(),
-                    'scenario' => 'default',
-                ],
-                'data' => function (Action $action, array $data) {
-                    $result = [];
-                    foreach ($data['models'] as $model) {
-                        $result['models'][] = AssignHubsForm::fromOriginalModel($model);
-                    }
-                    if (!$result['models']) {
-                        throw new NotFoundHttpException('There are no entries available for the selected operation. The type of selected records may not be suitable for the selected operation.');
-                    }
-                    $result['model'] = reset($result['models']);
-
-                    return $result;
-                },
             ],
             'set-units' => [
                 'class' => SmartUpdateAction::class,
@@ -286,14 +264,9 @@ class ServerController extends CrudController
                 },
             ],
             'set-rack-no' => [
-                'class' => BulkSetRackNo::class,
+                'class' => BulkSetRackNoAction::class,
                 'success' => Yii::t('hipanel:server', 'Rack No. has been assigned'),
                 'view' => 'setRackNo',
-                'collection' => [
-                    'class' => Collection::class,
-                    'model' => new AssignHubsForm(),
-                    'scenario' => 'default',
-                ],
             ],
             'hardware-settings' => [
                 'class' => SmartUpdateAction::class,

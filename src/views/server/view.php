@@ -392,7 +392,7 @@ if ($model->running_task) {
                                 return [
                                     'class' => BindingColumn::class,
                                     'attribute' => $binding->typeWithNo,
-                                    'serverName' => $model->name,
+                                    'deviceName' => $model->name,
                                     'deviceId' => $binding->obj_id,
                                 ];
                             }, $model->bindings),
@@ -495,4 +495,3 @@ if ($model->running_task) {
         ]) ?>
     </div>
 </div>
-

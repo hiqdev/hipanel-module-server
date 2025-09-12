@@ -1,12 +1,7 @@
 <?php
-/**
- * Server module for HiPanel
- *
- * @link      https://github.com/hiqdev/hipanel-module-server
- * @package   hipanel-module-server
- * @license   BSD-3-Clause
- * @copyright Copyright (c) 2015-2019, HiQDev (http://hiqdev.com/)
- */
+
+declare(strict_types=1);
+
 
 namespace hipanel\modules\server\grid;
 
@@ -19,37 +14,57 @@ use yii\helpers\Html;
 class BindingColumn extends DataColumn
 {
     public $format = 'raw';
-
     public $filter = false;
-
     public $encodeLabel = false;
-
-    public ?string $serverName = null;
-
+    public ?string $deviceName = null;
     public ?int $deviceId = null;
 
-    public function init()
+    public function init(): void
     {
         parent::init();
         $this->visible = Yii::$app->user->can('hub.read');
-        $this->label = $this->getLabel();
+        $this->label = $this->buildLabel();
     }
 
-    public function getDataCellValue($model, $key, $index)
+    public function getDataCellValue($model, $key, $index): string
     {
-        if (StringHelper::startsWith($this->attribute, 'ipmi', false) && ($ipmi = $model->getBinding($this->attribute)) !== null) {
-            $device_ip = Html::encode($ipmi->device_ip);
-            $link = Html::a($device_ip, "http://$device_ip/", ['target' => '_blank']) . ' ';
-
-            return $link . $this->renderSwitchPort($ipmi);
+        if ($this->isIPMIAttribute()) {
+            return $this->renderIPMIBinding($model);
         }
 
-        return isset($model->bindings[$this->attribute]) ? $this->renderSwitchPort($model->bindings[$this->attribute]) : '';
+        $binding = $model->bindings[$this->attribute] ?? null;
+
+        return $this->renderSwitchPort($binding);
     }
 
     /**
-     * @param Binding|null $binding
-     * @return string
+     * Renders IPMI binding with device IP link and switch port information
+     */
+    private function renderIPMIBinding($model): string
+    {
+        $ipmi = $model->getBinding($this->attribute);
+        if ($ipmi === null) {
+            return '';
+        }
+
+        $deviceLink = $this->createDeviceIpLink($ipmi->device_ip);
+        $switchPortInfo = $this->renderSwitchPort($ipmi);
+
+        return $deviceLink . $switchPortInfo;
+    }
+
+    /**
+     * Creates a clickable link for the device IP address
+     */
+    private function createDeviceIpLink(string $deviceIp): string
+    {
+        $encodedIp = Html::encode($deviceIp);
+
+        return Html::a($encodedIp, "http://$encodedIp/", ['target' => '_blank']) . ' ';
+    }
+
+    /**
+     * Renders switch port information with proper formatting
      */
     protected function renderSwitchPort(?Binding $binding): string
     {
@@ -57,34 +72,105 @@ class BindingColumn extends DataColumn
             return '';
         }
 
+        $inn = $this->formatINN($binding->switch_inn);
+        $switchPortLink = $this->createSwitchPortLink($binding);
         $label = Html::encode($binding->switch_label);
-        $inn = $binding->switch_inn;
-        $inn = Html::encode($inn ? "($inn) " : '');
-        $main = Html::a(Html::encode($binding->switch . ($binding->port ? ':' . $binding->port : '')), ['@hub/view', 'id' => $binding->switch_id]);
 
-        return "$inn<b>$main</b> $label";
+        return "$inn<b>$switchPortLink</b> $label";
     }
 
     /**
-     * @return string
+     * Formats the INN (tax identification number) with parentheses
      */
-    private function getLabel(): string
+    private function formatINN(?string $inn): string
     {
-        $defaultLabel = $this->getHeaderCellLabel();
-        $addColon = preg_replace('/(\d+)/', ':${1}', $defaultLabel);
-        $label = (string)preg_replace(['/Net/', '/Pdu/'], ['Switch', 'APC'], $addColon);
+        if (empty($inn)) {
+            return '';
+        }
 
-        return $label . $this->getIpmiOrNic2LinkToLabel($this->attribute, $this->deviceId, $this->serverName);
+        return Html::encode("($inn) ");
     }
 
-    private function getIpmiOrNic2LinkToLabel(string $type, ?int $deviceId, ?string $serverName = null): string
+    /**
+     * Creates a link to the switch/hub view page
+     */
+    private function createSwitchPortLink(Binding $binding): string
     {
-        $link = '';
-        if ($type === 'ipmi' && $deviceId && $serverName) {
-            $link = '<br/>' . Html::a($serverName . $type, ['@hub/view', 'id' => $deviceId]);
-        } elseif ($type === 'net2' && $deviceId && $serverName) {
-            $link = '<br/>' . Html::a($serverName . $type, ['@server/view', 'id' => $deviceId]);
+        $switchText = $binding->switch;
+        if ($binding->port) {
+            $switchText .= ":$binding->port";
         }
-        return $link;
+
+        return Html::a(Html::encode($switchText), ['@hub/view', 'id' => $binding->switch_id]);
+    }
+
+    /**
+     * Builds the column label with transformations and additional links
+     */
+    private function buildLabel(): string
+    {
+        $defaultLabel = $this->getHeaderCellLabel();
+        $transformedLabel = $this->transformLabel($defaultLabel);
+        $additionalLink = $this->buildAdditionalLink();
+
+        return $transformedLabel . $additionalLink;
+    }
+
+    /**
+     * Applies label transformations (add colons, replace terms)
+     */
+    private function transformLabel(string $label): string
+    {
+        // Add colons before numbers
+        $labelWithColons = preg_replace('/(\d+)/', ':${1}', $label);
+
+        // Replace Net/Pdu with Switch/APC
+        return (string)preg_replace(['/Net/', '/Pdu/'], ['Switch', 'APC'], $labelWithColons);
+    }
+
+    /**
+     * Builds an additional link based on an attribute type
+     */
+    private function buildAdditionalLink(): string
+    {
+        if (!$this->hasRequiredLinkData()) {
+            return '';
+        }
+
+        return match (true) {
+            $this->attribute === 'ipmi' => $this->createAdditionalLink('@hub/view', 'ipmi'),
+            preg_match('/^net|pdu\d+$/', $this->attribute) === 1 => $this->createAdditionalLink(
+                '@server/view',
+                str_replace(['net', 'pdu'], 'nic', $this->attribute)
+            ),
+            default => '',
+        };
+    }
+
+    /**
+     * Creates additional link HTML
+     */
+    private function createAdditionalLink(string $route, string $suffix): string
+    {
+        $linkText = $this->deviceName . $suffix;
+        $link = Html::a($linkText, [$route, 'id' => $this->deviceId]);
+
+        return '<br/>' . $link;
+    }
+
+    /**
+     * Checks if the current attribute is an IPMI attribute
+     */
+    private function isIPMIAttribute(): bool
+    {
+        return StringHelper::startsWith($this->attribute, 'ipmi', false);
+    }
+
+    /**
+     * Checks if we have the required data to build additional links
+     */
+    private function hasRequiredLinkData(): bool
+    {
+        return $this->deviceId !== null && $this->deviceName !== null;
     }
 }

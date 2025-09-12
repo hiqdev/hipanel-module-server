@@ -71,7 +71,12 @@ JS
                 Box::endHeader();
                 $box->beginBody();
                 $bindingColumns = array_map(
-                    static fn(Binding $binding): array => ['class' => BindingColumn::class, 'attribute' => $binding->typeWithNo],
+                    static fn(Binding $binding): array => [
+                        'class' => BindingColumn::class,
+                        'attribute' => $binding->typeWithNo,
+                        'deviceName' => $binding->switch,
+                        'deviceId' => $binding->obj_id,
+                    ],
                     $model->bindings
                 );
                 if (!empty($bindingColumns)) {

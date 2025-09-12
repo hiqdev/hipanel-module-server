@@ -1,4 +1,4 @@
-import { expect, Locator, Page } from "@playwright/test";
+import { Page } from "@playwright/test";
 import Alert from "@hipanel-core/ui/Alert";
 import Input from "@hipanel-core/input/Input";
 import Select2 from "@hipanel-core/input/Select2";
@@ -12,22 +12,20 @@ export default class ServerAssignHubForm {
   }
 
   async fill(assignHub: ServerAssignHub) {
-    await Select2.field(this.page, '#assignhubsform-0-net_id').setValue(assignHub.switch);
-    await Input.field(this.page, '#assignhubsform-0-net_port').fill(assignHub.swPort);
-    await Select2.field(this.page, '#assignhubsform-0-net2_id').setValue(assignHub.switch2);
-    await Input.field(this.page, '#assignhubsform-0-net2_port').fill(assignHub.sw2Port);
-    await Select2.field(this.page, '#assignhubsform-0-kvm_id').setValue(assignHub.kvm);
-    await Input.field(this.page, '#assignhubsform-0-kvm_port').fill(assignHub.kvmPort);
-    await Select2.field(this.page, '#assignhubsform-0-rack_id').setValue(assignHub.rack);
-    await Input.field(this.page, '#assignhubsform-0-rack_port').fill(assignHub.rackPort);
-    await Select2.field(this.page, '#assignhubsform-0-pdu_id').setValue(assignHub.apc);
-    await Input.field(this.page, '#assignhubsform-0-pdu_port').fill(assignHub.apcPort);
-    await Select2.field(this.page, '#assignhubsform-0-ipmi_id').setValue(assignHub.ipmi);
-    await Input.field(this.page, '#assignhubsform-0-ipmi_port').fill(assignHub.ipmiPort);
+    await Select2.field(this.page, "#assignhubsform-0-net_id").setValue(assignHub.net);
+    await Input.field(this.page, "#assignhubsform-0-net_port").fill(assignHub.net_port);
+    await Select2.field(this.page, "#assignhubsform-0-kvm_id").setValue(assignHub.kvm);
+    await Input.field(this.page, "#assignhubsform-0-kvm_port").fill(assignHub.kvm_port);
+    await Select2.field(this.page, "#assignhubsform-0-rack_id").setValue(assignHub.rack);
+    await Input.field(this.page, "#assignhubsform-0-rack_port").fill(assignHub.rack_port);
+    await Select2.field(this.page, "#assignhubsform-0-pdu_id").setValue(assignHub.pdu);
+    await Input.field(this.page, "#assignhubsform-0-pdu_port").fill(assignHub.pdu_port);
+    await Select2.field(this.page, "#assignhubsform-0-ipmi_id").setValue(assignHub.ipmi);
+    await Input.field(this.page, "#assignhubsform-0-ipmi_port").fill(assignHub.ipmi_port);
   }
 
   async save() {
-    await this.page.locator('button.btn-success:has-text("Save")').click();
+    await this.page.locator("button.btn-success:has-text(\"Save\")").click();
   }
 
   async seeSuccessAlert() {
