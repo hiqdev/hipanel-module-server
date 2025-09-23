@@ -138,8 +138,9 @@ class ServerController extends CrudController
                     $action = $event->sender;
                     $query = $action->getDataProvider()->query;
 
-                    $query->withBindings();
-
+                    if (in_array($this->indexPageUiOptionsModel->representation, ['admin', 'hardware', 'manager', 'billing'], true)) {
+                        $query->withBindings();
+                    }
                     if (Yii::$app->user->can('sale.read')) {
                         $query->withSales();
                     }
