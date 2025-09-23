@@ -2,9 +2,9 @@
 
 use hipanel\modules\server\assets\AssignHubsColumnReveal;
 use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\widgets\ApplyToAllWidget;
 use hipanel\modules\server\widgets\AssignHubsPage;
 use hipanel\modules\server\widgets\combo\HubCombo;
-use hipanel\widgets\ApplyToAllWidget;
 use hipanel\widgets\DynamicFormWidget;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
