@@ -2,17 +2,14 @@
 
 declare(strict_types=1);
 
+
 namespace hipanel\modules\server\assets;
 
-use yii\web\AssetBundle;
 use yii\web\JqueryAsset;
 
-class ApplyToAllAsset extends AssetBundle
+class ApplyToAllAsset extends ServerAsset
 {
-    public $sourcePath = __DIR__ . '/js';
-    public $js = ['ApplyToAll.js'];
-    public $depends = [
-        JqueryAsset::class,
-    ];
-    public $publishOptions = ['only' => ['ApplyToAll.js']];
+    private const string FILE_NAME = 'js/apply-to-all.js';
+    public $js = [self::FILE_NAME];
+    public $depends = [JqueryAsset::class];
 }

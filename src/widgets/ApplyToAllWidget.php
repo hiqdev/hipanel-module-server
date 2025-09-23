@@ -9,6 +9,7 @@ use hipanel\modules\server\assets\ApplyToAllAsset;
 use Yii;
 use yii\base\Widget;
 use yii\helpers\Json;
+use yii\web\View;
 
 class ApplyToAllWidget extends Widget
 {
@@ -27,7 +28,7 @@ class ApplyToAllWidget extends Widget
             'attributes' => $this->attributes,
             'linkText' => Yii::t('hipanel', 'Apply to all'),
         ]);
-        $this->view->registerJs("\$('#$this->formId').applyToAll($options);");
+        $this->view->registerJs("\$('#$this->formId').applyToAll($options);", View::POS_LOAD);
 
         return parent::run();
     }
