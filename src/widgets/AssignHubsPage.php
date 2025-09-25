@@ -48,7 +48,7 @@ class AssignHubsPage extends Widget
 
     public function hasPort(string $variant): bool
     {
-        return !in_array($variant, ['location', 'region', 'rack', 'jbod'], true);
+        return !in_array($variant, ['location', 'region'], true);
     }
 
     public function splitIntoGroups(array $hubVariants): array
