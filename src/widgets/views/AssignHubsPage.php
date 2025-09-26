@@ -78,7 +78,7 @@ AssignHubsColumnReveal::register($this);
                         <?php if (!empty($nets)) : ?>
                             <div class="col-md-4">
                                 <h5><?= Yii::t('hipanel:server', 'Switches') ?></h5>
-                                <ol>
+                                <ol class="nets">
                                 <?php foreach ($nets as $variant) : ?>
                                     <?php $renderedAttributes[] = $variant ?>
                                     <?php if ($context->hasPort($variant)) : ?>
@@ -112,7 +112,7 @@ AssignHubsColumnReveal::register($this);
                         <?php if (!empty($pdus)) : ?>
                             <div class="col-md-4">
                                 <h5><?= Yii::t('hipanel:server', 'APCs') ?></h5>
-                                <ol>
+                                <ol class="pdus">
                                 <?php foreach ($pdus as $variant) : ?>
                                     <?php $renderedAttributes[] = $variant ?>
                                     <?php if ($context->hasPort($variant)) : ?>

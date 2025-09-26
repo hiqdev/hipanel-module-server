@@ -32,6 +32,12 @@ abstract class Hub extends AbstractServerForm
                     (new Dropdown($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
                     break;
                 case in_array($field, ['net_id', 'kvm_id', 'pdu_id', 'rack_id', 'pdu2_id', 'net2_id', 'ipmi_id', 'location_id']):
+                    if (str_starts_with($field, 'net2')) {
+                        $I->click('.nets + div > .assign-hubs-reveal');
+                    }
+                    if (str_starts_with($field, 'pdu2')) {
+                        $I->click('.pdus + div > .assign-hubs-reveal');
+                    }
                     (new Select2($I, "select[name$=\"[{$field}]\"]"))->setValue($value);
                     break;
                 default:
