@@ -62,8 +62,8 @@ abstract class AssignableHubs extends SmartUpdateAction
         $hubs = $this->collectFromRequest();
         foreach ($hubs as &$hub) {
             $model = clone $form;
+            $model::setModelClass($this->getAssignableClassName());
             if ($model->load($hub, '') && $model->validate()) {
-                $model::setModelClass($this->getAssignableClassName());
                 foreach ($model->toArray() as $key => $value) {
                     if (str_contains($key, '_')) {
                         $hub['hubs'][$key] = $value;
