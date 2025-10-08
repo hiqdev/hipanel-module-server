@@ -47,7 +47,7 @@ class BindingColumn extends DataColumn
             return '';
         }
 
-        $deviceLink = $this->createDeviceIpLink($ipmi->device_ip);
+        $deviceLink = isset($ipmi->device_ip) ? $this->createDeviceIpLink($ipmi->device_ip) : '';
         $switchPortInfo = $this->renderSwitchPort($ipmi);
 
         return $deviceLink . $switchPortInfo;
