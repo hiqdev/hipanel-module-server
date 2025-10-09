@@ -162,11 +162,11 @@ TXT
                                 <?= $form->field($order, 'traffic_mbps', ['options' => ['v-if' => 'trafficUnit === "mbps"']])
                                     ->dropDownList($order->getItems('traffic_mbps'), ['v-model' => 'order.traffic_mbps'])
                                     ->label(false)
-                                    ->hint('{{ showHint("traffic_mbps") }}') ?>
+                                    /* ->hint('{{ showHint("traffic_mbps") }}') */ ?>
                                 <?= $form->field($order, 'traffic_tb', ['options' => ['v-else' => true]])
                                     ->dropDownList($order->getItems('traffic_tb'), ['v-model' => 'order.traffic_tb'])
                                     ->label(false)
-                                    ->hint('{{ showHint("traffic_tb") }}') ?>
+                                    /* ->hint('{{ showHint("traffic_tb") }}') */ ?>
                             </transition>
                         </div>
                         <transition name="slide-fade" mode="out-in">
