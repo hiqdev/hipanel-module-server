@@ -438,7 +438,7 @@ class ServerGridView extends BoxedGridView
                 'label' => Yii::t('hipanel:server', 'Hardware Comment'),
             ],
             'last_client' => [
-                'class' => ClientColumn::class,
+                'class' => LastClientColumn::class,
                 'attribute' => 'last_client_id',
             ],
         ], $this->getConsumptionColumns(), $columns);
