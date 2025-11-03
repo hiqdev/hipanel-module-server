@@ -35,10 +35,8 @@ class ServerQuery extends ActiveQuery
 
     public function withBindings(): self
     {
-        if (Yii::$app->user->can('hub.read')) {
-            $this->joinWith('bindings');
-            $this->andWhere(['with_bindings' => true]);
-        }
+        $this->joinWith('bindings');
+        $this->andWhere(['with_bindings' => true]);
 
         return $this;
     }
@@ -87,10 +85,8 @@ class ServerQuery extends ActiveQuery
 
     public function withSoftwareSettings(): self
     {
-        if (Yii::$app->user->can('server.manage-settings')) {
-            $this->joinWith(['softwareSettings']);
-            $this->andWhere(['with_softwareSettings' => 1]);
-        }
+        $this->joinWith(['softwareSettings']);
+        $this->andWhere(['with_softwareSettings' => 1]);
 
         return $this;
     }

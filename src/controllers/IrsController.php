@@ -72,10 +72,12 @@ class IrsController extends CrudController
                 return $this->asJson(['error' => $e->getMessage()]);
             }
 
-            return $this->asJson(isset($ticket) ? [
-                'ticketLink' => Url::toRoute(['@ticket/view', 'id' => $ticket->id]),
-                'ticketId' => $ticket->id,
-            ] : []);
+            return $this->asJson(
+                isset($ticket) ? [
+                    'ticketLink' => Url::toRoute(['@ticket/view', 'id' => $ticket->id]),
+                    'ticketId' => $ticket->id,
+                ] : []
+            );
         }
 
         return $this->render('order', ['order' => $order, 'ticket' => null]);
