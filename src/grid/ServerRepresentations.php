@@ -98,7 +98,7 @@ class ServerRepresentations extends RepresentationCollection
                     'type',
                     'dc',
                     'server',
-                    ...$consumptionConfigurator->getColumns('server'),
+                    ...$consumptionConfigurator->getColumns('server')->names(),
                 ],
             ] : null,
         ]);

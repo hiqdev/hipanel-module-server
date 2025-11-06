@@ -50,7 +50,7 @@ class HubRepresentations extends RepresentationCollection
                     'switch',
                     'type',
                     'server_type',
-                    ...$consumptionConfigurator->getColumns('switch'),
+                    ...$consumptionConfigurator->getColumns('switch')->names(),
                 ],
             ] : null,
             'manager' => [
