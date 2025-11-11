@@ -39,7 +39,6 @@ test("Test hub pages @hipanel-module-server @admin", async ({ page }) => {
     await h.gotoIndexPage();
   });
 
-
   await test.step("Test create switch @hipanel-module-server @admin", async () => {
     const switchForm = new SwitchForm(page);
     const switchHelper = new SwitchHelper(page);
