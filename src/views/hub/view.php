@@ -67,7 +67,7 @@ JS
                 <?php
                 $box = Box::begin(['renderBody' => false, 'bodyOptions' => ['class' => 'no-padding']]);
                 $box->beginHeader();
-                echo $box->renderTitle(Yii::t('hipanel:server', 'Switches'));
+                echo $box->renderTitle(Yii::t('hipanel:server', 'Hubs'));
                 Box::endHeader();
                 $box->beginBody();
                 $bindingColumns = array_map(

@@ -138,7 +138,7 @@ class HubController extends CrudController
             ],
             'create' => [
                 'class' => SmartCreateAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Switch was created'),
+                'success' => Yii::t('hipanel:server:hub', 'Switch has been created'),
                 'data' => function () {
                     return [
                         'types' => $this->getTypes(),
@@ -147,7 +147,7 @@ class HubController extends CrudController
             ],
             'update' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Switch was updated'),
+                'success' => Yii::t('hipanel:server:hub', 'Switch has been updated'),
                 'data' => function () {
                     return [
                         'types' => $this->getTypes(),
@@ -156,7 +156,7 @@ class HubController extends CrudController
             ],
             'options' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server:hub', 'Options was updated'),
+                'success' => Yii::t('hipanel:server:hub', 'Options have been updated'),
                 'data' => function () {
                     return [
                         'snmpOptions' => $this->getSnmpOptions(),
