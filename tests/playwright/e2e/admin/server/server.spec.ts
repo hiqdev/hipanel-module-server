@@ -1,7 +1,8 @@
 import { test } from "@hipanel-core/fixtures";
 import { faker } from "@faker-js/faker";
 import { Server } from "@hipanel-module-server/types";
-import ServerPage from "@hipanel-module-server/pages/ServerPage";import ServerFormPage from "@hipanel-module-server/pages/ServerFormPage";
+import ServerPage from "@hipanel-module-server/pages/ServerPage";
+import ServerFormPage from "@hipanel-module-server/pages/ServerFormPage";
 import ServerViewPage from "@hipanel-module-server/pages/ServerViewPage";
 
 test("Test server pages @hipanel-module-server @admin", async ({ page }) => {
@@ -29,7 +30,7 @@ test("Test server pages @hipanel-module-server @admin", async ({ page }) => {
     await serverPage.hasMainElementsOnIndexPage();
   });
 
-  await test.step("it can not submit emty form", async () => {
+  await test.step("it can not submit empty form", async () => {
     await serverPage.gotoServerCreate();
     await serverForm.submit();
     await serverForm.hasErrors();

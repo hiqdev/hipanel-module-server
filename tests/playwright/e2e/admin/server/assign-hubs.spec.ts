@@ -27,12 +27,12 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
     async (): Promise<Server> => await assignForm.createTestServer(),
   );
 
-  await test.step("assgin hubs", async () => {
+  await test.step("assign hubs", async () => {
     await assignForm.gotoAssignHubPage(testServer.serverName);
     await assignForm.save(defaultTestData);
   });
 
-  await test.step("assgin second interface", async () => {
+  await test.step("assign second interface", async () => {
     await assignForm.gotoAssignHubPage(testServer.serverName);
     const testData = {
       net2_id: "TEST-SW-05",
@@ -46,7 +46,6 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
   await test.step("update assigned hubs", async () => {
     await assignForm.gotoAssignHubPage(testServer.serverName);
     defaultTestData.net_port = assignForm.fakePort();
-    defaultTestData.net_port = assignForm.fakePort();
     defaultTestData.pdu2_port = assignForm.fakePort();
     defaultTestData.ipmi_port = assignForm.fakePort();
     defaultTestData.kvm_port = assignForm.fakePort();
@@ -54,7 +53,7 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
     await assignForm.save(filterPortsOnly(defaultTestData));
   });
 
-  await test.step("cancel action after making chages with assigned hubs", async () => {
+  await test.step("cancel action after making changes with assigned hubs", async () => {
     await assignForm.gotoServerViewPage(testServer.serverName);
     const ipmi = `${defaultTestData.ipmi_id}:${defaultTestData.ipmi_port}`;
     await expect(page.getByRole("link", { name: ipmi })).toBeVisible();

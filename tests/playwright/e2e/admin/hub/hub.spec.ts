@@ -33,7 +33,7 @@ test("Test hub pages @hipanel-module-server @admin", async ({ page }) => {
     await hubPage.gotoIndexPage();
     await hubPage.gotoCreate();
 
-    await hubPage.cannotCreateWtihEmptyForm();
+    await hubPage.cannotCreateWithEmptyForm();
 
     await hubPage.create(hubTestData);
   });

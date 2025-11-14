@@ -108,7 +108,7 @@ export default class HubPage {
     await this.view.see(Object.values(hub));
   }
 
-  async cannotCreateWtihEmptyForm() {
+  async cannotCreateWithEmptyForm() {
     await this.form.submit();
     await this.form.hasErrors();
   }
