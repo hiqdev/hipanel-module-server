@@ -102,7 +102,7 @@ class HubGridView extends BoxedGridView
                 'enableSorting' => false,
             ],
             'switch' => [
-                'class' => MainColumn::class,
+                'class' => HubMainColumn::class,
                 'attribute' => 'name',
                 'filterAttribute' => 'name_ilike',
                 'note' => 'note',
