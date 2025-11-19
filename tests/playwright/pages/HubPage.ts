@@ -1,6 +1,6 @@
 import { expect, Page } from "@playwright/test";
 import Index from "@hipanel-core/page/Index";
-import Alert from "@hipanel-core/ui/Alert";
+import { Alert } from "@hipanel-core/shared/ui/components";
 import Form from "@hipanel-core/page/Form";
 import { Hub } from "@hipanel-module-server/types";
 import View from "@hipanel-core/page/View";
@@ -47,7 +47,7 @@ export default class HubPage {
     await this.index.columnFilters.applyFilter("name_ilike", name);
     await this.index.clickPopoverMenu(1, "View");
     this.page.on("dialog", dialog => dialog.accept());
-    await this.view.detailPageMenu.clickMenuItem("Delete");
+    await this.view.detailMenu.click("Delete");
     await this.seeAlertMessage("Switches have been deleted");
   }
 

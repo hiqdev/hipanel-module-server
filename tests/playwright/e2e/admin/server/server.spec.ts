@@ -41,7 +41,7 @@ test("Test server pages @hipanel-module-server @admin", async ({ page }) => {
     await serverForm.fill(serverCreateTestData);
     await serverForm.submit();
     await serverForm.seeSuccessCreateAlert();
-    await serverViewPage.see(Object.values(serverCreateTestData));
+    await serverViewPage.view.see(Object.values(serverCreateTestData));
   });
 
   await test.step("it can update the server", async () => {

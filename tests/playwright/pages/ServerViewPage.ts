@@ -1,55 +1,51 @@
-import { expect, Locator, Page } from "@playwright/test";
-import DetailMenu from "@hipanel-core/helper/DetailMenu";
-import View from "@hipanel-core/page/View";
+import { expect, Page } from "@playwright/test";
+import { DetailMenu } from "@hipanel-core/shared/ui/components";
 import { Server } from "@hipanel-module-server/types";
+import View from "@hipanel-core/page/View";
 
-export default class ServerViewPage extends View {
+export default class ServerViewPage {
   private detailMenu: DetailMenu;
+  view: View;
 
-  public constructor(readonly page: Page) {
-    super(page);
+  constructor(readonly page: Page) {
     this.detailMenu = new DetailMenu(this.page);
+    this.view = new View(page);
   }
 
-  public async gotoServerView(id: string) {
+  async gotoServerView(id: string) {
     await this.page.goto(`/server/server/view?id=${id}`);
   }
 
-  public detailMenuItem(item: string): Locator {
-    return this.detailMenu.detailMenuItem(item);
-  }
-
-  public async hasServerDetailMenuButtonsOnViewPage(server: Server) {
-    await this.detailMenu.hasDetailMenuItem("Update");
+  async hasServerDetailMenuButtonsOnViewPage(server: Server) {
+    await this.detailMenu.has("Update");
 
     if (this.isServerActive(server)) {
-      await this.detailMenu.hasDetailMenuItem("Assign hubs");
+      await this.detailMenu.has("Assign hubs");
     }
 
-    await this.detailMenu.hasDetailMenuItem("Switch graphs");
-    await this.detailMenu.hasDetailMenuItem("Server IPs");
-    await this.detailMenu.hasDetailMenuItem("Server Accounts");
+    await this.detailMenu.has("Switch graphs");
+    await this.detailMenu.has("Server IPs");
+    await this.detailMenu.has("Server Accounts");
 
     if (this.isServerActive(server)) {
-      await this.detailMenu.hasDetailMenuItem("Hardware properties");
-      await this.detailMenu.hasDetailMenuItem("Software properties");
-      await this.detailMenu.hasDetailMenuItem("Monitoring properties");
-      await this.detailMenu.hasDetailMenuItem("Mail settings");
+      await this.detailMenu.has("Hardware properties");
+      await this.detailMenu.has("Software properties");
+      await this.detailMenu.has("Monitoring properties");
+      await this.detailMenu.has("Mail settings");
     }
 
-    await this.detailMenu.hasDetailMenuItem("Resources");
+    await this.detailMenu.has("Resources");
 
     if (this.isServerActive(server)) {
-      //await detailMenu.hasDetailMenuItem('Enable block');
-      await this.detailMenu.hasDetailMenuItem("Delete");
+      await this.detailMenu.has("Delete");
     }
   }
 
-  public isServerActive(server: Server): boolean {
+  isServerActive(server: Server): boolean {
     return server.status !== "Deleted";
   }
 
-  public async checkDetailViewData(server: Server) {
+  async checkDetailViewData(server: Server) {
     const firstDetailViewTable = this.page.locator("table.detail-view").first();
 
     await expect(firstDetailViewTable.locator("tbody tr:nth-child(3) td")).toContainText(server.serverName);
@@ -57,8 +53,8 @@ export default class ServerViewPage extends View {
     await expect(firstDetailViewTable.locator("tbody tr:nth-child(5) td")).toContainText(server.status);
   }
 
-  public async gotoUpdateServerPage() {
-    await this.detailMenu.clickDetailMenuItem("Update");
+  async gotoUpdateServerPage() {
+    await this.detailMenu.click("Update");
     await expect(this.page).toHaveTitle("Update");
   }
 }

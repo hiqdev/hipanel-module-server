@@ -1,51 +1,51 @@
 import { expect, Page } from "@playwright/test";
 import Index from "@hipanel-core/page/Index";
-import Alert from "@hipanel-core/ui/Alert";
+import { Alert } from "@hipanel-core/shared/ui/components";
 
 export default class ServerPage {
   private page: Page;
-  public index: Index;
+  index: Index;
 
-  public constructor(page: Page) {
+  constructor(page: Page) {
     this.page = page;
     this.index = new Index(page);
   }
 
-  public async gotoIndex() {
+  async gotoIndex() {
     await this.page.goto("/server/server/index");
     await expect(this.page).toHaveTitle("Servers");
   }
 
-  public async gotoIndexShowDeleted() {
+  async gotoIndexShowDeleted() {
     await this.page.goto(`/server/server/index?ServerSearch[show_deleted]=1`);
   }
 
-  public async gotoServerCreate() {
+  async gotoServerCreate() {
     await this.page.goto("/server/server/create");
     await expect(this.page).toHaveTitle("Create");
   }
 
-  public async gotoServerUpdate(serverName: string) {
+  async gotoServerUpdate(serverName: string) {
     await this.findByName(serverName);
     await this.index.clickPopoverMenu(1, "Update");
   }
 
-  public async deleteServer(serverName: string) {
+  async deleteServer(serverName: string) {
     await this.findByName(serverName);
     await this.index.chooseNumberRowOnTable(1);
     await this.index.clickDropdownBulkButton("Basic actions", "Delete");
     await this.index.clickButton("Delete");
   }
 
-  public async seeAlertMessage(message: string) {
+  async seeAlertMessage(message: string) {
     await Alert.on(this.page).hasText(message);
   }
 
-  public async gotoServerPage(rowNumber: number) {
+  async gotoServerPage(rowNumber: number) {
     await this.index.clickColumnOnTable("Name", rowNumber);
   }
 
-  public async hasMainElementsOnIndexPage() {
+  async hasMainElementsOnIndexPage() {
     await this.index.hasAdvancedSearchInputs([
       "ServerSearch[name_dc]",
       "ServerSearch[name_ilike]",
@@ -70,7 +70,7 @@ export default class ServerPage {
     //await indexPage.hasColumns(["Name", "Client", "Reseller", "IPs", "Tariff", "Hardware Summary"]);
   }
 
-  public async getNumberOfRows() {
+  async getNumberOfRows() {
     return await this.page.locator("input[name=\"selection[]\"]").count();
   }
 

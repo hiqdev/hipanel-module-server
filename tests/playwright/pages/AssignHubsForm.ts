@@ -3,7 +3,7 @@ import Index from "@hipanel-core/page/Index";
 import Form from "@hipanel-core/page/Form";
 import Input from "@hipanel-core/input/Input";
 import { AssignHubs, Server } from "@hipanel-module-server/types";
-import Alert from "@hipanel-core/ui/Alert";
+import { Alert } from "@hipanel-core/shared/ui/components";
 import ServerFormPage from "@hipanel-module-server/pages/ServerFormPage";
 import Select2 from "@hipanel-core/input/Select2";
 import View from "@hipanel-core/page/View";

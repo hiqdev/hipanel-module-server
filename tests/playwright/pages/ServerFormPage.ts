@@ -1,5 +1,5 @@
 import { expect } from "@playwright/test";
-import Alert from "@hipanel-core/ui/Alert";
+import { Alert } from "@hipanel-core/shared/ui/components";
 import Input from "@hipanel-core/input/Input";
 import Dropdown from "@hipanel-core/input/Dropdown";
 import { Server } from "@hipanel-module-server/types";
