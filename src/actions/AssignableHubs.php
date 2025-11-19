@@ -66,7 +66,7 @@ abstract class AssignableHubs extends SmartUpdateAction
             if ($model->load($hub, '') && $model->validate()) {
                 foreach ($model->toArray() as $key => $value) {
                     if (str_contains($key, '_')) {
-                        $hub['hubs'][$key] = $value;
+                        $hub['hubs'][$key] = $value ?? '';
                         unset($hub[$key]);
                     }
                 }
