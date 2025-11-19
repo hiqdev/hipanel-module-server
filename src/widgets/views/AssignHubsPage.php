@@ -2,6 +2,7 @@
 
 use hipanel\modules\server\assets\AssignHubsColumnReveal;
 use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\helpers\AssignHubsGroup;
 use hipanel\modules\server\widgets\ApplyToAllWidget;
 use hipanel\modules\server\widgets\AssignHubsPage;
 use hipanel\modules\server\widgets\combo\HubCombo;
@@ -12,6 +13,7 @@ use yii\web\View;
 
 /**
  * @var View $this
+ * @var AssignHubsGroup[] $groups
  * @var AssignHubsForm[] $models
  * @var AssignHubsForm $model
  * @var AssignHubsPage $context
@@ -40,6 +42,9 @@ $this->registerCss(
 }
 .item .row > div:last-child .row > div:has(input):not(:has(label)) {
   padding-top: 25px;
+}
+.item .form-group {
+  position: relative;
 }
 CSS
 );
@@ -74,96 +79,63 @@ AssignHubsColumnReveal::register($this);
                 </div>
                 <div class="box-body">
                     <div class="row">
-                        <?php [$nets, $pdus, $other] = $context->splitIntoGroups($model->getHubVariants()) ?>
-                        <?php if (!empty($nets)) : ?>
-                            <div class="col-md-4">
-                                <h5><?= Yii::t('hipanel:server', 'Switches') ?></h5>
-                                <ol class="nets">
-                                <?php foreach ($nets as $variant) : ?>
-                                    <?php $renderedAttributes[] = $variant ?>
-                                    <?php if ($context->hasPort($variant)) : ?>
-                                        <li>
-                                            <div>
-                                                <?= $form->field(
-                                                    $model,
-                                                    "[$i]{$variant}_id"
-                                                )->widget(
-                                                    HubCombo::class,
-                                                    $context->prepareHubComboOptions($variant)
-                                                )->label($context->getAttributeLabel($model, $variant)) ?>
-                                                <?= $form->field($model, "[$i]{$variant}_port")
-                                                         ->textInput(['placeholder' => 'Port'])
-                                                         ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
-                                            </div>
-                                        </li>
+                        <?php $groups = $context->splitIntoGroups($model->getHubVariants()) ?>
+                        <?php foreach ($groups as $group) : ?>
+                            <?php if ($group->notEmpty()) : ?>
+                                <div class="col-md-4">
+                                    <?php if ($group->hasHeader()): ?>
+                                        <h5><?= $group->getLabel() ?></h5>
+                                        <ol class="<?= $group->getName() ?>">
+                                            <?php foreach ($group->getItems() as $variant) : ?>
+                                                <?php $renderedAttributes[] = $variant ?>
+                                                <li>
+                                                    <div>
+                                                        <?php if ($context->hasPort($variant)) : ?>
+                                                            <?= $form->field($model, "[$i]{$variant}_id")
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
+                                                                     ->label($context->getAttributeLabel($model, $variant)) ?>
+                                                            <?= $form->field($model, "[$i]{$variant}_port")
+                                                                     ->textInput(['placeholder' => 'Port'])
+                                                                     ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
+                                                        <?php else : ?>
+                                                            <?= $form->field($model, "[$i]{$variant}_id")
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
+                                                                     ->label($context->getAttributeLabel($model, $variant)) ?>
+                                                        <?php endif ?>
+                                                    </div>
+                                                </li>
+                                            <?php endforeach ?>
+                                        </ol>
                                     <?php else : ?>
-                                        <li>
-                                            <div>
-                                                <?= $form->field($model, "[$i]{$variant}_id")
-                                                         ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
-                                                         ->label($context->getAttributeLabel($model, $variant)) ?>
-                                            </div>
-                                        </li>
-                                    <?php endif ?>
-                                <?php endforeach ?>
-                                </ol>
-                            </div>
-                        <?php endif ?>
-                        <?php if (!empty($pdus)) : ?>
-                            <div class="col-md-4">
-                                <h5><?= Yii::t('hipanel:server', 'APCs') ?></h5>
-                                <ol class="pdus">
-                                <?php foreach ($pdus as $variant) : ?>
-                                    <?php $renderedAttributes[] = $variant ?>
-                                    <?php if ($context->hasPort($variant)) : ?>
-                                        <li>
-                                            <div>
-                                                <?= $form->field($model, "[$i]{$variant}_id")
-                                                         ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
-                                                         ->label($context->getAttributeLabel($model, $variant)) ?>
-                                                <?= $form->field($model, "[$i]{$variant}_port")
-                                                         ->textInput(['placeholder' => 'Port'])
-                                                         ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
-                                            </div>
-                                        </li>
-                                    <?php else : ?>
-                                        <li>
-                                            <div>
-                                                <?= $form->field($model, "[$i]{$variant}_id")
-                                                         ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
-                                                         ->label($context->getAttributeLabel($model, $variant)) ?>
-                                            </div>
-                                        </li>
-                                    <?php endif ?>
-                                <?php endforeach ?>
-                                </ol>
-                            </div>
-                        <?php endif ?>
-                        <div class="col-md-4">
-                            <?php foreach ($other as $variant) : ?>
-                                <div class="row">
-                                <?php $renderedAttributes[] = $variant ?>
-                                    <?php if ($context->hasPort($variant)) : ?>
-                                        <div class="col-md-6">
-                                        <?= $form->field($model, "[$i]{$variant}_id")
-                                                 ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
-                                                 ->label($context->getAttributeLabel($model, $variant)) ?>
-                                    </div>
-                                        <div class="col-md-6">
-                                        <?= $form->field($model, "[$i]{$variant}_port")
-                                                 ->textInput(['placeholder' => 'Port'])
-                                                 ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
-                                    </div>
-                                    <?php else : ?>
-                                        <div class="col-md-12">
-                                        <?= $form->field($model, "[$i]{$variant}_id")
-                                                 ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
-                                                 ->label($context->getAttributeLabel($model, $variant)) ?>
-                                    </div>
+                                        <div class="row">
+                                            <?php foreach ($group->getItems() as $variant) : ?>
+                                                <?php $renderedAttributes[] = $variant ?>
+                                                <div class="row">
+                                                    <?php if ($context->hasPort($variant)) : ?>
+                                                        <div class="col-md-6">
+                                                            <?= $form->field($model, "[$i]{$variant}_id")
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
+                                                                     ->label($context->getAttributeLabel($model, $variant)) ?>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <?= $form->field($model, "[$i]{$variant}_port")
+                                                                     ->textInput(['placeholder' => 'Port'])
+                                                                     ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
+                                                        </div>
+                                                    <?php else : ?>
+                                                        <div class="col-md-12">
+                                                            <?= $form->field($model, "[$i]{$variant}_id")
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
+                                                                     ->label($context->getAttributeLabel($model, $variant)) ?>
+                                                        </div>
+                                                    <?php endif ?>
+                                                </div>
+                                            <?php endforeach ?>
+                                        </div>
                                     <?php endif ?>
                                 </div>
-                            <?php endforeach ?>
-                        </div>
+                            <?php endif ?>
+                        <?php endforeach ?>
                     </div>
                 </div>
             </div>

@@ -16,7 +16,11 @@
   ApplyLink.prototype = {
     create: function ($attributeBlock) {
       const $applyAllLink = $(`<a href="#">${this.settings.linkText}</a>`);
-      // $applyAllLink.css('position', 'absolute');
+      $applyAllLink.css({
+        position: "absolute",
+        top: $attributeBlock.selector.includes('net') || $attributeBlock.selector.includes('pdu') ? "-20px" : "0px",
+        right: "5px",
+      });
       $applyAllLink.addClass(`apply-all-${this.index}-${this.attribute}`);
 
       $applyAllLink.on("click", event => {
@@ -74,7 +78,7 @@
           this.hideAttributeLinks(attribute);
           const applyLinkObject = new ApplyLink(this.settings, index, attribute);
           const $_applyLink = applyLinkObject.getLink($attributeBlock);
-          $_applyLink.insertAfter($(`.field-${itemAttribute}`));
+          $_applyLink.appendTo($(`.field-${itemAttribute}`));
         });
       });
     },

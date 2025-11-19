@@ -11,7 +11,9 @@
 namespace hipanel\modules\server\widgets;
 
 use hipanel\modules\server\forms\AssignHubsForm;
+use hipanel\modules\server\helpers\AssignHubsGroup;
 use hipanel\modules\server\widgets\combo\HubCombo;
+use Yii;
 use yii\base\Widget;
 use yii\widgets\ActiveForm;
 
@@ -86,7 +88,11 @@ class AssignHubsPage extends Widget
         usort($pdus, $sortBySuffix);
         sort($others, SORT_NATURAL | SORT_FLAG_CASE);
 
-        return [$nets, $pdus, $others];
+        return [
+            new AssignHubsGroup($nets, 'nets', Yii::t('hipanel:server', 'Switches')),
+            new AssignHubsGroup($pdus, 'pdus', Yii::t('hipanel:server', 'APCs')),
+            new AssignHubsGroup($others),
+        ];
     }
 
     public function prepareHubComboOptions(string $variant): array
