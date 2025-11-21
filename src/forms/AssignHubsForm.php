@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types=1);
 /**
  * Server module for HiPanel
  *
@@ -43,7 +43,7 @@ class AssignHubsForm extends Device
         Server::class => [
             self::DEFAULT => 'net,net*,kvm,rack,pdu,pdu*,ipmi,jbod',
             'uplink1,uplink2,uplink3,total' => 'net,rack,location',
-            'stock' => 'location',
+            'stock' => 'location,rack',
             'chwbox' => 'rack',
             'nic' => 'net,pdu',
         ],
