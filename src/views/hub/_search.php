@@ -78,4 +78,7 @@ use hiqdev\combo\StaticCombo;
     <div class="col-md-4 col-sm-6 col-xs-12">
         <?= $search->field('tags')->widget(TagsInput::class) ?>
     </div>
+    <div class="col-md-4 col-sm-6 col-xs-12">
+        <?= $search->field('description_ilike') ?>
+    </div>
 <?php endif ?>
