@@ -9,17 +9,18 @@ import Select2 from "@hipanel-core/input/Select2";
 import View from "@hipanel-core/page/View";
 import { faker } from "@faker-js/faker";
 
-export default class AssignHubsForm extends Form {
-  private alert: Alert;
-  private view: View;
-  private serverForm: ServerFormPage;
-  readonly index: Index;
+export default class AssignHubsForm {
+  alert: Alert;
+  view: View;
+  form: Form;
+  serverForm: ServerFormPage;
+  index: Index;
 
   constructor(readonly page: Page) {
-    super(page);
     this.index = new Index(page);
     this.alert = Alert.on(page);
     this.view = new View(page);
+    this.form = new Form(page);
     this.serverForm = new ServerFormPage(page);
   }
 
@@ -51,13 +52,13 @@ export default class AssignHubsForm extends Form {
       let idx = 0;
       for (const [key, value] of Object.entries(assign)) {
         const inputSelector = `#assignhubsform-${idx}-${key}`;
-        const isPresent = await this.isVisible(inputSelector);
+        const isPresent = await this.view.isVisible(inputSelector);
         if (!isPresent) {
           const addNetButton = ".nets + div > button.assign-hubs-reveal";
           const addPduButton = ".pdus + div > button.assign-hubs-reveal";
 
-          const isNetButtonPresent = await this.isVisible(addNetButton);
-          const isPduButtonPresent = await this.isVisible(addPduButton);
+          const isNetButtonPresent = await this.view.isVisible(addNetButton);
+          const isPduButtonPresent = await this.view.isVisible(addPduButton);
 
           if (inputSelector.includes("net") && isNetButtonPresent) {
             await this.page.locator(addNetButton).click();
@@ -113,7 +114,7 @@ export default class AssignHubsForm extends Form {
 
   async save(assignment: AssignHubs) {
     await this.fill([assignment]);
-    await this.submit();
+    await this.form.submit();
     await this.seeSuccessAlert();
     await this.seeResult(assignment);
   }

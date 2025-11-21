@@ -59,7 +59,7 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
     await expect(page.getByRole("link", { name: ipmi })).toBeVisible();
     await assignForm.gotoAssignHubPage(testServer.serverName);
     await assignForm.fill([{ ipmi_port: assignForm.fakePort() }]);
-    await assignForm.cancel();
+    await assignForm.form.cancel();
     await expect(page.getByRole("link", { name: ipmi })).toBeVisible();
   });
 
@@ -70,7 +70,7 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
       ipmi_id: null,
       ipmi_port: null,
     });
-    await assignForm.submit();
+    await assignForm.form.submit();
     await assignForm.seeSuccessAlert();
     await expect(page.getByText(ipmiCell)).not.toBeVisible();
   });

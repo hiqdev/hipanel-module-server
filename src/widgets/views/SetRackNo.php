@@ -26,9 +26,10 @@ CSS
     <div class="col-md-6">
         <div class="box box-widget">
             <div class="box-header">
-                <?= $form->field($model, 'rack_id')->widget(HubCombo::class, ['hubType' => HubCombo::RACK])->hint(
-                    Yii::t('hipanel:server', 'Assign the rack to all selected objects')
-                ) ?>
+                <?= $form
+                    ->field($model, 'rack_id')
+                    ->widget(HubCombo::class, ['hubType' => HubCombo::RACK])
+                    ->hint(Yii::t('hipanel:server', 'Assign the rack to all selected objects')) ?>
             </div>
             <div class="box-header with-border">
                 <h3 class="box-title"><?= Yii::t('hipanel:server', 'Selected objects:') ?></h3>
