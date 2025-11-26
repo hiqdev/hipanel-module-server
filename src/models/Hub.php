@@ -65,6 +65,7 @@ class Hub extends Device implements TaggableInterface
                     'mac',
                     'remoteid',
                     'note',
+                    'description',
                     'ip',
                     'type_label',
                     'server_type_label',
@@ -147,8 +148,10 @@ class Hub extends Device implements TaggableInterface
 
             [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
             [['mac'], MacValidator::class],
-            [['id'], 'required', 'on' => ['delete', 'restore', 'set-note']],
+            [['id'], 'required', 'on' => ['delete', 'restore', 'set-note', 'set-description']],
             [['note'], 'safe', 'on' => ['set-note']],
+            // set description
+            [['description'], 'string', 'on' => ['set-description']],
         ]);
     }
 
@@ -194,6 +197,7 @@ class Hub extends Device implements TaggableInterface
             'vxlan' => Yii::t('hipanel:server:hub', 'VXLAN'),
             'rack' => Yii::t('hipanel:server:hub', 'Rack'),
             'client' => Yii::t('hipanel:server:hub', 'Client'),
+            'description' => Yii::t('hipanel:server:hub', 'CS notes'),
         ]);
     }
 
