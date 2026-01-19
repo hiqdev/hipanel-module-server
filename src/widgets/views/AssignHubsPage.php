@@ -107,7 +107,7 @@ AssignHubsColumnReveal::register($this);
                                             <?php endforeach ?>
                                         </ol>
                                     <?php else : ?>
-                                        <div class="row">
+                                        <div>
                                             <?php foreach ($group->getItems() as $variant) : ?>
                                                 <?php $renderedAttributes[] = $variant ?>
                                                 <div class="row">
