@@ -18,6 +18,8 @@ class HubMainColumn extends MainColumn
     {
         $user = Yii::$app->user;
         if (!$user->can('hub.update')) {
+            $this->note = [];
+
             return;
         }
         $this->note = ['note', 'description'];
