@@ -39,6 +39,7 @@ class AssignHubsForm extends Device
             'kvm' => 'net,rack,kvm,pdu,pdu*',
             'rack,region' => '',
             'location' => 'region,location',
+            'pdu' => 'net,net*,kvm,pdu,pdu*,rack,console,location',
         ],
         Server::class => [
             self::DEFAULT => 'net,net*,kvm,rack,pdu,pdu*,ipmi,jbod',
