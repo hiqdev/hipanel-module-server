@@ -122,7 +122,7 @@ class Server extends Device implements TaggableInterface
                     'enable-block', 'disable-block',
                 ],
             ],
-            [['note'], 'string', 'max' => 50, 'on' => 'set-note'],
+            [['note'], 'string', 'max' => 200, 'on' => 'set-note'],
             [['id', 'osimage'], 'required', 'on' => ['reinstall']],
             [['id', 'osimage'], 'required', 'on' => ['boot-live']],
             [['type', 'comment'], 'required', 'on' => ['enable-block', 'disable-block']],
