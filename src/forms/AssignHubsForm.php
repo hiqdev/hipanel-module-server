@@ -19,6 +19,7 @@ use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use Yii;
+use yii\base\InvalidArgumentException;
 
 /**
  * Class AssignHubsForm.
@@ -57,13 +58,15 @@ class AssignHubsForm extends Device
 
     public static function setModelClass(string $modelClass): void
     {
-        self::$modelClass = $modelClass;
+        self::$modelClass = self::normalizeModelClass($modelClass);
     }
 
     public static function fromOriginalModel(AssignHubsInterface $originalModel): AssignHubsInterface
     {
         $bindings = [];
-        self::$modelClass = $originalModel::class;
+        if (!$originalModel instanceof self) {
+            self::setModelClass($originalModel::class);
+        }
         $attributes = $originalModel->getAttributes();
         /** @var Hub $model */
         $model = new static();
@@ -79,6 +82,18 @@ class AssignHubsForm extends Device
         $model->setAttributes($attributes);
 
         return $model;
+    }
+
+    private static function normalizeModelClass(string $modelClass): string
+    {
+        if (is_a($modelClass, Hub::class, true)) {
+            return Hub::class;
+        }
+        if (is_a($modelClass, Server::class, true)) {
+            return Server::class;
+        }
+
+        throw new InvalidArgumentException('Unsupported assign hubs model class: ' . $modelClass);
     }
 
     public function rules(): array
@@ -132,6 +147,17 @@ class AssignHubsForm extends Device
         }
 
         return ArrayHelper::csplit($sets[self::DEFAULT]); // Fallback to default if no type match found
+    }
+
+    public function getHubPayloadAttributeNames(): array
+    {
+        $result = [];
+        foreach ($this->getHubVariants() as $variant) {
+            $result[] = $variant . '_id';
+            $result[] = $variant . '_port';
+        }
+
+        return $result;
     }
 
     private function expandHubsList(array $uniqueVariants): array
@@ -213,7 +239,10 @@ class AssignHubsForm extends Device
                     return [
                         [$variant . '_id'],
                         function ($attribute) use ($variant) {
-                            if ($this->{$variant . '_id'} !== $this->id) {
+                            if (empty($this->{$variant . '_id'}) || empty($this->id)) {
+                                return;
+                            }
+                            if ((string)$this->{$variant . '_id'} !== (string)$this->id) {
                                 return;
                             }
                             $this->addError(
@@ -253,6 +282,9 @@ class AssignHubsForm extends Device
         if (!strcmp((string)$this->id, (string)$binding->device_id)) {
             return;
         }
+        if ($this->isOwnBinding($binding)) {
+            return;
+        }
 
         $this->addError(
             $attribute,
@@ -262,6 +294,27 @@ class AssignHubsForm extends Device
                 'device' => $binding->device_name ?? null,
             ])
         );
+    }
+
+    private function isOwnBinding(Binding $binding): bool
+    {
+        $name = $this->name ?? null;
+        if ($name === null || $name === '') {
+            return false;
+        }
+
+        foreach ([$binding->device_name ?? null, $binding->base_device_name ?? null] as $bindingName) {
+            if ($bindingName === null || $bindingName === '') {
+                continue;
+            }
+            $bindingName = (string)$bindingName;
+            $name = (string)$name;
+            if ($bindingName === $name || (str_starts_with($bindingName, $name) && !ctype_digit($bindingName[strlen($name)] ?? ''))) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private function buildExtraLabels(): array
