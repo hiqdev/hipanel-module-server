@@ -53,12 +53,6 @@ AssignHubsColumnReveal::register($this);
 
 ?>
 
-<?= ApplyToAllWidget::widget([
-    'formId' => $form->id,
-    'modelFormName' => reset($models)->formName(),
-    'attributes' => array_values(array_unique($renderedAttributes)),
-]) ?>
-
 <?php DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
     'widgetBody' => '.container-items', // required: css class selector
@@ -161,3 +155,9 @@ AssignHubsColumnReveal::register($this);
         ) ?>
     </div>
 </div>
+
+<?= ApplyToAllWidget::widget([
+    'formId' => $form->id,
+    'modelFormName' => reset($models)->formName(),
+    'attributes' => array_values(array_unique($renderedAttributes)),
+]) ?>
