@@ -25,33 +25,39 @@ $renderedAttributes = [];
 $context = $this->context;
 $this->registerCss(
     <<<CSS
-.item li > div {
-    display: flex;
-    gap: 15px;
-    & > div {
-      flex: 1 1 0;
-      min-width: 0;
-    }
-}
-.item h5 {
-  padding-left: 45px;
-  padding-bottom: 10px;
-  font-weight: bold;
-  margin-bottom: 0;
-  margin-top: 0;
-}
-.item .row > div:last-child .row > div:has(input):not(:has(label)) {
-  padding-top: 25px;
-}
-.item .form-group {
-  position: relative;
-}
+        .item li > div {
+            display: flex;
+            gap: 15px;
+            & > div {
+              flex: 1 1 0;
+              min-width: 0;
+            }
+        }
+        .item h5 {
+          padding-left: 45px;
+          padding-bottom: 10px;
+          font-weight: bold;
+          margin-bottom: 0;
+          margin-top: 0;
+        }
+        .item .row > div:last-child .row > div:has(input):not(:has(label)) {
+          padding-top: 25px;
+        }
+        .item .form-group {
+          position: relative;
+        }
 CSS
 );
 
 AssignHubsColumnReveal::register($this);
 
 ?>
+
+<?= ApplyToAllWidget::widget([
+    'formId' => $form->id,
+    'modelFormName' => reset($models)->formName(),
+    'attributes' => array_values(array_unique($renderedAttributes)),
+]) ?>
 
 <?php DynamicFormWidget::begin([
     'widgetContainer' => 'dynamicform_wrapper', // required: only alphanumeric characters plus "_" [A-Za-z0-9_]
@@ -155,9 +161,3 @@ AssignHubsColumnReveal::register($this);
         ) ?>
     </div>
 </div>
-
-<?= ApplyToAllWidget::widget([
-    'formId' => $form->id,
-    'modelFormName' => reset($models)->formName(),
-    'attributes' => array_values(array_unique($renderedAttributes)),
-]) ?>
