@@ -19,8 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
 <?php $form = ActiveForm::begin([
     'id' => 'assign-hubs-form',
-    'enableClientValidation' => true,
-    'validateOnBlur' => true,
     'enableAjaxValidation' => true,
     'validationUrl' => Url::toRoute(['validate-assign-hubs-form', 'scenario' => 'default']),
 ]) ?>

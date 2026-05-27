@@ -18,6 +18,7 @@ use hipanel\modules\server\models\Device;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\combo\HubCombo;
+use InvalidArgumentException;
 use Yii;
 
 /**
@@ -57,13 +58,27 @@ class AssignHubsForm extends Device
 
     public static function setModelClass(string $modelClass): void
     {
-        self::$modelClass = $modelClass;
+        self::$modelClass = self::normalizeModelClass($modelClass);
+    }
+
+    private static function normalizeModelClass(string $modelClass): string
+    {
+        if (is_a($modelClass, Hub::class, true)) {
+            return Hub::class;
+        }
+        if (is_a($modelClass, Server::class, true)) {
+            return Server::class;
+        }
+
+        throw new InvalidArgumentException('Unsupported assign hubs model class: ' . $modelClass);
     }
 
     public static function fromOriginalModel(AssignHubsInterface $originalModel): AssignHubsInterface
     {
         $bindings = [];
-        self::$modelClass = $originalModel::class;
+        if (!$originalModel instanceof self) {
+            self::setModelClass($originalModel::class);
+        }
         $attributes = $originalModel->getAttributes();
         /** @var Hub $model */
         $model = new static();

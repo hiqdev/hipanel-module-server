@@ -2,7 +2,6 @@
 ((($) => {
   "use strict";
 
-  const TITLES = ["Switches", "APCs"];
   const BTN_HTML = "<i class='fa fa-fw fa-plus'></i>";
 
   // True if any input/select inside li is filled
@@ -33,8 +32,8 @@
     let lastToShow;
     if (lastFilled === -1) {
       lastToShow = 0;
-    // } else if (lastFilled < items.length - 1) {
-    //   lastToShow = lastFilled;
+      // } else if (lastFilled < items.length - 1) {
+      //   lastToShow = lastFilled;
     } else {
       lastToShow = lastFilled;
     }
@@ -42,7 +41,7 @@
     items.forEach((el, i) => {
       let isVisible = i <= lastToShow;
       $(el).toggle(isVisible);
-      $(el).find('input').prop("disabled", !isVisible)
+      $(el).find("input").prop("disabled", !isVisible);
     });
   };
 
@@ -74,7 +73,7 @@
       $btn.on("click", () => {
         const $next = $col.find("ol:first>li:hidden").first();
         if ($next.length) {
-          $next.show().find('input').prop("disabled", false);
+          $next.show().find("input").prop("disabled", false);
         }
         if ($col.find("ol:first>li:hidden").length === 0) {
           $wrap.remove();
@@ -102,10 +101,7 @@
   };
 
   const init = () => {
-    $(".col-md-4").filter((_, el) => {
-      const title = $(el).find("h5").first().text()?.trim() ?? "";
-      return TITLES.includes(title);
-    }).each((_, el) => {
+    $("ol.nets, ol.pdus").closest(".col-md-4").each((_, el) => {
       try {
         initCol($(el));
       } catch {
