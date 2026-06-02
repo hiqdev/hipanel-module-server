@@ -116,6 +116,12 @@ JS
                     'options' => ['class' => 'pull-right'],
                     'items' => array_filter([
                         [
+                            'label' => '<i class="fa fa-pencil"></i> ' . Yii::t('hipanel', 'Update'),
+                            'url' => '#',
+                            'linkOptions' => ['data-action' => 'update'],
+                            'visible' => Yii::$app->user->can('server.update'),
+                        ],
+                        [
                             'label' => '<i class="fa fa-plug"></i> ' . Yii::t('hipanel:server', 'Assign hubs'),
                             'url' => '#',
                             'linkOptions' => ['data-action' => 'assign-hubs'],
