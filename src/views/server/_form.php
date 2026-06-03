@@ -101,7 +101,7 @@ $canSetLabel = Yii::$app->user->can('server.see-label') && Yii::$app->user->can(
                         </div>
                         <div class="col-md-12">
                             <div class="row">
-                                <?php if ($canSetNote) : ?>
+                                <?php if ($canSetLabel) : ?>
                                     <div class="col-md-2">
                                         <?= $form->field($model, "[$i]label") ?>
                                     </div>
