@@ -15,7 +15,9 @@ class PowerChartOptions extends ChartOptions
     protected function buildAggregationSelect(): string
     {
         return Html::dropDownList('aggregation', 'month', [
+            'year'  => Yii::t('hipanel', 'Yearly'),
             'month' => Yii::t('hipanel', 'Monthly'),
+            'day'   => Yii::t('hipanel', 'Daily'),
         ], ['class' => 'form-control input-sm']);
     }
 }

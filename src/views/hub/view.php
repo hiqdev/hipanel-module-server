@@ -8,6 +8,7 @@ use hipanel\modules\server\menus\HubDetailMenu;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\widgets\Configuration;
+use hipanel\modules\server\widgets\PowerChartOptions;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use hipanel\widgets\SettingsModal;
@@ -191,6 +192,32 @@ JS
                 'mainObject' => $model,
                 'showCharts' => false,
             ]) ?>
+        </div>
+    <?php endif ?>
+    <?php if (!empty($model->remoteid) && Yii::$app->user->can('consumption.read')): ?>
+        <div class="col-md-6">
+            <?php
+            $box = Box::begin(['renderBody' => false, 'options' => ['class' => 'box-widget']]);
+            $box->beginHeader();
+            echo $box->renderTitle(Yii::t('hipanel:server', 'Power'));
+            $box->beginTools();
+            echo PowerChartOptions::widget([
+                'autoload'     => true,
+                'id'           => 'hub-power',
+                'form'         => ['action' => 'draw-power-chart'],
+                'hiddenInputs' => ['id' => ['value' => $model->id]],
+            ]);
+            $box->endTools();
+            $box->endHeader();
+            $box->beginBody();
+            echo $this->render('_consumption', [
+                'labels'          => [],
+                'data'            => [],
+                'consumptionBase' => 'power',
+            ]);
+            $box->endBody();
+            $box->end();
+            ?>
         </div>
     <?php endif ?>
     <?php if (Yii::$app->user->can('part.read')) : ?>

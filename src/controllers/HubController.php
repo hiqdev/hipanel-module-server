@@ -39,6 +39,7 @@ use hipanel\modules\server\models\MonitoringSettings;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\Event;
+use yii\web\Response;
 
 class HubController extends CrudController
 {
@@ -380,5 +381,33 @@ class HubController extends CrudController
         }, 86400 * 24); // 24 days
 
         return $result;
+    }
+
+    public function actionDrawPowerChart(): string
+    {
+        $post = $this->request->post();
+        $granularity = $post['aggregation'] ?? 'month';
+        $from = $post['from'] ?? null;
+        $till = $post['till'] ?? null;
+
+        $entries = Hub::perform('hub-get-power-chart', array_filter([
+            'id'          => $post['id'],
+            'granularity' => $granularity,
+            'start_date'  => $from,
+            'end_date'    => $till,
+        ]));
+
+        $labels = [];
+        $values = [];
+        foreach ((array)$entries as $entry) {
+            $labels[] = $entry['period'];
+            $values[] = $entry['p95_value'];
+        }
+
+        return $this->renderAjax('_consumption', [
+            'labels'          => $labels,
+            'data'            => ['power' => $values],
+            'consumptionBase' => 'power',
+        ]);
     }
 }
