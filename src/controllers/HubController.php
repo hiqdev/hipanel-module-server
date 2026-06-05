@@ -400,8 +400,8 @@ class HubController extends CrudController
         $labels = [];
         $values = [];
         foreach ((array)$entries as $entry) {
-            $labels[] = $entry['period'];
-            $values[] = $entry['p95_value'];
+            $labels[] = $entry['period'] ?? '';
+            $values[] = $entry['p95_value'] ?? 0;
         }
 
         return $this->renderAjax('_consumption', [
