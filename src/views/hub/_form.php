@@ -93,10 +93,10 @@ use yii\helpers\Html;
                                 <?= $form->field($model, "[$i]order_no") ?>
                             </div>
                             <div class="col-md-2">
-                                <?= $form->field($model, "[$i]note") ?>
+                                <?= $form->field($model, "[$i]description") ?>
                             </div>
                             <div class="col-md-6">
-                                <?= $form->field($model, "[$i]description") ?>
+                                <?= $form->field($model, "[$i]note") ?>
                             </div>
                         </div>
                     </div>
