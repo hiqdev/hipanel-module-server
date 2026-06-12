@@ -184,7 +184,7 @@ class Hub extends Device implements TaggableInterface
             'oob_key' => Yii::t('hipanel:server:hub', 'OOB license key'),
             'mac' => Yii::t('hipanel:server:hub', 'MAC address'),
             'name' => Yii::t('hipanel:server:hub', 'Name'),
-            'note' => Yii::t('hipanel:server:hub', 'Note'),
+            'note' => Yii::t('hipanel:server:hub', 'CS notes'),
             'net' => Yii::t('hipanel:server', 'Switch'),
             'kvm' => Yii::t('hipanel:server', 'KVM'),
             'pdu' => Yii::t('hipanel:server', 'APC'),
@@ -197,7 +197,7 @@ class Hub extends Device implements TaggableInterface
             'vxlan' => Yii::t('hipanel:server:hub', 'VXLAN'),
             'rack' => Yii::t('hipanel:server:hub', 'Rack'),
             'client' => Yii::t('hipanel:server:hub', 'Client'),
-            'description' => Yii::t('hipanel:server:hub', 'CS notes'),
+            'description' => Yii::t('hipanel:server:hub', 'Note'),
         ]);
     }
 
