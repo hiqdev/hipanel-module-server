@@ -12,6 +12,8 @@ use yii\bootstrap\Html;
 /** @var ServerForm[] $models */
 
 $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
+$canSetNote = Yii::$app->user->can('server.set-note');
+$canSetLabel = Yii::$app->user->can('server.see-label') && Yii::$app->user->can('owner-staff');
 
 ?>
 
@@ -44,7 +46,8 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
         'ips',
         'mac',
         'order_no',
-        'label',
+        $canSetLabel ? 'label' : null,
+        $canSetNote ? 'note' : null,
         'hwsummary',
     ]),
 ]) ?>
@@ -98,9 +101,16 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                         </div>
                         <div class="col-md-12">
                             <div class="row">
-                                <div class="col-md-3">
-                                    <?= $form->field($model, "[$i]label") ?>
-                                </div>
+                                <?php if ($canSetLabel) : ?>
+                                    <div class="col-md-2">
+                                        <?= $form->field($model, "[$i]label") ?>
+                                    </div>
+                                <?php endif ?>
+                                <?php if ($canSetNote) : ?>
+                                    <div class="col-md-2">
+                                        <?= $form->field($model, "[$i]note") ?>
+                                    </div>
+                                <?php endif ?>
                                 <?php if (!$model->isDeleted()) : ?>
                                     <div class="col-md-1">
                                         <?= $form->field($model, "[$i]state")->dropDownList($model->getStateOptions()) ?>
@@ -109,7 +119,7 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
                                 <div class="col-md-4">
                                     <?= $form->field($model, "[$i]hwsummary") ?>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <?= $form->field($model, "[$i]hwcomment") ?>
                                 </div>
                             </div>
@@ -130,4 +140,5 @@ $model->ips = is_array($model->ips) ? implode(',', $model->ips) : $model->ips;
         <?= Html::button(Yii::t('hipanel', 'Cancel'), ['class' => 'btn btn-default', 'onclick' => 'history.go(-1)']) ?>
     </div>
 </div>
+
 <?php ActiveForm::end() ?>
