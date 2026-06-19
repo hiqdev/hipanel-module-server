@@ -33,7 +33,7 @@ class AssignHubsForm extends Device
 
     private const string DEFAULT = 'default';
     private const int MAX_HUBS_COUNT = 10;
-    private static string $modelClass = Server::class;
+    private static string $modelClass;
     private array $sets = [
         Hub::class => [
             self::DEFAULT => 'net,kvm,pdu,pdu*,rack,console,location',
@@ -59,6 +59,18 @@ class AssignHubsForm extends Device
     public static function setModelClass(string $modelClass): void
     {
         self::$modelClass = self::normalizeModelClass($modelClass);
+    }
+
+    public static function forServer(): static
+    {
+        self::setModelClass(Server::class);
+        return new static();
+    }
+
+    public static function forHub(): static
+    {
+        self::setModelClass(Hub::class);
+        return new static();
     }
 
     private static function normalizeModelClass(string $modelClass): string

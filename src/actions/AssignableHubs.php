@@ -30,7 +30,7 @@ abstract class AssignableHubs extends SmartUpdateAction
     {
         $this->collection = [
             'class' => Collection::class,
-            'model' => new AssignHubsForm(),
+            'model' => $this->createAssignHubsForm(),
             'scenario' => 'assign-hubs',
         ];
         $this->data = function (Action $action, array $data): array {
@@ -83,6 +83,15 @@ abstract class AssignableHubs extends SmartUpdateAction
     private function getAssignableClassName(): string
     {
         return self::ASSIGNABLE_MAP[$this->controller->id];
+    }
+
+    private function createAssignHubsForm(): AssignHubsForm
+    {
+        $modelClass = $this->getAssignableClassName();
+
+        return $modelClass === Hub::class
+            ? AssignHubsForm::forHub()
+            : AssignHubsForm::forServer();
     }
 
     public function beforeFetch(): void

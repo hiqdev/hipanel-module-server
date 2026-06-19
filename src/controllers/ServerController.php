@@ -751,7 +751,7 @@ class ServerController extends CrudController
                 'class' => ValidateFormAction::class,
                 'collection' => [
                     'class' => Collection::class,
-                    'model' => new AssignHubsForm(),
+                    'model' => AssignHubsForm::forServer(),
                 ],
             ],
             'validate-form' => [
