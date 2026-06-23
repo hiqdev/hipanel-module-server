@@ -255,7 +255,7 @@ class HubController extends CrudController
                 'class' => ValidateFormAction::class,
                 'collection' => [
                     'class' => Collection::class,
-                    'model' => new AssignHubsForm(),
+                    'model' => AssignHubsForm::forHub(),
                 ],
             ],
             'validate-sell-form' => [
