@@ -120,7 +120,7 @@ class Hub extends Device implements TaggableInterface
                 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE],
             ],
             [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
-            [['inn', 'mac', 'ip', 'model', 'order_no', 'note'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [['inn', 'mac', 'ip', 'model', 'order_no', 'note', 'description'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['name', 'order_no'], 'filter', 'filter' => 'trim', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
 
             // set Options

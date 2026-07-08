@@ -49,7 +49,7 @@ $this->registerCss('
         <?php if (Yii::$app->user->can('hub.create')) : ?>
             <?= CreateDeviceRangeButton::widget([
                 'deviceForm' => new Hub(['scenario' => 'create']),
-                'deviceAttributes' => ['type_id', 'order_no', 'model', 'note'],
+                'deviceAttributes' => ['type_id', 'order_no', 'model', 'description'],
                 'typeOptions' => $types,
                 'createLink' => Html::a(Yii::t('hipanel:server:hub', 'Create switch'),
                     ['@hub/create'],
