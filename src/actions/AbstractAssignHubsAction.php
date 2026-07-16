@@ -57,17 +57,15 @@ abstract class AbstractAssignHubsAction extends SmartUpdateAction
                 $model = clone $form;
                 $model::setModelClass($this->getAssignableClassName());
                 $model->refresh();
-                if ($model->load($hub, '') && $attributes = $model->toArray()) {
+                if ($model->load($hub, '') && $attributes = array_intersect_key($model->toArray(), $hub)) {
                     foreach ($attributes as $key => $value) {
-//                        if (str_contains($key, '_')) { //  && !empty($value)
-                        if (str_contains($key, '_') && !empty($value)) {
+                        if (str_contains($key, '_')) {
                             $hub['hubs'][$key] = $value;
                             unset($hub[$key]);
                         }
                     }
                 }
             }
-            $a = 1;
             $this->collection->load($hubs);
         };
         parent::init();
