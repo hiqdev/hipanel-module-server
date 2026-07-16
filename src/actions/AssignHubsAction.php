@@ -5,7 +5,7 @@ declare(strict_types=1);
 
 namespace hipanel\modules\server\actions;
 
-class AssignHubsAction extends AssignableHubs
+class AssignHubsAction extends AbstractAssignHubsAction
 {
     protected function collectFromRequest(): array
     {

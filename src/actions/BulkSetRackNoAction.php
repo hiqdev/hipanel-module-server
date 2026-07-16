@@ -7,7 +7,7 @@ namespace hipanel\modules\server\actions;
 
 use yii\helpers\ArrayHelper;
 
-class BulkSetRackNoAction extends AssignableHubs
+class BulkSetRackNoAction extends AbstractAssignHubsAction
 {
     protected function collectFromRequest(): array
     {
