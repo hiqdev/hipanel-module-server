@@ -49,12 +49,6 @@ class SidebarMenu extends Menu
                         'url' => ['/server/order/index'],
                         'visible' => $user->can('server.pay') && $module->orderIsAllowed && $outsideUrlExists,
                     ],
-                    'irs' => [
-                        'label' => Yii::t('hipanel.server.irs', 'Available dedicated servers'),
-                        'url' => ['@irs/index'],
-                        'visible' => $user->can('test.beta') || $user->can('owner-staff') || $user->can('server.pay'),
-//                        'visible' => $user->can('owner-staff') || ($user->can('server.pay') && $module->hasServersForRent()),
-                    ],
                     'pre-order' => [
                         'label' => Yii::t('hipanel:server', 'Pre-orders'),
                         'url' => ['/server/pre-order/index'],
