@@ -19,7 +19,7 @@ use yii\web\NotFoundHttpException;
  * @property-read string $assignableClassName
  * @property-read mixed $assignableHubs
  */
-abstract class AssignableHubs extends SmartUpdateAction
+abstract class AbstractAssignHubsAction extends SmartUpdateAction
 {
     private const array ASSIGNABLE_MAP = [
         'server' => Server::class,
@@ -57,10 +57,10 @@ abstract class AssignableHubs extends SmartUpdateAction
                 $model = clone $form;
                 $model::setModelClass($this->getAssignableClassName());
                 $model->refresh();
-                if ($model->load($hub, '')) {
-                    foreach ($model->toArray() as $key => $value) {
+                if ($model->load($hub, '') && $attributes = array_intersect_key($model->toArray(), $hub)) {
+                    foreach ($attributes as $key => $value) {
                         if (str_contains($key, '_')) {
-                            $hub['hubs'][$key] = $value ?? '';
+                            $hub['hubs'][$key] = $value;
                             unset($hub[$key]);
                         }
                     }
