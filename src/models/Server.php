@@ -357,6 +357,7 @@ class Server extends Device implements TaggableInterface
             'mac' => Yii::t('hipanel:server', 'MAC'),
             'ips' => Yii::t('hipanel:server', 'IPs'),
             'label' => Yii::t('hipanel:server', 'Internal note'),
+            'note' => Yii::t('hipanel:server', 'Client note'),
             'os' => Yii::t('hipanel:server', 'OS'),
             'comment' => Yii::t('hipanel:server', 'Comment'),
             'hwsummary' => Yii::t('hipanel:server', 'Hardware Summary'),

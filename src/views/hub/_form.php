@@ -38,7 +38,7 @@ use yii\helpers\Html;
             'inn',
             'ip',
             'note',
-            'description',
+            'label',
             'model',
             'order_no',
         ],
@@ -92,11 +92,11 @@ use yii\helpers\Html;
                             <div class="col-md-2">
                                 <?= $form->field($model, "[$i]order_no") ?>
                             </div>
-                            <div class="col-md-2">
-                                <?= $form->field($model, "[$i]description") ?>
-                            </div>
                             <div class="col-md-6">
                                 <?= $form->field($model, "[$i]note") ?>
+                            </div>
+                            <div class="col-md-2">
+                                <?= $form->field($model, "[$i]label") ?>
                             </div>
                         </div>
                     </div>
