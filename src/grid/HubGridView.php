@@ -55,6 +55,22 @@ class HubGridView extends BoxedGridView
         }
 
         return array_merge(parent::columns(), $extraColumns, [
+            'sold_power' => [
+                'format' => 'raw',
+                'enableSorting' => false,
+                'filter' => false,
+                'value' => function (Hub $hub): ?string {
+                    if (!$hub->isRack()) {
+                        return null;
+                    }
+
+                    return match(true) {
+                        $hub->sold_power > 0 => sprintf('%.2f kW', $hub->sold_power),
+                        $hub->sold_power_issue !== null => Html::tag('span', $hub->sold_power_issue, ['class' => 'text-danger']),
+                        default => null
+                    };
+                }
+            ],
             'inn' => [
                 'enableSorting' => false,
                 'filterOptions' => ['class' => 'narrow-filter'],

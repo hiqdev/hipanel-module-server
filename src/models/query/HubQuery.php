@@ -32,6 +32,7 @@ class HubQuery extends ActiveQuery
     {
         $this->joinWith('resources');
         $this->andWhere(['with_resources' => true]);
+        $this->andWhere(['with_soldPower' => true]);
 
         return $this;
     }
