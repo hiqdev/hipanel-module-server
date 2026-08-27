@@ -70,13 +70,12 @@ class Hub extends Device implements TaggableInterface
                     'mac',
                     'remoteid',
                     'note',
-                    'description',
+                    'label',
                     'ip',
                     'type_label',
                     'server_type_label',
                     'buyer',
                     'last_buyer',
-                    'note',
                     'inn',
                     'model',
                     'community',
@@ -127,7 +126,7 @@ class Hub extends Device implements TaggableInterface
                 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE],
             ],
             [['id'], 'integer', 'on' => self::SCENARIO_UPDATE],
-            [['inn', 'mac', 'ip', 'model', 'order_no', 'note', 'description'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
+            [['inn', 'mac', 'ip', 'model', 'order_no', 'note', 'label'], 'string', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
             [['name', 'order_no'], 'filter', 'filter' => 'trim', 'on' => [self::SCENARIO_CREATE, self::SCENARIO_UPDATE]],
 
             // set Options
@@ -155,10 +154,10 @@ class Hub extends Device implements TaggableInterface
 
             [['ip'], 'ip', 'on' => ['create', 'update', 'options']],
             [['mac'], MacValidator::class],
-            [['id'], 'required', 'on' => ['delete', 'restore', 'set-note', 'set-description']],
+            [['id'], 'required', 'on' => ['delete', 'restore', 'set-note', 'set-label']],
             [['note'], 'safe', 'on' => ['set-note']],
-            // set description
-            [['description'], 'string', 'on' => ['set-description']],
+            // set internal label
+            [['label'], 'string', 'on' => ['set-label']],
         ]);
     }
 
@@ -191,7 +190,6 @@ class Hub extends Device implements TaggableInterface
             'oob_key' => Yii::t('hipanel:server:hub', 'OOB license key'),
             'mac' => Yii::t('hipanel:server:hub', 'MAC address'),
             'name' => Yii::t('hipanel:server:hub', 'Name'),
-            'note' => Yii::t('hipanel:server:hub', 'CS notes'),
             'net' => Yii::t('hipanel:server', 'Switch'),
             'kvm' => Yii::t('hipanel:server', 'KVM'),
             'pdu' => Yii::t('hipanel:server', 'APC'),
@@ -204,7 +202,8 @@ class Hub extends Device implements TaggableInterface
             'vxlan' => Yii::t('hipanel:server:hub', 'VXLAN'),
             'rack' => Yii::t('hipanel:server:hub', 'Rack'),
             'client' => Yii::t('hipanel:server:hub', 'Client'),
-            'description' => Yii::t('hipanel:server:hub', 'Note'),
+            'note' => Yii::t('hipanel:server:hub', 'Client Note'),
+            'label' => Yii::t('hipanel:server:hub', 'Internal Note'),
         ]);
     }
 

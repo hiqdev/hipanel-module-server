@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace hipanel\modules\server\grid;
 
@@ -22,13 +24,13 @@ class HubMainColumn extends MainColumn
 
             return;
         }
-        $this->note = ['note', 'description'];
+        $this->note = ['note', 'label'];
         $this->noteOptions = array_merge([
             'note' => [
                 'url' => Url::to('set-note'),
             ],
-            'description' => [
-                'url' => Url::to('set-description'),
+            'label' => [
+                'url' => Url::to('set-label'),
             ],
         ], $this->noteOptions);
     }
