@@ -20,6 +20,11 @@ use hipanel\modules\stock\models\Part;
 use hiqdev\hiart\ActiveQuery;
 use Yii;
 
+/**
+ * @property mixed|null $sold_power
+ * @property mixed|null $sold_power_issue
+ * @property string|null $type
+ */
 class Hub extends Device implements TaggableInterface
 {
     use ModelTrait;
@@ -100,6 +105,8 @@ class Hub extends Device implements TaggableInterface
                     'stat_domain',
                     'rack',
                     'client',
+                    'sold_power',
+                    'sold_power_issue',
                 ],
                 'string',
             ],
@@ -240,6 +247,11 @@ class Hub extends Device implements TaggableInterface
     public function isVirtualServer(): bool
     {
         return $this->isVirtual() && $this->isServer();
+    }
+
+    public function isRack(): bool
+    {
+        return $this->type === 'rack';
     }
 
     public function getVxlanOptions(): array
