@@ -41,7 +41,7 @@ class ServerIndexCest
     {
         $this->index->containsFilters([
             Input::asAdvancedSearch($I, 'Name'),
-            Input::asAdvancedSearch($I, 'Note'),
+            Input::asAdvancedSearch($I, 'Client note'),
             Input::asAdvancedSearch($I, 'IP'),
             Select2::asAdvancedSearch($I, 'Type'),
             Select2::asAdvancedSearch($I, 'Status'),
