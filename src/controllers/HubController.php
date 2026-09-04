@@ -64,7 +64,7 @@ class HubController extends CrudController
                     'monitoring-settings' => 'server.manage-settings',
                     'set-rack-no' => 'hub.update',
                     'set-note' => 'hub.update',
-                    'set-description' => 'hub.update',
+                    'set-label' => 'hub.update',
                     '*' => 'hub.read',
                 ],
             ],
@@ -312,10 +312,10 @@ class HubController extends CrudController
                 'success' => Yii::t('hipanel:server', 'Note changed'),
                 'error' => Yii::t('hipanel:server', 'Failed to change note'),
             ],
-            'set-description' => [
+            'set-label' => [
                 'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server', 'CS note changed'),
-                'error' => Yii::t('hipanel:server', 'Failed to change CS note'),
+                'success' => Yii::t('hipanel:server', 'Internal note changed'),
+                'error' => Yii::t('hipanel:server', 'Failed to change internal note'),
             ],
             'create-by-range' => [
                 'class' => CreateDeviceRangeAction::class,
