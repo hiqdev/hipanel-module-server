@@ -97,21 +97,22 @@ class AssignHubsPage extends Widget
 
     public function prepareHubComboOptions(string $variant, string $mainObjectType): array
     {
-        $renameMap = [
-            'ipmi' => ['net'],
-            'net' => ['net', 'pdu'],
-        ];
-
         // The "nic2" daisy-chain preview hint is only meaningful for Switches (net*) fields:
         // it previews a device that will be wired as a switch. It must never appear in the
         // APCs (pdu*) column, where the target device is bound as-is.
         $isNetField = $variant === 'net' || preg_match('/^net\d+$/', $variant) === 1;
 
+        $hubTypes = match (true) {
+            $isNetField => ['net', 'pdu'],
+            $variant === 'ipmi' => ['net'],
+            default => [preg_replace('/[\d+]+/', '', $variant)],
+        };
+
         return array_filter([
             'name' => $variant,
             'url' => $variant === HubCombo::JBOD ? '/server/server/index' : null,
             'type' => $variant === HubCombo::JBOD ? 'server/server' : null,
-            'hubTypes' => $renameMap[$variant] ?? [preg_replace('/[\d+]+/', '', $variant)],
+            'hubTypes' => $hubTypes,
             'mainObjectType' => $isNetField ? $mainObjectType : null,
         ]);
     }
