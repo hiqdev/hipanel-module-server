@@ -28,7 +28,7 @@ CSS
             <div class="box-header">
                 <?= $form
                     ->field($model, 'rack_id')
-                    ->widget(HubCombo::class, ['hubType' => HubCombo::RACK])
+                    ->widget(HubCombo::class, ['hubTypes' => [HubCombo::RACK]])
                     ->hint(Yii::t('hipanel:server', 'Assign the rack to all selected objects')) ?>
             </div>
             <div class="box-header with-border">

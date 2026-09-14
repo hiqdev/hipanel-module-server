@@ -53,6 +53,7 @@ abstract class AbstractAssignHubsAction extends SmartUpdateAction
             /** @var AssignHubsForm $form */
             $form = $action->collection->getModel();
             $hubs = $this->collectFromRequest();
+            $originalBindings = $this->fetchOriginalBindings($hubs);
             foreach ($hubs as &$hub) {
                 $model = clone $form;
                 $model::setModelClass($this->getAssignableClassName());
@@ -63,6 +64,16 @@ abstract class AbstractAssignHubsAction extends SmartUpdateAction
                             $hub['hubs'][$key] = $value;
                             unset($hub[$key]);
                         }
+                    }
+                }
+
+                // A hub field that was previously bound but is no longer submitted with a value
+                // (e.g. its combo was cleared) still needs an explicit empty id sent to the API,
+                // otherwise the API has no signal to remove the existing binding.
+                foreach ($originalBindings[$hub['id']] ?? [] as $variant) {
+                    $idKey = $variant . '_id';
+                    if (empty($hub['hubs'][$idKey])) {
+                        $hub['hubs'][$idKey] = '';
                     }
                 }
             }
@@ -79,6 +90,31 @@ abstract class AbstractAssignHubsAction extends SmartUpdateAction
     }
 
     abstract protected function collectFromRequest(): array;
+
+    /**
+     * Maps each submitted row's id to the list of hub variants (e.g. 'net2', 'pdu') that were
+     * bound before this save, so a since-cleared field can still be sent to the API as a clear.
+     *
+     * @return array<int|string, string[]>
+     */
+    private function fetchOriginalBindings(array $hubs): array
+    {
+        $ids = array_filter(array_column($hubs, 'id'));
+        if (empty($ids)) {
+            return [];
+        }
+
+        $modelClass = $this->getAssignableClassName();
+        /** @var AssignHubsInterface[] $originals */
+        $originals = $modelClass::find()->withBindings()->andWhere(['in', 'id', $ids])->all();
+
+        $result = [];
+        foreach ($originals as $original) {
+            $result[$original->id] = array_keys($original->bindings);
+        }
+
+        return $result;
+    }
 
     private function getAssignableClassName(): string
     {

@@ -12,15 +12,16 @@ namespace hipanel\modules\server\widgets\combo;
 
 use hiqdev\combo\Combo;
 use yii\helpers\ArrayHelper;
+use yii\web\JsExpression;
 
 class HubCombo extends Combo
 {
-    const IPMI = 'net';
-    const KVM = 'kvm';
-    const NET = 'net';
-    const PDU = 'pdu';
-    const RACK = 'rack';
-    const JBOD = 'jbod';
+    const string IPMI = 'net';
+    const string KVM = 'kvm';
+    const string NET = 'net';
+    const string PDU = 'pdu';
+    const string RACK = 'rack';
+    const string JBOD = 'jbod';
 
     /** {@inheritdoc} */
     public $name = 'name';
@@ -32,7 +33,7 @@ class HubCombo extends Combo
     public $url = '/server/hub/index';
 
     /** {@inheritdoc} */
-    public $_return = ['id'];
+    public $_return = ['id', 'type'];
 
     /**
      * {@inheritdoc}
@@ -42,17 +43,23 @@ class HubCombo extends Combo
     /** {@inheritdoc} */
     public $_rename = ['text' => 'name'];
 
-    public $hubType;
+    public array $hubTypes = [];
 
-    public $showDeleted;
+    public bool $showDeleted = true;
+
+    /**
+     * Type of the device/row currently being edited (e.g. 'pdu').
+     * Used only to decide whether to show the "nic2" daisy-chain preview hint below.
+     */
+    public $mainObjectType;
 
     /** {@inheritdoc} */
     public function getFilter()
     {
         $filters = parent::getFilter();
-        if ($this->hubType) {
+        if (!empty($this->hubTypes)) {
             $filters = ArrayHelper::merge($filters, [
-                'type' => ['format' => $this->getHubType()],
+                'type_in' => ['format' => $this->getHubTypes()],
                 'limit' => ['format' => '50'],
             ]);
         }
@@ -66,8 +73,38 @@ class HubCombo extends Combo
         return $filters;
     }
 
-    private function getHubType()
+    /**
+     * {@inheritdoc}
+     *
+     * When the row being edited is itself a PDU, hint that a PDU picked here will end up
+     * wired through a management NIC sub-port on the target (`<name>nic2`), not the target
+     * device directly. Purely cosmetic — the submitted id is still the real target device id.
+     */
+    public function getPluginOptions($options = []): array
     {
-        return $this->hubType;
+        $pluginOptions = parent::getPluginOptions($options);
+
+        if ($this->mainObjectType !== self::PDU) {
+            return $pluginOptions;
+        }
+
+        $hint = new JsExpression("function (data) {
+            if (!data.id) {
+                return data.text;
+            }
+            return data.type === 'pdu' ? data.text + 'nic2' : data.text;
+        }");
+
+        return ArrayHelper::merge($pluginOptions, [
+            'select2Options' => [
+                'templateResult' => $hint,
+                'templateSelection' => $hint,
+            ],
+        ]);
+    }
+
+    private function getHubTypes(): array
+    {
+        return $this->hubTypes;
     }
 }

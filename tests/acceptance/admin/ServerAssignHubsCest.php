@@ -68,7 +68,12 @@ class ServerAssignHubsCest
     {
         $assignPage = new AssignHubs($I);
 
-        $I->needPage(Url::to('@server/assign-hubs?id=' . $this->serverId));
+        // Navigate via the "Assign hubs" link (not a direct URL) so the browser sends a
+        // Referer header: SmartUpdateAction's redirect-to-previous policy relies on it to
+        // send us back to the view page after saving, same as it does for a real user.
+        $I->needPage(Url::to('@server/view?id=' . $this->serverId));
+        $I->click('Assign hubs');
+        $I->waitForPageUpdate();
 
         $assignPage->fillForm($data)
                    ->hasNotErrors()
@@ -88,7 +93,9 @@ class ServerAssignHubsCest
     {
         $assignPage = new AssignHubs($I);
 
-        $I->needPage(Url::to('@server/assign-hubs?id=' . $this->serverId));
+        $I->needPage(Url::to('@server/view?id=' . $this->serverId));
+        $I->click('Assign hubs');
+        $I->waitForPageUpdate();
 
         $assignPage->fillForm($data)
                    ->hasNotErrors()

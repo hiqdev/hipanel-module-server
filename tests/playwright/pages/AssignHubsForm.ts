@@ -109,7 +109,7 @@ export default class AssignHubsForm {
     for (const fieldName of Object.keys(testData)) {
       testData[fieldName] = null;
     }
-    this.fill([testData]);
+    await this.fill([testData]);
   }
 
   async save(assignment: AssignHubs) {

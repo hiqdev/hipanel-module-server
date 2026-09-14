@@ -3,6 +3,11 @@ import AssignHubsForm from "@hipanel-module-server/pages/AssignHubsForm";
 import { AssignHubs, Server } from "@hipanel-module-server/types";
 
 test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
+  // This test walks through many sequential full-page saves (create server, assign hubs
+  // twice, update, cancel, unlink, plus two more create+assign flows), which routinely
+  // exceeds the default 100s project timeout on a loaded local environment.
+  test.setTimeout(300_000);
+
   await page.goto("/server/server/index");
   const assignForm = new AssignHubsForm(page);
   const defaultTestData: AssignHubs = {

@@ -152,7 +152,7 @@ class BindingColumn extends DataColumn
      */
     private function createAdditionalLink(string $route, string $suffix): string
     {
-        $linkText = $this->deviceName . $suffix;
+        $linkText = str_contains($this->deviceName, $suffix) ? $this->deviceName : $this->deviceName . $suffix;
         $link = Html::a($linkText, [$route, 'id' => $this->deviceId]);
 
         return '<br/>' . $link;
