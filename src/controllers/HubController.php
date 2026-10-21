@@ -65,6 +65,7 @@ class HubController extends CrudController
                     'set-rack-no' => 'hub.update',
                     'set-note' => 'hub.update',
                     'set-label' => 'hub.update',
+                    'delete,bulk-delete-modal' => 'hub.delete',
                     '*' => 'hub.read',
                 ],
             ],
@@ -89,6 +90,10 @@ class HubController extends CrudController
                         'types' => $this->getTypes(),
                     ];
                 },
+            ],
+            'bulk-delete-modal' => [
+                'class' => PrepareBulkAction::class,
+                'view' => 'modal/_bulkDelete',
             ],
             'restore-modal' => [
                 'class' => PrepareBulkAction::class,
