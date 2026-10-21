@@ -71,18 +71,6 @@ $this->registerCss('
     <?php $page->endContent() ?>
 
     <?php $page->beginContent('bulk-actions') ?>
-        <?php if (Yii::$app->user->can('hub.sell')) : ?>
-            <?= AjaxModal::widget([
-                'bulkPage' => true,
-                'id' => 'hubs-sell',
-                'scenario' => 'sell',
-                'actionUrl' => ['sell'],
-                'handleSubmit' => Url::toRoute('sell'),
-                'size' => Modal::SIZE_LARGE,
-                'header' => Html::tag('h4', Yii::t('hipanel:server:hub', 'Sell switches'), ['class' => 'modal-title']),
-                'toggleButton' => ['label' => Yii::t('hipanel:server:hub', 'Sell switches'), 'class' => 'btn btn-default btn-sm'],
-            ]) ?>
-        <?php endif; ?>
         <?php if (Yii::$app->user->can('hub.update')) : ?>
             <?= $page->renderBulkButton('update', '<i class="fa fa-pencil"></i>&nbsp;&nbsp;' . Yii::t('hipanel', 'Update'))?>
             <?= $page->renderBulkButton('assign-hubs', '<i class="fa fa-plug"></i>&nbsp;&nbsp;' . Yii::t('hipanel:server:hub', 'Assign hubs')) ?>
@@ -96,6 +84,22 @@ $this->registerCss('
                 'encodeLabels' => false,
                 'options' => ['class' => 'pull-right'],
                 'items' => array_filter([
+                    Yii::$app->user->can('hub.sell') ? AjaxModalWithTemplatedButton::widget([
+                        'ajaxModalOptions' => [
+                            'bulkPage' => true,
+                            'id' => 'hubs-sell',
+                            'scenario' => 'sell',
+                            'actionUrl' => ['sell'],
+                            'handleSubmit' => Url::toRoute('sell'),
+                            'size' => Modal::SIZE_LARGE,
+                            'header' => Html::tag('h4', Yii::t('hipanel:server:hub', 'Sell switches'), ['class' => 'modal-title']),
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-shopping-cart"></i> ' . Yii::t('hipanel:server:hub', 'Sell switches'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
                     [
                         'label' => '<i class="fa fa-cog"></i> ' . Yii::t('hipanel:server', 'Set Rack No.'),
                         'url' => '#',
@@ -108,6 +112,20 @@ $this->registerCss('
                             'linkOptions' => ['data-action' => 'set-units'],
                             'visible' => Yii::$app->user->can('hub.update'),
                     ] : null,
+                    Yii::$app->user->can('hub.delete') ? AjaxModalWithTemplatedButton::widget([
+                        'ajaxModalOptions' => [
+                            'id' => 'bulk-delete-modal',
+                            'bulkPage' => true,
+                            'scenario' => 'bulk-delete-modal',
+                            'header' => Html::tag('h4', Yii::t('hipanel', 'Delete'), ['class' => 'modal-title label-danger']),
+                            'headerOptions' => ['class' => 'label-danger'],
+                            'toggleButton' => [
+                                'tag' => 'a',
+                                'label' => '<i class="fa fa-trash"></i> ' . Yii::t('hipanel', 'Delete'),
+                            ],
+                        ],
+                        'toggleButtonTemplate' => '<li>{toggleButton}</li>',
+                    ]) : null,
                     AjaxModalWithTemplatedButton::widget([
                         'ajaxModalOptions' => [
                             'id' => 'restore-modal',

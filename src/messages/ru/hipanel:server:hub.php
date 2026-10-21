@@ -44,6 +44,8 @@ return [
     'User login' => 'Логин пользователя',
     'User password' => 'Пароль пользователя',
     'Restore' => 'Восстановить',
+    'Affected switches' => 'Затронутые свитчи',
+    'This action is irreversible!' => 'Это действие необратимо!',
     'State' => 'Состояние',
     'Deleted' => 'Удален',
     'Disabled' => 'Без панели',
