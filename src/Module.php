@@ -14,11 +14,6 @@ namespace hipanel\modules\server;
 
 class Module extends \hipanel\base\Module
 {
-    /**
-     * Whether server order is allowed
-     */
-    public bool $orderIsAllowed = true;
-
     public function __construct($id, $parent, $config = [])
     {
         parent::__construct($id, $parent, $config);
