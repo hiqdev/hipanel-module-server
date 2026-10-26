@@ -11,17 +11,11 @@
 namespace hipanel\modules\server\helpers;
 
 use hipanel\models\Ref;
-use hipanel\modules\finance\logic\Calculator;
-use hipanel\modules\finance\models\Tariff;
-use hipanel\modules\server\models\OpenvzPackage;
 use hipanel\modules\server\models\Osimage;
-use hipanel\modules\server\models\Package;
 use hipanel\modules\server\models\Server;
 use hipanel\modules\server\models\ServerUse;
 use Yii;
 use yii\helpers\ArrayHelper;
-use yii\web\NotFoundHttpException;
-use yii\web\UnprocessableEntityHttpException;
 
 class ServerHelper
 {
@@ -148,70 +142,6 @@ class ServerHelper
     public static function getPanels()
     {
         return Ref::getList('type,panel', 'hipanel:server:panel', []);
-    }
-
-    /**
-     * @param string $type (svds|ovds)
-     * @param integer $tariff_id
-     * @return Package|array
-     * @throws UnprocessableEntityHttpException
-     * @throws NotFoundHttpException
-     */
-    public static function getAvailablePackages($type = null, $tariff_id = null)
-    {
-        $cacheKeys = [__METHOD__, 'tariffs', Yii::$app->user->id, $type, $tariff_id];
-        /** @var Tariff[] $tariffs */
-        $tariffs = Yii::$app->getCache()->getOrSet($cacheKeys, function () use ($type, $tariff_id) {
-            return Tariff::find()
-                ->action('get-available-info')
-                ->details()
-                ->andWhere(['seller' => Yii::$app->params['user.seller']])
-                ->andFilterWhere(['id' => $tariff_id, 'type' => $type])
-                ->all();
-        }, 3600);
-
-        $cacheKeys = [__METHOD__, 'tariffs', 'packages', Yii::$app->user->id, $type, $tariff_id];
-        /** @var Package[] $packages */
-        $packages = Yii::$app->getCache()->getOrSet($cacheKeys, function () use ($tariffs) {
-            $calculator = new Calculator($tariffs);
-
-            $packages = [];
-            foreach ($tariffs as $tariff) {
-                $calculation = $calculator->getCalculation($tariff->id);
-                $packages[] = Yii::createObject([
-                    'class' => static::buildPackageClass($tariff),
-                    'tariff' => $tariff,
-                    'calculation' => $calculation,
-                ]);
-            }
-
-            return $packages;
-        });
-
-        ArrayHelper::multisort($packages, 'price', SORT_ASC, SORT_NUMERIC);
-
-        if (empty($packages)) {
-            throw new NotFoundHttpException('Requested tariff is not available');
-        }
-
-        if (isset($tariff_id) && !is_array($tariff_id)) {
-            return reset($packages);
-        }
-
-        return $packages;
-    }
-
-    /**
-     * @param $tariff
-     * @return mixed
-     */
-    public static function buildPackageClass($tariff)
-    {
-        if ($tariff->type === Tariff::TYPE_OPENVZ) {
-            return OpenvzPackage::class;
-        }
-
-        return Package::class;
     }
 
     /**

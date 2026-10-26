@@ -17,15 +17,12 @@ return [
         '@server' => '/server/server',
         '@rrd' => '/server/rrd',
         '@switch-graph' => '/server/switch-graph',
-        '@pre-order' => '/server/pre-order',
         '@hub' => '/server/hub',
-        '@config' => '/server/config',
         '@device' => '/server/device',
     ],
     'modules' => [
         'server' => [
             'class' => \hipanel\modules\server\Module::class,
-            'orderIsAllowed' => $params['module.server.order.allowed'] ?? false,
         ],
     ],
     'components' => [
@@ -48,14 +45,6 @@ return [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
-                'hipanel:server:order' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => dirname(__DIR__) . '/src/messages',
-                ],
-                'hipanel:server:order:purpose' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => dirname(__DIR__) . '/src/messages',
-                ],
                 'hipanel:server:panel' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => dirname(__DIR__) . '/src/messages',
@@ -65,10 +54,6 @@ return [
                     'basePath' => dirname(__DIR__) . '/src/messages',
                 ],
                 'hipanel.server.consumption.type' => [
-                    'class' => \yii\i18n\PhpMessageSource::class,
-                    'basePath' => dirname(__DIR__) . '/src/messages',
-                ],
-                'hipanel:server:config' => [
                     'class' => \yii\i18n\PhpMessageSource::class,
                     'basePath' => dirname(__DIR__) . '/src/messages',
                 ],

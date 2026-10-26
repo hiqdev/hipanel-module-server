@@ -36,7 +36,6 @@ use hipanel\modules\server\actions\AssignHubsAction;
 use hipanel\modules\server\actions\BulkPowerManagementAction;
 use hipanel\modules\server\actions\BulkSetRackNoAction;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
-use hipanel\modules\server\cart\ServerRenewProduct;
 use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\ServerForm;
 use hipanel\modules\server\helpers\ServerHelper;
@@ -50,7 +49,6 @@ use hipanel\modules\server\models\ServerUseSearch;
 use hipanel\modules\server\models\SoftwareSettings;
 use hiqdev\hiart\Collection;
 use hiqdev\hiart\ResponseErrorException;
-use hiqdev\yii2\cart\actions\AddToCartAction;
 use Yii;
 use yii\base\Event;
 use yii\filters\VerbFilter;
@@ -84,7 +82,6 @@ class ServerController extends CrudController
                     'reset-password' => ['post'],
                     'enable-block' => ['post'],
                     'disable-block' => ['post'],
-                    'refuse' => ['post'],
                     'flush-switch-graphs' => ['post'],
                 ],
             ],
@@ -97,8 +94,6 @@ class ServerController extends CrudController
                     'create' => 'server.create',
                     'update' => 'server.update',
                     'delete' => 'server.delete',
-                    'renew' => 'server.pay',
-                    'refuse' => 'server.pay',
                     'assign-hubs' => 'server.update',
                     'set-units' => 'server.update',
                     'set-rack-no' => 'server.update',
@@ -698,16 +693,6 @@ class ServerController extends CrudController
                     ]);
                 },
             ],
-            'refuse' => [
-                'class' => SmartPerformAction::class,
-                'success' => Yii::t('hipanel:server', 'You have refused the service'),
-                'error' => Yii::t('hipanel:server', 'Error during the refusing the service'),
-            ],
-            'enable-autorenewal' => [
-                'class' => SmartUpdateAction::class,
-                'success' => Yii::t('hipanel:server', 'Server renewal enabled successfully'),
-                'error' => Yii::t('hipanel:server', 'Error during the renewing the service'),
-            ],
             'reinstall' => [
                 'class' => SmartUpdateAction::class,
                 'on beforeSave' => function (Event $event) {
@@ -760,10 +745,6 @@ class ServerController extends CrudController
             'buy' => [
                 'class' => RedirectAction::class,
                 'url' => Yii::$app->params['organization.url'],
-            ],
-            'add-to-cart-renewal' => [
-                'class' => AddToCartAction::class,
-                'productClass' => ServerRenewProduct::class,
             ],
             'delete' => [
                 'class' => SmartDeleteAction::class,

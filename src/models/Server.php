@@ -107,7 +107,7 @@ class Server extends Device implements TaggableInterface
                 ['id'],
                 'required',
                 'on' => [
-                    'refuse', 'delete', 'enable-autorenewal',
+                    'delete',
                     'enable-vnc', 'set-note', 'set-label',
                     'enable-block', 'disable-block', 'clear-resources',
                     'flush-switch-graphs',
@@ -117,7 +117,7 @@ class Server extends Device implements TaggableInterface
                 ['id'],
                 'integer',
                 'on' => [
-                    'refuse', 'delete', 'enable-autorenewal',
+                    'delete',
                     'enable-vnc', 'set-note', 'set-label',
                     'enable-block', 'disable-block',
                 ],
@@ -245,20 +245,6 @@ class Server extends Device implements TaggableInterface
             'reinstall' => 'resetup',
             'reset-password' => 'regen-root-password',
         ];
-    }
-
-    /**
-     * During 5 days after the last expiration client is able to refuse server with full refund.
-     * Method checks, whether 5 days passed.
-     * @return bool
-     */
-    public function canFullRefuse()
-    {
-        if (!is_numeric($this->last_expires)) {
-            return null; // In case server is not sold
-        }
-
-        return (time() - Yii::$app->formatter->asTimestamp($this->last_expires)) / 3600 / 24 < 5;
     }
 
     /**
