@@ -265,6 +265,9 @@ class AssignHubsForm extends Device
         if (empty($this->{$attribute}) || empty($this->{$variant . '_id'})) {
             return;
         }
+        if ($this->isPduDaisyChain($variant)) {
+            return;
+        }
 
         /** @var Binding $binding */
         $binding = Binding::find()
@@ -289,6 +292,22 @@ class AssignHubsForm extends Device
                 'device' => $binding->device_name ?? null,
             ])
         );
+    }
+
+    /**
+     * A pdu wired to another pdu through a Switches (net*) field is stored by the API against the
+     * target's management NIC (`<name>nic2`), not the pdu itself, so the target pdu's own ports
+     * (its power outlets) can't collide with it. Mirrors hiapi AssignHubValue::needsPduDaisyChainWrap().
+     */
+    private function isPduDaisyChain(string $variant): bool
+    {
+        if (preg_match('/^net\d*$/', $variant) !== 1) {
+            return false;
+        }
+        $hubs = Hub::find()->andWhere(['id_in' => [$this->id, $this->{$variant . '_id'}]])->all();
+        $pduCount = count(array_filter($hubs, fn(Hub $hub) => $hub->type === HubCombo::PDU));
+
+        return $pduCount === 2;
     }
 
     private function buildExtraLabels(): array

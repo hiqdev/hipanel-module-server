@@ -46,7 +46,7 @@ export default class HubPage {
   async delete(name: string) {
     await this.index.columnFilters.applyFilter("name_ilike", name);
     await this.index.clickPopoverMenu(1, "View");
-    this.page.on("dialog", dialog => dialog.accept());
+    this.page.once("dialog", dialog => dialog.accept());
     await this.view.detailMenu.click("Delete");
     await this.seeAlertMessage("Switches have been deleted");
   }
