@@ -307,7 +307,7 @@ class AssignHubsForm extends Device
         $hubs = Hub::find()->andWhere(['id_in' => [$this->id, $this->{$variant . '_id'}]])->all();
         $pduCount = count(array_filter($hubs, fn(Hub $hub) => $hub->type === HubCombo::PDU));
 
-        return $pduCount === 2;
+        return $pduCount > 1;
     }
 
     private function buildExtraLabels(): array
