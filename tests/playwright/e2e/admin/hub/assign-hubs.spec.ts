@@ -49,12 +49,19 @@ test("a PDU mgmt port does not clash with the same-numbered power outlet @hipane
 
   // The Switches combo finds a PDU by its name but labels it with its mgmt NIC (<name>nic2),
   // so Select2.setValue(), which needs the search text to equal the label, can't pick it.
-  const chainToTarget = async (name: string) => {
+  const searchTargetInSwitches = async (name: string) => {
     await hubPage.gotoIndexPage();
     await hubPage.gotoAssignHubs(name);
     await page.locator("#assignhubsform-0-net_id + .select2-container [role=combobox]").click();
     await page.locator(".select2-container--open input.select2-search__field").fill(target);
-    await page.locator("ul.select2-results__options li", { hasText: `${target}nic2` }).click();
+    // wait for the ajax results (an option or "No results found"), not the "Searching…" row
+    await page.locator("ul.select2-results__options li:not(.loading-results)").first().waitFor();
+
+    return page.locator("ul.select2-results__options li", { hasText: `${target}nic2` });
+  };
+
+  const chainToTarget = async (name: string) => {
+    await (await searchTargetInSwitches(name)).click();
     await Input.field(page, "#assignhubsform-0-net_port").setValue("1");
     await assignHubsPage.form.submit();
   };
@@ -76,6 +83,11 @@ test("a PDU mgmt port does not clash with the same-numbered power outlet @hipane
   await test.step("mgmt port 1 of the target can still be chained", async () => {
     await chainToTarget(chained);
     await assignHubsPage.seeSuccessAlert();
+  });
+
+  await test.step("Switches combo lists the target once and never the PDU itself", async () => {
+    await expect(await searchTargetInSwitches(powered)).toHaveCount(1);
+    await expect(await searchTargetInSwitches(target)).toHaveCount(0);
   });
 
   await test.step("a second chain to the same mgmt port is rejected", async () => {

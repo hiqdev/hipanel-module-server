@@ -53,6 +53,11 @@ class HubCombo extends Combo
      */
     public $mainObjectType;
 
+    /**
+     * Name of the device/row currently being edited; on a PDU it and its own NICs are hidden from the results.
+     */
+    public ?string $mainObjectName = null;
+
     /** {@inheritdoc} */
     public function getFilter()
     {
@@ -95,10 +100,30 @@ class HubCombo extends Combo
             return data.type === 'pdu' ? data.text + 'nic2' : data.text;
         }");
 
+        // Drops the PDU being edited and its own NICs (a PDU can't be chained to itself), and a
+        // `<pdu>nicN` whose PDU is listed too: picking the PDU binds to that same NIC, and both
+        // would read `<pdu>nic2` with the hint above.
+        $self = json_encode((string)$this->mainObjectName);
+        $processResults = new JsExpression("function (data) {
+            var results = $.map(data, function (item) { return item; });
+            var pdus = {};
+            $.each(results, function (_, item) {
+                if (item.type === 'pdu') {
+                    pdus[item.text] = true;
+                }
+            });
+            return {results: $.grep(results, function (item) {
+                var base = String(item.text).replace(/nic\\d+$/, '');
+                var isNicOfListedPdu = item.type !== 'pdu' && base !== item.text && pdus[base];
+                return base !== $self && !isNicOfListedPdu;
+            })};
+        }");
+
         return ArrayHelper::merge($pluginOptions, [
             'select2Options' => [
                 'templateResult' => $hint,
                 'templateSelection' => $hint,
+                'ajax' => ['processResults' => $processResults],
             ],
         ]);
     }
