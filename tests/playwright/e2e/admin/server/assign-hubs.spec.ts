@@ -1,5 +1,7 @@
 import { expect, test } from "@hipanel-core/fixtures";
+import { faker } from "@faker-js/faker";
 import AssignHubsForm from "@hipanel-module-server/pages/AssignHubsForm";
+import HubPage from "@hipanel-module-server/pages/HubPage";
 import { AssignHubs, Server } from "@hipanel-module-server/types";
 
 test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
@@ -27,10 +29,28 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
     Object.entries(data).filter(([key]) => key.endsWith("_port")),
   ) as Partial<AssignHubs>;
 
+  const hubPage = new HubPage(page);
+  const pduName = `TEST-PDU-${faker.string.alphanumeric(6).toUpperCase()}`;
+  await test.step("create test PDU", async () => {
+    await hubPage.gotoIndexPage();
+    await hubPage.gotoCreate();
+    await hubPage.create({ name: pduName, type: "APC", model: "TEST-MOD-00" });
+  });
+
   const testServer: Server = await test.step(
     "create test server @admin",
     async (): Promise<Server> => await assignForm.createTestServer(),
   );
+
+  await test.step("Switches offers no PDU base device", async () => {
+    await assignForm.gotoAssignHubPage(testServer.serverName);
+    await page.locator("#assignhubsform-0-net_id + .select2-container [role=combobox]").click();
+    await page.locator(".select2-container--open input.select2-search__field").fill(pduName);
+    await page.locator("ul.select2-results__options li:not(.loading-results)").first().waitFor();
+    await expect(page.locator("ul.select2-results__options li").filter({ hasText: pduName })).toHaveCount(0);
+    await page.keyboard.press("Escape");
+    await assignForm.form.cancel();
+  });
 
   await test.step("assign hubs", async () => {
     await assignForm.gotoAssignHubPage(testServer.serverName);
@@ -114,5 +134,10 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
       pdu4_port: assignForm.fakePort(),
     };
     await assignForm.save(testData);
+  });
+
+  await test.step("delete test PDU", async () => {
+    await hubPage.gotoIndexPage();
+    await hubPage.delete(pduName);
   });
 });

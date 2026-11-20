@@ -4,6 +4,16 @@ import Input from "@hipanel-core/input/Input";
 import AssignHubsForm from "@hipanel-module-server/pages/AssignHubsForm";
 import HubPage from "@hipanel-module-server/pages/HubPage";
 import { AssignHubs } from "@hipanel-module-server/types";
+import { Page } from "@playwright/test";
+
+const searchInCombo = async (page: Page, query: string, field = "net_id") => {
+  await page.locator(`#assignhubsform-0-${field} + .select2-container [role=combobox]`).click();
+  await page.locator(".select2-container--open input.select2-search__field").fill(query);
+  // wait for the ajax results (an option or "No results found"), not the "Searching…" row
+  await page.locator("ul.select2-results__options li:not(.loading-results)").first().waitFor();
+
+  return page.locator("ul.select2-results__options li");
+};
 
 test("the assignments are correctly works and displayed on the switch's detail page @hipanel-module-server @admin", async ({ page }) => {
   const assignHubsPage = new AssignHubsForm(page);
@@ -32,71 +42,71 @@ test("the assignments are correctly works and displayed on the switch's detail p
   await expect(page.getByRole("heading", { name: "Hubs" })).toBeVisible();
 });
 
-// A PDU-to-PDU (daisy-chain) link in the Switches field lands on the target's mgmt NIC,
-// so it must not clash with the target's power outlet of the same number.
-test("a PDU mgmt port does not clash with the same-numbered power outlet @hipanel-module-server @admin", async ({ page }) => {
+test("Switches never offer a PDU and a taken port names its holder @hipanel-module-server @admin", async ({ page }) => {
   const assignHubsPage = new AssignHubsForm(page);
   const hubPage = new HubPage(page);
   const suffix = faker.string.alphanumeric(6).toUpperCase();
-  const [target, chained, powered] = ["A", "B", "C"].map(n => `TEST-PDU-${suffix}-${n}`);
+  const [a, b, c] = ["A", "B", "C"].map(n => `TEST-PDU-${suffix}-${n}`);
+  const switchName = "TEST-SW-05";
+  const switchPort = assignHubsPage.fakePort();
+  const portError = (field: string) => page.locator(`.field-assignhubsform-0-${field}_port .help-block`);
 
-  const powerFromTarget = async () => {
-    await hubPage.gotoIndexPage();
-    await hubPage.gotoAssignHubs(powered);
-    await assignHubsPage.fill([{ pdu_id: target, pdu_port: "1" }]);
-    await assignHubsPage.form.submit();
-  };
-
-  // The Switches combo finds a PDU by its name but labels it with its mgmt NIC (<name>nic2),
-  // so Select2.setValue(), which needs the search text to equal the label, can't pick it.
-  const searchTargetInSwitches = async (name: string) => {
+  const openForm = async (name: string) => {
     await hubPage.gotoIndexPage();
     await hubPage.gotoAssignHubs(name);
-    await page.locator("#assignhubsform-0-net_id + .select2-container [role=combobox]").click();
-    await page.locator(".select2-container--open input.select2-search__field").fill(target);
-    // wait for the ajax results (an option or "No results found"), not the "Searching…" row
-    await page.locator("ul.select2-results__options li:not(.loading-results)").first().waitFor();
-
-    return page.locator("ul.select2-results__options li", { hasText: `${target}nic2` });
   };
-
-  const chainToTarget = async (name: string) => {
-    await (await searchTargetInSwitches(name)).click();
-    await Input.field(page, "#assignhubsform-0-net_port").setValue("1");
+  const save = async (name: string, assignment: AssignHubs) => {
+    await openForm(name);
+    await assignHubsPage.fill([assignment]);
+    await assignHubsPage.form.submit();
+    await assignHubsPage.seeSuccessAlert();
+  };
+  const submitRejected = async (name: string, assignment: AssignHubs) => {
+    await openForm(name);
+    await assignHubsPage.fill([assignment]);
     await assignHubsPage.form.submit();
   };
 
-  await test.step("create three PDUs", async () => {
-    for (const name of [target, chained, powered]) {
+  await test.step("create PDUs A, B, C", async () => {
+    for (const name of [a, b, c]) {
       await hubPage.gotoIndexPage();
       await hubPage.gotoCreate();
-      // APC view shows neither INN nor note, so only fields create() can see afterwards
       await hubPage.create({ name, type: "APC", model: "TEST-MOD-00" });
     }
   });
 
-  await test.step("power outlet 1 of the target is taken", async () => {
-    await powerFromTarget();
+  await test.step("Switches on a PDU form offers no PDU base device", async () => {
+    await openForm(a);
+    await expect((await searchInCombo(page, b)).filter({ hasText: new RegExp(`^${b}$`) })).toHaveCount(0);
+  });
+
+  await test.step("APCs on a PDU form still offers the other PDU", async () => {
+    await openForm(a);
+    await expect((await searchInCombo(page, b, "pdu_id")).filter({ hasText: new RegExp(`^${b}$`) })).toHaveCount(1);
+  });
+
+  await test.step("a taken power outlet is named as such", async () => {
+    await save(c, { pdu_id: b, pdu_port: "1" });
+    await submitRejected(a, { pdu_id: b, pdu_port: "1" });
+    await expect(portError("pdu")).toHaveText(`Power outlet ${b}:1 is already taken by ${c}`);
+  });
+
+  await test.step("a taken network port is named as such", async () => {
+    await save(c, { net_id: switchName, net_port: switchPort });
+    await submitRejected(a, { net_id: switchName, net_port: switchPort });
+    await expect(portError("net")).toHaveText(`Network port ${switchName}:${switchPort} is already taken by ${c}`);
+    await expect(portError("net")).not.toContainText("::");
+  });
+
+  await test.step("free the switch port", async () => {
+    await openForm(c);
+    await assignHubsPage.clearAssigments({ net_id: null, net_port: null });
+    await assignHubsPage.form.submit();
     await assignHubsPage.seeSuccessAlert();
-  });
-
-  await test.step("mgmt port 1 of the target can still be chained", async () => {
-    await chainToTarget(chained);
-    await assignHubsPage.seeSuccessAlert();
-  });
-
-  await test.step("Switches combo lists the target once and never the PDU itself", async () => {
-    await expect(await searchTargetInSwitches(powered)).toHaveCount(1);
-    await expect(await searchTargetInSwitches(target)).toHaveCount(0);
-  });
-
-  await test.step("a second chain to the same mgmt port is rejected", async () => {
-    await chainToTarget(powered);
-    await assignHubsPage.alert.hasText("already assigned");
   });
 
   await test.step("delete the PDUs", async () => {
-    for (const name of [powered, chained, target]) {
+    for (const name of [c, b, a]) {
       await hubPage.gotoIndexPage();
       await hubPage.delete(name);
     }
