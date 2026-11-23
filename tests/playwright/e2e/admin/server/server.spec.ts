@@ -6,7 +6,7 @@ import ServerFormPage from "@hipanel-module-server/pages/ServerFormPage";
 import ServerViewPage from "@hipanel-module-server/pages/ServerViewPage";
 
 test("Test server pages @hipanel-module-server @admin", async ({ page }) => {
-  const serverName = faker.helpers.fake("BTEST-DS-{{number.int({\"min\": 10, \"max\": 9999})}}");
+  const serverName = `BTEST-DS-${faker.string.alphanumeric(6).toUpperCase()}`;
   const serverPage = new ServerPage(page);
   const serverViewPage = new ServerViewPage(page);
   const serverForm = new ServerFormPage(page);
