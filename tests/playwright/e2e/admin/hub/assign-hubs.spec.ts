@@ -89,7 +89,7 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
   await test.step("a taken power outlet is named as such", async () => {
     await save(c, { pdu_id: b, pdu_port: "1" });
     await submitRejected(a, { pdu_id: b, pdu_port: "1" });
-    await expect(portError("pdu")).toHaveText(`Power outlet ${b}:1 is already taken by ${c}`);
+    await expect(portError("pdu")).toHaveText(`Socket 1 of ${b} feeds ${c}.`);
   });
 
   await test.step("a taken power outlet on a PDU nic says to bind from the downstream PDU", async () => {
@@ -98,8 +98,14 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
     await hubPage.create({ name: aNic, type: "Switch" });
     await submitRejected(aNic, { pdu_id: b, pdu_port: "1" });
     await expect(portError("pdu")).toHaveText(
-      `Power outlet ${b}:1 is already taken by ${c} To chain PDUs, bind from the downstream PDU: on ${b}, set Switch ${aNic}, port 1.`,
+      `Socket 1 of ${b} feeds ${c}. To chain PDUs, bind from the downstream PDU: on ${b}, set Switch ${aNic}, port 1.`,
     );
+  });
+
+  await test.step("a taken power outlet names the link already recorded from the other side", async () => {
+    await save(b, { net_id: aNic, net_port: "1" });
+    await submitRejected(aNic, { pdu_id: b, pdu_port: "1" });
+    await expect(portError("pdu")).toHaveText(`Socket 1 of ${b} feeds ${c}. Already recorded: ${b} → ${aNic}:1.`);
   });
 
   await test.step("a taken network port is named as such", async () => {
@@ -117,7 +123,7 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
   });
 
   await test.step("delete the PDUs", async () => {
-    for (const name of [aNic, c, b, a]) {
+    for (const name of [c, b, aNic, a]) {
       await hubPage.gotoIndexPage();
       await hubPage.delete(name);
     }

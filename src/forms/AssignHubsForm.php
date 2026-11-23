@@ -33,7 +33,8 @@ class AssignHubsForm extends Device
 
     private const string DEFAULT = 'default';
     private const int MAX_HUBS_COUNT = 10;
-    private const string POWER_OUTLET_TAKEN = 'Power outlet {switch}:{port} is already taken by {device}';
+    private const string POWER_OUTLET_TAKEN = 'Socket {port} of {switch} feeds {device}.';
+    private const string ALREADY_RECORDED = 'Already recorded: {device} → {switch}:{port}.';
     private const string NETWORK_PORT_TAKEN = 'Network port {switch}:{port} is already taken by {device}';
     public const string PDU_NIC_CHAIN_HINT = 'This is a PDU management port. To chain PDUs, do not bind here: open the downstream PDU and set its Switch to {device}.';
     private const string BIND_FROM_DOWNSTREAM_PDU = 'To chain PDUs, bind from the downstream PDU: on {pdu}, set Switch {device}, port {port}.';
@@ -292,10 +293,17 @@ class AssignHubsForm extends Device
         ];
         $isPdu = $this->isPdu((int)$binding->switch_id);
         $message = Yii::t('hipanel:server', $isPdu ? self::POWER_OUTLET_TAKEN : self::NETWORK_PORT_TAKEN, $params);
+        $reverse = $this->findReverseBinding((int)$binding->switch_id);
         $ownName = $this->ownName();
         $switchName = (string)$binding->switch_name;
         $downstreamPdu = $this->pduOfNic($ownName) === null ? null : ($isPdu ? $switchName : $this->pduOfNic($switchName));
-        if ($downstreamPdu !== null) {
+        if ($reverse !== null) {
+            $message .= ' ' . Yii::t('hipanel:server', self::ALREADY_RECORDED, [
+                'device' => $reverse->device_name,
+                'switch' => $reverse->switch_name,
+                'port' => $reverse->port,
+            ]);
+        } elseif ($downstreamPdu !== null) {
             $message .= ' ' . Yii::t('hipanel:server', self::BIND_FROM_DOWNSTREAM_PDU, [
                 'pdu' => $downstreamPdu,
                 'device' => $ownName,
@@ -304,6 +312,14 @@ class AssignHubsForm extends Device
         }
 
         $this->addError($attribute, $message);
+    }
+
+    private function findReverseBinding(int $hubId): ?Binding
+    {
+        return Binding::find()
+                      ->andWhere(['base_device_id' => $hubId])
+                      ->andWhere(['switch_id' => $this->id])
+                      ->one();
     }
 
     public function isPduNic(): bool
