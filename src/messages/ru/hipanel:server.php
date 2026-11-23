@@ -305,6 +305,13 @@ return [
     'Power inlets: which socket feeds this device' => 'Питание: какая розетка питает это устройство',
     'Port on the hub' => 'Порт на хабе',
     'Socket no.' => '№ розетки',
+    'NIC {no}' => 'NIC {no}',
+    'Power {no}' => 'Питание {no}',
+    'via {device}' => 'через {device}',
+    '{hub} port {port}' => '{hub}, порт {port}',
+    '{hub} socket {port}' => '{hub}, розетка {port}',
+    '{hub} NIC {no}' => '{hub} NIC {no}',
+    'Notes: {notes}' => 'Заметки: {notes}',
 
     'All' => 'Все',
     'Wizzarded' => 'С панелью',

@@ -108,6 +108,13 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
     await expect(portError("pdu")).toHaveText(`Socket 1 of ${b} feeds ${c}. Already recorded: ${b} → ${aNic}:1.`);
   });
 
+  await test.step("the Hubs box names the nic by its own PDU, not by an upstream hub", async () => {
+    await hubPage.gotoIndexPage();
+    await hubPage.gotoView(b);
+    const nic1Row = page.locator("tr", { has: page.locator("th", { hasText: /^NIC 1$/ }) });
+    await expect(nic1Row.locator("td")).toHaveText(`→ ${a} NIC 2 port 1`);
+  });
+
   await test.step("a taken network port is named as such", async () => {
     await save(c, { net_id: switchName, net_port: switchPort });
     await submitRejected(a, { net_id: switchName, net_port: switchPort });

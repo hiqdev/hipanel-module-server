@@ -113,8 +113,8 @@ test("assign hubs @hipanel-module-server @admin", async ({ page }) => {
       pdu2_port: assignForm.fakePort(),
     };
     await assignForm.save(testAssignment);
-    await expect(page.getByRole("cell", { name: `Switch:2 ${server.serverName}nic2` })).toBeVisible();
-    await expect(page.getByRole("cell", { name: `APC:2 ${server.serverName}nic2` })).toBeVisible();
+    await expect(page.getByRole("cell", { name: `NIC 2 (via ${server.serverName}nic2)` })).toBeVisible();
+    await expect(page.getByRole("cell", { name: `Power 2 (via ${server.serverName}nic2)` })).toBeVisible();
   });
 
   await test.step("the UI and backend handle multiple nic additions in a single operation", async () => {

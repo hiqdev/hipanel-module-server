@@ -74,7 +74,7 @@ JS
                     static fn(Binding $binding): array => [
                         'class' => BindingColumn::class,
                         'attribute' => $binding->typeWithNo,
-                        'deviceName' => $binding->switch,
+                        'deviceName' => $model->name,
                         'deviceId' => $binding->obj_id,
                     ],
                     $model->bindings
