@@ -80,7 +80,7 @@ AssignHubsColumnReveal::register($this);
                 <div class="box-body">
                     <?php if ($model->isPduNic()) : ?>
                         <div class="callout callout-info pdu-nic-chain-hint">
-                            <?= Yii::t('hipanel:server', AssignHubsForm::PDU_NIC_CHAIN_HINT, ['device' => $model->name]) ?>
+                            <?= Yii::t('hipanel:server', AssignHubsForm::PDU_NIC_CHAIN_HINT, ['device' => Html::encode($model->name)]) ?>
                         </div>
                     <?php endif ?>
                     <div class="row">
