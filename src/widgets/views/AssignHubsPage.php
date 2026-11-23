@@ -78,6 +78,11 @@ AssignHubsColumnReveal::register($this);
                     </h3>
                 </div>
                 <div class="box-body">
+                    <?php if ($model->isPduNic()) : ?>
+                        <div class="callout callout-info pdu-nic-chain-hint">
+                            <?= Yii::t('hipanel:server', AssignHubsForm::PDU_NIC_CHAIN_HINT, ['device' => Html::encode($model->name)]) ?>
+                        </div>
+                    <?php endif ?>
                     <div class="row">
                         <?php $groups = $context->splitIntoGroups($model->getHubVariants()) ?>
                         <?php foreach ($groups as $group) : ?>
@@ -92,14 +97,14 @@ AssignHubsColumnReveal::register($this);
                                                     <div>
                                                         <?php if ($context->hasPort($variant)) : ?>
                                                             <?= $form->field($model, "[$i]{$variant}_id")
-                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant, $model->type, $model->name))
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
                                                                      ->label($context->getAttributeLabel($model, $variant)) ?>
                                                             <?= $form->field($model, "[$i]{$variant}_port")
                                                                      ->textInput(['placeholder' => 'Port'])
                                                                      ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
                                                         <?php else : ?>
                                                             <?= $form->field($model, "[$i]{$variant}_id")
-                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant, $model->type, $model->name))
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
                                                                      ->label($context->getAttributeLabel($model, $variant)) ?>
                                                         <?php endif ?>
                                                     </div>
@@ -114,7 +119,7 @@ AssignHubsColumnReveal::register($this);
                                                     <?php if ($context->hasPort($variant)) : ?>
                                                         <div class="col-md-6">
                                                             <?= $form->field($model, "[$i]{$variant}_id")
-                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant, $model->type, $model->name))
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
                                                                      ->label($context->getAttributeLabel($model, $variant)) ?>
                                                         </div>
                                                         <div class="col-md-6">
@@ -125,7 +130,7 @@ AssignHubsColumnReveal::register($this);
                                                     <?php else : ?>
                                                         <div class="col-md-12">
                                                             <?= $form->field($model, "[$i]{$variant}_id")
-                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant, $model->type, $model->name))
+                                                                     ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
                                                                      ->label($context->getAttributeLabel($model, $variant)) ?>
                                                         </div>
                                                     <?php endif ?>

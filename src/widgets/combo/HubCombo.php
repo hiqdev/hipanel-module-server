@@ -12,13 +12,13 @@ namespace hipanel\modules\server\widgets\combo;
 
 use hiqdev\combo\Combo;
 use yii\helpers\ArrayHelper;
-use yii\web\JsExpression;
 
 class HubCombo extends Combo
 {
     const string IPMI = 'net';
     const string KVM = 'kvm';
     const string NET = 'net';
+    const string NIC_NAME_PATTERN = '/nic\d+$/';
     const string PDU = 'pdu';
     const string RACK = 'rack';
     const string JBOD = 'jbod';
@@ -47,17 +47,6 @@ class HubCombo extends Combo
 
     public bool $showDeleted = true;
 
-    /**
-     * Type of the device/row currently being edited (e.g. 'pdu').
-     * Used only to decide whether to show the "nic2" daisy-chain preview hint below.
-     */
-    public $mainObjectType;
-
-    /**
-     * Name of the device/row currently being edited; on a PDU it and its own NICs are hidden from the results.
-     */
-    public ?string $mainObjectName = null;
-
     /** {@inheritdoc} */
     public function getFilter()
     {
@@ -76,56 +65,6 @@ class HubCombo extends Combo
         }
 
         return $filters;
-    }
-
-    /**
-     * {@inheritdoc}
-     *
-     * When the row being edited is itself a PDU, hint that a PDU picked here will end up
-     * wired through a management NIC sub-port on the target (`<name>nic2`), not the target
-     * device directly. Purely cosmetic — the submitted id is still the real target device id.
-     */
-    public function getPluginOptions($options = []): array
-    {
-        $pluginOptions = parent::getPluginOptions($options);
-
-        if ($this->mainObjectType !== self::PDU) {
-            return $pluginOptions;
-        }
-
-        $hint = new JsExpression("function (data) {
-            if (!data.id) {
-                return data.text;
-            }
-            return data.type === 'pdu' ? data.text + 'nic2' : data.text;
-        }");
-
-        // Drops the PDU being edited and its own NICs (a PDU can't be chained to itself), and a
-        // `<pdu>nicN` whose PDU is listed too: picking the PDU binds to that same NIC, and both
-        // would read `<pdu>nic2` with the hint above.
-        $self = json_encode((string)$this->mainObjectName);
-        $processResults = new JsExpression("function (data) {
-            var results = $.map(data, function (item) { return item; });
-            var pdus = {};
-            $.each(results, function (_, item) {
-                if (item.type === 'pdu') {
-                    pdus[item.text] = true;
-                }
-            });
-            return {results: $.grep(results, function (item) {
-                var base = String(item.text).replace(/nic\\d+$/, '');
-                var isNicOfListedPdu = item.type !== 'pdu' && base !== item.text && pdus[base];
-                return base !== $self && !isNicOfListedPdu;
-            })};
-        }");
-
-        return ArrayHelper::merge($pluginOptions, [
-            'select2Options' => [
-                'templateResult' => $hint,
-                'templateSelection' => $hint,
-                'ajax' => ['processResults' => $processResults],
-            ],
-        ]);
     }
 
     private function getHubTypes(): array

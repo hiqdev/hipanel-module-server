@@ -33,6 +33,10 @@ class AssignHubsForm extends Device
 
     private const string DEFAULT = 'default';
     private const int MAX_HUBS_COUNT = 10;
+    private const string POWER_OUTLET_TAKEN = 'Power outlet {switch}:{port} is already taken by {device}';
+    private const string NETWORK_PORT_TAKEN = 'Network port {switch}:{port} is already taken by {device}';
+    public const string PDU_NIC_CHAIN_HINT = 'This is a PDU management port. To chain PDUs, do not bind here: open the downstream PDU and set its Switch to {device}.';
+    private const string BIND_FROM_DOWNSTREAM_PDU = 'To chain PDUs, bind from the downstream PDU: on {pdu}, set Switch {device}, port {port}.';
     private static string $modelClass;
     private array $sets = [
         Hub::class => [
@@ -265,9 +269,6 @@ class AssignHubsForm extends Device
         if (empty($this->{$attribute}) || empty($this->{$variant . '_id'})) {
             return;
         }
-        if ($this->isPduDaisyChain($variant)) {
-            return;
-        }
 
         /** @var Binding $binding */
         $binding = Binding::find()
@@ -284,30 +285,51 @@ class AssignHubsForm extends Device
             return;
         }
 
-        $this->addError(
-            $attribute,
-            Yii::t('hipanel:server', '{switch}::{port} already taken by {device}', [
-                'switch' => $binding->switch_name ?? null,
-                'port' => $binding->port ?? null,
-                'device' => $binding->device_name ?? null,
-            ])
-        );
+        $params = [
+            'switch' => $binding->switch_name ?? null,
+            'port' => $binding->port ?? null,
+            'device' => $binding->device_name ?? null,
+        ];
+        $isPdu = $this->isPdu((int)$binding->switch_id);
+        $message = Yii::t('hipanel:server', $isPdu ? self::POWER_OUTLET_TAKEN : self::NETWORK_PORT_TAKEN, $params);
+        $ownName = $this->ownName();
+        $switchName = (string)$binding->switch_name;
+        $downstreamPdu = $this->pduOfNic($ownName) === null ? null : ($isPdu ? $switchName : $this->pduOfNic($switchName));
+        if ($downstreamPdu !== null) {
+            $message .= ' ' . Yii::t('hipanel:server', self::BIND_FROM_DOWNSTREAM_PDU, [
+                'pdu' => $downstreamPdu,
+                'device' => $ownName,
+                'port' => $binding->port,
+            ]);
+        }
+
+        $this->addError($attribute, $message);
     }
 
-    /**
-     * A pdu wired to another pdu through a Switches (net*) field is stored by the API against the
-     * target's management NIC (`<name>nic2`), not the pdu itself, so the target pdu's own ports
-     * (its power outlets) can't collide with it. Mirrors hiapi AssignHubValue::needsPduDaisyChainWrap().
-     */
-    private function isPduDaisyChain(string $variant): bool
+    public function isPduNic(): bool
     {
-        if (preg_match('/^net\d*$/', $variant) !== 1) {
-            return false;
-        }
-        $hubs = Hub::find()->andWhere(['id_in' => [$this->id, $this->{$variant . '_id'}]])->all();
-        $pduCount = count(array_filter($hubs, fn(Hub $hub) => $hub->type === HubCombo::PDU));
+        return $this->pduOfNic((string)$this->name) !== null;
+    }
 
-        return $pduCount > 1;
+    private function isPdu(int $hubId): bool
+    {
+        return Hub::find()->andWhere(['id' => $hubId])->one()?->type === HubCombo::PDU;
+    }
+
+    private function ownName(): string
+    {
+        return (string)($this->name ?: Hub::find()->andWhere(['id' => $this->id])->one()?->name);
+    }
+
+    private function pduOfNic(string $nicName): ?string
+    {
+        $baseName = preg_replace(HubCombo::NIC_NAME_PATTERN, '', $nicName);
+        if ($baseName === $nicName) {
+            return null;
+        }
+        $base = Hub::find()->andWhere(['name' => $baseName])->one();
+
+        return $base?->type === HubCombo::PDU ? $baseName : null;
     }
 
     private function buildExtraLabels(): array

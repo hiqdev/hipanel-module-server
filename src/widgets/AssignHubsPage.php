@@ -95,15 +95,9 @@ class AssignHubsPage extends Widget
         ];
     }
 
-    public function prepareHubComboOptions(string $variant, string $mainObjectType, ?string $mainObjectName = null): array
+    public function prepareHubComboOptions(string $variant): array
     {
-        // The "nic2" daisy-chain preview hint is only meaningful for Switches (net*) fields:
-        // it previews a device that will be wired as a switch. It must never appear in the
-        // APCs (pdu*) column, where the target device is bound as-is.
-        $isNetField = $variant === 'net' || preg_match('/^net\d+$/', $variant) === 1;
-
         $hubTypes = match (true) {
-            $isNetField => ['net', 'pdu'],
             $variant === 'ipmi' => ['net'],
             default => [preg_replace('/[\d+]+/', '', $variant)],
         };
@@ -113,8 +107,6 @@ class AssignHubsPage extends Widget
             'url' => $variant === HubCombo::JBOD ? '/server/server/index' : null,
             'type' => $variant === HubCombo::JBOD ? 'server/server' : null,
             'hubTypes' => $hubTypes,
-            'mainObjectType' => $isNetField ? $mainObjectType : null,
-            'mainObjectName' => $isNetField ? $mainObjectName : null,
         ]);
     }
 
