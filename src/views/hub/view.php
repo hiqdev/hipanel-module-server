@@ -8,6 +8,7 @@ use hipanel\modules\server\menus\HubDetailMenu;
 use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\Hub;
 use hipanel\modules\server\widgets\Configuration;
+use hipanel\modules\server\widgets\ConnectedDevices;
 use hipanel\widgets\Box;
 use hipanel\widgets\MainDetails;
 use hipanel\widgets\SettingsModal;
@@ -89,6 +90,9 @@ JS
                 $box->endBody();
                 Box::end();
                 ?>
+            </div>
+            <div class="col-md-12">
+                <?= ConnectedDevices::widget(['model' => $model]) ?>
             </div>
         </div>
     </div>

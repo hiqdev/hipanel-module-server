@@ -115,6 +115,16 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
     await expect(nic1Row.locator("td")).toHaveText(`→ ${a} NIC 2 port 1`);
   });
 
+  await test.step("Connected to this device lists the links stored on other devices", async () => {
+    const connected = page.locator("table.connected-devices");
+    await expect(connected.locator("tr", { hasText: "Socket 1" })).toHaveText(`Socket 1 ← ${c} (Power 1)`);
+    await expect(connected.getByRole("link", { name: `${c} (Power 1)` })).toHaveAttribute("href", /\/server\/hub\/assign-hubs\?id=\d+/);
+
+    await hubPage.gotoIndexPage();
+    await hubPage.gotoView(a);
+    await expect(page.locator("table.connected-devices tr", { hasText: "NIC 2, port 1" })).toHaveText(`NIC 2, port 1 ← ${b} (NIC 1)`);
+  });
+
   await test.step("a taken network port is named as such", async () => {
     await save(c, { net_id: switchName, net_port: switchPort });
     await submitRejected(a, { net_id: switchName, net_port: switchPort });
