@@ -47,6 +47,7 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
   const hubPage = new HubPage(page);
   const suffix = faker.string.alphanumeric(6).toUpperCase();
   const [a, b, c] = ["A", "B", "C"].map(n => `TEST-PDU-${suffix}-${n}`);
+  const aNic = `${a}nic2`;
   const switchName = "TEST-SW-05";
   const switchPort = assignHubsPage.fakePort();
   const portError = (field: string) => page.locator(`.field-assignhubsform-0-${field}_port .help-block`);
@@ -91,6 +92,16 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
     await expect(portError("pdu")).toHaveText(`Power outlet ${b}:1 is already taken by ${c}`);
   });
 
+  await test.step("a taken power outlet on a PDU nic says to bind from the downstream PDU", async () => {
+    await hubPage.gotoIndexPage();
+    await hubPage.gotoCreate();
+    await hubPage.create({ name: aNic, type: "Switch" });
+    await submitRejected(aNic, { pdu_id: b, pdu_port: "1" });
+    await expect(portError("pdu")).toHaveText(
+      `Power outlet ${b}:1 is already taken by ${c} To chain PDUs, bind from the downstream PDU: on ${b}, set Switch ${aNic}, port 1.`,
+    );
+  });
+
   await test.step("a taken network port is named as such", async () => {
     await save(c, { net_id: switchName, net_port: switchPort });
     await submitRejected(a, { net_id: switchName, net_port: switchPort });
@@ -106,7 +117,7 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
   });
 
   await test.step("delete the PDUs", async () => {
-    for (const name of [c, b, a]) {
+    for (const name of [aNic, c, b, a]) {
       await hubPage.gotoIndexPage();
       await hubPage.delete(name);
     }

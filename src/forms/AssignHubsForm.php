@@ -290,13 +290,11 @@ class AssignHubsForm extends Device
             'port' => $binding->port ?? null,
             'device' => $binding->device_name ?? null,
         ];
-        $message = Yii::t(
-            'hipanel:server',
-            $this->isPdu((int)$binding->switch_id) ? self::POWER_OUTLET_TAKEN : self::NETWORK_PORT_TAKEN,
-            $params,
-        );
+        $isPdu = $this->isPdu((int)$binding->switch_id);
+        $message = Yii::t('hipanel:server', $isPdu ? self::POWER_OUTLET_TAKEN : self::NETWORK_PORT_TAKEN, $params);
         $ownName = $this->ownName();
-        $downstreamPdu = $this->pduOfNic($ownName) === null ? null : $this->pduOfNic((string)$binding->switch_name);
+        $switchName = (string)$binding->switch_name;
+        $downstreamPdu = $this->pduOfNic($ownName) === null ? null : ($isPdu ? $switchName : $this->pduOfNic($switchName));
         if ($downstreamPdu !== null) {
             $message .= ' ' . Yii::t('hipanel:server', self::BIND_FROM_DOWNSTREAM_PDU, [
                 'pdu' => $downstreamPdu,
