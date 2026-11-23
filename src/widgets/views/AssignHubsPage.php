@@ -100,7 +100,7 @@ AssignHubsColumnReveal::register($this);
                                                                      ->widget(HubCombo::class, $context->prepareHubComboOptions($variant))
                                                                      ->label($context->getAttributeLabel($model, $variant)) ?>
                                                             <?= $form->field($model, "[$i]{$variant}_port")
-                                                                     ->textInput(['placeholder' => 'Port'])
+                                                                     ->textInput(['placeholder' => $context->portPlaceholder($variant)])
                                                                      ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
                                                         <?php else : ?>
                                                             <?= $form->field($model, "[$i]{$variant}_id")
@@ -124,7 +124,7 @@ AssignHubsColumnReveal::register($this);
                                                         </div>
                                                         <div class="col-md-6">
                                                             <?= $form->field($model, "[$i]{$variant}_port")
-                                                                     ->textInput(['placeholder' => 'Port'])
+                                                                     ->textInput(['placeholder' => $context->portPlaceholder($variant)])
                                                                      ->label($context->getAttributeLabel($model, $variant . '_port')) ?>
                                                         </div>
                                                     <?php else : ?>

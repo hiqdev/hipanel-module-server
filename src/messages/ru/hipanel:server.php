@@ -300,6 +300,10 @@ return [
     'Network port {switch}:{port} is already taken by {device}' => 'Сетевой порт {switch}:{port} уже занят устройством {device}',
     'This is a PDU management port. To chain PDUs, do not bind here: open the downstream PDU and set its Switch to {device}.' => 'Это порт управления PDU. Чтобы соединить PDU цепочкой, не привязывайте здесь: откройте нижний PDU и укажите в его Switch {device}.',
     'To chain PDUs, bind from the downstream PDU: on {pdu}, set Switch {device}, port {port}.' => 'Чтобы соединить PDU цепочкой, привяжите со стороны нижнего PDU: на {pdu} укажите Switch {device}, порт {port}.',
+    "Network uplinks: where this device's ports plug in" => 'Сетевые подключения: куда включены порты этого устройства',
+    'Power inlets: which socket feeds this device' => 'Питание: какая розетка питает это устройство',
+    'Port on the hub' => 'Порт на хабе',
+    'Socket no.' => '№ розетки',
 
     'All' => 'Все',
     'Wizzarded' => 'С панелью',
