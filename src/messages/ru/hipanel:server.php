@@ -320,6 +320,8 @@ return [
     'NIC {no}, port {port}' => 'NIC {no}, порт {port}',
     '{device} (NIC {no})' => '{device} (NIC {no})',
     '{device} (Power {no})' => '{device} (питание {no})',
+    'Device ports' => 'Порты устройства',
+    'No ports are recorded on this hub yet' => 'На этом хабе ещё не записано ни одного порта',
 
     'All' => 'Все',
     'Wizzarded' => 'С панелью',

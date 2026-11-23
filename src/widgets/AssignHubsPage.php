@@ -14,6 +14,7 @@ use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\helpers\AssignHubsGroup;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use Yii;
+use yii\helpers\Url;
 use yii\base\Widget;
 use yii\widgets\ActiveForm;
 
@@ -28,6 +29,8 @@ class AssignHubsPage extends Widget
     private const string HUB_PORT = 'Port on the hub';
     private const string SOCKET_NO = 'Socket no.';
     private const string PORT = 'Port';
+    private const string DEVICE_PORTS = 'Device ports';
+    private const string NO_PORTS = 'No ports are recorded on this hub yet';
 
     /** @var AssignHubsForm[] */
     public array $models;
@@ -110,6 +113,15 @@ class AssignHubsPage extends Widget
         };
 
         return Yii::t('hipanel:server', $placeholder);
+    }
+
+    public function devicePortsData(): array
+    {
+        return [
+            'ports-url' => Url::to(['@hub/ports']),
+            'ports-title' => Yii::t('hipanel:server', self::DEVICE_PORTS),
+            'ports-empty' => Yii::t('hipanel:server', self::NO_PORTS),
+        ];
     }
 
     public function prepareHubComboOptions(string $variant): array

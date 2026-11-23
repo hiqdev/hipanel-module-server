@@ -32,6 +32,7 @@ use hipanel\modules\server\actions\BulkSetUnit;
 use hipanel\modules\server\actions\CreateDeviceRangeAction;
 use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\forms\HubSellForm;
+use hipanel\modules\server\models\Binding;
 use hipanel\modules\server\models\DeviceProperties;
 use hipanel\modules\server\models\HardwareSettings;
 use hipanel\modules\server\models\Hub;
@@ -39,6 +40,7 @@ use hipanel\modules\server\models\MonitoringSettings;
 use hiqdev\hiart\Collection;
 use Yii;
 use yii\base\Event;
+use yii\web\Response;
 
 class HubController extends CrudController
 {
@@ -364,6 +366,20 @@ class HubController extends CrudController
     protected function getNicMediaOptions()
     {
         return $this->getFullFromRef('type,nic_media');
+    }
+
+    public function actionPorts(int $id): array
+    {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $ports = [];
+        foreach (Binding::find()->andWhere(['switch_id' => $id])->limit(-1)->all() as $binding) {
+            if ($binding->port !== null && $binding->port !== '') {
+                $ports[] = ['port' => $binding->port, 'device' => $binding->device_name];
+            }
+        }
+        usort($ports, static fn(array $a, array $b): int => strnatcasecmp($a['port'], $b['port']));
+
+        return $ports;
     }
 
     protected function getFullFromRef($gtype)

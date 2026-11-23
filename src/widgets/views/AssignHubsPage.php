@@ -1,6 +1,7 @@
 <?php
 
 use hipanel\modules\server\assets\AssignHubsColumnReveal;
+use hipanel\modules\server\assets\AssignHubsDevicePorts;
 use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\helpers\AssignHubsGroup;
 use hipanel\modules\server\widgets\ApplyToAllWidget;
@@ -50,6 +51,7 @@ CSS
 );
 
 AssignHubsColumnReveal::register($this);
+AssignHubsDevicePorts::register($this);
 
 ?>
 
@@ -66,7 +68,7 @@ AssignHubsColumnReveal::register($this);
     'formFields' => $context->getAllPossibleFormFieldNames(),
 ]) ?>
 
-<div class="container-items">
+<?= Html::beginTag('div', ['class' => 'container-items', 'data' => $context->devicePortsData()]) ?>
     <?php foreach ($models as $i => $model) : ?>
         <div class="item">
             <?= Html::activeHiddenInput($model, "[$i]id") ?>

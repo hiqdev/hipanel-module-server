@@ -125,6 +125,26 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
     await expect(page.locator("table.connected-devices tr", { hasText: "NIC 2, port 1" })).toHaveText(`NIC 2, port 1 ← ${b} (NIC 1)`);
   });
 
+  await test.step("Device ports lists the hub's recorded ports and a click fills the field", async () => {
+    await openForm(a);
+    await assignHubsPage.fill([{ pdu_id: b }]);
+    const port = page.locator("#assignhubsform-0-pdu_port");
+    await port.focus();
+    const popover = page.locator(".popover");
+    await expect(popover.locator(".popover-title")).toHaveText("Device ports");
+    await expect(popover.locator("li")).toHaveText([`1 ${c}`]);
+    await popover.getByRole("link", { name: "1", exact: true }).dispatchEvent("mousedown");
+    await expect(port).toHaveValue("1");
+    await expect(popover).toHaveCount(0);
+  });
+
+  await test.step("Device ports says so when the hub has no recorded ports", async () => {
+    await openForm(c);
+    await assignHubsPage.fill([{ pdu2_id: a }]);
+    await page.locator("#assignhubsform-0-pdu2_port").focus();
+    await expect(page.locator(".popover")).toContainText("No ports are recorded on this hub yet");
+  });
+
   await test.step("a taken network port is named as such", async () => {
     await save(c, { net_id: switchName, net_port: switchPort });
     await submitRejected(a, { net_id: switchName, net_port: switchPort });
