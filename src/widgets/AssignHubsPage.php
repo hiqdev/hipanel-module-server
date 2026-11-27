@@ -14,6 +14,7 @@ use hipanel\modules\server\forms\AssignHubsForm;
 use hipanel\modules\server\helpers\AssignHubsGroup;
 use hipanel\modules\server\widgets\combo\HubCombo;
 use Yii;
+use yii\helpers\Url;
 use yii\base\Widget;
 use yii\widgets\ActiveForm;
 
@@ -23,6 +24,14 @@ use yii\widgets\ActiveForm;
  */
 class AssignHubsPage extends Widget
 {
+    private const string NETWORK_UPLINKS = "Network uplinks: where this device's ports plug in";
+    private const string POWER_INLETS = 'Power inlets: which socket feeds this device';
+    private const string HUB_PORT = 'Port on the hub';
+    private const string SOCKET_NO = 'Socket no.';
+    private const string PORT = 'Port';
+    private const string DEVICE_PORTS = 'Device ports';
+    private const string NO_PORTS = 'No ports are recorded on this hub yet';
+
     /** @var AssignHubsForm[] */
     public array $models;
     public ActiveForm $form;
@@ -89,9 +98,29 @@ class AssignHubsPage extends Widget
         sort($others, SORT_NATURAL | SORT_FLAG_CASE);
 
         return [
-            new AssignHubsGroup($nets, 'nets', Yii::t('hipanel:server', 'Switches')),
-            new AssignHubsGroup($pdus, 'pdus', Yii::t('hipanel:server', 'APCs')),
+            new AssignHubsGroup($nets, 'nets', Yii::t('hipanel:server', self::NETWORK_UPLINKS)),
+            new AssignHubsGroup($pdus, 'pdus', Yii::t('hipanel:server', self::POWER_INLETS)),
             new AssignHubsGroup($others),
+        ];
+    }
+
+    public function portPlaceholder(string $variant): string
+    {
+        $placeholder = match (preg_replace('/\d+$/', '', $variant)) {
+            'net' => self::HUB_PORT,
+            'pdu' => self::SOCKET_NO,
+            default => self::PORT,
+        };
+
+        return Yii::t('hipanel:server', $placeholder);
+    }
+
+    public function devicePortsData(): array
+    {
+        return [
+            'ports-url' => Url::to(['@hub/ports']),
+            'ports-title' => Yii::t('hipanel:server', self::DEVICE_PORTS),
+            'ports-empty' => Yii::t('hipanel:server', self::NO_PORTS),
         ];
     }
 

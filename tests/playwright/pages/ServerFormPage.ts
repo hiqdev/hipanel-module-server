@@ -8,7 +8,7 @@ import { faker } from "@faker-js/faker";
 
 export default class ServerFormPage extends Form {
   public getTestData(): Server {
-    const serverName = faker.helpers.fake("BTEST-DS-{{number.int({\"min\": 1000, \"max\": 9999})}}");
+    const serverName = `BTEST-DS-${faker.string.alphanumeric(6).toUpperCase()}`;
 
     return {
       serverName,

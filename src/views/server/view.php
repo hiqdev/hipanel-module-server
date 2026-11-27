@@ -13,6 +13,7 @@ use hipanel\modules\server\models\Server;
 use hipanel\modules\server\widgets\BootLive;
 use hipanel\modules\server\widgets\ChartOptions;
 use hipanel\modules\server\widgets\Configuration;
+use hipanel\modules\server\widgets\ConnectedDevices;
 use hipanel\modules\server\widgets\PowerChartOptions;
 use hipanel\modules\server\widgets\ServerSwitcher;
 use hipanel\modules\server\widgets\Wizzard;
@@ -365,6 +366,7 @@ if ($model->running_task) {
                 </div>
             </div>
         <?php endif ?>
+        <?= ConnectedDevices::widget(['model' => $model]) ?>
         <?php
         $box = Box::begin(['renderBody' => false]);
         $box->beginHeader();

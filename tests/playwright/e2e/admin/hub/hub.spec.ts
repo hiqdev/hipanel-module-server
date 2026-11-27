@@ -4,7 +4,7 @@ import HubPage from "@hipanel-module-server/pages/HubPage";
 import { Hub } from "@hipanel-module-server/types";
 
 test("Test hub pages @hipanel-module-server @admin", async ({ page }) => {
-  const hubName = faker.helpers.fake("TEST-SW-{{number.int({\"min\": 10, \"max\": 9999})}}");
+  const hubName = `TEST-SW-${faker.string.alphanumeric(6).toUpperCase()}`;
   const hubPage = new HubPage(page);
 
   const hubTestData: Hub = {

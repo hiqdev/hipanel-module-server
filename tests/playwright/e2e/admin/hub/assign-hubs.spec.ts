@@ -89,7 +89,7 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
   await test.step("a taken power outlet is named as such", async () => {
     await save(c, { pdu_id: b, pdu_port: "1" });
     await submitRejected(a, { pdu_id: b, pdu_port: "1" });
-    await expect(portError("pdu")).toHaveText(`Power outlet ${b}:1 is already taken by ${c}`);
+    await expect(portError("pdu")).toHaveText(`Socket 1 of ${b} feeds ${c}.`);
   });
 
   await test.step("a taken power outlet on a PDU nic says to bind from the downstream PDU", async () => {
@@ -98,8 +98,51 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
     await hubPage.create({ name: aNic, type: "Switch" });
     await submitRejected(aNic, { pdu_id: b, pdu_port: "1" });
     await expect(portError("pdu")).toHaveText(
-      `Power outlet ${b}:1 is already taken by ${c} To chain PDUs, bind from the downstream PDU: on ${b}, set Switch ${aNic}, port 1.`,
+      `Socket 1 of ${b} feeds ${c}. To chain PDUs, bind from the downstream PDU: on ${b}, set Switch ${aNic}, port 1.`,
     );
+  });
+
+  await test.step("a taken power outlet names the link already recorded from the other side", async () => {
+    await save(b, { net_id: aNic, net_port: "1" });
+    await submitRejected(aNic, { pdu_id: b, pdu_port: "1" });
+    await expect(portError("pdu")).toHaveText(`Socket 1 of ${b} feeds ${c}. Already recorded: ${b} → ${aNic}:1.`);
+  });
+
+  await test.step("the Hubs box names the nic by its own PDU, not by an upstream hub", async () => {
+    await hubPage.gotoIndexPage();
+    await hubPage.gotoView(b);
+    const nic1Row = page.locator("tr", { has: page.locator("th", { hasText: /^NIC 1$/ }) });
+    await expect(nic1Row.locator("td")).toHaveText(`→ ${a} NIC 2 port 1`);
+  });
+
+  await test.step("Connected to this device lists the links stored on other devices", async () => {
+    const connected = page.locator("table.connected-devices");
+    await expect(connected.locator("tr", { hasText: "Socket 1" })).toHaveText(`Socket 1 ← ${c} (Power 1)`);
+    await expect(connected.getByRole("link", { name: `${c} (Power 1)` })).toHaveAttribute("href", /\/server\/hub\/assign-hubs\?id=\d+/);
+
+    await hubPage.gotoIndexPage();
+    await hubPage.gotoView(a);
+    await expect(page.locator("table.connected-devices tr", { hasText: "NIC 2, port 1" })).toHaveText(`NIC 2, port 1 ← ${b} (NIC 1)`);
+  });
+
+  await test.step("Device ports lists the hub's recorded ports and a click fills the field", async () => {
+    await openForm(a);
+    await assignHubsPage.fill([{ pdu_id: b }]);
+    const port = page.locator("#assignhubsform-0-pdu_port");
+    await port.focus();
+    const popover = page.locator(".popover");
+    await expect(popover.locator(".popover-title")).toHaveText("Device ports");
+    await expect(popover.locator("li")).toHaveText([`1 ${c}`]);
+    await popover.getByRole("link", { name: "1", exact: true }).dispatchEvent("mousedown");
+    await expect(port).toHaveValue("1");
+    await expect(popover).toHaveCount(0);
+  });
+
+  await test.step("Device ports says so when the hub has no recorded ports", async () => {
+    await openForm(c);
+    await assignHubsPage.fill([{ pdu2_id: a }]);
+    await page.locator("#assignhubsform-0-pdu2_port").focus();
+    await expect(page.locator(".popover")).toContainText("No ports are recorded on this hub yet");
   });
 
   await test.step("a taken network port is named as such", async () => {
@@ -117,7 +160,7 @@ test("Switches never offer a PDU and a taken port names its holder @hipanel-modu
   });
 
   await test.step("delete the PDUs", async () => {
-    for (const name of [aNic, c, b, a]) {
+    for (const name of [c, b, aNic, a]) {
       await hubPage.gotoIndexPage();
       await hubPage.delete(name);
     }

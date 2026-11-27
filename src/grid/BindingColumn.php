@@ -19,6 +19,16 @@ class BindingColumn extends DataColumn
     public ?string $deviceName = null;
     public ?int $deviceId = null;
 
+    private const string CABLING_ATTRIBUTE = '/^(net|pdu)(\d*)$/';
+    private const string NIC_TARGET = '/^(.+)nic(\d+)$/';
+    private const string NIC_NO = 'NIC {no}';
+    private const string POWER_NO = 'Power {no}';
+    private const string VIA_DEVICE = 'via {device}';
+    private const string HUB_PORT = '{hub} port {port}';
+    private const string HUB_SOCKET = '{hub} socket {port}';
+    private const string HUB_NIC = '{hub} NIC {no}';
+    private const string NOTES = 'Notes: {notes}';
+
     public function init(): void
     {
         parent::init();
@@ -33,8 +43,58 @@ class BindingColumn extends DataColumn
         }
 
         $binding = $model->bindings[$this->attribute] ?? null;
+        if ($binding !== null && $this->isCabling()) {
+            return $this->renderCabling($binding);
+        }
 
         return $this->renderSwitchPort($binding);
+    }
+
+    private function renderCabling(Binding $binding): string
+    {
+        $inn = $this->formatINN($binding->switch_inn);
+        $link = Html::a(Html::encode($this->describeTarget($binding)), ['@hub/view', 'id' => $binding->switch_id]);
+
+        return "$inn&rarr; <b>$link</b>" . $this->renderNotes($binding);
+    }
+
+    private function renderNotes(Binding $binding): string
+    {
+        if ($binding->switch_label === null || $binding->switch_label === '') {
+            return '';
+        }
+
+        return Html::tag('div', Html::encode(Yii::t('hipanel:server', self::NOTES, ['notes' => $binding->switch_label])), ['class' => 'text-muted']);
+    }
+
+    private function describeTarget(Binding $binding): string
+    {
+        $hub = (string)$binding->switch;
+        if (preg_match(self::NIC_TARGET, $hub, $nic) === 1) {
+            $hub = Yii::t('hipanel:server', self::HUB_NIC, ['hub' => $nic[1], 'no' => $nic[2]]);
+        }
+        if ($binding->port === null || $binding->port === '') {
+            return $hub;
+        }
+
+        return Yii::t('hipanel:server', $this->isPower() ? self::HUB_SOCKET : self::HUB_PORT, ['hub' => $hub, 'port' => $binding->port]);
+    }
+
+    private function isCabling(): bool
+    {
+        return $this->hasRequiredLinkData() && preg_match(self::CABLING_ATTRIBUTE, $this->attribute) === 1;
+    }
+
+    private function isPower(): bool
+    {
+        return str_starts_with($this->attribute, 'pdu');
+    }
+
+    private function cablingNo(): int
+    {
+        preg_match(self::CABLING_ATTRIBUTE, $this->attribute, $match);
+
+        return $match[2] === '' ? 1 : (int)$match[2];
     }
 
     /**
@@ -74,6 +134,9 @@ class BindingColumn extends DataColumn
 
         $inn = $this->formatINN($binding->switch_inn);
         $switchPortLink = $this->createSwitchPortLink($binding);
+        if ($this->hasRequiredLinkData()) {
+            return "$inn<b>$switchPortLink</b>" . $this->renderNotes($binding);
+        }
         $label = Html::encode($binding->switch_label);
 
         return "$inn<b>$switchPortLink</b> $label";
@@ -109,11 +172,28 @@ class BindingColumn extends DataColumn
      */
     private function buildLabel(): string
     {
+        if ($this->isCabling()) {
+            return $this->buildCablingLabel();
+        }
+
         $defaultLabel = $this->getHeaderCellLabel();
         $transformedLabel = $this->transformLabel($defaultLabel);
         $additionalLink = $this->buildAdditionalLink();
 
         return $transformedLabel . $additionalLink;
+    }
+
+    private function buildCablingLabel(): string
+    {
+        $no = $this->cablingNo();
+        $label = Html::encode(Yii::t('hipanel:server', $this->isPower() ? self::POWER_NO : self::NIC_NO, ['no' => $no]));
+        if ($no === 1) {
+            return $label;
+        }
+        $nicName = $this->deviceName . 'nic' . $no;
+        $via = Yii::t('hipanel:server', self::VIA_DEVICE, ['device' => Html::a(Html::encode($nicName), ['@server/view', 'id' => $this->deviceId])]);
+
+        return "$label<br/>($via)";
     }
 
     /**
@@ -137,14 +217,7 @@ class BindingColumn extends DataColumn
             return '';
         }
 
-        return match (true) {
-            $this->attribute === 'ipmi' => $this->createAdditionalLink('@hub/view', 'ipmi'),
-            preg_match('/^net|pdu\d+$/', $this->attribute) === 1 => $this->createAdditionalLink(
-                '@server/view',
-                str_replace(['net', 'pdu'], 'nic', $this->attribute)
-            ),
-            default => '',
-        };
+        return $this->attribute === 'ipmi' ? $this->createAdditionalLink('@hub/view', 'ipmi') : '';
     }
 
     /**
