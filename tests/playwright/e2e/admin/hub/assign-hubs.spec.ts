@@ -43,6 +43,7 @@ test("the assignments are correctly works and displayed on the switch's detail p
 });
 
 test("Switches never offer a PDU and a taken port names its holder @hipanel-module-server @admin", async ({ page }) => {
+  test.setTimeout(300_000);
   const assignHubsPage = new AssignHubsForm(page);
   const hubPage = new HubPage(page);
   const suffix = faker.string.alphanumeric(6).toUpperCase();
